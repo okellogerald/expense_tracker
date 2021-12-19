@@ -13,8 +13,8 @@ class CategoryTile extends StatefulWidget {
 
   final Category category;
   final bool isSelected;
-  final VoidCallback editCallback, cancelCallback;
-  final ValueChanged<String> deleteCallback, changeSelectedIdCallback;
+  final VoidCallback editCallback, cancelCallback, deleteCallback;
+  final ValueChanged<String> changeSelectedIdCallback;
 
   @override
   State<CategoryTile> createState() => _CategoryTileState();
@@ -39,11 +39,19 @@ class _CategoryTileState extends State<CategoryTile> {
             children: [
               Row(
                 children: [
-                  Icon(widget.category.getIcon,
-                      size: 20.dw, color: Colors.white70),
+                  Icon(
+                      widget.category.codePoint == -1
+                          ? Icons.tag
+                          : widget.category.getIcon,
+                      size: 20.dw,
+                      color: Colors.white70),
                   SizedBox(width: 20.dw),
-                  AppText(widget.category.title,
-                      size: 14.dw, color: AppColors.textColor2),
+                  AppText(
+                    widget.category.title,
+                    size: 16.dw,
+                    color: AppColors.textColor2,
+                    family: 'Regular',
+                  ),
                   const Spacer(),
                   !isSelected
                       ? AppIconButton(

@@ -14,9 +14,10 @@ class AppTextButton extends StatefulWidget {
       this.width,
       this.fontSize,
       this.text,
+      this.alignment,
       this.child,
       this.useButtonSizeOnly = true,
-      this.isBolded = false,
+      this.isBolded = true,
       this.withIcon = false,
       required this.onPressed,
       this.duration = const Duration(milliseconds: 200),
@@ -41,6 +42,7 @@ class AppTextButton extends StatefulWidget {
   final double? fontSize;
   final bool isBolded, withIcon, useButtonSizeOnly;
   final Widget? child;
+  final Alignment? alignment;
 
   @override
   _AppTextButtonState createState() => _AppTextButtonState();
@@ -82,10 +84,20 @@ class _AppTextButtonState extends State<AppTextButton>
               width: widget.width,
               margin: widget.margin ?? EdgeInsets.zero,
               padding: widget.padding ?? EdgeInsets.zero,
-              color: widget.useButtonSizeOnly
-                  ? animation.value
-                  : Colors.transparent,
-              alignment: Alignment.center,
+              alignment: widget.alignment ?? Alignment.center,
+              decoration: BoxDecoration(
+                  color: widget.useButtonSizeOnly
+                      ? animation.value
+                      : Colors.transparent,
+                  border: Border.all(
+                      color: widget.useButtonSizeOnly
+                          ? controller.value > 0
+                              ? animation.value ?? Colors.transparent
+                              : widget.borderColor ?? Colors.transparent
+                          : Colors.transparent,
+                      width: widget.borderColor == null ? 0 : 1.5),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(widget.borderRadius ?? 0))),
               child: CustomPaint(
                 child: child,
                 painter: RectTappedRippleEffectPainter(
@@ -114,9 +126,9 @@ class _AppTextButtonState extends State<AppTextButton>
 
   _text() {
     return AppText(widget.text ?? 'Click Me',
-        size: (widget.fontSize ?? 14).dw,
-        weight: widget.isBolded ? FontWeight.w600 : FontWeight.w400,
-        color: widget.textColor ?? AppColors.textColor);
+        size: widget.fontSize ?? 15.dw,
+        family: 'Regular',
+        color: widget.textColor ?? Colors.black);
   }
 
   @override

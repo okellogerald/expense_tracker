@@ -25,13 +25,13 @@ class AppText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 4.dw),
+      padding: EdgeInsets.only(top: family == 'Gramatika' ? 4 : 0),
       child: Text(data,
           textAlign: alignment,
           maxLines: maxLines,
           style: TextStyle(
               fontWeight: weight,
-              fontSize: (size ?? 20).dw,
+              fontSize: size ?? 20.dw,
               color: color,
               fontFamily: family,
               height: height,

@@ -6,14 +6,14 @@ class AppColors {
   static const accentColor = Color(0xffC84B31);
 
   static const positive = Color(0xff77D970);
-  static const negative = Color(0xffFF1700);
+  static const negative = Color(0xffF58840);
 
   static const textColor = Colors.white;
   static const textColor2 = Colors.white70;
   static const textColor3 = Colors.white60;
 
   static const dividerColor = Color(0xffDBDDD0);
-  static const overlayColor = Color(0xffF5F4F4);
+  static const overlayColor = Color(0xffECECEC);
   static const backgroundColor = Color(0xff191919);
   static const errorColor = Color(0xffBC3A38);
   static const disabledColor = Colors.white54;

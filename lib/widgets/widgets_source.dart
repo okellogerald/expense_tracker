@@ -5,3 +5,4 @@ export 'app_icon_button.dart';
 export 'app_circular_indicator.dart';
 export 'category_tile.dart';
 export 'app_text_button.dart';
+export 'add_category.dart';

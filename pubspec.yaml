@@ -19,6 +19,7 @@ dependencies:
   hive_generator: ^1.1.1
   path_provider: ^2.0.7
   provider: ^6.0.1
+  uuid: ^3.0.5
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +34,12 @@ flutter:
      - family: Gramatika
        fonts:
          - asset: fonts/Gramatika.ttf
+     - family: Light
+       fonts:
+         - asset: fonts/light.ttf
+     - family: Regular
+       fonts:
+         - asset: fonts/Regular.ttf
      - family: AppIcons
        fonts:
          - asset: fonts/AppIcons.ttf

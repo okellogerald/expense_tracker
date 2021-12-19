@@ -11,11 +11,13 @@ void main() async {
     ..init(directory.path)
     ..registerAdapter(CategoryAdapter());
 
-  await Hive.openBox(cCategoriesBox);
+  await Hive.openBox(kCategoriesBox);
+
+  IconCodePointGenerator.generate(54);
 
   final myApp = MultiProvider(
     providers: [
-      Provider<CategoriesService>(create: (_) => CategoriesService())
+      Provider<CategoryService>(create: (_) => CategoryService())
     ],
     child: const MyApp(),
   );

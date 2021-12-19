@@ -22,7 +22,7 @@ class Category extends HiveObject {
       {this.codePoint = 0xe800,
       this.id = 'id',
       this.title = 'Transport',
-      this.type = cExpense});
+      this.type = kExpense});
 
   IconData get getIcon => AppIcons.fromCodePoint(codePoint);
 

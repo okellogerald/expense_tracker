@@ -49,9 +49,11 @@ class MainPage extends StatelessWidget {
                           size: 22,
                           color: isActive ? Colors.white : Colors.white54),
                       SizedBox(height: 5.dw),
-                      AppText(text,
-                          color: isActive ? Colors.white : Colors.white54,
-                          size: 14)
+                      AppText(
+                        text,
+                        color: isActive ? Colors.white : Colors.white54,
+                        size: 14.dw,
+                      )
                     ]);
               }),
         ),

@@ -1,5 +1,7 @@
 import '../source.dart';
 
+enum EditType { addingCategory, editingCategory }
+
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({Key? key}) : super(key: key);
 
@@ -9,17 +11,14 @@ class CategoriesPage extends StatefulWidget {
 
 class _CategoriesPageState extends State<CategoriesPage> {
   late final CategoryPageBloc bloc;
-  late final CategoriesService service;
-  late final OverlayState overlayState;
-  late final OverlayEntry overlayEntry;
+  late final CategoryService service;
+  final editTypeNotifier = ValueNotifier<EditType>(EditType.addingCategory);
 
   @override
   void initState() {
-    service = Provider.of<CategoriesService>(context, listen: false);
+    service = Provider.of<CategoryService>(context, listen: false);
     bloc = CategoryPageBloc(service);
     bloc.init();
-    overlayState = Overlay.of(context)!;
-    overlayEntry = _popUpMenuOverlayEntry();
     super.initState();
   }
 
@@ -28,52 +27,35 @@ class _CategoriesPageState extends State<CategoriesPage> {
     return BlocBuilder<CategoryPageBloc, CategoryPageState>(
       bloc: bloc,
       builder: (_, state) {
-        return state.when(loading: _buildLoading, content: _buildContent);
+        return state.when(
+            loading: _buildLoading,
+            content: _buildContent,
+            success: _buildContent);
       },
     );
   }
 
-  Widget _buildLoading(List<Category> categoryList) {
+  Widget _buildLoading(List<Category> categoryList, Supplements supplements) {
     return const CircularProgressIndicator();
   }
 
-  Widget _buildContent(List<Category> categoryList, String selectedId) {
-    return WillPopScope(
-      onWillPop: _handleWillPop,
-      child: ListView(children: [
-        _buildAddCategoryTile(),
-        _buildIncomeCategories(categoryList, selectedId),
-        _buildExpenseCategories(categoryList, selectedId),
-      ]),
-    );
+  Widget _buildContent(List<Category> categoryList, Supplements supplements) {
+    final isAtTheTop = supplements.position == AddCategoryWidgetPosition.top;
+
+    return ListView(children: [
+      isAtTheTop ? _buildAddCategoryTile(supplements) : Container(),
+      isAtTheTop ? Container() : SizedBox(height: 20.dh),
+      _buildIncomeCategories(categoryList, supplements.id),
+      _buildExpenseCategories(categoryList, supplements.id),
+      isAtTheTop ? Container() : _buildAddCategoryTile(supplements),
+    ]);
   }
 
-  Future<bool> _handleWillPop() async {
-    if (overlayEntry.mounted) {
-      overlayEntry.remove();
-      return false;
-    }
-    return true;
-  }
-
-  _buildAddCategoryTile() {
-    return Column(
-      children: [
-        SizedBox(height: 30.dh),
-        AppText('You can always add your custom category',
-            size: 16.dw, color: AppColors.textColor),
-        AppTextButton(
-          onPressed: _insertCustomSheet,
-          withIcon: true,
-          text: 'Add Category',
-          margin: EdgeInsets.only(top: 10.dh, bottom: 40.dh),
-          width: 200.dw,
-          height: 40.dw,
-          icon: Icons.add,
-          textColor: Colors.black,
-          buttonColor: AppColors.primaryColor,
-        )
-      ],
+  _buildAddCategoryTile(Supplements supplements) {
+    return AddCategoryWidget(
+      onPressed: _navigateToEditPage,
+      whereToShowCallback: bloc.updatePosition,
+      position: supplements.position,
     );
   }
 
@@ -84,20 +66,20 @@ class _CategoriesPageState extends State<CategoriesPage> {
         Padding(
           padding: EdgeInsets.only(left: 10.dw, bottom: 5.dh),
           child: AppText('Income Categories',
-              size: 20.dw, color: AppColors.textColor2),
+              size: 20.dw, color: AppColors.textColor),
         ),
         Container(
             color: AppColors.secondaryColor,
             child: Column(
                 children: categoryList
-                    .where((e) => e.type == cIncome)
+                    .where((e) => e.type == kIncome)
                     .map((e) => CategoryTile(
                           category: e,
-                          editCallback: _insertCustomSheet,
+                          editCallback: () => _navigateToEditPage(category: e),
                           isSelected: e.id == selectedId,
                           cancelCallback: bloc.cancel,
-                          changeSelectedIdCallback: bloc.changeSelectedId,
-                          deleteCallback: bloc.delete,
+                          changeSelectedIdCallback: bloc.updateId,
+                          deleteCallback: bloc.deleteCategory,
                         ))
                     .toList()))
       ],
@@ -109,65 +91,28 @@ class _CategoriesPageState extends State<CategoriesPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 10.dw, bottom: 5.dh, top: 20.dh),
+          padding: EdgeInsets.only(left: 10.dw, bottom: 5.dh, top: 30.dh),
           child: AppText('Expenses Categories',
-              size: 20.dw, color: AppColors.textColor2),
+              size: 20.dw, color: AppColors.textColor),
         ),
         Container(
             color: AppColors.secondaryColor,
             child: Column(
                 children: categoryList
-                    .where((e) => e.type == cExpense)
+                    .where((e) => e.type == kExpense)
                     .map((e) => CategoryTile(
                           category: e,
                           cancelCallback: bloc.cancel,
-                          editCallback: _insertCustomSheet,
+                          editCallback: () => _navigateToEditPage(category: e),
                           isSelected: e.id == selectedId,
-                          changeSelectedIdCallback: bloc.changeSelectedId,
-                          deleteCallback: bloc.delete,
+                          changeSelectedIdCallback: bloc.updateId,
+                          deleteCallback: bloc.deleteCategory,
                         ))
                     .toList()))
       ],
     );
   }
 
-  OverlayEntry _popUpMenuOverlayEntry() {
-    return OverlayEntry(builder: (_) => _buildSheetChild());
-  }
-
-  _buildSheetChild() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Expanded(
-            child: GestureDetector(
-          onTap: overlayEntry.remove,
-          child: Container(color: Colors.black.withOpacity(.75)),
-        )),
-        Material(
-          child: Container(
-            height: 600.dh,
-            width: ScreenSizeConfig.getDeviceSize.width,
-            color: AppColors.overlayColor,
-            child: Padding(
-              padding: EdgeInsets.all(10.dw),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText('Adding Category',
-                      color: AppColors.backgroundColor, size: 24.dw),
-                  SizedBox(height: 30.dh),
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  _insertCustomSheet() {
-    overlayState.insert(overlayEntry);
-  }
+  _navigateToEditPage({Category? category}) =>
+      CategoryEditPage.navigateTo(context, category: category);
 }

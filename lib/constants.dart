@@ -1,16 +1,48 @@
 import 'source.dart';
 
-const cCategoriesBox = 'categories_box';
-const cExpense = 'expense';
-const cIncome = 'income';
+const kCategoriesBox = 'categories_box';
+const kExpense = 'expense';
+const kIncome = 'income';
 
-final cDefaultCategoriesList = <Category>[
-  Category(codePoint: 0xe805, title: 'Rent', id: '0', type: cIncome),
-  Category(codePoint: 0xe800, title: 'Award', id: '1', type: cIncome),
-  Category(codePoint: 0xe802, title: 'Coupon', id: '2', type: cIncome),
-  Category(codePoint: 0xe803, title: 'Education', id: '3', type: cExpense),
-  Category(codePoint: 0xe804, title: 'Electronics', id: '4', type: cExpense),
-  Category(codePoint: 0xe80b, title: 'Flight', id: '5', type: cExpense),
-  Category(codePoint: 0xe801, title: 'Stationaries', id: '6', type: cExpense),
-  Category(codePoint: 0xe808, title: 'Shopping', id: '7', type: cExpense),
+final kDefaultCategoriesList = <Category>[
+  Category(
+      codePoint: AppIcons.home.codePoint,
+      title: 'Rent',
+      id: '0',
+      type: kIncome),
+  Category(
+      codePoint: AppIcons.award_2.codePoint,
+      title: 'Award',
+      id: '1',
+      type: kIncome),
+  Category(
+      codePoint: AppIcons.coupon.codePoint,
+      title: 'Coupon',
+      id: '2',
+      type: kIncome),
+  Category(
+      codePoint: AppIcons.education.codePoint,
+      title: 'Education',
+      id: '3',
+      type: kExpense),
+  Category(
+      codePoint: AppIcons.tv.codePoint,
+      title: 'Electronics',
+      id: '4',
+      type: kExpense),
+  Category(
+      codePoint: AppIcons.airplane.codePoint,
+      title: 'Flight',
+      id: '5',
+      type: kExpense),
+  Category(
+      codePoint: AppIcons.printer.codePoint,
+      title: 'Stationaries',
+      id: '6',
+      type: kExpense),
+  Category(
+      codePoint: AppIcons.groceries.codePoint,
+      title: 'Groceries',
+      id: '7',
+      type: kExpense),
 ];
