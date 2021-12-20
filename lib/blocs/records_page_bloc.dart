@@ -3,22 +3,22 @@ import '../source.dart';
 class RecordsPageBloc extends Cubit<RecordsPageState> {
   RecordsPageBloc(this.recordsService, this.categoriesService)
       : super(RecordsPageState.initial()) {
-    recordsService.getRecordStream.listen((recordsList) {
-      _handleRecordsStream(recordsList);
-    });
-    recordsService.getTotalRecordsStream.listen((totalRecords) {
-      _handleTotalRecordsStream(totalRecords);
+    recordsService.getRecordsStream.listen((data) {
+      _handleRecordsStream(data);
     });
   }
 
   final RecordsService recordsService;
   final CategoriesService categoriesService;
 
-  void init() {
+  void init({bool isEditing = false}) {
     emit(RecordsPageState.loading(state.recordList, state.supplements));
-    final recordList = recordsService.getAll();
+    var recordList = state.recordList;
+    if (!isEditing) recordList = recordsService.getAll();
     final categories = categoriesService.getCategories();
-    final supplements = state.supplements.copyWith(categoryList: categories);
+    final totalRecords = recordsService.getTotalAmounts();
+    final supplements = state.supplements
+        .copyWith(categoryList: categories, totalRecords: totalRecords);
     emit(RecordsPageState.content(recordList, supplements));
   }
 
@@ -71,15 +71,12 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
     }
   }
 
-  _handleRecordsStream(List<Record> recordList) {
+  _handleRecordsStream(Map<String, dynamic> data) {
     emit(RecordsPageState.loading(state.recordList, state.supplements));
-    emit(RecordsPageState.content(recordList, state.supplements));
-  }
-
-  _handleTotalRecordsStream(TotalRecords totalRecords) {
-    emit(RecordsPageState.loading(state.recordList, state.supplements));
+    final recordList = data[kRecords];
+    final totalRecords = data[kTotalRecords];
     final supplements = state.supplements.copyWith(totalRecords: totalRecords);
-    emit(RecordsPageState.content(state.recordList, supplements));
+    emit(RecordsPageState.content(recordList, supplements));
   }
 
   void updateType(String type) => _updateSupplements(type: type);

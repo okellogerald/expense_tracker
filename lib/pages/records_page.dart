@@ -17,6 +17,7 @@ class _RecordsPageState extends State<RecordsPage> {
     recordsService = Provider.of<RecordsService>(context, listen: false);
     categoriesService = Provider.of<CategoriesService>(context, listen: false);
     bloc = RecordsPageBloc(recordsService, categoriesService);
+    bloc.init();
     super.initState();
   }
 
@@ -110,9 +111,10 @@ class _RecordsPageState extends State<RecordsPage> {
               ],
             ),
           )
-        : Padding(
-            padding: EdgeInsets.only(left: 15.dw, right: 15.dw, top: 30.dh),
-            child: Column(
+        : Expanded(
+            child: ListView(
+              padding: EdgeInsets.only(
+                  left: 15.dw, right: 15.dw, top: 30.dh, bottom: 90.dh),
               children: recordsList.map((e) => _buildRecordsTile(e)).toList(),
             ),
           );
@@ -121,13 +123,14 @@ class _RecordsPageState extends State<RecordsPage> {
   Widget _buildRecordsTile(Record record) {
     final category = record.category;
 
-    return Container(
+    return Padding(
+      padding: EdgeInsets.only(bottom: 8.dh),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Icon(record.category.getIcon, color: Colors.white70),
+              Icon(record.category.getIcon, color: Colors.white70, size: 18.dw),
               SizedBox(width: 10.dw),
               AppText(
                 category.title,
@@ -142,7 +145,7 @@ class _RecordsPageState extends State<RecordsPage> {
             family: kFontFam2,
             size: 16.dw,
             color: category.type == kIncome
-                ? AppColors.textColor2
+                ? AppColors.positive
                 : AppColors.negative,
           )
         ],

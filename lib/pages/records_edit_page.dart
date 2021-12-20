@@ -24,7 +24,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
     recordsService = Provider.of<RecordsService>(context, listen: false);
     categoriesService = Provider.of<CategoriesService>(context, listen: false);
     bloc = RecordsPageBloc(recordsService, categoriesService);
-    bloc.init();
+    bloc.init(isEditing: true);
     super.initState();
   }
 
