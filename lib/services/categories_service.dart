@@ -1,10 +1,9 @@
 import 'dart:async';
-
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 import '../source.dart';
 
-class CategoryService {
+class CategoriesService {
   static final box = Hive.box(kCategoriesBox);
   static var currentCategories = <Category>[];
   static const uuid = Uuid();
@@ -52,7 +51,7 @@ class CategoryService {
     categoryController.add(currentCategories);
   }
 
-  List<Category> deleteCategory(String id) {
+  List<Category> delete(String id) {
     final index = currentCategories.indexWhere((e) => e.id == id);
     currentCategories.removeAt(index);
     box.delete(id);

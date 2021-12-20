@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'category_page_state.dart';
+part of 'records_page_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,69 +14,78 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$CategoryPageStateTearOff {
-  const _$CategoryPageStateTearOff();
+class _$RecordsPageStateTearOff {
+  const _$RecordsPageStateTearOff();
 
-  _Loading loading(List<Category> categoryList, Supplements supplements) {
+  _Loading loading(
+      List<Record> recordList, RecordsPageSupplements supplements) {
     return _Loading(
-      categoryList,
+      recordList,
       supplements,
     );
   }
 
-  _Content content(List<Category> categoryList, Supplements supplements) {
+  _Content content(
+      List<Record> recordList, RecordsPageSupplements supplements) {
     return _Content(
-      categoryList,
+      recordList,
       supplements,
     );
   }
 
-  _Success success(List<Category> categoryList, Supplements supplements) {
+  _Success success(
+      List<Record> recordList, RecordsPageSupplements supplements) {
     return _Success(
-      categoryList,
+      recordList,
       supplements,
     );
   }
 }
 
 /// @nodoc
-const $CategoryPageState = _$CategoryPageStateTearOff();
+const $RecordsPageState = _$RecordsPageStateTearOff();
 
 /// @nodoc
-mixin _$CategoryPageState {
-  List<Category> get categoryList => throw _privateConstructorUsedError;
-  Supplements get supplements => throw _privateConstructorUsedError;
+mixin _$RecordsPageState {
+  List<Record> get recordList => throw _privateConstructorUsedError;
+  RecordsPageSupplements get supplements => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         loading,
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         content,
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         success,
     required TResult orElse(),
   }) =>
@@ -105,49 +114,49 @@ mixin _$CategoryPageState {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $CategoryPageStateCopyWith<CategoryPageState> get copyWith =>
+  $RecordsPageStateCopyWith<RecordsPageState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CategoryPageStateCopyWith<$Res> {
-  factory $CategoryPageStateCopyWith(
-          CategoryPageState value, $Res Function(CategoryPageState) then) =
-      _$CategoryPageStateCopyWithImpl<$Res>;
-  $Res call({List<Category> categoryList, Supplements supplements});
+abstract class $RecordsPageStateCopyWith<$Res> {
+  factory $RecordsPageStateCopyWith(
+          RecordsPageState value, $Res Function(RecordsPageState) then) =
+      _$RecordsPageStateCopyWithImpl<$Res>;
+  $Res call({List<Record> recordList, RecordsPageSupplements supplements});
 
-  $SupplementsCopyWith<$Res> get supplements;
+  $RecordsPageSupplementsCopyWith<$Res> get supplements;
 }
 
 /// @nodoc
-class _$CategoryPageStateCopyWithImpl<$Res>
-    implements $CategoryPageStateCopyWith<$Res> {
-  _$CategoryPageStateCopyWithImpl(this._value, this._then);
+class _$RecordsPageStateCopyWithImpl<$Res>
+    implements $RecordsPageStateCopyWith<$Res> {
+  _$RecordsPageStateCopyWithImpl(this._value, this._then);
 
-  final CategoryPageState _value;
+  final RecordsPageState _value;
   // ignore: unused_field
-  final $Res Function(CategoryPageState) _then;
+  final $Res Function(RecordsPageState) _then;
 
   @override
   $Res call({
-    Object? categoryList = freezed,
+    Object? recordList = freezed,
     Object? supplements = freezed,
   }) {
     return _then(_value.copyWith(
-      categoryList: categoryList == freezed
-          ? _value.categoryList
-          : categoryList // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
+      recordList: recordList == freezed
+          ? _value.recordList
+          : recordList // ignore: cast_nullable_to_non_nullable
+              as List<Record>,
       supplements: supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
-              as Supplements,
+              as RecordsPageSupplements,
     ));
   }
 
   @override
-  $SupplementsCopyWith<$Res> get supplements {
-    return $SupplementsCopyWith<$Res>(_value.supplements, (value) {
+  $RecordsPageSupplementsCopyWith<$Res> get supplements {
+    return $RecordsPageSupplementsCopyWith<$Res>(_value.supplements, (value) {
       return _then(_value.copyWith(supplements: value));
     });
   }
@@ -155,18 +164,18 @@ class _$CategoryPageStateCopyWithImpl<$Res>
 
 /// @nodoc
 abstract class _$LoadingCopyWith<$Res>
-    implements $CategoryPageStateCopyWith<$Res> {
+    implements $RecordsPageStateCopyWith<$Res> {
   factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
       __$LoadingCopyWithImpl<$Res>;
   @override
-  $Res call({List<Category> categoryList, Supplements supplements});
+  $Res call({List<Record> recordList, RecordsPageSupplements supplements});
 
   @override
-  $SupplementsCopyWith<$Res> get supplements;
+  $RecordsPageSupplementsCopyWith<$Res> get supplements;
 }
 
 /// @nodoc
-class __$LoadingCopyWithImpl<$Res> extends _$CategoryPageStateCopyWithImpl<$Res>
+class __$LoadingCopyWithImpl<$Res> extends _$RecordsPageStateCopyWithImpl<$Res>
     implements _$LoadingCopyWith<$Res> {
   __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
       : super(_value, (v) => _then(v as _Loading));
@@ -176,18 +185,18 @@ class __$LoadingCopyWithImpl<$Res> extends _$CategoryPageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? categoryList = freezed,
+    Object? recordList = freezed,
     Object? supplements = freezed,
   }) {
     return _then(_Loading(
-      categoryList == freezed
-          ? _value.categoryList
-          : categoryList // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
+      recordList == freezed
+          ? _value.recordList
+          : recordList // ignore: cast_nullable_to_non_nullable
+              as List<Record>,
       supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
-              as Supplements,
+              as RecordsPageSupplements,
     ));
   }
 }
@@ -195,16 +204,16 @@ class __$LoadingCopyWithImpl<$Res> extends _$CategoryPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Loading implements _Loading {
-  const _$_Loading(this.categoryList, this.supplements);
+  const _$_Loading(this.recordList, this.supplements);
 
   @override
-  final List<Category> categoryList;
+  final List<Record> recordList;
   @override
-  final Supplements supplements;
+  final RecordsPageSupplements supplements;
 
   @override
   String toString() {
-    return 'CategoryPageState.loading(categoryList: $categoryList, supplements: $supplements)';
+    return 'RecordsPageState.loading(recordList: $recordList, supplements: $supplements)';
   }
 
   @override
@@ -213,7 +222,7 @@ class _$_Loading implements _Loading {
         (other.runtimeType == runtimeType &&
             other is _Loading &&
             const DeepCollectionEquality()
-                .equals(other.categoryList, categoryList) &&
+                .equals(other.recordList, recordList) &&
             const DeepCollectionEquality()
                 .equals(other.supplements, supplements));
   }
@@ -221,7 +230,7 @@ class _$_Loading implements _Loading {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(categoryList),
+      const DeepCollectionEquality().hash(recordList),
       const DeepCollectionEquality().hash(supplements));
 
   @JsonKey(ignore: true)
@@ -233,44 +242,50 @@ class _$_Loading implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         loading,
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         content,
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         success,
   }) {
-    return loading(categoryList, supplements);
+    return loading(recordList, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         success,
   }) {
-    return loading?.call(categoryList, supplements);
+    return loading?.call(recordList, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         success,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading(categoryList, supplements);
+      return loading(recordList, supplements);
     }
     return orElse();
   }
@@ -310,14 +325,14 @@ class _$_Loading implements _Loading {
   }
 }
 
-abstract class _Loading implements CategoryPageState {
-  const factory _Loading(List<Category> categoryList, Supplements supplements) =
-      _$_Loading;
+abstract class _Loading implements RecordsPageState {
+  const factory _Loading(
+      List<Record> recordList, RecordsPageSupplements supplements) = _$_Loading;
 
   @override
-  List<Category> get categoryList;
+  List<Record> get recordList;
   @override
-  Supplements get supplements;
+  RecordsPageSupplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -326,18 +341,18 @@ abstract class _Loading implements CategoryPageState {
 
 /// @nodoc
 abstract class _$ContentCopyWith<$Res>
-    implements $CategoryPageStateCopyWith<$Res> {
+    implements $RecordsPageStateCopyWith<$Res> {
   factory _$ContentCopyWith(_Content value, $Res Function(_Content) then) =
       __$ContentCopyWithImpl<$Res>;
   @override
-  $Res call({List<Category> categoryList, Supplements supplements});
+  $Res call({List<Record> recordList, RecordsPageSupplements supplements});
 
   @override
-  $SupplementsCopyWith<$Res> get supplements;
+  $RecordsPageSupplementsCopyWith<$Res> get supplements;
 }
 
 /// @nodoc
-class __$ContentCopyWithImpl<$Res> extends _$CategoryPageStateCopyWithImpl<$Res>
+class __$ContentCopyWithImpl<$Res> extends _$RecordsPageStateCopyWithImpl<$Res>
     implements _$ContentCopyWith<$Res> {
   __$ContentCopyWithImpl(_Content _value, $Res Function(_Content) _then)
       : super(_value, (v) => _then(v as _Content));
@@ -347,18 +362,18 @@ class __$ContentCopyWithImpl<$Res> extends _$CategoryPageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? categoryList = freezed,
+    Object? recordList = freezed,
     Object? supplements = freezed,
   }) {
     return _then(_Content(
-      categoryList == freezed
-          ? _value.categoryList
-          : categoryList // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
+      recordList == freezed
+          ? _value.recordList
+          : recordList // ignore: cast_nullable_to_non_nullable
+              as List<Record>,
       supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
-              as Supplements,
+              as RecordsPageSupplements,
     ));
   }
 }
@@ -366,16 +381,16 @@ class __$ContentCopyWithImpl<$Res> extends _$CategoryPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Content implements _Content {
-  const _$_Content(this.categoryList, this.supplements);
+  const _$_Content(this.recordList, this.supplements);
 
   @override
-  final List<Category> categoryList;
+  final List<Record> recordList;
   @override
-  final Supplements supplements;
+  final RecordsPageSupplements supplements;
 
   @override
   String toString() {
-    return 'CategoryPageState.content(categoryList: $categoryList, supplements: $supplements)';
+    return 'RecordsPageState.content(recordList: $recordList, supplements: $supplements)';
   }
 
   @override
@@ -384,7 +399,7 @@ class _$_Content implements _Content {
         (other.runtimeType == runtimeType &&
             other is _Content &&
             const DeepCollectionEquality()
-                .equals(other.categoryList, categoryList) &&
+                .equals(other.recordList, recordList) &&
             const DeepCollectionEquality()
                 .equals(other.supplements, supplements));
   }
@@ -392,7 +407,7 @@ class _$_Content implements _Content {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(categoryList),
+      const DeepCollectionEquality().hash(recordList),
       const DeepCollectionEquality().hash(supplements));
 
   @JsonKey(ignore: true)
@@ -404,44 +419,50 @@ class _$_Content implements _Content {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         loading,
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         content,
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         success,
   }) {
-    return content(categoryList, supplements);
+    return content(recordList, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         success,
   }) {
-    return content?.call(categoryList, supplements);
+    return content?.call(recordList, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         success,
     required TResult orElse(),
   }) {
     if (content != null) {
-      return content(categoryList, supplements);
+      return content(recordList, supplements);
     }
     return orElse();
   }
@@ -481,14 +502,14 @@ class _$_Content implements _Content {
   }
 }
 
-abstract class _Content implements CategoryPageState {
-  const factory _Content(List<Category> categoryList, Supplements supplements) =
-      _$_Content;
+abstract class _Content implements RecordsPageState {
+  const factory _Content(
+      List<Record> recordList, RecordsPageSupplements supplements) = _$_Content;
 
   @override
-  List<Category> get categoryList;
+  List<Record> get recordList;
   @override
-  Supplements get supplements;
+  RecordsPageSupplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>
@@ -497,18 +518,18 @@ abstract class _Content implements CategoryPageState {
 
 /// @nodoc
 abstract class _$SuccessCopyWith<$Res>
-    implements $CategoryPageStateCopyWith<$Res> {
+    implements $RecordsPageStateCopyWith<$Res> {
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) then) =
       __$SuccessCopyWithImpl<$Res>;
   @override
-  $Res call({List<Category> categoryList, Supplements supplements});
+  $Res call({List<Record> recordList, RecordsPageSupplements supplements});
 
   @override
-  $SupplementsCopyWith<$Res> get supplements;
+  $RecordsPageSupplementsCopyWith<$Res> get supplements;
 }
 
 /// @nodoc
-class __$SuccessCopyWithImpl<$Res> extends _$CategoryPageStateCopyWithImpl<$Res>
+class __$SuccessCopyWithImpl<$Res> extends _$RecordsPageStateCopyWithImpl<$Res>
     implements _$SuccessCopyWith<$Res> {
   __$SuccessCopyWithImpl(_Success _value, $Res Function(_Success) _then)
       : super(_value, (v) => _then(v as _Success));
@@ -518,18 +539,18 @@ class __$SuccessCopyWithImpl<$Res> extends _$CategoryPageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? categoryList = freezed,
+    Object? recordList = freezed,
     Object? supplements = freezed,
   }) {
     return _then(_Success(
-      categoryList == freezed
-          ? _value.categoryList
-          : categoryList // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
+      recordList == freezed
+          ? _value.recordList
+          : recordList // ignore: cast_nullable_to_non_nullable
+              as List<Record>,
       supplements == freezed
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
-              as Supplements,
+              as RecordsPageSupplements,
     ));
   }
 }
@@ -537,16 +558,16 @@ class __$SuccessCopyWithImpl<$Res> extends _$CategoryPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Success implements _Success {
-  const _$_Success(this.categoryList, this.supplements);
+  const _$_Success(this.recordList, this.supplements);
 
   @override
-  final List<Category> categoryList;
+  final List<Record> recordList;
   @override
-  final Supplements supplements;
+  final RecordsPageSupplements supplements;
 
   @override
   String toString() {
-    return 'CategoryPageState.success(categoryList: $categoryList, supplements: $supplements)';
+    return 'RecordsPageState.success(recordList: $recordList, supplements: $supplements)';
   }
 
   @override
@@ -555,7 +576,7 @@ class _$_Success implements _Success {
         (other.runtimeType == runtimeType &&
             other is _Success &&
             const DeepCollectionEquality()
-                .equals(other.categoryList, categoryList) &&
+                .equals(other.recordList, recordList) &&
             const DeepCollectionEquality()
                 .equals(other.supplements, supplements));
   }
@@ -563,7 +584,7 @@ class _$_Success implements _Success {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(categoryList),
+      const DeepCollectionEquality().hash(recordList),
       const DeepCollectionEquality().hash(supplements));
 
   @JsonKey(ignore: true)
@@ -575,44 +596,50 @@ class _$_Success implements _Success {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         loading,
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         content,
     required TResult Function(
-            List<Category> categoryList, Supplements supplements)
+            List<Record> recordList, RecordsPageSupplements supplements)
         success,
   }) {
-    return success(categoryList, supplements);
+    return success(recordList, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         success,
   }) {
-    return success?.call(categoryList, supplements);
+    return success?.call(recordList, supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(List<Category> categoryList, Supplements supplements)?
+    TResult Function(
+            List<Record> recordList, RecordsPageSupplements supplements)?
         success,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(categoryList, supplements);
+      return success(recordList, supplements);
     }
     return orElse();
   }
@@ -652,14 +679,14 @@ class _$_Success implements _Success {
   }
 }
 
-abstract class _Success implements CategoryPageState {
-  const factory _Success(List<Category> categoryList, Supplements supplements) =
-      _$_Success;
+abstract class _Success implements RecordsPageState {
+  const factory _Success(
+      List<Record> recordList, RecordsPageSupplements supplements) = _$_Success;
 
   @override
-  List<Category> get categoryList;
+  List<Record> get recordList;
   @override
-  Supplements get supplements;
+  RecordsPageSupplements get supplements;
   @override
   @JsonKey(ignore: true)
   _$SuccessCopyWith<_Success> get copyWith =>

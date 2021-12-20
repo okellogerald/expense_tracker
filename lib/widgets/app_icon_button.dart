@@ -4,7 +4,10 @@ class AppIconButton extends StatefulWidget {
   const AppIconButton(
       {this.icon,
       this.iconColor,
+      this.height,
+      this.width,
       this.margin,
+      this.buttonColor,
       this.spreadRadius,
       this.iconSize,
       required this.onPressed,
@@ -13,8 +16,9 @@ class AppIconButton extends StatefulWidget {
 
   final IconData? icon;
   final Color? iconColor;
+  final Color? buttonColor;
   final EdgeInsetsGeometry? margin;
-  final double? spreadRadius;
+  final double? spreadRadius, height, width;
   final double? iconSize;
   final VoidCallback onPressed;
 
@@ -55,6 +59,14 @@ class _AppIconButtonState extends State<AppIconButton>
             onTap: () => controller.forward(),
             child: Container(
               margin: widget.margin,
+              width: widget.width,
+              height: widget.height,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: controller.value == 0
+                    ? widget.buttonColor
+                    : Colors.transparent,
+              ),
               child: CustomPaint(
                 painter: TappedRippleEffectPainter(
                     shouldHideRipple ? 0 : widget.spreadRadius ?? 20.dw),

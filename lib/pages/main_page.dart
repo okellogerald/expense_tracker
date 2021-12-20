@@ -1,7 +1,7 @@
 import '../source.dart';
 
-class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
+class Homepage extends StatelessWidget {
+  const Homepage({Key? key}) : super(key: key);
   static final bottomBarCurrentIndexNotifier = ValueNotifier<int>(0);
 
   @override
@@ -10,7 +10,7 @@ class MainPage extends StatelessWidget {
       body: ValueListenableBuilder<int>(
           valueListenable: bottomBarCurrentIndexNotifier,
           builder: (context, index, child) {
-            if (index == 0) return const Homepage();
+            if (index == 0) return const RecordsPage();
             return const CategoriesPage();
           }),
       bottomNavigationBar: _buildBottomNavBar(),

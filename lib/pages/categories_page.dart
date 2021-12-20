@@ -10,21 +10,23 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
-  late final CategoryPageBloc bloc;
-  late final CategoryService service;
+  late final CategoriesPageBloc bloc;
+  late final CategoriesService categoryService;
+  late final PreferencesService prefsService;
   final editTypeNotifier = ValueNotifier<EditType>(EditType.addingCategory);
 
   @override
   void initState() {
-    service = Provider.of<CategoryService>(context, listen: false);
-    bloc = CategoryPageBloc(service);
+    categoryService = Provider.of<CategoriesService>(context, listen: false);
+    prefsService = Provider.of<PreferencesService>(context, listen: false);
+    bloc = CategoriesPageBloc(categoryService, prefsService);
     bloc.init();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CategoryPageBloc, CategoryPageState>(
+    return BlocBuilder<CategoriesPageBloc, CategoriesPageState>(
       bloc: bloc,
       builder: (_, state) {
         return state.when(

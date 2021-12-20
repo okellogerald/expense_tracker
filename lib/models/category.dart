@@ -5,7 +5,6 @@ part 'category.g.dart';
 
 @HiveType(typeId: 0)
 class Category extends HiveObject {
-
   @HiveField(0)
   final String id;
 
@@ -20,9 +19,11 @@ class Category extends HiveObject {
 
   Category(
       {this.codePoint = 0xe800,
-      this.id = 'id',
+      this.id = '-1',
       this.title = 'Transport',
       this.type = kExpense});
+
+  factory Category.empty() => Category();
 
   IconData get getIcon => AppIcons.fromCodePoint(codePoint);
 

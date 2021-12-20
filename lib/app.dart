@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Gramatika',
           scaffoldBackgroundColor: AppColors.backgroundColor,
         ),
-        home: const MainPage(),
+        home: const Homepage(),
       ),
     );
   }

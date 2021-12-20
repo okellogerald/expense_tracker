@@ -1,8 +1,14 @@
 import 'source.dart';
 
 const kCategoriesBox = 'categories_box';
+const kPreferencesBox = 'preferences_box';
+const kPrefs = 'preferences';
+const kRecords = 'records';
+const kTotalRecords = 'total_records';
 const kExpense = 'expense';
 const kIncome = 'income';
+const kFontFam2 = 'Louis';
+const kFontFam3 = 'Outfit';
 
 final kDefaultCategoriesList = <Category>[
   Category(

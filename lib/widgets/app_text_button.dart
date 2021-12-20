@@ -17,7 +17,7 @@ class AppTextButton extends StatefulWidget {
       this.alignment,
       this.child,
       this.useButtonSizeOnly = true,
-      this.isBolded = true,
+      this.isBolded = false,
       this.withIcon = false,
       required this.onPressed,
       this.duration = const Duration(milliseconds: 200),
@@ -127,7 +127,8 @@ class _AppTextButtonState extends State<AppTextButton>
   _text() {
     return AppText(widget.text ?? 'Click Me',
         size: widget.fontSize ?? 15.dw,
-        family: 'Regular',
+        family: kFontFam2,
+        weight: widget.isBolded ? FontWeight.bold : FontWeight.normal,
         color: widget.textColor ?? Colors.black);
   }
 

@@ -41,12 +41,10 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
             children: [
               AppTextButton(
                 onPressed: widget.onPressed,
-                withIcon: true,
-                text: 'Add Category',
                 margin: EdgeInsets.only(top: 10.dh, bottom: 15.dh),
                 width: 200.dw,
                 height: 40.dw,
-                icon: Icons.add,
+                text: 'Add Category',
                 textColor: Colors.black,
                 buttonColor: AppColors.primaryColor,
               ),
