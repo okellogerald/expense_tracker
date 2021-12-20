@@ -40,6 +40,9 @@ flutter:
      - family: Outfit
        fonts:
          - asset: fonts/Outfit.ttf
+     - family: Glacial
+       fonts:
+         - asset: fonts/Glacial.otf
      - family: AppIcons
        fonts:
          - asset: fonts/AppIcons.ttf
