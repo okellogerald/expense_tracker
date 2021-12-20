@@ -7,6 +7,40 @@ extension SizeExtension on num {
 }
 
 class Utils {
+  static _leapYear(int year) {
+    bool leapYear = false;
+
+    bool leap = ((year % 100 == 0) && (year % 400 != 0));
+    if (leap == true) {
+      leapYear = false;
+    } else if (year % 4 == 0) {
+      leapYear = true;
+    }
+
+    return leapYear;
+  }
+
+  static int getDaysInMonth() {
+    final monthLength = <int>[31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    final date = DateTime.now();
+
+    if (_leapYear(date.year) == true) {
+      monthLength[1] = 29;
+    } else {
+      monthLength[1] = 28;
+    }
+
+    return monthLength[date.month - 1];
+  }
+
+/* 
+  ///date-time format example : 2021-12-23 20:23:25.094181
+  ///required is that 23, as a day in the 12th month of 2021
+  static int convertToDayFrom(String dateTime) {
+    return dateTime.substring(start);
+  }
+ */
   static String convertToMoneyFormat(int number) {
     final pieces = <String>[];
     String stringVersion = number.toString();

@@ -16,6 +16,7 @@ class RecordsService {
       final values = _recordsBox.values;
       for (Record record in values) {
         _recordList.add(record);
+        log(record.key);
       }
       return _recordList;
     }

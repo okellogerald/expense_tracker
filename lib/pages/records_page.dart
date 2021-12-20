@@ -7,6 +7,17 @@ class RecordsPage extends StatefulWidget {
   State<RecordsPage> createState() => _RecordsPageState();
 }
 
+///todo: 
+///on the day row widget, the horizontal is pressed so as to ask the user whether 
+///to show more data based on the single days expenditure and income.
+///
+///the records, all of them should have an id, that i can distinguish them 
+///against each other, and I think you should add notes functionality, so that 
+///you will have four buttons when the record tile is clicked.
+///The more button, for more info on when the record was created and notes on the 
+///far left, where on the far right, functions for editing, deleting and canceling.
+
+
 class _RecordsPageState extends State<RecordsPage> {
   late final RecordsPageBloc bloc;
   late final RecordsService recordsService;
@@ -112,45 +123,47 @@ class _RecordsPageState extends State<RecordsPage> {
             ),
           )
         : Expanded(
-            child: ListView(
-              padding: EdgeInsets.only(
-                  left: 15.dw, right: 15.dw, top: 30.dh, bottom: 90.dh),
-              children: recordsList.map((e) => _buildRecordsTile(e)).toList(),
-            ),
-          );
+            child: ListView.builder(
+                itemCount: Utils.getDaysInMonth(),
+                padding: EdgeInsets.only(
+                    left: 15.dw, right: 15.dw, top: 30.dh, bottom: 90.dh),
+                itemBuilder: (_, i) {
+                  final index = i + 1;
+                  final recordList =
+                      recordsList.where((e) => e.date.day == index).toList();
+                  return _buildDayRecords(recordList, index);
+                }));
   }
 
-  Widget _buildRecordsTile(Record record) {
-    final category = record.category;
-
-    return Padding(
-      padding: EdgeInsets.only(bottom: 8.dh),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(record.category.getIcon, color: Colors.white70, size: 18.dw),
-              SizedBox(width: 10.dw),
-              AppText(
-                category.title,
-                family: kFontFam2,
-                size: 16.dw,
-                color: AppColors.textColor2,
-              )
-            ],
-          ),
-          AppText(
-            record.getAmount,
-            family: kFontFam2,
-            size: 16.dw,
-            color: category.type == kIncome
-                ? AppColors.positive
-                : AppColors.negative,
-          )
-        ],
-      ),
-    );
+  Widget _buildDayRecords(List<Record> recordList, int day) {
+    return recordList.isEmpty
+        ? Container()
+        : Padding(
+            padding: EdgeInsets.only(bottom: 15.dw),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppText('${day}th, Sunday',
+                        color: AppColors.textColor2, size: 18.dw),
+                    AppIconButton(
+                      onPressed: () {},
+                      icon: Icons.more_horiz,
+                      iconColor: Colors.white70,
+                      spreadRadius: 25.dw,
+                    )
+                  ],
+                ),
+                Divider(height: 1.5.dw, color: AppColors.dividerColor),
+                SizedBox(height: 10.dh),
+                Column(
+                  children: recordList.map((e) => RecordTile(e)).toList(),
+                ),
+              ],
+            ),
+          );
   }
 
   _buildBudgetAmount(String text, String amount) {

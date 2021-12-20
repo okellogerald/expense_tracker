@@ -34,9 +34,6 @@ flutter:
      - family: Gramatika
        fonts:
          - asset: fonts/Gramatika.ttf
-     - family: Louis
-       fonts:
-         - asset: fonts/Louis.ttf
      - family: Outfit
        fonts:
          - asset: fonts/Outfit.ttf
