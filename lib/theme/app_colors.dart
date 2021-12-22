@@ -13,8 +13,8 @@ class AppColors {
   static const textColor3 = Colors.white60;
 
   static const dividerColor = Color(0xffDBDDD0);
-  static const overlayColor = Color(0xffECECEC);
   static const backgroundColor = Color(0xff191919);
+  static const backgroundColor2 = Colors.white12;
   static const errorColor = Color(0xffBC3A38);
   static const disabledColor = Colors.white54;
   static const highlightColor = Color(0xFFF2F1F0);

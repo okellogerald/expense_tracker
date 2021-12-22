@@ -1,3 +1,4 @@
+import 'package:budgetting_app/source.dart';
 import 'package:budgetting_app/widgets/screen_size_config.dart';
 
 extension SizeExtension on num {
@@ -34,16 +35,42 @@ class Utils {
     return monthLength[date.month - 1];
   }
 
-/* 
-  ///date-time format example : 2021-12-23 20:23:25.094181
-  ///required is that 23, as a day in the 12th month of 2021
-  static int convertToDayFrom(String dateTime) {
-    return dateTime.substring(start);
+  static String getWeekDay(int weekDay) {
+    switch (weekDay) {
+      case 1:
+        return 'Monday';
+      case 2:
+        return 'Tuesday';
+      case 3:
+        return 'Wednesday';
+      case 4:
+        return 'Thursday';
+      case 5:
+        return 'Friday';
+      case 6:
+        return 'Saturday';
+      case 7:
+        return 'Sunday';
+      default:
+    }
+    return 'Monday';
   }
- */
-  static String convertToMoneyFormat(int number) {
+
+  static String getOrdinalsFrom(int day) {
+    var ordinal = 'th';
+    final _day = day.toString();
+    if (_day.endsWith('1')) ordinal = 'st';
+    if (_day.endsWith('2')) ordinal = 'nd';
+    if (_day.endsWith('3')) ordinal = 'rd';
+    return ordinal;
+  }
+
+  static String convertToMoneyFormat(double number) {
     final pieces = <String>[];
     String stringVersion = number.toString();
+    final index = stringVersion.indexOf('.');
+    final decimals = stringVersion.substring(index, stringVersion.length);
+    stringVersion = stringVersion.substring(0, index);
 
     for (int i = 0; i < stringVersion.length / 3; i++) {
       final length = stringVersion.length;
@@ -66,6 +93,6 @@ class Utils {
       money = i == reversedList.length - 1 ? money + v : money + v + ',';
     }
 
-    return money + '.00';
+    return money + (decimals.length == 2 ? '${decimals}0' : decimals);
   }
 }

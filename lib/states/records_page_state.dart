@@ -15,5 +15,7 @@ class RecordsPageState with _$RecordsPageState {
   factory RecordsPageState.initial() => RecordsPageState.content(
       [],
       RecordsPageSupplements(
-          category: Category.empty(), totalRecords: TotalRecords()));
+          category: Category.empty(),
+          totalRecords: TotalRecords(),
+          date: DateTime.now()));
 }

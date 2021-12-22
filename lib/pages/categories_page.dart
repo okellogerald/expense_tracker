@@ -71,7 +71,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
               size: 20.dw, color: AppColors.textColor),
         ),
         Container(
-            color: AppColors.secondaryColor,
+            color: AppColors.backgroundColor2,
             child: Column(
                 children: categoryList
                     .where((e) => e.type == kIncome)
@@ -98,7 +98,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
               size: 20.dw, color: AppColors.textColor),
         ),
         Container(
-            color: AppColors.secondaryColor,
+            color: AppColors.backgroundColor2,
             child: Column(
                 children: categoryList
                     .where((e) => e.type == kExpense)

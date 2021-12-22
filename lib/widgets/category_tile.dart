@@ -28,7 +28,7 @@ class _CategoryTileState extends State<CategoryTile> {
     return GestureDetector(
       onTap: _onTap,
       child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 10.dw),
+          padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 6.5.dw),
           decoration: BoxDecoration(
               color: Colors.white.withOpacity(.0),
               border: Border(
@@ -50,7 +50,7 @@ class _CategoryTileState extends State<CategoryTile> {
                     widget.category.title,
                     size: 16.dw,
                     color: AppColors.textColor2,
-                    family: 'Outfit',
+                    family: kFontFam2,
                   ),
                   const Spacer(),
                   !isSelected
@@ -77,8 +77,8 @@ class _CategoryTileState extends State<CategoryTile> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 _buildTextButton('Edit', widget.editCallback),
-                _buildTextButton('Remove', widget.deleteCallback),
-                _buildTextButton('Cancel', widget.cancelCallback)
+                _buildTextButton('Delete', widget.deleteCallback),
+                _buildTextButton('Close', widget.cancelCallback)
               ],
             ),
           )

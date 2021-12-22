@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 import '../source.dart';
 
 class RecordsService {
@@ -7,6 +8,7 @@ class RecordsService {
   final _totalRecordsBox = Hive.box(kTotalRecords);
   final _recordList = <Record>[];
   var _totalRecords = TotalRecords();
+  final uuid = const Uuid();
 
   final controller = StreamController<Map<String, dynamic>>.broadcast();
   Stream<Map<String, dynamic>> get getRecordsStream => controller.stream;
@@ -15,8 +17,8 @@ class RecordsService {
     if (_recordsBox.isNotEmpty) {
       final values = _recordsBox.values;
       for (Record record in values) {
-        _recordList.add(record);
-        log(record.key);
+        final index = _recordList.indexWhere((e) => e.id == record.id);
+        if (index == -1) _recordList.add(record);
       }
       return _recordList;
     }
@@ -29,22 +31,68 @@ class RecordsService {
     return _totalRecords;
   }
 
-  void add(Category category, int amount) {
-    log(_recordList.length.toString());
-
+  void add(Category category, double amount, String notes) {
     final date = DateTime.now();
-    final record = Record(amount: amount, category: category, date: date);
-    _recordsBox.put(date.toString(), record);
+    final id = uuid.v4();
+    final record = Record(
+        id: id, amount: amount, category: category, date: date, notes: notes);
+    _recordsBox.put(id, record);
     _recordList.add(record);
     _updateTotalRecords(amount, category.type);
     _addToController();
   }
 
-  void _updateTotalRecords(int amount, String type) {
-    _totalRecords = _totalRecords.copyWith(
-        totalIncome: _totalRecords.totalIncome + (type == kIncome ? amount : 0),
-        totalExpenses:
-            _totalRecords.totalExpenses + (type == kExpense ? amount : 0));
+  void edit(String id, Category category, double amount, String notes) {
+    final record = _recordsBox.get(id) as Record;
+    final newRecord =
+        record.copyWith(category: category, amount: amount, notes: notes);
+    _recordsBox.put(id, newRecord);
+
+    final index = _recordList.indexWhere((e) => e.id == id);
+    _updateTotalRecords(amount, category.type,
+        isEditing: true, beforeEditAmount: _recordList[index].amount);
+    _recordList[index] = newRecord;
+    _addToController();
+  }
+
+  void delete(String id) {
+    _recordsBox.delete(id);
+    final index = _recordList.indexWhere((e) => e.id == id);
+    final record = _recordList[index];
+    _updateTotalRecords(record.amount, record.category.type, isDeleting: true);
+    _recordList.removeAt(index);
+    _addToController();
+  }
+
+  void _updateTotalRecords(double amount, String type,
+      {bool isEditing = false,
+      bool isDeleting = false,
+      double beforeEditAmount = 0.0}) {
+    if (isEditing) {
+      if (type == kIncome) {
+        _totalRecords = _totalRecords.copyWith(
+            totalIncome:
+                (_totalRecords.totalIncome - beforeEditAmount) + amount);
+      } else {
+        _totalRecords = _totalRecords.copyWith(
+            totalExpenses:
+                (_totalRecords.totalExpenses - beforeEditAmount) + amount);
+      }
+    } else if (isDeleting) {
+      if (type == kIncome) {
+        _totalRecords = _totalRecords.copyWith(
+            totalIncome: _totalRecords.totalIncome - amount);
+      } else {
+        _totalRecords = _totalRecords.copyWith(
+            totalExpenses: _totalRecords.totalExpenses - amount);
+      }
+    } else {
+      _totalRecords = _totalRecords.copyWith(
+          totalIncome:
+              _totalRecords.totalIncome + (type == kIncome ? amount : 0),
+          totalExpenses:
+              _totalRecords.totalExpenses + (type == kExpense ? amount : 0));
+    }
     _totalRecordsBox.put(kTotalRecords, _totalRecords);
   }
 

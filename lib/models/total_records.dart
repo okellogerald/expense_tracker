@@ -6,13 +6,13 @@ part 'total_records.g.dart';
 @HiveType(typeId: 3)
 class TotalRecords extends HiveObject {
   @HiveField(0)
-  final int totalExpenses;
+  final double totalExpenses;
 
   @HiveField(1)
-  final int totalIncome;
+  final double totalIncome;
 
   @HiveField(2)
-  final int budget;
+  final double budget;
 
   TotalRecords({
     this.budget = 0,
@@ -20,7 +20,7 @@ class TotalRecords extends HiveObject {
     this.totalIncome = 0,
   });
 
-  TotalRecords copyWith({int? budget, int? totalIncome, int? totalExpenses}) =>
+  TotalRecords copyWith({double? budget, double? totalIncome, double? totalExpenses}) =>
       TotalRecords(
         budget: budget ?? this.budget,
         totalExpenses: totalExpenses ?? this.totalExpenses,

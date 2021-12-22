@@ -17,22 +17,28 @@ class RecordAdapter extends TypeAdapter<Record> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Record(
-      amount: fields[1] as int,
+      id: fields[3] as String,
+      amount: fields[1] as double,
       category: fields[0] as Category,
       date: fields[2] as DateTime,
+      notes: fields[4] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Record obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.category)
       ..writeByte(1)
       ..write(obj.amount)
       ..writeByte(2)
-      ..write(obj.date);
+      ..write(obj.date)
+      ..writeByte(3)
+      ..write(obj.id)
+      ..writeByte(4)
+      ..write(obj.notes);
   }
 
   @override

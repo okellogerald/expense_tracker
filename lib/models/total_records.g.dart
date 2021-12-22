@@ -17,9 +17,9 @@ class TotalRecordsAdapter extends TypeAdapter<TotalRecords> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TotalRecords(
-      budget: fields[2] as int,
-      totalExpenses: fields[0] as int,
-      totalIncome: fields[1] as int,
+      budget: fields[2] as double,
+      totalExpenses: fields[0] as double,
+      totalIncome: fields[1] as double,
     );
   }
 

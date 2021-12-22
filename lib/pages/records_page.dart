@@ -7,16 +7,15 @@ class RecordsPage extends StatefulWidget {
   State<RecordsPage> createState() => _RecordsPageState();
 }
 
-///todo: 
-///on the day row widget, the horizontal is pressed so as to ask the user whether 
+///todo:
+///on the day row widget, the horizontal is pressed so as to ask the user whether
 ///to show more data based on the single days expenditure and income.
 ///
-///the records, all of them should have an id, that i can distinguish them 
-///against each other, and I think you should add notes functionality, so that 
+///the records, all of them should have an id, that i can distinguish them
+///against each other, and I think you should add notes functionality, so that
 ///you will have four buttons when the record tile is clicked.
-///The more button, for more info on when the record was created and notes on the 
+///The more button, for more info on when the record was created and notes on the
 ///far left, where on the far right, functions for editing, deleting and canceling.
-
 
 class _RecordsPageState extends State<RecordsPage> {
   late final RecordsPageBloc bloc;
@@ -67,7 +66,7 @@ class _RecordsPageState extends State<RecordsPage> {
           child: Column(
             children: [
               _buildTitle(supplements),
-              _buildRecords(recordsList),
+              _buildRecords(recordsList, supplements.id),
             ],
           ),
         )
@@ -109,7 +108,7 @@ class _RecordsPageState extends State<RecordsPage> {
     );
   }
 
-  _buildRecords(List<Record> recordsList) {
+  _buildRecords(List<Record> recordsList, String selectedId) {
     return recordsList.isEmpty
         ? Expanded(
             child: Column(
@@ -125,41 +124,62 @@ class _RecordsPageState extends State<RecordsPage> {
         : Expanded(
             child: ListView.builder(
                 itemCount: Utils.getDaysInMonth(),
-                padding: EdgeInsets.only(
-                    left: 15.dw, right: 15.dw, top: 30.dh, bottom: 90.dh),
+                padding: EdgeInsets.only(top: 30.dh, bottom: 90.dh),
                 itemBuilder: (_, i) {
-                  final index = i + 1;
+                  final index = Utils.getDaysInMonth() - i + 1;
                   final recordList =
                       recordsList.where((e) => e.date.day == index).toList();
-                  return _buildDayRecords(recordList, index);
+                  return _buildDayRecords(recordList, index, selectedId);
                 }));
   }
 
-  Widget _buildDayRecords(List<Record> recordList, int day) {
+  Widget _buildDayRecords(List<Record> recordList, int day, String id) {
+    final ordinal = Utils.getOrdinalsFrom(day);
+    var weekDay = '';
+    if (recordList.isNotEmpty) {
+      weekDay = Utils.getWeekDay(recordList.first.date.weekday);
+    }
+
     return recordList.isEmpty
         ? Container()
         : Padding(
-            padding: EdgeInsets.only(bottom: 15.dw),
+            padding: EdgeInsets.only(bottom: 40.dh),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AppText('${day}th, Sunday',
-                        color: AppColors.textColor2, size: 18.dw),
-                    AppIconButton(
-                      onPressed: () {},
-                      icon: Icons.more_horiz,
-                      iconColor: Colors.white70,
-                      spreadRadius: 25.dw,
-                    )
-                  ],
+                Padding(
+                  padding:
+                      EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 5.dh),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AppText('$day$ordinal, $weekDay',
+                          color: AppColors.textColor2, size: 18.dw),
+                      AppIconButton(
+                        onPressed: () {},
+                        icon: Icons.more_horiz,
+                        iconColor: Colors.white70,
+                        spreadRadius: 25.dw,
+                      )
+                    ],
+                  ),
                 ),
-                Divider(height: 1.5.dw, color: AppColors.dividerColor),
-                SizedBox(height: 10.dh),
-                Column(
-                  children: recordList.map((e) => RecordTile(e)).toList(),
+                Container(
+                  color: AppColors.backgroundColor2,
+                  child: Column(
+                    children: recordList
+                        .map((e) => RecordTile(
+                              e,
+                              cancelCallback: bloc.updateId,
+                              editCallback: () => RecordsEditPage.navigateTo(
+                                  context,
+                                  record: e),
+                              deleteCallback: bloc.delete,
+                              isSelected: e.id == id,
+                              onTap: bloc.updateId,
+                            ))
+                        .toList(),
+                  ),
                 ),
               ],
             ),

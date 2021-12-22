@@ -24,7 +24,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
     recordsService = Provider.of<RecordsService>(context, listen: false);
     categoriesService = Provider.of<CategoriesService>(context, listen: false);
     bloc = RecordsPageBloc(recordsService, categoriesService);
-    bloc.init(isEditing: true);
+    bloc.init(record: widget.record);
     super.initState();
   }
 
@@ -56,27 +56,29 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   Widget _buildContent(
       List<Record> recordsList, RecordsPageSupplements supplements) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Padding(
+      //  resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(
+        child: Container(
           padding: EdgeInsets.only(top: 40.dw, left: 15.dw, right: 15.dw),
-          child: CustomScrollView(
-            slivers: [
-              SliverFillRemaining(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildPageTitle(),
-                    _buildSectionTitle('Choose Category', topOffset: 20.dh),
-                    _buildOptions(supplements),
-                    _buildCategoriesList(supplements),
-                    _buildSectionTitle('Amount Used', topOffset: 20.dh),
-                    _buildTextField(supplements),
-                    _buildButton()
-                  ],
-                ),
-              )
+          height: ScreenSizeConfig.getDeviceSize.height,
+          width: ScreenSizeConfig.getDeviceSize.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildPageTitle(),
+              _buildSectionTitle('Choose Category',
+                  topOffset: 20.dh, withButton: true),
+              _buildOptions(supplements),
+              _buildCategoriesList(supplements),
+              _buildSectionTitle('Amount Used', topOffset: 20.dh),
+              _buildAmountTextField(supplements),
+              _buildSectionTitle('Notes'),
+              _buildNotesTextField(supplements),
+              _buildButton()
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 
@@ -97,10 +99,24 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
     );
   }
 
-  _buildSectionTitle(String text, {double? topOffset}) {
+  _buildSectionTitle(String text,
+      {double? topOffset, bool withButton = false}) {
+    final _text = AppText(text, size: 18.dw, color: AppColors.textColor2);
     return Padding(
       padding: EdgeInsets.only(top: topOffset ?? 60.dh, bottom: 5.dh),
-      child: AppText(text, size: 18.dw, color: AppColors.textColor2),
+      child: withButton
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _text,
+                AppTextButton(
+                    text: 'Add Category',
+                    useButtonSizeOnly: false,
+                    textColor: AppColors.primaryColor,
+                    onPressed: () => CategoryEditPage.navigateTo(context))
+              ],
+            )
+          : _text,
     );
   }
 
@@ -179,64 +195,37 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
     );
   }
 
-  _buildTextField(RecordsPageSupplements supplements) {
-    controller.text = supplements.amount.toString();
-    controller.selection = TextSelection.fromPosition(
-        TextPosition(offset: controller.text.length));
-    final hasError = supplements.errors.containsKey('amount');
-    final border = hasError ? errorBorder : _inputBorder;
+  _buildAmountTextField(RecordsPageSupplements supplements) {
+    return AppTextField(
+      onChanged: bloc.updateAmount,
+      text: widget.record?.amount.toString(),
+      errors: supplements.errors,
+      hintText: '0',
+      letterSpacing: 1.4,
+      keyboardType: TextInputType.number,
+    );
+  }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 40.dh,
-          child: TextField(
-              controller: controller,
-              onChanged: bloc.updateAmount,
-              keyboardType: TextInputType.number,
-              style: const TextStyle(
-                color: AppColors.textColor,
-                fontFamily: kFontFam2,
-                letterSpacing: 1.4,
-              ),
-              cursorColor: AppColors.textColor,
-              decoration: InputDecoration(
-                  hintText: 'Type the amount here',
-                  hintStyle: const TextStyle(
-                      color: Colors.black54, fontFamily: kFontFam2),
-                  fillColor: Colors.white.withOpacity(.25),
-                  filled: true,
-                  isDense: true,
-                  border: border,
-                  focusedBorder: border,
-                  enabledBorder: border,
-                  contentPadding:
-                      EdgeInsets.only(left: 10.dw, top: 12.dw, bottom: 8.dw))),
-        ),
-        hasError
-            ? Padding(
-                padding: EdgeInsets.only(top: 8.dw),
-                child: AppText(
-                  supplements.errors['amount']!,
-                  color: AppColors.errorColor,
-                  family: kFontFam2,
-                  size: 16.dw,
-                ),
-              )
-            : Container()
-      ],
+  _buildNotesTextField(RecordsPageSupplements supplements) {
+    return AppTextField(
+      errors: const {},
+      text: supplements.notes,
+      onChanged: bloc.updateNotes,
+      hintText: 'Add short notes for this record here.',
+      keyboardType: TextInputType.name,
     );
   }
 
   _buildButton() {
+    final isAdding = widget.record == null;
+
     return Expanded(
         child: Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         AppTextButton(
-          onPressed: bloc.add,
-          text: 'Add',
+          onPressed: isAdding ? bloc.add : bloc.edit,
+          text: isAdding ? 'Add' : 'Edit',
           padding: EdgeInsets.symmetric(vertical: 10.dw),
           margin: EdgeInsets.only(bottom: 30.dh),
           fontSize: 15.dw,
@@ -280,12 +269,4 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
           shape: BoxShape.circle,
         ));
   }
-
-  final _inputBorder = const UnderlineInputBorder(
-      borderSide: BorderSide(width: 0.0, color: Colors.transparent),
-      borderRadius: BorderRadius.zero);
-
-  final errorBorder = const OutlineInputBorder(
-      borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(width: 1.2, color: Colors.white70));
 }

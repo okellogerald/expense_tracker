@@ -34,9 +34,12 @@ flutter:
      - family: Gramatika
        fonts:
          - asset: fonts/Gramatika.ttf
-     - family: Outfit
+     - family: Renner
        fonts:
-         - asset: fonts/Outfit.ttf
+         - asset: fonts/Renner.ttf
+     - family: Louis
+       fonts:
+         - asset: fonts/Louis.ttf
      - family: Glacial
        fonts:
          - asset: fonts/Glacial.otf

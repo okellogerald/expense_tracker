@@ -11,14 +11,25 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
   final RecordsService recordsService;
   final CategoriesService categoriesService;
 
-  void init({bool isEditing = false}) {
+  static const _dummyId = '-1';
+
+  void init({Record? record}) {
     emit(RecordsPageState.loading(state.recordList, state.supplements));
     var recordList = state.recordList;
-    if (!isEditing) recordList = recordsService.getAll();
+    recordList = recordsService.getAll();
     final categories = categoriesService.getCategories();
     final totalRecords = recordsService.getTotalAmounts();
-    final supplements = state.supplements
+    var supplements = state.supplements
         .copyWith(categoryList: categories, totalRecords: totalRecords);
+    if (record != null) {
+      supplements = supplements.copyWith(
+        id: record.id,
+        amount: record.amount,
+        category: record.category,
+        type: record.category.type,
+        notes: record.notes,
+      );
+    }
     emit(RecordsPageState.content(recordList, supplements));
   }
 
@@ -29,25 +40,64 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
 
     final supplements = state.supplements;
 
-    recordsService.add(supplements.category, supplements.amount);
-    emit(RecordsPageState.success(state.recordList, supplements));
+    recordsService.add(
+        supplements.category, supplements.amount, supplements.notes);
+    emit(RecordsPageState.success(
+        state.recordList, supplements.copyWith(id: _dummyId)));
   }
 
-  void _updateSupplements({int? amount, String? type, Category? category}) {
+  void edit() {
+    _validate();
+
+    if (state.supplements.errors.isNotEmpty) return;
+
+    final supplements = state.supplements;
+
+    recordsService.edit(supplements.id, supplements.category,
+        supplements.amount, supplements.notes);
+    emit(RecordsPageState.success(
+        state.recordList, supplements.copyWith(id: _dummyId)));
+  }
+
+  void delete(String id) {
+    emit(RecordsPageState.loading(state.recordList, state.supplements));
+    recordsService.delete(id);
+    //emit(RecordsPageState.content(state.recordList, state.supplements));
+  }
+
+  void updateId(String id) => _updateSupplements(id: id);
+
+  void updateType(String type) => _updateSupplements(type: type);
+
+  void updateCategory(Category category) =>
+      _updateSupplements(category: category);
+
+  void updateAmount(String amount) =>
+      _updateSupplements(amount: double.parse(amount));
+
+  void updateNotes(String notes) => _updateSupplements(notes: notes);
+
+  void _updateSupplements(
+      {double? amount,
+      String? type,
+      Category? category,
+      String? notes,
+      String? id}) {
     emit(RecordsPageState.loading(state.recordList, state.supplements));
     var supplements = state.supplements;
 
     if (type != null) {
       supplements = supplements.copyWith(
-        amount: amount ?? supplements.amount,
         type: type,
         category: Category(),
       );
     } else {
       supplements = supplements.copyWith(
+        id: id ?? supplements.id,
         amount: amount ?? supplements.amount,
         type: type ?? supplements.type,
         category: category ?? supplements.category,
+        notes: notes ?? supplements.notes,
       );
     }
     emit(RecordsPageState.content(state.recordList, supplements));
@@ -60,30 +110,21 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
     if (supplements.category.id == '-1') {
       supplements = supplements
           .copyWith(errors: {'category': 'You have not selected the category'});
-      emit(RecordsPageState.content(state.recordList, supplements));
     } else if (supplements.amount == 0) {
       supplements =
           supplements.copyWith(errors: {'amount': 'The amount can\'t be 0'});
-      emit(RecordsPageState.content(state.recordList, supplements));
     } else {
       supplements = state.supplements.copyWith(errors: {});
-      emit(RecordsPageState.content(state.recordList, supplements));
     }
+    emit(RecordsPageState.content(state.recordList, supplements));
   }
 
   _handleRecordsStream(Map<String, dynamic> data) {
     emit(RecordsPageState.loading(state.recordList, state.supplements));
     final recordList = data[kRecords];
     final totalRecords = data[kTotalRecords];
-    final supplements = state.supplements.copyWith(totalRecords: totalRecords);
+    final supplements =
+        state.supplements.copyWith(totalRecords: totalRecords, id: _dummyId);
     emit(RecordsPageState.content(recordList, supplements));
   }
-
-  void updateType(String type) => _updateSupplements(type: type);
-
-  void updateCategory(Category category) =>
-      _updateSupplements(category: category);
-
-  void updateAmount(String amount) =>
-      _updateSupplements(amount: int.parse(amount));
 }
