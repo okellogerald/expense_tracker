@@ -25,6 +25,19 @@ class RecordsService {
     return [];
   }
 
+  ///returns a list of two amounts, first is total amount of income and second is
+  ///the total amount of expenses in the specific day.
+  List<double> getTotalAmountsByDay(int day) {
+    double expenses = 0;
+    double income = 0;
+    final list = _recordList.where((e) => e.date.day == day).toList();
+    for (Record record in list) {
+      if (record.category.type == kExpense) expenses += record.amount;
+      if (record.category.type == kIncome) income += record.amount;
+    }
+    return [income, expenses];
+  }
+
   TotalRecords getTotalAmounts() {
     if (_totalRecordsBox.isEmpty) return TotalRecords();
     _totalRecords = _totalRecordsBox.get(kTotalRecords);

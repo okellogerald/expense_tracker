@@ -8,3 +8,4 @@ export 'app_text_button.dart';
 export 'add_category.dart';
 export 'record_tile.dart';
 export 'app_text_field.dart';
+export 'day_text.dart';

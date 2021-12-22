@@ -25,6 +25,8 @@ class _$RecordsPageSupplementsTearOff {
       String id = '-1',
       double amount = 0,
       String notes = '',
+      int day = -1,
+      Map<int, List<double>> totalsMap = const {},
       List<Category> categoryList = const [],
       Map<String, dynamic> errors = const {}}) {
     return _RecordsPageSupplements(
@@ -35,6 +37,8 @@ class _$RecordsPageSupplementsTearOff {
       id: id,
       amount: amount,
       notes: notes,
+      day: day,
+      totalsMap: totalsMap,
       categoryList: categoryList,
       errors: errors,
     );
@@ -53,6 +57,8 @@ mixin _$RecordsPageSupplements {
   String get id => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   String get notes => throw _privateConstructorUsedError;
+  int get day => throw _privateConstructorUsedError;
+  Map<int, List<double>> get totalsMap => throw _privateConstructorUsedError;
   List<Category> get categoryList => throw _privateConstructorUsedError;
   Map<String, dynamic> get errors => throw _privateConstructorUsedError;
 
@@ -74,6 +80,8 @@ abstract class $RecordsPageSupplementsCopyWith<$Res> {
       String id,
       double amount,
       String notes,
+      int day,
+      Map<int, List<double>> totalsMap,
       List<Category> categoryList,
       Map<String, dynamic> errors});
 }
@@ -96,6 +104,8 @@ class _$RecordsPageSupplementsCopyWithImpl<$Res>
     Object? id = freezed,
     Object? amount = freezed,
     Object? notes = freezed,
+    Object? day = freezed,
+    Object? totalsMap = freezed,
     Object? categoryList = freezed,
     Object? errors = freezed,
   }) {
@@ -128,6 +138,14 @@ class _$RecordsPageSupplementsCopyWithImpl<$Res>
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String,
+      day: day == freezed
+          ? _value.day
+          : day // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalsMap: totalsMap == freezed
+          ? _value.totalsMap
+          : totalsMap // ignore: cast_nullable_to_non_nullable
+              as Map<int, List<double>>,
       categoryList: categoryList == freezed
           ? _value.categoryList
           : categoryList // ignore: cast_nullable_to_non_nullable
@@ -155,6 +173,8 @@ abstract class _$RecordsPageSupplementsCopyWith<$Res>
       String id,
       double amount,
       String notes,
+      int day,
+      Map<int, List<double>> totalsMap,
       List<Category> categoryList,
       Map<String, dynamic> errors});
 }
@@ -179,6 +199,8 @@ class __$RecordsPageSupplementsCopyWithImpl<$Res>
     Object? id = freezed,
     Object? amount = freezed,
     Object? notes = freezed,
+    Object? day = freezed,
+    Object? totalsMap = freezed,
     Object? categoryList = freezed,
     Object? errors = freezed,
   }) {
@@ -208,6 +230,14 @@ class __$RecordsPageSupplementsCopyWithImpl<$Res>
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String,
+      day: day == freezed
+          ? _value.day
+          : day // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalsMap: totalsMap == freezed
+          ? _value.totalsMap
+          : totalsMap // ignore: cast_nullable_to_non_nullable
+              as Map<int, List<double>>,
       categoryList: categoryList == freezed
           ? _value.categoryList
           : categoryList // ignore: cast_nullable_to_non_nullable
@@ -231,6 +261,8 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
       this.id = '-1',
       this.amount = 0,
       this.notes = '',
+      this.day = -1,
+      this.totalsMap = const {},
       this.categoryList = const [],
       this.errors = const {}})
       : super._();
@@ -255,6 +287,12 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
   final String notes;
   @JsonKey()
   @override
+  final int day;
+  @JsonKey()
+  @override
+  final Map<int, List<double>> totalsMap;
+  @JsonKey()
+  @override
   final List<Category> categoryList;
   @JsonKey()
   @override
@@ -262,7 +300,7 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
 
   @override
   String toString() {
-    return 'RecordsPageSupplements(totalRecords: $totalRecords, category: $category, date: $date, type: $type, id: $id, amount: $amount, notes: $notes, categoryList: $categoryList, errors: $errors)';
+    return 'RecordsPageSupplements(totalRecords: $totalRecords, category: $category, date: $date, type: $type, id: $id, amount: $amount, notes: $notes, day: $day, totalsMap: $totalsMap, categoryList: $categoryList, errors: $errors)';
   }
 
   @override
@@ -278,6 +316,8 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
             const DeepCollectionEquality().equals(other.notes, notes) &&
+            const DeepCollectionEquality().equals(other.day, day) &&
+            const DeepCollectionEquality().equals(other.totalsMap, totalsMap) &&
             const DeepCollectionEquality()
                 .equals(other.categoryList, categoryList) &&
             const DeepCollectionEquality().equals(other.errors, errors));
@@ -293,6 +333,8 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(amount),
       const DeepCollectionEquality().hash(notes),
+      const DeepCollectionEquality().hash(day),
+      const DeepCollectionEquality().hash(totalsMap),
       const DeepCollectionEquality().hash(categoryList),
       const DeepCollectionEquality().hash(errors));
 
@@ -312,6 +354,8 @@ abstract class _RecordsPageSupplements extends RecordsPageSupplements {
       String id,
       double amount,
       String notes,
+      int day,
+      Map<int, List<double>> totalsMap,
       List<Category> categoryList,
       Map<String, dynamic> errors}) = _$_RecordsPageSupplements;
   const _RecordsPageSupplements._() : super._();
@@ -330,6 +374,10 @@ abstract class _RecordsPageSupplements extends RecordsPageSupplements {
   double get amount;
   @override
   String get notes;
+  @override
+  int get day;
+  @override
+  Map<int, List<double>> get totalsMap;
   @override
   List<Category> get categoryList;
   @override

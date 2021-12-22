@@ -77,10 +77,23 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
 
   void updateNotes(String notes) => _updateSupplements(notes: notes);
 
+  void updateDay(int day) => _updateSupplements(day: day);
+
+  void showDayTotals(int day) {
+    emit(RecordsPageState.loading(state.recordList, state.supplements));
+    final dayTotals = recordsService.getTotalAmountsByDay(day);
+    var supplements = state.supplements;
+    final totalsMap = _modifyMap(supplements.totalsMap, dayTotals);
+    supplements = supplements.copyWith(totalsMap: totalsMap, day: -1);
+    emit(RecordsPageState.content(state.recordList, supplements));
+  }
+
   void _updateSupplements(
       {double? amount,
       String? type,
       Category? category,
+      Map<int, List<double>>? totalsMap,
+      int? day,
       String? notes,
       String? id}) {
     emit(RecordsPageState.loading(state.recordList, state.supplements));
@@ -98,9 +111,22 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
         type: type ?? supplements.type,
         category: category ?? supplements.category,
         notes: notes ?? supplements.notes,
+        totalsMap: totalsMap ?? supplements.totalsMap,
+        day: day ?? supplements.day,
       );
     }
     emit(RecordsPageState.content(state.recordList, supplements));
+  }
+
+  Map<int, List<double>> _modifyMap(
+      Map<int, List<double>> totalsMap, List<double> amountsList) {
+    final s = state.supplements;
+    Map<int, List<double>> map = {};
+    totalsMap.forEach((key, value) {
+      map[key] = value;
+    });
+    map[s.day] = amountsList;
+    return map;
   }
 
   _validate() {

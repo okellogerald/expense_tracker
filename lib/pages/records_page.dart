@@ -66,7 +66,7 @@ class _RecordsPageState extends State<RecordsPage> {
           child: Column(
             children: [
               _buildTitle(supplements),
-              _buildRecords(recordsList, supplements.id),
+              _buildRecords(recordsList, supplements),
             ],
           ),
         )
@@ -108,7 +108,7 @@ class _RecordsPageState extends State<RecordsPage> {
     );
   }
 
-  _buildRecords(List<Record> recordsList, String selectedId) {
+  _buildRecords(List<Record> recordsList, RecordsPageSupplements supplements) {
     return recordsList.isEmpty
         ? Expanded(
             child: Column(
@@ -129,16 +129,18 @@ class _RecordsPageState extends State<RecordsPage> {
                   final index = Utils.getDaysInMonth() - i + 1;
                   final recordList =
                       recordsList.where((e) => e.date.day == index).toList();
-                  return _buildDayRecords(recordList, index, selectedId);
+                  return _buildDayRecords(recordList, index, supplements);
                 }));
   }
 
-  Widget _buildDayRecords(List<Record> recordList, int day, String id) {
+  Widget _buildDayRecords(
+      List<Record> recordList, int day, RecordsPageSupplements supplements) {
     final ordinal = Utils.getOrdinalsFrom(day);
     var weekDay = '';
     if (recordList.isNotEmpty) {
       weekDay = Utils.getWeekDay(recordList.first.date.weekday);
     }
+    final isSelected = day == supplements.day;
 
     return recordList.isEmpty
         ? Container()
@@ -147,22 +149,30 @@ class _RecordsPageState extends State<RecordsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 5.dh),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppText('$day$ordinal, $weekDay',
-                          color: AppColors.textColor2, size: 18.dw),
-                      AppIconButton(
-                        onPressed: () {},
-                        icon: Icons.more_horiz,
-                        iconColor: Colors.white70,
-                        spreadRadius: 25.dw,
-                      )
-                    ],
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DayText(
+                      '$day$ordinal, $weekDay',
+                      day: day,
+                      cancelCallback: bloc.updateDay,
+                      isSelected: isSelected,
+                      showNotesCallback: (_) {},
+                      showTotalsCallback: bloc.showDayTotals,
+                    ),
+                    !isSelected
+                        ? Padding(
+                            padding:
+                                EdgeInsets.only(right: 15.dw, bottom: 5.dh),
+                            child: AppIconButton(
+                              onPressed: () => bloc.updateDay(day),
+                              icon: Icons.more_horiz,
+                              iconColor: Colors.white70,
+                              spreadRadius: 25.dw,
+                            ),
+                          )
+                        : Container()
+                  ],
                 ),
                 Container(
                   color: AppColors.backgroundColor2,
@@ -175,15 +185,65 @@ class _RecordsPageState extends State<RecordsPage> {
                                   context,
                                   record: e),
                               deleteCallback: bloc.delete,
-                              isSelected: e.id == id,
+                              isSelected: e.id == supplements.id,
                               onTap: bloc.updateId,
                             ))
                         .toList(),
                   ),
                 ),
+                supplements.totalsMap.containsKey(day)
+                    ? _buildDayTotals(supplements, day)
+                    : Container(),
               ],
             ),
           );
+  }
+
+  _buildDayTotals(RecordsPageSupplements supplements, int day) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 5.dh),
+      decoration: BoxDecoration(
+          border: Border(
+              bottom: BorderSide(color: AppColors.dividerColor, width: 2.dw))),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppText(
+                'Total Income',
+                size: 16.dw,
+                family: kFontFam2,
+              ),
+              AppText(
+                supplements.getIncomeTotal(day),
+                weight: FontWeight.bold,
+                size: 16.dw,
+                color: AppColors.positive,
+                family: kFontFam2,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppText(
+                'Total Expenses',
+                size: 16.dw,
+                family: kFontFam2,
+              ),
+              AppText(
+                supplements.getExpensesTotal(day),
+                weight: FontWeight.bold,
+                size: 16.dw,
+                color: AppColors.negative,
+                family: kFontFam2,
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 
   _buildBudgetAmount(String text, String amount) {
