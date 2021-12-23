@@ -21,7 +21,7 @@ class Category extends HiveObject {
       {this.codePoint = 0xe800,
       this.id = '-1',
       this.title = 'Transport',
-      this.type = kExpense});
+      this.type = kIncome});
 
   factory Category.empty() => Category();
 

@@ -1,15 +1,20 @@
 import 'source.dart';
 
-const kCategoriesBox = 'categories_box';
-const kPreferencesBox = 'preferences_box';
+const kCategories = 'categories_box';
+const kPreferences = 'preferences_box';
 const kPrefs = 'preferences';
 const kRecords = 'records';
 const kTotalRecords = 'total_records';
+const kAllDaysTotals = 'all_days_total_amounts';
 const kExpense = 'expense';
 const kIncome = 'income';
 const kFontFam4 = 'Louis';
 const kFontFam3 = 'Outfit';
-const kFontFam2 = 'Glacial';
+const kFontFam5 = 'Glacial';
+const kFontFam2 = 'KumbhSans';
+
+const kAddCategoryPosition = 'add_category_position';
+const kWithTotalsList = 'with_totals_list';
 
 final kDefaultCategoriesList = <Category>[
   Category(

@@ -1,3 +1,5 @@
+import 'package:budgetting_app/blocs/record_edit_page_bloc.dart';
+
 import '../source.dart';
 
 class RecordsEditPage extends StatefulWidget {
@@ -14,7 +16,7 @@ class RecordsEditPage extends StatefulWidget {
 }
 
 class _RecordsEditPageState extends State<RecordsEditPage> {
-  late final RecordsPageBloc bloc;
+  late final RecordEditPageBloc bloc;
   late final RecordsService recordsService;
   late final CategoriesService categoriesService;
   final controller = TextEditingController();
@@ -23,18 +25,18 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   void initState() {
     recordsService = Provider.of<RecordsService>(context, listen: false);
     categoriesService = Provider.of<CategoriesService>(context, listen: false);
-    bloc = RecordsPageBloc(recordsService, categoriesService);
+    bloc = RecordEditPageBloc(recordsService, categoriesService);
     bloc.init(record: widget.record);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RecordsPageBloc, RecordsPageState>(
+    return BlocConsumer<RecordEditPageBloc, RecordEditPageState>(
         bloc: bloc,
         listener: (_, state) {
-          final hasSucceeded =
-              state.maybeWhen(success: (_, __) => true, orElse: () => false);
+          final hasSucceeded = state.maybeWhen(
+              success: (_, __, ___) => true, orElse: () => false);
           if (hasSucceeded) Navigator.pop(context);
         },
         builder: (_, state) {
@@ -47,14 +49,14 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   }
 
   Widget _buildLoading(
-      List<Record> recordsList, RecordsPageSupplements supplements) {
+      List<Category> categoryList, Category category, RecordEditPageForm form) {
     return const Center(
       child: CircularProgressIndicator(),
     );
   }
 
   Widget _buildContent(
-      List<Record> recordsList, RecordsPageSupplements supplements) {
+      List<Category> categoryList, Category category, RecordEditPageForm form) {
     return Scaffold(
       //  resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -68,12 +70,12 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
               _buildPageTitle(),
               _buildSectionTitle('Choose Category',
                   topOffset: 20.dh, withButton: true),
-              _buildOptions(supplements),
-              _buildCategoriesList(supplements),
+              _buildOptions(category),
+              _buildCategoriesList(categoryList, category, form),
               _buildSectionTitle('Amount Used', topOffset: 20.dh),
-              _buildAmountTextField(supplements),
+              _buildAmountTextField(form),
               _buildSectionTitle('Notes'),
-              _buildNotesTextField(supplements),
+              _buildNotesTextField(form.notes),
               _buildButton()
             ],
           ),
@@ -120,21 +122,23 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
     );
   }
 
-  _buildOptions(RecordsPageSupplements supplements) {
+  _buildOptions(Category category) {
+    final type = category.type;
+
     return Row(
       children: [
-        _buildOption('Income', supplements.type, kIncome),
+        _buildOption('Income', type, kIncome),
         SizedBox(width: 30.dw),
-        _buildOption('Expense', supplements.type, kExpense),
+        _buildOption('Expense', type, kExpense),
       ],
     );
   }
 
-  _buildCategoriesList(RecordsPageSupplements supplements) {
-    final selectedType = supplements.type;
-    final categories =
-        supplements.categoryList.where((e) => e.type == selectedType);
-    final hasErrors = supplements.errors.containsKey('category');
+  _buildCategoriesList(
+      List<Category> categoryList, Category category, RecordEditPageForm form) {
+    final selectedType = category.type;
+    final categories = categoryList.where((e) => e.type == selectedType);
+    final hasErrors = form.errors.containsKey('category');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,15 +157,14 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.fromLTRB(10.dw, 10.dw, 10.dw, 10.dw),
               children: categories
-                  .map(
-                      (e) => _buildCategory(e, e.id == supplements.category.id))
+                  .map((e) => _buildCategory(e, e.id == category.id))
                   .toList()),
         ),
         hasErrors
             ? Padding(
                 padding: EdgeInsets.only(bottom: 40.dh, top: 10.dh),
                 child: AppText(
-                  supplements.errors['category'],
+                  form.errors['category'],
                   family: kFontFam2,
                   size: 16.dw,
                   color: AppColors.errorColor,
@@ -195,21 +198,22 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
     );
   }
 
-  _buildAmountTextField(RecordsPageSupplements supplements) {
+  _buildAmountTextField(RecordEditPageForm form) {
+    final amount = form.amount == 0.0 ? '' : form.amount.toString();
     return AppTextField(
       onChanged: bloc.updateAmount,
-      text: widget.record?.amount.toString(),
-      errors: supplements.errors,
+      text: amount,
+      errors: form.errors,
       hintText: '0',
       letterSpacing: 1.4,
       keyboardType: TextInputType.number,
     );
   }
 
-  _buildNotesTextField(RecordsPageSupplements supplements) {
+  _buildNotesTextField(String notes) {
     return AppTextField(
       errors: const {},
-      text: supplements.notes,
+      text: notes,
       onChanged: bloc.updateNotes,
       hintText: 'Add short notes for this record here.',
       keyboardType: TextInputType.name,

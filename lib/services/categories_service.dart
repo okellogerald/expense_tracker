@@ -4,7 +4,7 @@ import 'package:uuid/uuid.dart';
 import '../source.dart';
 
 class CategoriesService {
-  static final box = Hive.box(kCategoriesBox);
+  static final box = Hive.box(kCategories);
   static var currentCategories = <Category>[];
   static const uuid = Uuid();
 

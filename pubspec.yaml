@@ -34,9 +34,9 @@ flutter:
      - family: Gramatika
        fonts:
          - asset: fonts/Gramatika.ttf
-     - family: Renner
+     - family: KumbhSans
        fonts:
-         - asset: fonts/Renner.ttf
+         - asset: fonts/KumbhSans.ttf
      - family: Louis
        fonts:
          - asset: fonts/Louis.ttf

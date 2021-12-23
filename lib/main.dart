@@ -11,15 +11,16 @@ void main() async {
     ..init(directory.path)
     ..registerAdapter(CategoryAdapter())
     ..registerAdapter(RecordAdapter())
-    ..registerAdapter(TotalRecordsAdapter())
-    ..registerAdapter(PreferencesAdapter());
+    ..registerAdapter(TotalRecordsAdapter());
 
-  await Hive.openBox(kCategoriesBox);
-  await Hive.openBox(kPreferencesBox);
-  await Hive.openBox(kRecords);
+  await Hive.openBox(kCategories);
+  await Hive.openBox(kPreferences);
   await Hive.openBox(kTotalRecords);
+  await Hive.openBox(kRecords);
 
   IconCodePointGenerator.generate(54);
+
+  PreferencesService.initPrefs();
 
   final myApp = MultiProvider(
     providers: [

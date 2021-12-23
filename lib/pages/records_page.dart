@@ -7,26 +7,16 @@ class RecordsPage extends StatefulWidget {
   State<RecordsPage> createState() => _RecordsPageState();
 }
 
-///todo:
-///on the day row widget, the horizontal is pressed so as to ask the user whether
-///to show more data based on the single days expenditure and income.
-///
-///the records, all of them should have an id, that i can distinguish them
-///against each other, and I think you should add notes functionality, so that
-///you will have four buttons when the record tile is clicked.
-///The more button, for more info on when the record was created and notes on the
-///far left, where on the far right, functions for editing, deleting and canceling.
-
 class _RecordsPageState extends State<RecordsPage> {
   late final RecordsPageBloc bloc;
   late final RecordsService recordsService;
-  late final CategoriesService categoriesService;
+  late final PreferencesService prefsService;
 
   @override
   void initState() {
     recordsService = Provider.of<RecordsService>(context, listen: false);
-    categoriesService = Provider.of<CategoriesService>(context, listen: false);
-    bloc = RecordsPageBloc(recordsService, categoriesService);
+    prefsService = Provider.of<PreferencesService>(context, listen: false);
+    bloc = RecordsPageBloc(recordsService, prefsService);
     bloc.init();
     super.initState();
   }
@@ -141,6 +131,7 @@ class _RecordsPageState extends State<RecordsPage> {
       weekDay = Utils.getWeekDay(recordList.first.date.weekday);
     }
     final isSelected = day == supplements.day;
+    final hasTotals = supplements.withTotalsDays.contains(day);
 
     return recordList.isEmpty
         ? Container()
@@ -157,8 +148,10 @@ class _RecordsPageState extends State<RecordsPage> {
                       day: day,
                       cancelCallback: bloc.updateDay,
                       isSelected: isSelected,
-                      showNotesCallback: (_) {},
-                      showTotalsCallback: bloc.showDayTotals,
+                      hasTotals: hasTotals,
+                      showTotalsCallback: !hasTotals
+                          ? bloc.showWithDayTotals
+                          : bloc.removeFromWithDayTotals,
                     ),
                     !isSelected
                         ? Padding(
@@ -191,7 +184,7 @@ class _RecordsPageState extends State<RecordsPage> {
                         .toList(),
                   ),
                 ),
-                supplements.totalsMap.containsKey(day)
+                supplements.withTotalsDays.contains(day)
                     ? _buildDayTotals(supplements, day)
                     : Container(),
               ],
@@ -266,7 +259,7 @@ class _RecordsPageState extends State<RecordsPage> {
     );
   }
 
-/* 
+  /* 
   _buildCircularIndicator() {
     return AppCircularStepIndicator(
       width: 60.dw,
@@ -280,6 +273,7 @@ class _RecordsPageState extends State<RecordsPage> {
       ),
     );
   } */
+
   _buildFloatingActionButton() {
     return AppIconButton(
       onPressed: () => RecordsEditPage.navigateTo(context),

@@ -19,28 +19,16 @@ class _$RecordsPageSupplementsTearOff {
 
   _RecordsPageSupplements call(
       {required TotalRecords totalRecords,
-      required Category category,
-      required DateTime date,
-      dynamic type = kIncome,
       String id = '-1',
-      double amount = 0,
-      String notes = '',
       int day = -1,
-      Map<int, List<double>> totalsMap = const {},
-      List<Category> categoryList = const [],
-      Map<String, dynamic> errors = const {}}) {
+      List<dynamic> withTotalsDays = const [],
+      Map<int, List<double>> totalsMap = const {}}) {
     return _RecordsPageSupplements(
       totalRecords: totalRecords,
-      category: category,
-      date: date,
-      type: type,
       id: id,
-      amount: amount,
-      notes: notes,
       day: day,
+      withTotalsDays: withTotalsDays,
       totalsMap: totalsMap,
-      categoryList: categoryList,
-      errors: errors,
     );
   }
 }
@@ -51,16 +39,10 @@ const $RecordsPageSupplements = _$RecordsPageSupplementsTearOff();
 /// @nodoc
 mixin _$RecordsPageSupplements {
   TotalRecords get totalRecords => throw _privateConstructorUsedError;
-  Category get category => throw _privateConstructorUsedError;
-  DateTime get date => throw _privateConstructorUsedError;
-  dynamic get type => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
-  double get amount => throw _privateConstructorUsedError;
-  String get notes => throw _privateConstructorUsedError;
   int get day => throw _privateConstructorUsedError;
+  List<dynamic> get withTotalsDays => throw _privateConstructorUsedError;
   Map<int, List<double>> get totalsMap => throw _privateConstructorUsedError;
-  List<Category> get categoryList => throw _privateConstructorUsedError;
-  Map<String, dynamic> get errors => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RecordsPageSupplementsCopyWith<RecordsPageSupplements> get copyWith =>
@@ -74,16 +56,10 @@ abstract class $RecordsPageSupplementsCopyWith<$Res> {
       _$RecordsPageSupplementsCopyWithImpl<$Res>;
   $Res call(
       {TotalRecords totalRecords,
-      Category category,
-      DateTime date,
-      dynamic type,
       String id,
-      double amount,
-      String notes,
       int day,
-      Map<int, List<double>> totalsMap,
-      List<Category> categoryList,
-      Map<String, dynamic> errors});
+      List<dynamic> withTotalsDays,
+      Map<int, List<double>> totalsMap});
 }
 
 /// @nodoc
@@ -98,62 +74,32 @@ class _$RecordsPageSupplementsCopyWithImpl<$Res>
   @override
   $Res call({
     Object? totalRecords = freezed,
-    Object? category = freezed,
-    Object? date = freezed,
-    Object? type = freezed,
     Object? id = freezed,
-    Object? amount = freezed,
-    Object? notes = freezed,
     Object? day = freezed,
+    Object? withTotalsDays = freezed,
     Object? totalsMap = freezed,
-    Object? categoryList = freezed,
-    Object? errors = freezed,
   }) {
     return _then(_value.copyWith(
       totalRecords: totalRecords == freezed
           ? _value.totalRecords
           : totalRecords // ignore: cast_nullable_to_non_nullable
               as TotalRecords,
-      category: category == freezed
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as Category,
-      date: date == freezed
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      type: type == freezed
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: amount == freezed
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      notes: notes == freezed
-          ? _value.notes
-          : notes // ignore: cast_nullable_to_non_nullable
               as String,
       day: day == freezed
           ? _value.day
           : day // ignore: cast_nullable_to_non_nullable
               as int,
+      withTotalsDays: withTotalsDays == freezed
+          ? _value.withTotalsDays
+          : withTotalsDays // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       totalsMap: totalsMap == freezed
           ? _value.totalsMap
           : totalsMap // ignore: cast_nullable_to_non_nullable
               as Map<int, List<double>>,
-      categoryList: categoryList == freezed
-          ? _value.categoryList
-          : categoryList // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
-      errors: errors == freezed
-          ? _value.errors
-          : errors // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
     ));
   }
 }
@@ -167,16 +113,10 @@ abstract class _$RecordsPageSupplementsCopyWith<$Res>
   @override
   $Res call(
       {TotalRecords totalRecords,
-      Category category,
-      DateTime date,
-      dynamic type,
       String id,
-      double amount,
-      String notes,
       int day,
-      Map<int, List<double>> totalsMap,
-      List<Category> categoryList,
-      Map<String, dynamic> errors});
+      List<dynamic> withTotalsDays,
+      Map<int, List<double>> totalsMap});
 }
 
 /// @nodoc
@@ -193,59 +133,32 @@ class __$RecordsPageSupplementsCopyWithImpl<$Res>
   @override
   $Res call({
     Object? totalRecords = freezed,
-    Object? category = freezed,
-    Object? date = freezed,
-    Object? type = freezed,
     Object? id = freezed,
-    Object? amount = freezed,
-    Object? notes = freezed,
     Object? day = freezed,
+    Object? withTotalsDays = freezed,
     Object? totalsMap = freezed,
-    Object? categoryList = freezed,
-    Object? errors = freezed,
   }) {
     return _then(_RecordsPageSupplements(
       totalRecords: totalRecords == freezed
           ? _value.totalRecords
           : totalRecords // ignore: cast_nullable_to_non_nullable
               as TotalRecords,
-      category: category == freezed
-          ? _value.category
-          : category // ignore: cast_nullable_to_non_nullable
-              as Category,
-      date: date == freezed
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      type: type == freezed ? _value.type : type,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      amount: amount == freezed
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      notes: notes == freezed
-          ? _value.notes
-          : notes // ignore: cast_nullable_to_non_nullable
               as String,
       day: day == freezed
           ? _value.day
           : day // ignore: cast_nullable_to_non_nullable
               as int,
+      withTotalsDays: withTotalsDays == freezed
+          ? _value.withTotalsDays
+          : withTotalsDays // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
       totalsMap: totalsMap == freezed
           ? _value.totalsMap
           : totalsMap // ignore: cast_nullable_to_non_nullable
               as Map<int, List<double>>,
-      categoryList: categoryList == freezed
-          ? _value.categoryList
-          : categoryList // ignore: cast_nullable_to_non_nullable
-              as List<Category>,
-      errors: errors == freezed
-          ? _value.errors
-          : errors // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
     ));
   }
 }
@@ -255,52 +168,30 @@ class __$RecordsPageSupplementsCopyWithImpl<$Res>
 class _$_RecordsPageSupplements extends _RecordsPageSupplements {
   const _$_RecordsPageSupplements(
       {required this.totalRecords,
-      required this.category,
-      required this.date,
-      this.type = kIncome,
       this.id = '-1',
-      this.amount = 0,
-      this.notes = '',
       this.day = -1,
-      this.totalsMap = const {},
-      this.categoryList = const [],
-      this.errors = const {}})
+      this.withTotalsDays = const [],
+      this.totalsMap = const {}})
       : super._();
 
   @override
   final TotalRecords totalRecords;
-  @override
-  final Category category;
-  @override
-  final DateTime date;
-  @JsonKey()
-  @override
-  final dynamic type;
   @JsonKey()
   @override
   final String id;
   @JsonKey()
   @override
-  final double amount;
-  @JsonKey()
-  @override
-  final String notes;
-  @JsonKey()
-  @override
   final int day;
   @JsonKey()
   @override
+  final List<dynamic> withTotalsDays;
+  @JsonKey()
+  @override
   final Map<int, List<double>> totalsMap;
-  @JsonKey()
-  @override
-  final List<Category> categoryList;
-  @JsonKey()
-  @override
-  final Map<String, dynamic> errors;
 
   @override
   String toString() {
-    return 'RecordsPageSupplements(totalRecords: $totalRecords, category: $category, date: $date, type: $type, id: $id, amount: $amount, notes: $notes, day: $day, totalsMap: $totalsMap, categoryList: $categoryList, errors: $errors)';
+    return 'RecordsPageSupplements(totalRecords: $totalRecords, id: $id, day: $day, withTotalsDays: $withTotalsDays, totalsMap: $totalsMap)';
   }
 
   @override
@@ -310,33 +201,21 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
             other is _RecordsPageSupplements &&
             const DeepCollectionEquality()
                 .equals(other.totalRecords, totalRecords) &&
-            const DeepCollectionEquality().equals(other.category, category) &&
-            const DeepCollectionEquality().equals(other.date, date) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.notes, notes) &&
             const DeepCollectionEquality().equals(other.day, day) &&
-            const DeepCollectionEquality().equals(other.totalsMap, totalsMap) &&
             const DeepCollectionEquality()
-                .equals(other.categoryList, categoryList) &&
-            const DeepCollectionEquality().equals(other.errors, errors));
+                .equals(other.withTotalsDays, withTotalsDays) &&
+            const DeepCollectionEquality().equals(other.totalsMap, totalsMap));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(totalRecords),
-      const DeepCollectionEquality().hash(category),
-      const DeepCollectionEquality().hash(date),
-      const DeepCollectionEquality().hash(type),
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(notes),
       const DeepCollectionEquality().hash(day),
-      const DeepCollectionEquality().hash(totalsMap),
-      const DeepCollectionEquality().hash(categoryList),
-      const DeepCollectionEquality().hash(errors));
+      const DeepCollectionEquality().hash(withTotalsDays),
+      const DeepCollectionEquality().hash(totalsMap));
 
   @JsonKey(ignore: true)
   @override
@@ -348,40 +227,22 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
 abstract class _RecordsPageSupplements extends RecordsPageSupplements {
   const factory _RecordsPageSupplements(
       {required TotalRecords totalRecords,
-      required Category category,
-      required DateTime date,
-      dynamic type,
       String id,
-      double amount,
-      String notes,
       int day,
-      Map<int, List<double>> totalsMap,
-      List<Category> categoryList,
-      Map<String, dynamic> errors}) = _$_RecordsPageSupplements;
+      List<dynamic> withTotalsDays,
+      Map<int, List<double>> totalsMap}) = _$_RecordsPageSupplements;
   const _RecordsPageSupplements._() : super._();
 
   @override
   TotalRecords get totalRecords;
   @override
-  Category get category;
-  @override
-  DateTime get date;
-  @override
-  dynamic get type;
-  @override
   String get id;
-  @override
-  double get amount;
-  @override
-  String get notes;
   @override
   int get day;
   @override
+  List<dynamic> get withTotalsDays;
+  @override
   Map<int, List<double>> get totalsMap;
-  @override
-  List<Category> get categoryList;
-  @override
-  Map<String, dynamic> get errors;
   @override
   @JsonKey(ignore: true)
   _$RecordsPageSupplementsCopyWith<_RecordsPageSupplements> get copyWith =>

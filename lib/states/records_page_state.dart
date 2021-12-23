@@ -13,9 +13,5 @@ class RecordsPageState with _$RecordsPageState {
       List<Record> recordList, RecordsPageSupplements supplements) = _Success;
 
   factory RecordsPageState.initial() => RecordsPageState.content(
-      [],
-      RecordsPageSupplements(
-          category: Category.empty(),
-          totalRecords: TotalRecords(),
-          date: DateTime.now()));
+      [], RecordsPageSupplements(totalRecords: TotalRecords()));
 }

@@ -24,10 +24,10 @@ class CategoriesPageBloc extends Cubit<CategoriesPageState> {
       return;
     }
 
-    final prefs = prefsService.getPreferences();
-    final isAddCategoryTop = prefs?.isAddCategoryWidgetTop ?? true;
     emit(CategoriesPageState.loading(state.categoryList, state.supplements));
     final categoryList = categoryService.getCategories();
+    final prefs = prefsService.getPreferences();
+    final isAddCategoryTop = prefs[kAddCategoryPosition];
     final supplements = state.supplements.copyWith(
       position: isAddCategoryTop
           ? AddCategoryWidgetPosition.top

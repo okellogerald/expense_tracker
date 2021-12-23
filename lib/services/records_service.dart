@@ -10,8 +10,8 @@ class RecordsService {
   var _totalRecords = TotalRecords();
   final uuid = const Uuid();
 
-  final controller = StreamController<Map<String, dynamic>>.broadcast();
-  Stream<Map<String, dynamic>> get getRecordsStream => controller.stream;
+  final controller = StreamController<Map>.broadcast();
+  Stream<Map> get getRecordsStream => controller.stream;
 
   List<Record> getAll() {
     if (_recordsBox.isNotEmpty) {
@@ -27,7 +27,7 @@ class RecordsService {
 
   ///returns a list of two amounts, first is total amount of income and second is
   ///the total amount of expenses in the specific day.
-  List<double> getTotalAmountsByDay(int day) {
+  List<double> _getTotalAmountsByDay(int day) {
     double expenses = 0;
     double income = 0;
     final list = _recordList.where((e) => e.date.day == day).toList();
@@ -38,33 +38,43 @@ class RecordsService {
     return [income, expenses];
   }
 
+  Map<int, List<double>> getAllTotalAmounts() {
+    final days = Utils.getDaysInMonth();
+    final amountsMap = <int, List<double>>{};
+    for (int day = 1; day <= days; day++) {
+      final amountsList = _getTotalAmountsByDay(day);
+      amountsMap[day] = amountsList;
+    }
+    log(amountsMap.toString());
+    return amountsMap;
+  }
+
   TotalRecords getTotalAmounts() {
     if (_totalRecordsBox.isEmpty) return TotalRecords();
     _totalRecords = _totalRecordsBox.get(kTotalRecords);
     return _totalRecords;
   }
 
-  void add(Category category, double amount, String notes) {
+  void add(Record record) {
     final date = DateTime.now();
     final id = uuid.v4();
-    final record = Record(
-        id: id, amount: amount, category: category, date: date, notes: notes);
-    _recordsBox.put(id, record);
-    _recordList.add(record);
-    _updateTotalRecords(amount, category.type);
+    final _record = record.copyWith(id: id, date: date);
+    _recordsBox.put(id, _record);
+    _recordList.add(_record);
+    _updateTotalRecords(_record.amount, _record.category.type);
     _addToController();
   }
 
-  void edit(String id, Category category, double amount, String notes) {
-    final record = _recordsBox.get(id) as Record;
-    final newRecord =
-        record.copyWith(category: category, amount: amount, notes: notes);
-    _recordsBox.put(id, newRecord);
+  void edit(Record record) {
+    final _record = _recordsBox.get(record.id) as Record;
+    final updatedRecord = _record.copyWith(
+        category: record.category, amount: record.amount, notes: record.notes);
+    _recordsBox.put(updatedRecord.id, updatedRecord);
 
-    final index = _recordList.indexWhere((e) => e.id == id);
-    _updateTotalRecords(amount, category.type,
+    final index = _recordList.indexWhere((e) => e.id == updatedRecord.id);
+    _updateTotalRecords(updatedRecord.amount, updatedRecord.category.type,
         isEditing: true, beforeEditAmount: _recordList[index].amount);
-    _recordList[index] = newRecord;
+    _recordList[index] = updatedRecord;
     _addToController();
   }
 
@@ -109,6 +119,12 @@ class RecordsService {
     _totalRecordsBox.put(kTotalRecords, _totalRecords);
   }
 
-  _addToController() =>
-      controller.add({kRecords: _recordList, kTotalRecords: _totalRecords});
+  _addToController() {
+    final amountsMap = getAllTotalAmounts();
+    controller.add({
+      kRecords: _recordList,
+      kTotalRecords: _totalRecords,
+      kAllDaysTotals: amountsMap,
+    });
+  }
 }

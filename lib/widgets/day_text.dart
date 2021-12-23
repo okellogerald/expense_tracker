@@ -2,17 +2,17 @@ import '../source.dart';
 
 class DayText extends StatefulWidget {
   const DayText(this.text,
-      {required this.showNotesCallback,
-      required this.showTotalsCallback,
+      {required this.showTotalsCallback,
       required this.cancelCallback,
+      required this.hasTotals,
       required this.day,
       required this.isSelected,
       Key? key})
       : super(key: key);
 
   final String text;
-  final ValueChanged<int> showTotalsCallback, showNotesCallback, cancelCallback;
-  final bool isSelected;
+  final ValueChanged<int> showTotalsCallback, cancelCallback;
+  final bool isSelected, hasTotals;
   final int day;
 
   @override
@@ -42,8 +42,8 @@ class _DayTextState extends State<DayText> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                _buildTextButton('Show Notes', isShowingNotes: true),
-                _buildTextButton('Show totals', isShowingTotals: true),
+                _buildTextButton('${widget.hasTotals ? 'Hide' : 'Show'} totals',
+                    isShowingTotals: true),
                 _buildTextButton('Close')
               ],
             ),
@@ -53,7 +53,6 @@ class _DayTextState extends State<DayText> {
 
   _buildTextButton(
     String text, {
-    bool isShowingNotes = false,
     bool isShowingTotals = false,
   }) {
     return AppTextButton(
@@ -62,10 +61,8 @@ class _DayTextState extends State<DayText> {
         textColor: AppColors.primaryColor,
         margin: EdgeInsets.only(left: 8.dw),
         useButtonSizeOnly: false,
-        onPressed: isShowingNotes
-            ? () => widget.showNotesCallback(widget.day)
-            : isShowingTotals
-                ? () => widget.showTotalsCallback(widget.day)
-                : () => widget.cancelCallback(-1));
+        onPressed: isShowingTotals
+            ? () => widget.showTotalsCallback(widget.day)
+            : () => widget.cancelCallback(-1));
   }
 }

@@ -149,7 +149,7 @@ class RectTappedRippleEffectPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final rect = Rect.fromCenter(
         center: center,
-        width: size.width * (useButtonSizeOnly ? 0 : 1.45),
+        width: size.width * (useButtonSizeOnly ? 0 : 1.25),
         height: size.height * (useButtonSizeOnly ? 0 : 1.25));
     final paint = Paint()..color = highlightColor ?? Colors.transparent;
     canvas.drawRect(rect, paint);
