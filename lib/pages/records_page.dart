@@ -205,13 +205,13 @@ class _RecordsPageState extends State<RecordsPage> {
             children: [
               AppText(
                 'Total Income',
-                size: 16.dw,
+                size: 14.dw,
                 family: kFontFam2,
               ),
               AppText(
                 supplements.getIncomeTotal(day),
                 weight: FontWeight.bold,
-                size: 16.dw,
+                size: 14.dw,
                 color: AppColors.positive,
                 family: kFontFam2,
               ),
@@ -222,13 +222,13 @@ class _RecordsPageState extends State<RecordsPage> {
             children: [
               AppText(
                 'Total Expenses',
-                size: 16.dw,
+                size: 14.dw,
                 family: kFontFam2,
               ),
               AppText(
                 supplements.getExpensesTotal(day),
                 weight: FontWeight.bold,
-                size: 16.dw,
+                size: 14.dw,
                 color: AppColors.negative,
                 family: kFontFam2,
               ),

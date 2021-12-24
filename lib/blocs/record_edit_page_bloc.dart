@@ -63,8 +63,26 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
     _updateAttributes(category: category);
   }
 
-  void updateAmount(String a) =>
-      _updateAttributes(amount: a.trim().isEmpty ? 0 : double.parse(a));
+  void updateAmount(String amount) {
+    emit(RecordEditPageState.loading(
+        state.categoryList, state.category, state.form));
+    final _amount = double.tryParse(amount);
+    if (amount.trim().isEmpty) {
+      final form = state.form.copyWith(amount: 0, errors: {});
+      emit(RecordEditPageState.content(
+          state.categoryList, state.category, form));
+      return;
+    }
+    if (_amount == null) {
+      final error = {'amount': 'Invalid amount is entered'};
+      final form = state.form.copyWith(errors: error);
+      emit(RecordEditPageState.content(
+          state.categoryList, state.category, form));
+      return;
+    }
+    final form = state.form.copyWith(amount: _amount, errors: {});
+    emit(RecordEditPageState.content(state.categoryList, state.category, form));
+  }
 
   void updateNotes(String notes) => _updateAttributes(notes: notes);
 

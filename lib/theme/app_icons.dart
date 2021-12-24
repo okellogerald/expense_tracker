@@ -116,6 +116,6 @@ class AppIcons {
   static const IconData ball =
       IconData(0xe835, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 
-  static IconData fromCodePoint(int codepoint) =>
-      IconData(codepoint, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static IconData getIcon(int codePoint) =>
+      IconData(codePoint, fontFamily: 'AppIcons', fontPackage: null);
 }

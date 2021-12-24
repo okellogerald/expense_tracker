@@ -128,7 +128,7 @@ class _AppTextButtonState extends State<AppTextButton>
     return AppText(widget.text ?? 'Click Me',
         size: widget.fontSize ?? 15.dw,
         family: kFontFam2,
-        weight: widget.isBolded ? FontWeight.bold : FontWeight.normal,
+        weight: /* widget.isBolded ? FontWeight.bold : */ FontWeight.bold,
         color: widget.textColor ?? Colors.black);
   }
 
@@ -149,7 +149,7 @@ class RectTappedRippleEffectPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final rect = Rect.fromCenter(
         center: center,
-        width: size.width * (useButtonSizeOnly ? 0 : 1.25),
+        width: size.width * (useButtonSizeOnly ? 0 : 1.1),
         height: size.height * (useButtonSizeOnly ? 0 : 1.25));
     final paint = Paint()..color = highlightColor ?? Colors.transparent;
     canvas.drawRect(rect, paint);

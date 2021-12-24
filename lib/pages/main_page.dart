@@ -11,7 +11,8 @@ class Homepage extends StatelessWidget {
           valueListenable: bottomBarCurrentIndexNotifier,
           builder: (context, index, child) {
             if (index == 0) return const RecordsPage();
-            return const CategoriesPage();
+            if (index == 1) return const CategoriesPage();
+            return const BudgetPage();
           }),
       bottomNavigationBar: _buildBottomNavBar(),
     );

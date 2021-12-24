@@ -10,8 +10,8 @@ const kExpense = 'expense';
 const kIncome = 'income';
 const kFontFam4 = 'Louis';
 const kFontFam3 = 'Outfit';
-const kFontFam5 = 'Glacial';
-const kFontFam2 = 'KumbhSans';
+const kFontFam2 = 'Glacial';
+const kFontFam5 = 'KumbhSans';
 
 const kAddCategoryPosition = 'add_category_position';
 const kWithTotalsList = 'with_totals_list';

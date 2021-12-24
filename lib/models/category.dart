@@ -25,7 +25,7 @@ class Category extends HiveObject {
 
   factory Category.empty() => Category();
 
-  IconData get getIcon => AppIcons.fromCodePoint(codePoint);
+  IconData get getIcon => AppIcons.getIcon(codePoint);
 
   Category copyWith({String? id, String? title, int? codePoint, String? type}) {
     return Category(

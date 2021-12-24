@@ -12,6 +12,7 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
   final PreferencesService prefsService;
 
   final _dummyId = '-1';
+  final _dummyDay = -1;
 
   void init() {
     emit(RecordsPageState.loading(state.recordList, state.supplements));
@@ -32,9 +33,17 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
     recordsService.delete(id);
   }
 
-  void updateId(String id) => _updateSupplements(id: id);
+  void updateId(String id) {
+    emit(RecordsPageState.loading(state.recordList, state.supplements));
+    final supplements = state.supplements.copyWith(day: _dummyDay, id: id);
+    emit(RecordsPageState.content(state.recordList, supplements));
+  }
 
-  void updateDay(int day) => _updateSupplements(day: day);
+  void updateDay(int day) {
+    emit(RecordsPageState.loading(state.recordList, state.supplements));
+    final supplements = state.supplements.copyWith(day: day, id: _dummyId);
+    emit(RecordsPageState.content(state.recordList, supplements));
+  }
 
   void showWithDayTotals(int day) => _updateDayTotalsVisibility(day, true);
 
@@ -50,17 +59,8 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
       withTotalsDays = prefsService.removeFromWithTotalsPrefs(day);
     }
     var supplements = state.supplements;
-    supplements = supplements.copyWith(withTotalsDays: withTotalsDays, day: -1);
-    emit(RecordsPageState.content(state.recordList, supplements));
-  }
-
-  void _updateSupplements({int? day, String? id}) {
-    emit(RecordsPageState.loading(state.recordList, state.supplements));
-    var supplements = state.supplements;
-    supplements = supplements.copyWith(
-      day: day ?? supplements.day,
-      id: id ?? supplements.id,
-    );
+    supplements =
+        supplements.copyWith(withTotalsDays: withTotalsDays, day: _dummyDay);
     emit(RecordsPageState.content(state.recordList, supplements));
   }
 
@@ -71,6 +71,7 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
     final supplements = state.supplements.copyWith(
         totalRecords: totalRecords,
         id: _dummyId,
+        day: _dummyDay,
         totalsMap: data[kAllDaysTotals]);
     emit(RecordsPageState.content(recordList, supplements));
   }

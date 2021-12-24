@@ -47,7 +47,7 @@ class _RecordTileState extends State<RecordTile> {
                   children: [
                     Icon(record.category.getIcon,
                         color: Colors.white70, size: 18.dw),
-                    SizedBox(width: 10.dw),
+                    SizedBox(width: 20.dw),
                     AppText(
                       category.title,
                       family: kFontFam2,
@@ -59,7 +59,7 @@ class _RecordTileState extends State<RecordTile> {
                 AppText(
                   record.getAmount,
                   family: kFontFam2,
-                  size: 16.dw,
+                  size: 15.dw,
                   color: category.type == kIncome
                       ? AppColors.positive
                       : AppColors.negative,

@@ -95,50 +95,12 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   }
 
   _buildTextField(Supplements supplements) {
-    controller.text = supplements.title;
-    controller.selection = TextSelection.fromPosition(
-        TextPosition(offset: controller.text.length));
-    final hasError = supplements.errors.isNotEmpty;
-    final border = hasError ? errorBorder : _inputBorder;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 40.dh,
-          child: TextField(
-              controller: controller,
-              onChanged: bloc.updateTitle,
-              textCapitalization: TextCapitalization.words,
-              style: const TextStyle(
-                  color: AppColors.textColor, fontFamily: kFontFam2),
-              cursorColor: AppColors.textColor,
-              decoration: InputDecoration(
-                  hintText: 'Type category title here',
-                  hintStyle: const TextStyle(
-                      color: AppColors.textColor2, fontFamily: kFontFam2),
-                  fillColor: Colors.white.withOpacity(.25),
-                  filled: true,
-                  isDense: true,
-                  border: border,
-                  focusedBorder: border,
-                  enabledBorder: border,
-                  contentPadding:
-                      EdgeInsets.only(left: 10.dw, top: 12.dw, bottom: 8.dw))),
-        ),
-        hasError
-            ? Padding(
-                padding: EdgeInsets.only(top: 8.dw),
-                child: AppText(
-                  supplements.errors['title'],
-                  color: AppColors.errorColor,
-                  family: kFontFam2,
-                  size: 16.dw,
-                ),
-              )
-            : Container()
-      ],
-    );
+    return AppTextField(
+        errors: supplements.errors,
+        text: supplements.title,
+        onChanged: bloc.updateTitle,
+        hintText: 'Type category title here',
+        keyboardType: TextInputType.name);
   }
 
   _buildOptions(Supplements supplements) {
@@ -210,7 +172,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                     color:
                         isSelected ? AppColors.accentColor : Colors.transparent,
                     child: Icon(
-                      AppIcons.fromCodePoint(codePoint),
+                      AppIcons.getIcon(codePoint),
                       color: isSelected ? Colors.white : Colors.black,
                     )),
               );
@@ -238,12 +200,4 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
       ),
     );
   }
-
-  final _inputBorder = const UnderlineInputBorder(
-      borderSide: BorderSide(width: 0.0, color: Colors.transparent),
-      borderRadius: BorderRadius.zero);
-
-  final errorBorder = const OutlineInputBorder(
-      borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(width: 1.2, color: Colors.white70));
 }

@@ -199,14 +199,14 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   }
 
   _buildAmountTextField(RecordEditPageForm form) {
-    final amount = form.amount == 0.0 ? '' : form.amount.toString();
     return AppTextField(
       onChanged: bloc.updateAmount,
-      text: amount,
+      text: form.amount.toString(),
       errors: form.errors,
       hintText: '0',
       letterSpacing: 1.4,
       keyboardType: TextInputType.number,
+      errorName: 'amount',
     );
   }
 

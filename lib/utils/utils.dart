@@ -95,4 +95,5 @@ class Utils {
 
     return money + (decimals.length == 2 ? '${decimals}0' : decimals);
   }
+
 }

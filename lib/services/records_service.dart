@@ -45,8 +45,7 @@ class RecordsService {
       final amountsList = _getTotalAmountsByDay(day);
       amountsMap[day] = amountsList;
     }
-    log(amountsMap.toString());
-    return amountsMap;
+     return amountsMap;
   }
 
   TotalRecords getTotalAmounts() {

@@ -8,6 +8,7 @@ class AppTextField extends StatefulWidget {
       this.maxLines = 1,
       required this.hintText,
       required this.keyboardType,
+      this.errorName = 'title',
       this.letterSpacing,
       Key? key})
       : super(key: key);
@@ -16,7 +17,7 @@ class AppTextField extends StatefulWidget {
   final String? text;
   final ValueChanged<String> onChanged;
   final int maxLines;
-  final String hintText;
+  final String hintText, errorName;
   final double? letterSpacing;
   final TextInputType keyboardType;
 
@@ -42,7 +43,7 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final hasError = widget.errors.containsKey('text');
+    final hasError = widget.errors.containsKey(widget.errorName);
     final border = hasError ? errorBorder : _inputBorder;
 
     return Column(
@@ -61,12 +62,16 @@ class _AppTextFieldState extends State<AppTextField> {
                 color: AppColors.textColor,
                 fontFamily: kFontFam2,
                 letterSpacing: widget.letterSpacing,
+                fontSize: 14.dw,
               ),
               cursorColor: AppColors.textColor,
               decoration: InputDecoration(
                   hintText: widget.hintText,
-                  hintStyle: const TextStyle(
-                      color: AppColors.textColor2, fontFamily: kFontFam2),
+                  hintStyle: TextStyle(
+                    color: AppColors.textColor2,
+                    fontFamily: kFontFam2,
+                    fontSize: 14.dw,
+                  ),
                   fillColor: Colors.white.withOpacity(.25),
                   filled: true,
                   isDense: true,
@@ -80,7 +85,7 @@ class _AppTextFieldState extends State<AppTextField> {
             ? Padding(
                 padding: EdgeInsets.only(top: 8.dw),
                 child: AppText(
-                  widget.errors['text']!,
+                  widget.errors[widget.errorName]!,
                   color: AppColors.errorColor,
                   family: kFontFam2,
                   size: 16.dw,
