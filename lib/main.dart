@@ -11,12 +11,14 @@ void main() async {
     ..init(directory.path)
     ..registerAdapter(CategoryAdapter())
     ..registerAdapter(RecordAdapter())
+    ..registerAdapter(BudgetAdapter())
     ..registerAdapter(TotalRecordsAdapter());
 
   await Hive.openBox(kCategories);
   await Hive.openBox(kPreferences);
   await Hive.openBox(kTotalRecords);
   await Hive.openBox(kRecords);
+  await Hive.openBox(kBudgets);
 
   IconCodePointGenerator.generate(54);
 
@@ -27,6 +29,7 @@ void main() async {
       Provider<CategoriesService>(create: (_) => CategoriesService()),
       Provider<PreferencesService>(create: (_) => PreferencesService()),
       Provider<RecordsService>(create: (_) => RecordsService()),
+      Provider<BudgetsService>(create: (_) => BudgetsService()),
     ],
     child: const MyApp(),
   );

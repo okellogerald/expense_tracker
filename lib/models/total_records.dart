@@ -20,7 +20,8 @@ class TotalRecords extends HiveObject {
     this.totalIncome = 0,
   });
 
-  TotalRecords copyWith({double? budget, double? totalIncome, double? totalExpenses}) =>
+  TotalRecords copyWith(
+          {double? budget, double? totalIncome, double? totalExpenses}) =>
       TotalRecords(
         budget: budget ?? this.budget,
         totalExpenses: totalExpenses ?? this.totalExpenses,
@@ -30,4 +31,6 @@ class TotalRecords extends HiveObject {
   String get getIncome => Utils.convertToMoneyFormat(totalIncome);
   String get getExpenses => Utils.convertToMoneyFormat(totalExpenses);
   String get getBudget => Utils.convertToMoneyFormat(budget);
+  String get getBalance =>
+      Utils.convertToMoneyFormat(totalIncome - totalExpenses);
 }

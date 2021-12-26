@@ -88,9 +88,10 @@ class _RecordsPageState extends State<RecordsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildBudgetAmount('Income', supplements.totalRecords.getIncome),
-              _buildBudgetAmount('Budget', supplements.totalRecords.getBudget),
               _buildBudgetAmount(
                   'Expenses', supplements.totalRecords.getExpenses),
+              _buildBudgetAmount(
+                  'Balance', supplements.totalRecords.getBalance),
             ],
           )
         ],
@@ -210,7 +211,6 @@ class _RecordsPageState extends State<RecordsPage> {
               ),
               AppText(
                 supplements.getIncomeTotal(day),
-                weight: FontWeight.bold,
                 size: 14.dw,
                 color: AppColors.positive,
                 family: kFontFam2,
@@ -227,7 +227,6 @@ class _RecordsPageState extends State<RecordsPage> {
               ),
               AppText(
                 supplements.getExpensesTotal(day),
-                weight: FontWeight.bold,
                 size: 14.dw,
                 color: AppColors.negative,
                 family: kFontFam2,
@@ -253,6 +252,8 @@ class _RecordsPageState extends State<RecordsPage> {
           AppText(text.toUpperCase(), size: 15.dw, color: AppColors.textColor2),
           AppText(amount,
               size: 13.dw,
+              family: kFontFam2,
+              isBolded: true,
               color: !isExpense ? AppColors.positive : AppColors.negative)
         ],
       ),

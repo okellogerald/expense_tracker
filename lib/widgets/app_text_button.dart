@@ -19,6 +19,7 @@ class AppTextButton extends StatefulWidget {
       this.useButtonSizeOnly = true,
       this.isBolded = false,
       this.withIcon = false,
+      this.useFullWidth = false,
       required this.onPressed,
       this.duration = const Duration(milliseconds: 200),
       this.borderRadius,
@@ -40,7 +41,7 @@ class AppTextButton extends StatefulWidget {
   final EdgeInsetsGeometry? margin;
   final String? text;
   final double? fontSize;
-  final bool isBolded, withIcon, useButtonSizeOnly;
+  final bool isBolded, withIcon, useButtonSizeOnly, useFullWidth;
   final Widget? child;
   final Alignment? alignment;
 
@@ -81,7 +82,9 @@ class _AppTextButtonState extends State<AppTextButton>
           onTap: () => controller.forward(),
           child: Container(
               height: widget.height,
-              width: widget.width,
+              width: widget.useFullWidth
+                  ? ScreenSizeConfig.getDeviceSize.width
+                  : widget.width,
               margin: widget.margin ?? EdgeInsets.zero,
               padding: widget.padding ?? EdgeInsets.zero,
               alignment: widget.alignment ?? Alignment.center,
@@ -128,7 +131,7 @@ class _AppTextButtonState extends State<AppTextButton>
     return AppText(widget.text ?? 'Click Me',
         size: widget.fontSize ?? 15.dw,
         family: kFontFam2,
-        weight: /* widget.isBolded ? FontWeight.bold : */ FontWeight.bold,
+        isBolded: true,
         color: widget.textColor ?? Colors.black);
   }
 

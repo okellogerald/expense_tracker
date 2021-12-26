@@ -2,11 +2,11 @@ import '../source.dart';
 
 class AppText extends StatelessWidget {
   const AppText(this.data,
-      {this.weight = FontWeight.w400,
-      this.size,
+      {this.size,
       this.family,
       this.color = AppColors.textColor,
       this.alignment = TextAlign.justify,
+      this.isBolded = false,
       this.maxLines,
       this.height,
       this.letterSpacing,
@@ -15,7 +15,7 @@ class AppText extends StatelessWidget {
 
   final double? size;
   final int? maxLines;
-  final FontWeight weight;
+  final bool isBolded;
   final String data;
   final String? family;
   final Color color;
@@ -28,9 +28,9 @@ class AppText extends StatelessWidget {
       padding: EdgeInsets.only(top: 0.dw),
       child: Text(data,
           textAlign: alignment,
-          maxLines: maxLines,
+          maxLines: maxLines ?? 10,
           style: TextStyle(
-              fontWeight: weight,
+              fontWeight: isBolded ? FontWeight.w600 : FontWeight.w400,
               fontSize: size ?? 20.dw,
               color: color,
               fontFamily: family,

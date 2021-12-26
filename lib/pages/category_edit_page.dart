@@ -116,35 +116,10 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   _buildOption(String text, String type, String currentType) {
     final isSelected = currentType == type;
 
-    return GestureDetector(
-      onTap: () => bloc.updateType(type.toLowerCase()),
-      child: Container(
-        color: Colors.white.withOpacity(.0),
-        padding: EdgeInsets.only(top: 8.dh),
-        child: Row(children: [
-          Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.white70),
-                shape: BoxShape.circle,
-              ),
-              padding: EdgeInsets.all(3.dw),
-              child: _buildCircle(
-                  isSelected ? AppColors.accentColor : AppColors.textColor2)),
-          SizedBox(width: 15.dw),
-          AppText(text, size: 14.dw, family: kFontFam2)
-        ]),
-      ),
-    );
-  }
-
-  Widget _buildCircle(Color color) {
-    return Container(
-        height: 11.dw,
-        width: 11.dw,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-        ));
+    return OptionCircle(
+        onTap: () => bloc.updateType(type.toLowerCase()),
+        option: text,
+        isSelected: isSelected);
   }
 
   _buildCategoryIcons(Supplements supplements) {

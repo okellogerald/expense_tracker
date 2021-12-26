@@ -3,14 +3,15 @@ import 'source.dart';
 const kCategories = 'categories_box';
 const kPreferences = 'preferences_box';
 const kPrefs = 'preferences';
+const kCategoryAmounts = 'category_amounts';
 const kRecords = 'records';
+const kBudgets = 'budgets';
 const kTotalRecords = 'total_records';
 const kAllDaysTotals = 'all_days_total_amounts';
 const kExpense = 'expense';
 const kIncome = 'income';
-const kFontFam4 = 'Louis';
-const kFontFam3 = 'Outfit';
-const kFontFam2 = 'Glacial';
+
+const kFontFam2 = 'Louis';
 const kFontFam5 = 'KumbhSans';
 
 const kAddCategoryPosition = 'add_category_position';

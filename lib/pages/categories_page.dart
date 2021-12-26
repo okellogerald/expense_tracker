@@ -44,7 +44,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget _buildContent(List<Category> categoryList, Supplements supplements) {
     final isAtTheTop = supplements.position == AddCategoryWidgetPosition.top;
 
-    return ListView(children: [
+    return ListView(
+      padding: EdgeInsets.only(top: 30.dh),
+      children: [
       isAtTheTop ? _buildAddCategoryTile(supplements) : Container(),
       isAtTheTop ? Container() : SizedBox(height: 20.dh),
       _buildIncomeCategories(categoryList, supplements.id),

@@ -83,7 +83,7 @@ class _RecordTileState extends State<RecordTile> {
               widget.record.notes,
               color: AppColors.textColor3,
               size: 16.dw,
-              family: kFontFam4,
+              family: kFontFam2,
             ),
           )
         : Container();
@@ -111,7 +111,7 @@ class _RecordTileState extends State<RecordTile> {
               'Created at $strHour : $strMinutes $time.',
               color: AppColors.textColor3,
               size: 14.dw,
-              family: kFontFam4,
+              family: kFontFam2,
             ),
           )
         : Container();
