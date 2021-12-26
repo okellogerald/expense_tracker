@@ -20,6 +20,16 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   late final CategoriesPageBloc bloc;
   final scrollController = ScrollController();
 
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
+
   @override
   void initState() {
     categoryService = Provider.of<CategoriesService>(context, listen: false);
@@ -77,7 +87,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppText('${isEditing ? 'Edit' : 'New'} Category',
-            size: 24.dw, color: AppColors.textColor),
+            size: 24.dw, color: appColors.textColor),
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
@@ -90,7 +100,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   _buildSectionTitle(String text, {double? topOffset}) {
     return Padding(
       padding: EdgeInsets.only(top: topOffset ?? 60.dh, bottom: 5.dh),
-      child: AppText(text, size: 18.dw, color: AppColors.textColor2),
+      child: AppText(text, size: 18.dw, color: appColors.textColor2),
     );
   }
 
@@ -165,7 +175,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
             onPressed: () {
               isEditing ? bloc.editCategory() : bloc.addCategory();
             },
-            buttonColor: AppColors.primaryColor,
+            buttonColor: appColors.primaryColor,
             margin: EdgeInsets.only(bottom: 20.dh),
             text: isEditing ? 'Edit' : 'Add',
             isBolded: true,

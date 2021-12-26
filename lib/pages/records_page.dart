@@ -12,6 +12,16 @@ class _RecordsPageState extends State<RecordsPage> {
   late final RecordsService recordsService;
   late final PreferencesService prefsService;
 
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
+
   @override
   void initState() {
     recordsService = Provider.of<RecordsService>(context, listen: false);
@@ -74,12 +84,13 @@ class _RecordsPageState extends State<RecordsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppText('December, 2021',
-                  color: AppColors.textColor, size: 22.dw),
+                  color: appColors.textColor, size: 22.dw),
               AppIconButton(
                 icon: Icons.settings,
                 iconSize: 24.dw,
-                iconColor: AppColors.primaryColor,
-                onPressed: () {},
+                iconColor: appColors.primaryColor,
+                onPressed: /* () => SettingsPage.navigateTo(context) */ themeProvider
+                    .changeTheme,
               )
             ],
           ),
@@ -105,10 +116,10 @@ class _RecordsPageState extends State<RecordsPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.speaker_notes_off, color: Colors.white54),
+                 Icon(Icons.speaker_notes_off, color: appColors.iconColor),
                 SizedBox(height: 20.dh),
                 AppText('Records you add shall be added here.',
-                    color: AppColors.textColor3, size: 14.dw)
+                    color: appColors.textColor3, size: 14.dw)
               ],
             ),
           )
@@ -161,7 +172,7 @@ class _RecordsPageState extends State<RecordsPage> {
                             child: AppIconButton(
                               onPressed: () => bloc.updateDay(day),
                               icon: Icons.more_horiz,
-                              iconColor: Colors.white70,
+                              iconColor: appColors.iconColor,
                               spreadRadius: 25.dw,
                             ),
                           )
@@ -169,7 +180,7 @@ class _RecordsPageState extends State<RecordsPage> {
                   ],
                 ),
                 Container(
-                  color: AppColors.backgroundColor2,
+                  color: appColors.backgroundColor2,
                   child: Column(
                     children: recordList
                         .map((e) => RecordTile(
@@ -198,7 +209,7 @@ class _RecordsPageState extends State<RecordsPage> {
       padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 5.dh),
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: AppColors.dividerColor, width: 2.dw))),
+              bottom: BorderSide(color: appColors.dividerColor, width: 2.dw))),
       child: Column(
         children: [
           Row(
@@ -212,7 +223,7 @@ class _RecordsPageState extends State<RecordsPage> {
               AppText(
                 supplements.getIncomeTotal(day),
                 size: 14.dw,
-                color: AppColors.positive,
+                color: appColors.positiveColor,
                 family: kFontFam2,
               ),
             ],
@@ -228,7 +239,7 @@ class _RecordsPageState extends State<RecordsPage> {
               AppText(
                 supplements.getExpensesTotal(day),
                 size: 14.dw,
-                color: AppColors.negative,
+                color: appColors.negativeColor,
                 family: kFontFam2,
               ),
             ],
@@ -245,16 +256,18 @@ class _RecordsPageState extends State<RecordsPage> {
       width: 125.dw,
       padding: EdgeInsets.symmetric(vertical: 5.dh),
       alignment: Alignment.center,
-      color: AppColors.secondaryColor,
+      color: appColors.secondaryColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AppText(text.toUpperCase(), size: 15.dw, color: AppColors.textColor2),
+          AppText(text.toUpperCase(), size: 15.dw, color: appColors.textColor2),
           AppText(amount,
               size: 13.dw,
               family: kFontFam2,
               isBolded: true,
-              color: !isExpense ? AppColors.positive : AppColors.negative)
+              color: !isExpense
+                  ? appColors.positiveColor
+                  : appColors.negativeColor)
         ],
       ),
     );
@@ -278,7 +291,7 @@ class _RecordsPageState extends State<RecordsPage> {
   _buildFloatingActionButton() {
     return AppIconButton(
       onPressed: () => RecordsEditPage.navigateTo(context),
-      buttonColor: AppColors.primaryColor,
+      buttonColor: appColors.primaryColor,
       icon: Icons.add,
       iconColor: Colors.black,
       height: 55.dw,

@@ -30,6 +30,7 @@ void main() async {
       Provider<PreferencesService>(create: (_) => PreferencesService()),
       Provider<RecordsService>(create: (_) => RecordsService()),
       Provider<BudgetsService>(create: (_) => BudgetsService()),
+      ChangeNotifierProvider(create: (_) => ThemeProvider()),
     ],
     child: const MyApp(),
   );

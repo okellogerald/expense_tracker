@@ -24,6 +24,16 @@ class _CategoriesPageState extends State<CategoriesPage> {
     super.initState();
   }
 
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoriesPageBloc, CategoriesPageState>(
@@ -44,9 +54,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget _buildContent(List<Category> categoryList, Supplements supplements) {
     final isAtTheTop = supplements.position == AddCategoryWidgetPosition.top;
 
-    return ListView(
-      padding: EdgeInsets.only(top: 30.dh),
-      children: [
+    return ListView(padding: EdgeInsets.only(top: 30.dh), children: [
       isAtTheTop ? _buildAddCategoryTile(supplements) : Container(),
       isAtTheTop ? Container() : SizedBox(height: 20.dh),
       _buildIncomeCategories(categoryList, supplements.id),
@@ -70,10 +78,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
         Padding(
           padding: EdgeInsets.only(left: 10.dw, bottom: 5.dh),
           child: AppText('Income Categories',
-              size: 20.dw, color: AppColors.textColor),
+              size: 20.dw, color: appColors.textColor),
         ),
         Container(
-            color: AppColors.backgroundColor2,
+            color: appColors.backgroundColor2,
             child: Column(
                 children: categoryList
                     .where((e) => e.type == kIncome)
@@ -97,10 +105,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
         Padding(
           padding: EdgeInsets.only(left: 10.dw, bottom: 5.dh, top: 30.dh),
           child: AppText('Expenses Categories',
-              size: 20.dw, color: AppColors.textColor),
+              size: 20.dw, color: appColors.textColor),
         ),
         Container(
-            color: AppColors.backgroundColor2,
+            color: appColors.backgroundColor2,
             child: Column(
                 children: categoryList
                     .where((e) => e.type == kExpense)

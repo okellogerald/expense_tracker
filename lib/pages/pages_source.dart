@@ -5,3 +5,4 @@ export 'category_edit_page.dart';
 export 'budget_edit_page.dart';
 export 'records_edit_page.dart';
 export 'budget_page.dart';
+export 'settings_page.dart';

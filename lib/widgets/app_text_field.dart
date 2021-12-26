@@ -28,6 +28,17 @@ class AppTextField extends StatefulWidget {
 class _AppTextFieldState extends State<AppTextField> {
   final controller = TextEditingController();
 
+  
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
+
   @override
   void initState() {
     final text = widget.text ?? '';
@@ -59,16 +70,16 @@ class _AppTextFieldState extends State<AppTextField> {
               keyboardType: widget.keyboardType,
               textCapitalization: TextCapitalization.sentences,
               style: TextStyle(
-                color: AppColors.textColor,
+                color: appColors.textColor,
                 fontFamily: kFontFam2,
                 letterSpacing: widget.letterSpacing,
                 fontSize: 14.dw,
               ),
-              cursorColor: AppColors.textColor,
+              cursorColor: appColors.textColor,
               decoration: InputDecoration(
                   hintText: widget.hintText,
                   hintStyle: TextStyle(
-                    color: AppColors.textColor2,
+                    color: appColors.textColor2,
                     fontFamily: kFontFam2,
                     fontSize: 14.dw,
                   ),

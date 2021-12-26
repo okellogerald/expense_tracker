@@ -22,6 +22,16 @@ class RecordTile extends StatefulWidget {
 class _RecordTileState extends State<RecordTile> {
   bool isShowingMore = false;
 
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     final record = widget.record;
@@ -46,13 +56,13 @@ class _RecordTileState extends State<RecordTile> {
                 Row(
                   children: [
                     Icon(record.category.getIcon,
-                        color: Colors.white70, size: 18.dw),
+                        color: appColors.iconColor, size: 18.dw),
                     SizedBox(width: 20.dw),
                     AppText(
                       category.title,
                       family: kFontFam2,
                       size: 16.dw,
-                      color: AppColors.textColor2,
+                      color: appColors.textColor2,
                     )
                   ],
                 ),
@@ -61,8 +71,8 @@ class _RecordTileState extends State<RecordTile> {
                   family: kFontFam2,
                   size: 15.dw,
                   color: category.type == kIncome
-                      ? AppColors.positive
-                      : AppColors.negative,
+                      ? appColors.positiveColor
+                      : appColors.negativeColor,
                 )
               ],
             ),
@@ -81,7 +91,7 @@ class _RecordTileState extends State<RecordTile> {
             padding: EdgeInsets.only(top: 8.dh),
             child: AppText(
               widget.record.notes,
-              color: AppColors.textColor3,
+              color: appColors.textColor3,
               size: 16.dw,
               family: kFontFam2,
             ),
@@ -109,7 +119,7 @@ class _RecordTileState extends State<RecordTile> {
             padding: EdgeInsets.only(top: hasNoNotes ? 10.dh : 5.dh),
             child: AppText(
               'Created at $strHour : $strMinutes $time.',
-              color: AppColors.textColor3,
+              color: appColors.textColor3,
               size: 14.dw,
               family: kFontFam2,
             ),
@@ -149,7 +159,7 @@ class _RecordTileState extends State<RecordTile> {
         text: text,
         margin: EdgeInsets.only(left: isChangingNotesVisibility ? 0 : 20.dw),
         borderColor: Colors.transparent,
-        textColor: AppColors.primaryColor,
+        textColor: appColors.primaryColor,
         useButtonSizeOnly: false,
         onPressed: isEditing
             ? () => widget.editCallback()
@@ -173,7 +183,8 @@ class _RecordTileState extends State<RecordTile> {
     });
   }
 
-  static const _selectedBorder = BorderSide(width: 1.0, color: Colors.white54);
+  static final _selectedBorder =
+      BorderSide(width: 1.0, color: appColors.dividerColor);
   static const _unSelectedBorder =
       BorderSide(width: 0.0, color: Colors.transparent);
 }

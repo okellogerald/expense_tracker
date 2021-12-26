@@ -20,6 +20,16 @@ class DayText extends StatefulWidget {
 }
 
 class _DayTextState extends State<DayText> {
+  
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,7 +37,7 @@ class _DayTextState extends State<DayText> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText(widget.text, color: AppColors.textColor2, size: 18.dw),
+          AppText(widget.text, color: appColors.textColor2, size: 18.dw),
           _buildActionButtons(),
         ],
       ),
@@ -58,7 +68,7 @@ class _DayTextState extends State<DayText> {
     return AppTextButton(
         text: text,
         borderColor: Colors.transparent,
-        textColor: AppColors.primaryColor,
+        textColor: appColors.primaryColor,
         margin: EdgeInsets.only(left: 8.dw),
         useButtonSizeOnly: false,
         onPressed: isShowingTotals

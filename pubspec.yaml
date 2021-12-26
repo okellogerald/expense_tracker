@@ -34,15 +34,12 @@ flutter:
      - family: Gramatika
        fonts:
          - asset: fonts/Gramatika.ttf
-     - family: KumbhSans
+     - family: Porpora
        fonts:
-         - asset: fonts/KumbhSans.ttf
+         - asset: fonts/Porpora.ttf
      - family: Louis
        fonts:
          - asset: fonts/Louis.ttf
-     - family: Glacial
-       fonts:
-         - asset: fonts/Glacial.otf
      - family: AppIcons
        fonts:
          - asset: fonts/AppIcons.ttf

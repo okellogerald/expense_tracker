@@ -21,6 +21,16 @@ class CategoryTile extends StatefulWidget {
 }
 
 class _CategoryTileState extends State<CategoryTile> {
+  
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     final isSelected = widget.isSelected;
@@ -44,12 +54,12 @@ class _CategoryTileState extends State<CategoryTile> {
                           ? Icons.tag
                           : widget.category.getIcon,
                       size: 20.dw,
-                      color: Colors.white70),
+                      color: appColors.iconColor),
                   SizedBox(width: 20.dw),
                   AppText(
                     widget.category.title,
                     size: 16.dw,
-                    color: AppColors.textColor2,
+                    color: appColors.textColor2,
                     family: kFontFam2,
                   ),
                   const Spacer(),
@@ -57,7 +67,7 @@ class _CategoryTileState extends State<CategoryTile> {
                       ? AppIconButton(
                           onPressed: _onTap,
                           icon: Icons.more_horiz,
-                          iconColor: Colors.white70,
+                          iconColor: appColors.iconColor,
                           spreadRadius: 25.dw,
                         )
                       : Container(),
@@ -90,7 +100,7 @@ class _CategoryTileState extends State<CategoryTile> {
         text: text,
         margin: EdgeInsets.only(left: 20.dw),
         borderColor: Colors.transparent,
-        textColor: AppColors.primaryColor,
+        textColor: appColors.primaryColor,
         useButtonSizeOnly: false,
         onPressed: () => onPressed());
   }
@@ -99,7 +109,7 @@ class _CategoryTileState extends State<CategoryTile> {
     widget.changeSelectedIdCallback(widget.category.id);
   }
 
-  static const _selectedBorder = BorderSide(width: 1.0, color: Colors.white70);
+  static final _selectedBorder = BorderSide(width: 1.0, color: appColors.dividerColor);
   static const _unSelectedBorder =
       BorderSide(width: 0.0, color: Colors.transparent);
 }

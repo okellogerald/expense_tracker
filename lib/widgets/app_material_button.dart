@@ -28,10 +28,11 @@ class _AppMaterialButtonState extends State<AppMaterialButton>
   @override
   void initState() {
     super.initState();
+    final appColors = Provider.of<AppColors>(context, listen: false);
     controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300));
     animation = ColorTween(
-            begin: AppColors.backgroundColor, end: Colors.grey.withOpacity(.10))
+            begin: appColors.backgroundColor, end: Colors.grey.withOpacity(.10))
         .animate(controller)
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) controller.reverse();

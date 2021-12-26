@@ -54,6 +54,16 @@ class _AppTextButtonState extends State<AppTextButton>
   late final AnimationController controller;
   late final Animation<Color?> animation;
 
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
+
   @override
   void initState() {
     controller = AnimationController(
@@ -119,7 +129,7 @@ class _AppTextButtonState extends State<AppTextButton>
         : widget.withIcon
             ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Icon(widget.icon ?? Icons.share,
-                    color: widget.iconColor ?? AppColors.secondaryColor,
+                    color: widget.iconColor ?? appColors.secondaryColor,
                     size: 22.dw),
                 SizedBox(width: 15.dw),
                 _text(),

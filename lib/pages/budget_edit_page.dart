@@ -15,6 +15,16 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
   late final CategoriesService categoriesService;
   late final BudgetsService budgetsService;
 
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
+
   @override
   void initState() {
     categoriesService = Provider.of<CategoriesService>(context, listen: false);
@@ -75,7 +85,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
-          iconColor: Colors.white70,
+          iconColor: appColors.iconColor,
         )
       ],
     );
@@ -136,7 +146,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
           AppText(
             category.title,
             size: 16.dw,
-            color: AppColors.textColor,
+            color: appColors.textColor,
             family: kFontFam2,
           ),
           SizedBox(height: 5.dh),
@@ -182,12 +192,13 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(AppIcons.getIcon(category.codePoint), color: Colors.white54),
+            Icon(AppIcons.getIcon(category.codePoint),
+                color: appColors.iconColor),
             SizedBox(height: 10.dh),
             AppText(
               category.title,
               size: 15.dw,
-              color: AppColors.textColor2,
+              color: appColors.textColor2,
               family: kFontFam2,
             ),
           ],
@@ -213,7 +224,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
             text: 'Custom Duration ?',
             alignment: Alignment.centerRight,
             borderColor: Colors.transparent,
-            textColor: AppColors.primaryColor,
+            textColor: appColors.primaryColor,
             useButtonSizeOnly: false,
             onPressed: () => BudgetEditPage.navigateTo(context)));
   }
@@ -224,7 +235,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       height: 40.dh,
       margin: EdgeInsets.only(top: 30.dh),
       borderColor: Colors.transparent,
-      buttonColor: AppColors.primaryColor,
+      buttonColor: appColors.primaryColor,
       onPressed: bloc.uploadBudgets,
     );
   }
@@ -252,12 +263,12 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         children: [
           AppText(
             title,
-            color: AppColors.textColor,
+            color: appColors.textColor,
             size: 17.dw,
           ),
           AppText(
             description,
-            color: AppColors.textColor2,
+            color: appColors.textColor2,
             size: 16.dw,
             family: kFontFam2,
             maxLines: 10,

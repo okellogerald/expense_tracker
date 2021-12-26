@@ -11,12 +11,22 @@ class _BudgetPageState extends State<BudgetPage> {
   late final BudgetPageBloc bloc;
   late final BudgetsService service;
 
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
   @override
   void initState() {
     service = Provider.of<BudgetsService>(context, listen: false);
     bloc = BudgetPageBloc(service);
     bloc.init();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
   }
 
   @override
@@ -95,8 +105,7 @@ class _BudgetPageState extends State<BudgetPage> {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white.withOpacity(.0),
-          border:
-              const Border(bottom: BorderSide(color: AppColors.dividerColor))),
+          border: Border(bottom: BorderSide(color: appColors.dividerColor))),
       padding:
           EdgeInsets.only(left: 15.dw, bottom: 5.dh, right: 15.dw, top: 5.dh),
       child: Column(
@@ -109,7 +118,7 @@ class _BudgetPageState extends State<BudgetPage> {
                 children: [
                   Icon(
                     AppIcons.getIcon(category.codePoint),
-                    color: Colors.white70,
+                    color: appColors.iconColor,
                     size: 20.dw,
                   ),
                   SizedBox(width: 15.dw),
@@ -123,7 +132,7 @@ class _BudgetPageState extends State<BudgetPage> {
               AppIconButton(
                 onPressed: () {},
                 icon: Icons.more_horiz,
-                iconColor: Colors.white70,
+                iconColor: appColors.iconColor,
                 spreadRadius: 25.dw,
               )
             ],
@@ -133,12 +142,12 @@ class _BudgetPageState extends State<BudgetPage> {
                   budget.duration.toString() + ' days',
                   family: kFontFam2,
                   size: 18.dw,
-                  color: AppColors.textColor2,
+                  color: appColors.textColor2,
                 )
               : Container(),
-          _buildBudgetAmounts('Budget', budget.getAmount, AppColors.textColor),
-          _buildBudgetAmounts('Used', budget.getAmount, AppColors.negative),
-          _buildBudgetAmounts('Balance', budget.getAmount, AppColors.positive)
+          _buildBudgetAmounts('Budget', budget.getAmount, appColors.textColor),
+          _buildBudgetAmounts('Used', budget.getAmount, appColors.negativeColor),
+          _buildBudgetAmounts('Balance', budget.getAmount, appColors.positiveColor)
         ],
       ),
     );
@@ -152,7 +161,7 @@ class _BudgetPageState extends State<BudgetPage> {
           title,
           family: kFontFam2,
           size: 16.dw,
-          color: AppColors.textColor2,
+          color: appColors.textColor2,
         ),
         AppText(
           amount,
@@ -171,18 +180,16 @@ class _BudgetPageState extends State<BudgetPage> {
         child: AppText(
           'The budgets you create shall appear here.',
           size: 15.dw,
-          color: AppColors.textColor2,
+          color: appColors.textColor2,
         ),
       ),
     );
   }
 
- 
-
   _buildFloatingActionButton() {
     return AppIconButton(
       onPressed: () => BudgetEditPage.navigateTo(context),
-      buttonColor: AppColors.primaryColor,
+      buttonColor: appColors.primaryColor,
       icon: Icons.add,
       iconColor: Colors.black,
       height: 55.dw,
