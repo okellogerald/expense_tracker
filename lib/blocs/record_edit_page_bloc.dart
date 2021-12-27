@@ -59,7 +59,7 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
   void updateCategory(Category c) => _updateAttributes(category: c);
 
   void updateType(String type) {
-    final category = _dummyCategory.copyWith(type: type);
+    final category = _dummyCategory.copyWith(type: type.toLowerCase());
     _updateAttributes(category: category);
   }
 

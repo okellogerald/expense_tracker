@@ -28,7 +28,6 @@ class AppTextField extends StatefulWidget {
 class _AppTextFieldState extends State<AppTextField> {
   final controller = TextEditingController();
 
-  
   static var themeProvider = ThemeProvider();
   static var appColors = AppColors('Light');
 
@@ -83,7 +82,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     fontFamily: kFontFam2,
                     fontSize: 14.dw,
                   ),
-                  fillColor: Colors.white.withOpacity(.25),
+                  fillColor: appColors.backgroundColor2,
                   filled: true,
                   isDense: true,
                   border: border,

@@ -105,7 +105,9 @@ class _BudgetPageState extends State<BudgetPage> {
     return Container(
       decoration: BoxDecoration(
           color: Colors.white.withOpacity(.0),
-          border: Border(bottom: BorderSide(color: appColors.dividerColor))),
+          border: Border(
+              bottom: BorderSide(
+                  width: 1.5, color: appColors.dividerColor.withOpacity(.5)))),
       padding:
           EdgeInsets.only(left: 15.dw, bottom: 5.dh, right: 15.dw, top: 5.dh),
       child: Column(
@@ -170,6 +172,7 @@ class _BudgetPageState extends State<BudgetPage> {
           family: kFontFam2,
           size: 16.dw,
           color: color,
+          isBolded: true,
         )
       ],
     );

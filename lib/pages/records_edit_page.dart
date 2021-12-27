@@ -105,7 +105,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
-          iconColor: Colors.white70,
+          iconColor: appColors.iconColor,
         )
       ],
     );
@@ -135,12 +135,15 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   _buildOptions(Category category) {
     final type = category.type;
 
-    return Row(
-      children: [
-        _buildOption('Income', type, kIncome),
-        SizedBox(width: 30.dw),
-        _buildOption('Expense', type, kExpense),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(top: 10.dh),
+      child: Row(
+        children: [
+          _buildOption('Income', type, kIncome),
+          SizedBox(width: 30.dw),
+          _buildOption('Expense', type, kExpense),
+        ],
+      ),
     );
   }
 
@@ -157,7 +160,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
           height: 160.dh,
           width: ScreenSizeConfig.getDeviceSize.width,
           margin: EdgeInsets.only(top: 20.dh, bottom: hasErrors ? 0 : 40.dh),
-          color: Colors.white54,
+          color: appColors.backgroundColor2,
           child: GridView.count(
               crossAxisCount: 2,
               shrinkWrap: true,
@@ -253,34 +256,9 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   _buildOption(String text, String currentType, String type) {
     final isSelected = currentType == type;
 
-    return GestureDetector(
-      onTap: () => bloc.updateType(type.toLowerCase()),
-      child: Container(
-        color: Colors.white.withOpacity(.0),
-        padding: EdgeInsets.only(top: 8.dh),
-        child: Row(children: [
-          Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: Colors.white70),
-                shape: BoxShape.circle,
-              ),
-              padding: EdgeInsets.all(3.dw),
-              child: _buildCircle(
-                  isSelected ? AppColors.accentColor : appColors.textColor2)),
-          SizedBox(width: 15.dw),
-          AppText(text, size: 14.dw, family: kFontFam2)
-        ]),
-      ),
-    );
-  }
-
-  Widget _buildCircle(Color color) {
-    return Container(
-        height: 11.dw,
-        width: 11.dw,
-        decoration: BoxDecoration(
-          color: color,
-          shape: BoxShape.circle,
-        ));
+    return OptionCircle(
+        onTap: () => bloc.updateType(type),
+        isSelected: isSelected,
+        option: text);
   }
 }

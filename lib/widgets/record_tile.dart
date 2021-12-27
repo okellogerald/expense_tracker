@@ -70,6 +70,7 @@ class _RecordTileState extends State<RecordTile> {
                   record.getAmount,
                   family: kFontFam2,
                   size: 15.dw,
+                  isBolded: true,
                   color: category.type == kIncome
                       ? appColors.positiveColor
                       : appColors.negativeColor,
@@ -91,7 +92,7 @@ class _RecordTileState extends State<RecordTile> {
             padding: EdgeInsets.only(top: 8.dh),
             child: AppText(
               widget.record.notes,
-              color: appColors.textColor3,
+              color: appColors.textColor2,
               size: 16.dw,
               family: kFontFam2,
             ),

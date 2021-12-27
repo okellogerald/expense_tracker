@@ -23,12 +23,12 @@ class AppColors {
   AppColors(this.currentTheme) {
     final isDark = currentTheme == 'Dark';
 
-    primaryColor = isDark ? const Color(0xff97BFB4) : const Color(0xff1863D6);
+    primaryColor = isDark ? const Color(0xff97BFB4) : const Color(0xff132F70);
     onPrimaryColor = isDark ? Colors.black : Colors.white;
     secondaryColor = isDark ? const Color(0xff433D3C) : Colors.black12;
     iconColor = isDark ? Colors.white70 : Colors.black87;
     positiveColor = isDark ? const Color(0xff77D970) : const Color(0xff116530);
-    negativeColor = isDark ? const Color(0xffF58840) : const Color(0xffFF2511);
+    negativeColor = const Color(0xffF58840);
     textColor = isDark ? Colors.white : Colors.black;
     textColor2 = isDark ? Colors.white70 : Colors.black87;
     textColor3 = isDark ? Colors.white60 : Colors.black54;

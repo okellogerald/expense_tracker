@@ -70,6 +70,7 @@ class _HomepageState extends State<Homepage> {
                       SizedBox(height: 5.dw),
                       AppText(
                         text,
+                        isBolded: isActive,
                         color: isActive
                             ? appColors.primaryColor
                             : appColors.iconColor,

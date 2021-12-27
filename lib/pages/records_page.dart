@@ -62,40 +62,41 @@ class _RecordsPageState extends State<RecordsPage> {
       List<Record> recordsList, RecordsPageSupplements supplements) {
     return CustomScrollView(
       slivers: [
-        SliverFillRemaining(
-          child: Column(
-            children: [
-              _buildTitle(supplements),
-              _buildRecords(recordsList, supplements),
-            ],
-          ),
-        )
+        _buildTitles(supplements),
+        recordsList.isEmpty
+            ? _buildEmptyList()
+            : _buildRecords(recordsList, supplements)
       ],
     );
   }
 
-  _buildTitle(RecordsPageSupplements supplements) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(10.dw, 30.dh, 10.dw, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppText('December, 2021',
-                  color: appColors.textColor, size: 22.dw, isBolded: true,),
-              AppIconButton(
-                icon: Icons.settings,
-                iconSize: 24.dw,
-                iconColor: appColors.primaryColor,
-                onPressed: /* () => SettingsPage.navigateTo(context) */ themeProvider
-                    .changeTheme,
-              )
-            ],
-          ),
-          SizedBox(height: 12.dh),
-          Row(
+  _buildTitles(RecordsPageSupplements supplements) {
+    return SliverAppBar(
+      backgroundColor: appColors.backgroundColor,
+      title: AppText(
+        'December, 2021',
+        family: 'Gramatika',
+        color: appColors.textColor,
+        size: 24.dw,
+      ),
+      actions: [
+        AppIconButton(
+          icon: Icons.settings,
+          margin: EdgeInsets.only(right: 15.dw),
+          iconSize: 24.dw,
+          iconColor: appColors.primaryColor,
+          onPressed: /* () => SettingsPage.navigateTo(context) */ themeProvider
+              .changeTheme,
+        )
+      ],
+      pinned: true,
+      floating: true,
+      toolbarHeight: 40.dh,
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(45.dh),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.dw),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildBudgetAmount('Income', supplements.totalRecords.getIncome),
@@ -104,35 +105,41 @@ class _RecordsPageState extends State<RecordsPage> {
               _buildBudgetAmount(
                   'Balance', supplements.totalRecords.getBalance),
             ],
-          )
+          ),
+        ),
+      ),
+    );
+  }
+
+  _buildEmptyList() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.speaker_notes_off, color: appColors.iconColor),
+          SizedBox(height: 20.dh),
+          AppText('Records you add shall be added here.',
+              color: appColors.textColor3, size: 14.dw)
         ],
       ),
     );
   }
 
   _buildRecords(List<Record> recordsList, RecordsPageSupplements supplements) {
-    return recordsList.isEmpty
-        ? Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                 Icon(Icons.speaker_notes_off, color: appColors.iconColor),
-                SizedBox(height: 20.dh),
-                AppText('Records you add shall be added here.',
-                    color: appColors.textColor3, size: 14.dw)
-              ],
-            ),
-          )
-        : Expanded(
-            child: ListView.builder(
-                itemCount: Utils.getDaysInMonth(),
-                padding: EdgeInsets.only(top: 30.dh, bottom: 90.dh),
-                itemBuilder: (_, i) {
-                  final index = Utils.getDaysInMonth() - i + 1;
-                  final recordList =
-                      recordsList.where((e) => e.date.day == index).toList();
-                  return _buildDayRecords(recordList, index, supplements);
-                }));
+    return SliverPadding(
+      padding: EdgeInsets.only(bottom: 90.dh, top: 20.dh),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, i) {
+            final index = Utils.getDaysInMonth() - i + 1;
+            final recordList =
+                recordsList.where((e) => e.date.day == index).toList();
+            return _buildDayRecords(recordList, index, supplements);
+          },
+          childCount: Utils.getDaysInMonth(),
+        ),
+      ),
+    );
   }
 
   Widget _buildDayRecords(
@@ -225,6 +232,7 @@ class _RecordsPageState extends State<RecordsPage> {
                 size: 14.dw,
                 color: appColors.positiveColor,
                 family: kFontFam2,
+                isBolded: true,
               ),
             ],
           ),
@@ -241,6 +249,7 @@ class _RecordsPageState extends State<RecordsPage> {
                 size: 14.dw,
                 color: appColors.negativeColor,
                 family: kFontFam2,
+                isBolded: true,
               ),
             ],
           )
