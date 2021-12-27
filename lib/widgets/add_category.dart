@@ -57,7 +57,6 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
                 width: 200.dw,
                 height: 40.dw,
                 text: 'Add Category',
-                textColor: Colors.black,
                 buttonColor: appColors.primaryColor,
               ),
               !isTapped

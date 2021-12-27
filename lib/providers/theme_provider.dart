@@ -7,9 +7,8 @@ class ThemeProvider extends ChangeNotifier {
     if (_theme == 'Dark') {
       _theme = 'Light';
     } else {
-      _theme == 'Dark';
+      _theme = 'Dark';
     }
-    log('done');
     notifyListeners();
   }
 

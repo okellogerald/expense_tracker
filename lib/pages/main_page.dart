@@ -65,14 +65,14 @@ class _HomepageState extends State<Homepage> {
                       Icon(icon,
                           size: 22,
                           color: isActive
-                              ? appColors.textColor
-                              : appColors.textColor2),
+                              ? appColors.primaryColor
+                              : appColors.iconColor),
                       SizedBox(height: 5.dw),
                       AppText(
                         text,
                         color: isActive
-                            ? appColors.textColor
-                            : appColors.textColor2,
+                            ? appColors.primaryColor
+                            : appColors.iconColor,
                         size: 14.dw,
                       )
                     ]);

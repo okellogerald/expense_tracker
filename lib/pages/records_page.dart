@@ -84,7 +84,7 @@ class _RecordsPageState extends State<RecordsPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppText('December, 2021',
-                  color: appColors.textColor, size: 22.dw),
+                  color: appColors.textColor, size: 22.dw, isBolded: true,),
               AppIconButton(
                 icon: Icons.settings,
                 iconSize: 24.dw,
@@ -293,7 +293,7 @@ class _RecordsPageState extends State<RecordsPage> {
       onPressed: () => RecordsEditPage.navigateTo(context),
       buttonColor: appColors.primaryColor,
       icon: Icons.add,
-      iconColor: Colors.black,
+      iconColor: appColors.onPrimaryColor,
       height: 55.dw,
       width: 55.dw,
       spreadRadius: 30.dw,

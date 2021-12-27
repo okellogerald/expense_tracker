@@ -8,6 +8,7 @@ class AppColors {
 
   final String currentTheme;
   late Color primaryColor,
+      onPrimaryColor,
       secondaryColor,
       iconColor,
       textColor,
@@ -22,17 +23,17 @@ class AppColors {
   AppColors(this.currentTheme) {
     final isDark = currentTheme == 'Dark';
 
-    primaryColor = isDark ? const Color(0xff97BFB4) : const Color(0xff1ba891);
-    secondaryColor = isDark ? const Color(0xff433D3C) : const Color(0xffE4E5E8);
+    primaryColor = isDark ? const Color(0xff97BFB4) : const Color(0xff1863D6);
+    onPrimaryColor = isDark ? Colors.black : Colors.white;
+    secondaryColor = isDark ? const Color(0xff433D3C) : Colors.black12;
     iconColor = isDark ? Colors.white70 : Colors.black87;
-    positiveColor = isDark ? const Color(0xff77D970) : const Color(0xff013A20);
-    negativeColor = isDark ? const Color(0xffF58840) : const Color(0xffD8581C);
+    positiveColor = isDark ? const Color(0xff77D970) : const Color(0xff116530);
+    negativeColor = isDark ? const Color(0xffF58840) : const Color(0xffFF2511);
     textColor = isDark ? Colors.white : Colors.black;
     textColor2 = isDark ? Colors.white70 : Colors.black87;
     textColor3 = isDark ? Colors.white60 : Colors.black54;
-    dividerColor = isDark ? const Color(0xffDBDDD0) : Colors.black45;
-    backgroundColor =
-        isDark ? const Color(0xff191919) : const Color(0xffF7F8F8);
-    backgroundColor2 = isDark ? Colors.white12 : Colors.black12;
+    dividerColor = isDark ? const Color(0xffDBDDD0) : Colors.black87;
+    backgroundColor = isDark ? const Color(0xff191919) : Colors.white;
+    backgroundColor2 = isDark ? Colors.white12 : Colors.grey.shade100;
   }
 }

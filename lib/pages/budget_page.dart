@@ -81,11 +81,11 @@ class _BudgetPageState extends State<BudgetPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 15.dw),
+            padding: EdgeInsets.only(left: 15.dw, bottom: 10.dh),
             child: AppText(title, size: 22.dw),
           ),
           Container(
-            color: Colors.white12,
+            color: appColors.backgroundColor2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: list.map((e) => _buildBudget(e)).toList(),
@@ -146,8 +146,10 @@ class _BudgetPageState extends State<BudgetPage> {
                 )
               : Container(),
           _buildBudgetAmounts('Budget', budget.getAmount, appColors.textColor),
-          _buildBudgetAmounts('Used', budget.getAmount, appColors.negativeColor),
-          _buildBudgetAmounts('Balance', budget.getAmount, appColors.positiveColor)
+          _buildBudgetAmounts(
+              'Used', budget.getAmount, appColors.negativeColor),
+          _buildBudgetAmounts(
+              'Balance', budget.getAmount, appColors.positiveColor)
         ],
       ),
     );
@@ -191,7 +193,7 @@ class _BudgetPageState extends State<BudgetPage> {
       onPressed: () => BudgetEditPage.navigateTo(context),
       buttonColor: appColors.primaryColor,
       icon: Icons.add,
-      iconColor: Colors.black,
+      iconColor: appColors.onPrimaryColor,
       height: 55.dw,
       width: 55.dw,
       spreadRadius: 30.dw,
