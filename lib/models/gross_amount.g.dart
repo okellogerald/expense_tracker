@@ -1,44 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'budget.dart';
+part of 'gross_amount.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class BudgetAdapter extends TypeAdapter<Budget> {
+class GrossAmountAdapter extends TypeAdapter<GrossAmount> {
   @override
-  final int typeId = 1;
+  final int typeId = 5;
 
   @override
-  Budget read(BinaryReader reader) {
+  GrossAmount read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Budget(
-      category: fields[0] as Category,
+    return GrossAmount(
+      id: fields[0] as String,
       amount: fields[1] as double,
-      id: fields[2] as String,
-      duration: fields[3] as int,
-      used: fields[4] as double,
+      lastDate: fields[2] as DateTime,
+      title: fields[3] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Budget obj) {
+  void write(BinaryWriter writer, GrossAmount obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
-      ..write(obj.category)
+      ..write(obj.id)
       ..writeByte(1)
       ..write(obj.amount)
       ..writeByte(2)
-      ..write(obj.id)
+      ..write(obj.lastDate)
       ..writeByte(3)
-      ..write(obj.duration)
-      ..writeByte(4)
-      ..write(obj.used);
+      ..write(obj.title);
   }
 
   @override
@@ -47,7 +44,7 @@ class BudgetAdapter extends TypeAdapter<Budget> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BudgetAdapter &&
+      other is GrossAmountAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

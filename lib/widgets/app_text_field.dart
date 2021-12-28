@@ -72,7 +72,7 @@ class _AppTextFieldState extends State<AppTextField> {
                 color: appColors.textColor,
                 fontFamily: kFontFam2,
                 letterSpacing: widget.letterSpacing,
-                fontSize: 14.dw,
+                fontSize: 16.dw,
               ),
               cursorColor: appColors.textColor,
               decoration: InputDecoration(

@@ -70,7 +70,8 @@ class Utils {
     String stringVersion = number.toString();
     final index = stringVersion.indexOf('.');
     final decimals = stringVersion.substring(index, stringVersion.length);
-    stringVersion = stringVersion.substring(0, index);
+    final isNegative = stringVersion.startsWith('-');
+    stringVersion = stringVersion.substring(isNegative ? 1 : 0, index);
 
     for (int i = 0; i < stringVersion.length / 3; i++) {
       final length = stringVersion.length;
@@ -84,7 +85,9 @@ class Utils {
 
     pieces.add(stringVersion);
 
-    if (pieces.length == 1) return pieces.first.toString() + '.00';
+    if (pieces.length == 1) {
+      return (isNegative ? '- ' : '') + pieces.first.toString() + '.00';
+    }
 
     final reversedList = pieces.reversed.toList();
     String money = '';
@@ -93,7 +96,8 @@ class Utils {
       money = i == reversedList.length - 1 ? money + v : money + v + ',';
     }
 
-    return money + (decimals.length == 2 ? '${decimals}0' : decimals);
+    return (isNegative ? '-' : '') +
+        money +
+        (decimals.length == 2 ? '${decimals}0' : decimals);
   }
-
 }

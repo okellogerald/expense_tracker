@@ -6,13 +6,14 @@ class CategoryTile extends StatefulWidget {
       required this.isSelected,
       required this.changeSelectedIdCallback,
       required this.deleteCallback,
+      required this.isUndeletable,
       required this.cancelCallback,
       required this.editCallback,
       Key? key})
       : super(key: key);
 
   final Category category;
-  final bool isSelected;
+  final bool isSelected, isUndeletable;
   final VoidCallback editCallback, cancelCallback, deleteCallback;
   final ValueChanged<String> changeSelectedIdCallback;
 
@@ -21,7 +22,6 @@ class CategoryTile extends StatefulWidget {
 }
 
 class _CategoryTileState extends State<CategoryTile> {
-  
   static var themeProvider = ThemeProvider();
   static var appColors = AppColors('Light');
 
@@ -31,6 +31,7 @@ class _CategoryTileState extends State<CategoryTile> {
     appColors = AppColors(themeProvider.getCurrentTheme);
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
     final isSelected = widget.isSelected;
@@ -87,7 +88,9 @@ class _CategoryTileState extends State<CategoryTile> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 _buildTextButton('Edit', widget.editCallback),
-                _buildTextButton('Delete', widget.deleteCallback),
+                widget.isUndeletable
+                    ? Container()
+                    : _buildTextButton('Delete', widget.deleteCallback),
                 _buildTextButton('Close', widget.cancelCallback)
               ],
             ),
@@ -109,7 +112,8 @@ class _CategoryTileState extends State<CategoryTile> {
     widget.changeSelectedIdCallback(widget.category.id);
   }
 
-  static final _selectedBorder = BorderSide(width: 1.0, color: appColors.dividerColor);
+  static final _selectedBorder =
+      BorderSide(width: 1.0, color: appColors.dividerColor);
   static const _unSelectedBorder =
       BorderSide(width: 0.0, color: Colors.transparent);
 }

@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'supplements.dart';
+part of 'category_form.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,18 +14,19 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$SupplementsTearOff {
-  const _$SupplementsTearOff();
+class _$CategoryFormTearOff {
+  const _$CategoryFormTearOff();
 
-  _Supplements call(
+  _CategoryForm call(
       {String id = '-1',
       String title = '',
       bool isEditing = false,
       String type = kIncome,
       int codePoint = -1,
       AddCategoryWidgetPosition position = AddCategoryWidgetPosition.top,
-      Map<String, dynamic> errors = const {}}) {
-    return _Supplements(
+      Map<String, dynamic> errors = const {},
+      List<String> undeletableCategories = const []}) {
+    return _CategoryForm(
       id: id,
       title: title,
       isEditing: isEditing,
@@ -33,15 +34,16 @@ class _$SupplementsTearOff {
       codePoint: codePoint,
       position: position,
       errors: errors,
+      undeletableCategories: undeletableCategories,
     );
   }
 }
 
 /// @nodoc
-const $Supplements = _$SupplementsTearOff();
+const $CategoryForm = _$CategoryFormTearOff();
 
 /// @nodoc
-mixin _$Supplements {
+mixin _$CategoryForm {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   bool get isEditing => throw _privateConstructorUsedError;
@@ -49,17 +51,18 @@ mixin _$Supplements {
   int get codePoint => throw _privateConstructorUsedError;
   AddCategoryWidgetPosition get position => throw _privateConstructorUsedError;
   Map<String, dynamic> get errors => throw _privateConstructorUsedError;
+  List<String> get undeletableCategories => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $SupplementsCopyWith<Supplements> get copyWith =>
+  $CategoryFormCopyWith<CategoryForm> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SupplementsCopyWith<$Res> {
-  factory $SupplementsCopyWith(
-          Supplements value, $Res Function(Supplements) then) =
-      _$SupplementsCopyWithImpl<$Res>;
+abstract class $CategoryFormCopyWith<$Res> {
+  factory $CategoryFormCopyWith(
+          CategoryForm value, $Res Function(CategoryForm) then) =
+      _$CategoryFormCopyWithImpl<$Res>;
   $Res call(
       {String id,
       String title,
@@ -67,16 +70,17 @@ abstract class $SupplementsCopyWith<$Res> {
       String type,
       int codePoint,
       AddCategoryWidgetPosition position,
-      Map<String, dynamic> errors});
+      Map<String, dynamic> errors,
+      List<String> undeletableCategories});
 }
 
 /// @nodoc
-class _$SupplementsCopyWithImpl<$Res> implements $SupplementsCopyWith<$Res> {
-  _$SupplementsCopyWithImpl(this._value, this._then);
+class _$CategoryFormCopyWithImpl<$Res> implements $CategoryFormCopyWith<$Res> {
+  _$CategoryFormCopyWithImpl(this._value, this._then);
 
-  final Supplements _value;
+  final CategoryForm _value;
   // ignore: unused_field
-  final $Res Function(Supplements) _then;
+  final $Res Function(CategoryForm) _then;
 
   @override
   $Res call({
@@ -87,6 +91,7 @@ class _$SupplementsCopyWithImpl<$Res> implements $SupplementsCopyWith<$Res> {
     Object? codePoint = freezed,
     Object? position = freezed,
     Object? errors = freezed,
+    Object? undeletableCategories = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -117,16 +122,20 @@ class _$SupplementsCopyWithImpl<$Res> implements $SupplementsCopyWith<$Res> {
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      undeletableCategories: undeletableCategories == freezed
+          ? _value.undeletableCategories
+          : undeletableCategories // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$SupplementsCopyWith<$Res>
-    implements $SupplementsCopyWith<$Res> {
-  factory _$SupplementsCopyWith(
-          _Supplements value, $Res Function(_Supplements) then) =
-      __$SupplementsCopyWithImpl<$Res>;
+abstract class _$CategoryFormCopyWith<$Res>
+    implements $CategoryFormCopyWith<$Res> {
+  factory _$CategoryFormCopyWith(
+          _CategoryForm value, $Res Function(_CategoryForm) then) =
+      __$CategoryFormCopyWithImpl<$Res>;
   @override
   $Res call(
       {String id,
@@ -135,18 +144,19 @@ abstract class _$SupplementsCopyWith<$Res>
       String type,
       int codePoint,
       AddCategoryWidgetPosition position,
-      Map<String, dynamic> errors});
+      Map<String, dynamic> errors,
+      List<String> undeletableCategories});
 }
 
 /// @nodoc
-class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
-    implements _$SupplementsCopyWith<$Res> {
-  __$SupplementsCopyWithImpl(
-      _Supplements _value, $Res Function(_Supplements) _then)
-      : super(_value, (v) => _then(v as _Supplements));
+class __$CategoryFormCopyWithImpl<$Res> extends _$CategoryFormCopyWithImpl<$Res>
+    implements _$CategoryFormCopyWith<$Res> {
+  __$CategoryFormCopyWithImpl(
+      _CategoryForm _value, $Res Function(_CategoryForm) _then)
+      : super(_value, (v) => _then(v as _CategoryForm));
 
   @override
-  _Supplements get _value => super._value as _Supplements;
+  _CategoryForm get _value => super._value as _CategoryForm;
 
   @override
   $Res call({
@@ -157,8 +167,9 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
     Object? codePoint = freezed,
     Object? position = freezed,
     Object? errors = freezed,
+    Object? undeletableCategories = freezed,
   }) {
-    return _then(_Supplements(
+    return _then(_CategoryForm(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -187,21 +198,26 @@ class __$SupplementsCopyWithImpl<$Res> extends _$SupplementsCopyWithImpl<$Res>
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      undeletableCategories: undeletableCategories == freezed
+          ? _value.undeletableCategories
+          : undeletableCategories // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_Supplements implements _Supplements {
-  const _$_Supplements(
+class _$_CategoryForm implements _CategoryForm {
+  const _$_CategoryForm(
       {this.id = '-1',
       this.title = '',
       this.isEditing = false,
       this.type = kIncome,
       this.codePoint = -1,
       this.position = AddCategoryWidgetPosition.top,
-      this.errors = const {}});
+      this.errors = const {},
+      this.undeletableCategories = const []});
 
   @JsonKey()
   @override
@@ -224,24 +240,29 @@ class _$_Supplements implements _Supplements {
   @JsonKey()
   @override
   final Map<String, dynamic> errors;
+  @JsonKey()
+  @override
+  final List<String> undeletableCategories;
 
   @override
   String toString() {
-    return 'Supplements(id: $id, title: $title, isEditing: $isEditing, type: $type, codePoint: $codePoint, position: $position, errors: $errors)';
+    return 'CategoryForm(id: $id, title: $title, isEditing: $isEditing, type: $type, codePoint: $codePoint, position: $position, errors: $errors, undeletableCategories: $undeletableCategories)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Supplements &&
+            other is _CategoryForm &&
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.title, title) &&
             const DeepCollectionEquality().equals(other.isEditing, isEditing) &&
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.codePoint, codePoint) &&
             const DeepCollectionEquality().equals(other.position, position) &&
-            const DeepCollectionEquality().equals(other.errors, errors));
+            const DeepCollectionEquality().equals(other.errors, errors) &&
+            const DeepCollectionEquality()
+                .equals(other.undeletableCategories, undeletableCategories));
   }
 
   @override
@@ -253,23 +274,25 @@ class _$_Supplements implements _Supplements {
       const DeepCollectionEquality().hash(type),
       const DeepCollectionEquality().hash(codePoint),
       const DeepCollectionEquality().hash(position),
-      const DeepCollectionEquality().hash(errors));
+      const DeepCollectionEquality().hash(errors),
+      const DeepCollectionEquality().hash(undeletableCategories));
 
   @JsonKey(ignore: true)
   @override
-  _$SupplementsCopyWith<_Supplements> get copyWith =>
-      __$SupplementsCopyWithImpl<_Supplements>(this, _$identity);
+  _$CategoryFormCopyWith<_CategoryForm> get copyWith =>
+      __$CategoryFormCopyWithImpl<_CategoryForm>(this, _$identity);
 }
 
-abstract class _Supplements implements Supplements {
-  const factory _Supplements(
+abstract class _CategoryForm implements CategoryForm {
+  const factory _CategoryForm(
       {String id,
       String title,
       bool isEditing,
       String type,
       int codePoint,
       AddCategoryWidgetPosition position,
-      Map<String, dynamic> errors}) = _$_Supplements;
+      Map<String, dynamic> errors,
+      List<String> undeletableCategories}) = _$_CategoryForm;
 
   @override
   String get id;
@@ -286,7 +309,9 @@ abstract class _Supplements implements Supplements {
   @override
   Map<String, dynamic> get errors;
   @override
+  List<String> get undeletableCategories;
+  @override
   @JsonKey(ignore: true)
-  _$SupplementsCopyWith<_Supplements> get copyWith =>
+  _$CategoryFormCopyWith<_CategoryForm> get copyWith =>
       throw _privateConstructorUsedError;
 }

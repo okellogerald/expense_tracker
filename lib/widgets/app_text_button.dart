@@ -93,7 +93,7 @@ class _AppTextButtonState extends State<AppTextButton>
           child: Container(
               height: widget.height,
               width: widget.useFullWidth
-                  ? ScreenSizeConfig.getDeviceSize.width
+                  ? ScreenSizeConfig.getFullWidth
                   : widget.width,
               margin: widget.margin ?? EdgeInsets.zero,
               padding: widget.padding ?? EdgeInsets.zero,
@@ -140,7 +140,7 @@ class _AppTextButtonState extends State<AppTextButton>
   _text() {
     return AppText(widget.text ?? 'Click Me',
         size: widget.fontSize ?? 15.dw,
-        isBolded: false,
+        isBolded: widget.isBolded,
         color: widget.textColor ?? appColors.onPrimaryColor);
   }
 

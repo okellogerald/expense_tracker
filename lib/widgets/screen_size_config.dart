@@ -16,7 +16,8 @@ class ScreenSizeConfig {
   static final sHeight = _screenSize.height;
   static final dHeight = _designSize.height;
 
-  static Size get getDeviceSize => _designSize;
+  static double get getFullWidth => _screenSize.width;
+  static double get getFullHeight => _screenSize.height;
 
   static double getDoubleWidth(num width) => ((width * sWidth) / dWidth);
   static double getDoubleHeight(num height) => ((height * sHeight) / dHeight);

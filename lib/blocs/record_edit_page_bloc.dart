@@ -1,12 +1,15 @@
 import '../source.dart';
 
 class RecordEditPageBloc extends Cubit<RecordEditPageState> {
-  RecordEditPageBloc(this.recordsService, this.categoriesService)
+  RecordEditPageBloc(
+      this.recordsService, this.categoriesService, this.grossAmountsService)
       : super(RecordEditPageState.initial());
 
   final RecordsService recordsService;
   final CategoriesService categoriesService;
+  final GrossAmountsService grossAmountsService;
   final _dummyCategory = Category();
+  double _beforeEditAmount = 0.0;
 
   void init({Record? record}) {
     emit(RecordEditPageState.loading(
@@ -22,6 +25,7 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
         date: record.date,
       );
       category = record.category;
+      _beforeEditAmount = record.amount;
     }
     emit(RecordEditPageState.content(categoryList, category, form));
   }
@@ -31,15 +35,17 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
 
     if (state.form.errors.isNotEmpty) return;
     final form = state.form;
+    final category = state.category;
     final record = Record.empty().copyWith(
       id: form.id,
       date: form.date,
-      category: state.category,
+      category: category,
       amount: form.amount,
       notes: form.notes,
     );
     recordsService.edit(record);
-    emit(RecordEditPageState.success(state.categoryList, state.category, form));
+    grossAmountsService.editAmount(category.id, form.amount, _beforeEditAmount);
+    emit(RecordEditPageState.success(state.categoryList, category, form));
   }
 
   void add() {
@@ -47,13 +53,15 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
 
     if (state.form.errors.isNotEmpty) return;
     final form = state.form;
+    final category = state.category;
     final record = Record.empty().copyWith(
-      category: state.category,
+      category: category,
       amount: form.amount,
       notes: form.notes,
     );
     recordsService.add(record);
-    emit(RecordEditPageState.success(state.categoryList, state.category, form));
+    grossAmountsService.add(category.id, category.title, form.amount);
+    emit(RecordEditPageState.success(state.categoryList, category, form));
   }
 
   void updateCategory(Category c) => _updateAttributes(category: c);

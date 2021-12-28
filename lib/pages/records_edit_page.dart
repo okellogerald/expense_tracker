@@ -19,6 +19,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   late final RecordEditPageBloc bloc;
   late final RecordsService recordsService;
   late final CategoriesService categoriesService;
+  late final GrossAmountsService grossAmountsService;
   final controller = TextEditingController();
 
   static var themeProvider = ThemeProvider();
@@ -28,7 +29,10 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   void initState() {
     recordsService = Provider.of<RecordsService>(context, listen: false);
     categoriesService = Provider.of<CategoriesService>(context, listen: false);
-    bloc = RecordEditPageBloc(recordsService, categoriesService);
+    grossAmountsService =
+        Provider.of<GrossAmountsService>(context, listen: false);
+    bloc = RecordEditPageBloc(
+        recordsService, categoriesService, grossAmountsService);
     bloc.init(record: widget.record);
     super.initState();
   }
@@ -67,19 +71,24 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
 
   Widget _buildContent(
       List<Category> categoryList, Category category, RecordEditPageForm form) {
+    final isEditing = widget.record != null;
     return Scaffold(
       //  resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(top: 40.dw, left: 15.dw, right: 15.dw),
-          height: ScreenSizeConfig.getDeviceSize.height,
-          width: ScreenSizeConfig.getDeviceSize.width,
+          height: ScreenSizeConfig.getFullHeight,
+          width: ScreenSizeConfig.getFullWidth,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildPageTitle(),
-              _buildSectionTitle('Choose Category',
-                  topOffset: 20.dh, withButton: true),
+              _buildSectionTitle(
+                  isEditing
+                      ? 'Selected Category ( Unmodifiable )'
+                      : 'Choose Category',
+                  topOffset: 20.dh,
+                  withButton: !isEditing),
               _buildOptions(category),
               _buildCategoriesList(categoryList, category, form),
               _buildSectionTitle('Amount Used', topOffset: 20.dh),
@@ -158,7 +167,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
       children: [
         Container(
           height: 160.dh,
-          width: ScreenSizeConfig.getDeviceSize.width,
+          width: ScreenSizeConfig.getFullWidth,
           margin: EdgeInsets.only(top: 20.dh, bottom: hasErrors ? 0 : 40.dh),
           color: appColors.backgroundColor2,
           child: GridView.count(
@@ -189,20 +198,27 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   }
 
   Widget _buildCategory(Category category, bool isSelected) {
+    final isEditing = widget.record != null;
+
     return GestureDetector(
-      onTap: () => bloc.updateCategory(category),
+      onTap: isEditing ? () {} : () => bloc.updateCategory(category),
       child: Container(
-          color:
-              isSelected ? AppColors.accentColor : Colors.white.withOpacity(.0),
+          decoration: BoxDecoration(
+              color: Colors.white.withOpacity(.0),
+              border: Border.all(
+                  width: isSelected ? 1.5 : 0,
+                  color:
+                      isSelected ? AppColors.accentColor : Colors.transparent)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(category.codePoint == -1 ? Icons.tag : category.getIcon,
-                  color: isSelected ? Colors.white : Colors.black),
+                  color:
+                      isSelected ? appColors.iconColor : appColors.iconColor2),
               SizedBox(height: 10.dh),
               AppText(
                 category.title,
-                color: isSelected ? Colors.white : Colors.black,
+                color: isSelected ? appColors.textColor : appColors.textColor2,
                 family: kFontFam2,
                 size: 14.dw,
               )
@@ -255,9 +271,10 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
 
   _buildOption(String text, String currentType, String type) {
     final isSelected = currentType == type;
+    final isEditing = widget.record != null;
 
     return OptionCircle(
-        onTap: () => bloc.updateType(type),
+        onTap: isEditing ? () {} : () => bloc.updateType(type),
         isSelected: isSelected,
         option: text);
   }

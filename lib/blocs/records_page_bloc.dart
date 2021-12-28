@@ -1,7 +1,8 @@
 import '../source.dart';
 
 class RecordsPageBloc extends Cubit<RecordsPageState> {
-  RecordsPageBloc(this.recordsService, this.prefsService)
+  RecordsPageBloc(
+      this.recordsService, this.prefsService, this.grossAmountsService)
       : super(RecordsPageState.initial()) {
     recordsService.getRecordsStream.listen((data) {
       _handleRecordsStream(data);
@@ -10,6 +11,7 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
 
   final RecordsService recordsService;
   final PreferencesService prefsService;
+  final GrossAmountsService grossAmountsService;
 
   final _dummyId = '-1';
   final _dummyDay = -1;
@@ -28,8 +30,10 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
     emit(RecordsPageState.content(recordList, supplements));
   }
 
-  void delete(String id) {
+  void delete(String id, double amount) {
     emit(RecordsPageState.loading(state.recordList, state.supplements));
+    final record = state.recordList.where((e) => e.id == id).toList().first;
+    grossAmountsService.delete(record.category.id, amount);
     recordsService.delete(id);
   }
 

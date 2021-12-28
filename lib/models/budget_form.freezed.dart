@@ -20,13 +20,13 @@ class _$BudgetFormTearOff {
   _BudgetForm call(
       {int duration = 0,
       double amount = 0,
-      bool isDoneSelectingCategories = false,
+      bool isUsingCustomDuration = false,
       Map<String, dynamic> errors = const {},
       Map<String, double> values = const {}}) {
     return _BudgetForm(
       duration: duration,
       amount: amount,
-      isDoneSelectingCategories: isDoneSelectingCategories,
+      isUsingCustomDuration: isUsingCustomDuration,
       errors: errors,
       values: values,
     );
@@ -40,7 +40,7 @@ const $BudgetForm = _$BudgetFormTearOff();
 mixin _$BudgetForm {
   int get duration => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
-  bool get isDoneSelectingCategories => throw _privateConstructorUsedError;
+  bool get isUsingCustomDuration => throw _privateConstructorUsedError;
   Map<String, dynamic> get errors => throw _privateConstructorUsedError;
   Map<String, double> get values => throw _privateConstructorUsedError;
 
@@ -57,7 +57,7 @@ abstract class $BudgetFormCopyWith<$Res> {
   $Res call(
       {int duration,
       double amount,
-      bool isDoneSelectingCategories,
+      bool isUsingCustomDuration,
       Map<String, dynamic> errors,
       Map<String, double> values});
 }
@@ -74,7 +74,7 @@ class _$BudgetFormCopyWithImpl<$Res> implements $BudgetFormCopyWith<$Res> {
   $Res call({
     Object? duration = freezed,
     Object? amount = freezed,
-    Object? isDoneSelectingCategories = freezed,
+    Object? isUsingCustomDuration = freezed,
     Object? errors = freezed,
     Object? values = freezed,
   }) {
@@ -87,9 +87,9 @@ class _$BudgetFormCopyWithImpl<$Res> implements $BudgetFormCopyWith<$Res> {
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      isDoneSelectingCategories: isDoneSelectingCategories == freezed
-          ? _value.isDoneSelectingCategories
-          : isDoneSelectingCategories // ignore: cast_nullable_to_non_nullable
+      isUsingCustomDuration: isUsingCustomDuration == freezed
+          ? _value.isUsingCustomDuration
+          : isUsingCustomDuration // ignore: cast_nullable_to_non_nullable
               as bool,
       errors: errors == freezed
           ? _value.errors
@@ -112,7 +112,7 @@ abstract class _$BudgetFormCopyWith<$Res> implements $BudgetFormCopyWith<$Res> {
   $Res call(
       {int duration,
       double amount,
-      bool isDoneSelectingCategories,
+      bool isUsingCustomDuration,
       Map<String, dynamic> errors,
       Map<String, double> values});
 }
@@ -131,7 +131,7 @@ class __$BudgetFormCopyWithImpl<$Res> extends _$BudgetFormCopyWithImpl<$Res>
   $Res call({
     Object? duration = freezed,
     Object? amount = freezed,
-    Object? isDoneSelectingCategories = freezed,
+    Object? isUsingCustomDuration = freezed,
     Object? errors = freezed,
     Object? values = freezed,
   }) {
@@ -144,9 +144,9 @@ class __$BudgetFormCopyWithImpl<$Res> extends _$BudgetFormCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      isDoneSelectingCategories: isDoneSelectingCategories == freezed
-          ? _value.isDoneSelectingCategories
-          : isDoneSelectingCategories // ignore: cast_nullable_to_non_nullable
+      isUsingCustomDuration: isUsingCustomDuration == freezed
+          ? _value.isUsingCustomDuration
+          : isUsingCustomDuration // ignore: cast_nullable_to_non_nullable
               as bool,
       errors: errors == freezed
           ? _value.errors
@@ -166,7 +166,7 @@ class _$_BudgetForm implements _BudgetForm {
   const _$_BudgetForm(
       {this.duration = 0,
       this.amount = 0,
-      this.isDoneSelectingCategories = false,
+      this.isUsingCustomDuration = false,
       this.errors = const {},
       this.values = const {}});
 
@@ -178,7 +178,7 @@ class _$_BudgetForm implements _BudgetForm {
   final double amount;
   @JsonKey()
   @override
-  final bool isDoneSelectingCategories;
+  final bool isUsingCustomDuration;
   @JsonKey()
   @override
   final Map<String, dynamic> errors;
@@ -188,7 +188,7 @@ class _$_BudgetForm implements _BudgetForm {
 
   @override
   String toString() {
-    return 'BudgetForm(duration: $duration, amount: $amount, isDoneSelectingCategories: $isDoneSelectingCategories, errors: $errors, values: $values)';
+    return 'BudgetForm(duration: $duration, amount: $amount, isUsingCustomDuration: $isUsingCustomDuration, errors: $errors, values: $values)';
   }
 
   @override
@@ -198,8 +198,8 @@ class _$_BudgetForm implements _BudgetForm {
             other is _BudgetForm &&
             const DeepCollectionEquality().equals(other.duration, duration) &&
             const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(
-                other.isDoneSelectingCategories, isDoneSelectingCategories) &&
+            const DeepCollectionEquality()
+                .equals(other.isUsingCustomDuration, isUsingCustomDuration) &&
             const DeepCollectionEquality().equals(other.errors, errors) &&
             const DeepCollectionEquality().equals(other.values, values));
   }
@@ -209,7 +209,7 @@ class _$_BudgetForm implements _BudgetForm {
       runtimeType,
       const DeepCollectionEquality().hash(duration),
       const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(isDoneSelectingCategories),
+      const DeepCollectionEquality().hash(isUsingCustomDuration),
       const DeepCollectionEquality().hash(errors),
       const DeepCollectionEquality().hash(values));
 
@@ -223,7 +223,7 @@ abstract class _BudgetForm implements BudgetForm {
   const factory _BudgetForm(
       {int duration,
       double amount,
-      bool isDoneSelectingCategories,
+      bool isUsingCustomDuration,
       Map<String, dynamic> errors,
       Map<String, double> values}) = _$_BudgetForm;
 
@@ -232,7 +232,7 @@ abstract class _BudgetForm implements BudgetForm {
   @override
   double get amount;
   @override
-  bool get isDoneSelectingCategories;
+  bool get isUsingCustomDuration;
   @override
   Map<String, dynamic> get errors;
   @override

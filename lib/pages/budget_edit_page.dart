@@ -72,7 +72,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         idList.isNotEmpty
             ? _buildThirdOperation(categoryList, idList, form)
             : Container(),
-        idList.isNotEmpty ? _buildUploadTextButton('Add Budgets') : Container()
+        idList.isNotEmpty ? _buildUploadTextButton() : Container()
       ],
     );
   }
@@ -81,7 +81,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppText('Plan your budget', size: 23.dw),
+        AppText('Plan your budget', size: 23.dw, family: kFontFam3),
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
@@ -109,7 +109,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       children: [
         SizedBox(height: 30.dh),
         _buildBudgetSection('Choose Categories',
-            'Categories within which the selected duration applies.'),
+            'Categories within which the selected duration applies. This step applies only to unbudgetted expenses.'),
         _buildCategories(categoryList, idList),
       ],
     );
@@ -164,8 +164,11 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
   }
 
   _buildCategories(List<Category> categoryList, List<String> idList) {
-    return SizedBox(
+    return Container(
+      color: appColors.backgroundColor2,
       height: 360.dh,
+      width: ScreenSizeConfig.getFullWidth,
+      margin: EdgeInsets.only(top: 10.dh),
       child: GridView.count(
         crossAxisCount: 4,
         shrinkWrap: true,
@@ -187,18 +190,19 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         decoration: BoxDecoration(
             color: Colors.white.withOpacity(.0),
             border: Border.all(
+              width: isSelected ? 1.5 : 0,
               color: isSelected ? AppColors.accentColor : Colors.transparent,
             )),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(AppIcons.getIcon(category.codePoint),
-                color: appColors.iconColor),
+                color: isSelected ? appColors.iconColor : appColors.iconColor2),
             SizedBox(height: 10.dh),
             AppText(
               category.title,
               size: 15.dw,
-              color: appColors.textColor2,
+              color: isSelected ? appColors.textColor : appColors.textColor2,
               family: kFontFam2,
             ),
           ],
@@ -208,30 +212,62 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
   }
 
   _buildDurationActions(BudgetForm form) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildDurationOption('Daily', 1, form.duration),
-        _buildDurationOption('Weekly', 7, form.duration),
-        _buildDurationOption('Monthly', Utils.getDaysInMonth(), form.duration),
-        _buildCustomDurationButton(),
+        Row(
+          children: [
+            _buildDurationOption('Daily', 1, form.duration),
+            _buildDurationOption('Weekly', 7, form.duration),
+            _buildDurationOption(
+                'Monthly', Utils.getDaysInMonth(), form.duration),
+            _buildCustomDurationButton(form),
+          ],
+        ),
+        if (form.isUsingCustomDuration) _buildCustomDurationTextField(form)
       ],
     );
   }
 
-  _buildCustomDurationButton() {
+  _buildCustomDurationButton(BudgetForm form) {
     return Expanded(
-        child: AppTextButton(
-            text: 'Custom Duration ?',
-            alignment: Alignment.centerRight,
-            borderColor: Colors.transparent,
-            textColor: appColors.primaryColor,
-            useButtonSizeOnly: false,
-            onPressed: () => BudgetEditPage.navigateTo(context)));
+        child: form.isUsingCustomDuration
+            ? Container(
+                alignment: Alignment.centerRight,
+                child: OptionCircle(
+                  onTap: () {},
+                  isSelected: true,
+                  option: 'Custom Category',
+                ))
+            : AppTextButton(
+                text: 'Custom Duration ?',
+                alignment: Alignment.centerRight,
+                borderColor: Colors.transparent,
+                textColor: appColors.primaryColor,
+                useButtonSizeOnly: false,
+                onPressed: bloc.markAsUsingCustomDuration,
+              ));
   }
 
-  Widget _buildUploadTextButton(String text) {
+  _buildCustomDurationTextField(BudgetForm form) {
+    return Column(
+      children: [
+        SizedBox(height: 20.dh),
+        AppTextField(
+            errors: form.errors,
+            text: form.duration.toString(),
+            onChanged: bloc.updateCustomDuration,
+            hintText: '0',
+            errorName: 'duration',
+            keyboardType: TextInputType.number),
+      ],
+    );
+  }
+
+  Widget _buildUploadTextButton() {
     return AppTextButton(
-      text: text,
+      text: 'Add Budgets',
+      isBolded: true,
       height: 40.dh,
       margin: EdgeInsets.only(top: 30.dh),
       borderColor: Colors.transparent,
@@ -262,7 +298,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText(
-            title,
+            title.toUpperCase(),
             color: appColors.textColor,
             size: 17.dw,
           ),

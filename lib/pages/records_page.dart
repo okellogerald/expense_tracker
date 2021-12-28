@@ -11,9 +11,12 @@ class _RecordsPageState extends State<RecordsPage> {
   late final RecordsPageBloc bloc;
   late final RecordsService recordsService;
   late final PreferencesService prefsService;
+  late final GrossAmountsService grossAmountsService;
 
   static var themeProvider = ThemeProvider();
   static var appColors = AppColors('Light');
+
+  final scrollNotificationNotifier = ValueNotifier<double>(0.0);
 
   @override
   void didChangeDependencies() {
@@ -26,7 +29,8 @@ class _RecordsPageState extends State<RecordsPage> {
   void initState() {
     recordsService = Provider.of<RecordsService>(context, listen: false);
     prefsService = Provider.of<PreferencesService>(context, listen: false);
-    bloc = RecordsPageBloc(recordsService, prefsService);
+    grossAmountsService = Provider.of<GrossAmountsService>(context, listen: false);
+    bloc = RecordsPageBloc(recordsService, prefsService, grossAmountsService);
     bloc.init();
     super.initState();
   }
@@ -60,25 +64,36 @@ class _RecordsPageState extends State<RecordsPage> {
 
   Widget _buildContent(
       List<Record> recordsList, RecordsPageSupplements supplements) {
-    return CustomScrollView(
-      slivers: [
-        _buildTitles(supplements),
-        recordsList.isEmpty
-            ? _buildEmptyList()
-            : _buildRecords(recordsList, supplements)
-      ],
+    return NotificationListener(
+      onNotification: (ScrollNotification notification) {
+        scrollNotificationNotifier.value = notification.metrics.pixels.dh;
+        return true;
+      },
+      child: CustomScrollView(
+        slivers: [
+          _buildTitles(supplements),
+          recordsList.isEmpty
+              ? _buildEmptyList()
+              : _buildRecords(recordsList, supplements)
+        ],
+      ),
     );
   }
 
   _buildTitles(RecordsPageSupplements supplements) {
     return SliverAppBar(
       backgroundColor: appColors.backgroundColor,
-      title: AppText(
-        'December, 2021',
-        family: 'Gramatika',
-        color: appColors.textColor,
-        size: 24.dw,
-      ),
+      title: ValueListenableBuilder<double>(
+          valueListenable: scrollNotificationNotifier,
+          builder: (context, scrollValue, snapshot) {
+            return AppText(
+              'December, 2021',
+              family: 'Gramatika',
+              color:
+                  scrollValue > 40 ? Colors.transparent : appColors.textColor,
+              size: 24.dw,
+            );
+          }),
       actions: [
         AppIconButton(
           icon: Icons.settings,
@@ -91,6 +106,7 @@ class _RecordsPageState extends State<RecordsPage> {
       ],
       pinned: true,
       floating: true,
+      snap: true,
       toolbarHeight: 40.dh,
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(45.dh),
@@ -112,7 +128,7 @@ class _RecordsPageState extends State<RecordsPage> {
   }
 
   _buildEmptyList() {
-    return Expanded(
+    return SliverFillRemaining(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -261,25 +277,33 @@ class _RecordsPageState extends State<RecordsPage> {
   _buildBudgetAmount(String text, String amount) {
     final isExpense = text == 'Expenses';
 
-    return Container(
-      width: 125.dw,
-      padding: EdgeInsets.symmetric(vertical: 5.dh),
-      alignment: Alignment.center,
-      color: appColors.secondaryColor,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AppText(text.toUpperCase(), size: 15.dw, color: appColors.textColor2),
-          AppText(amount,
-              size: 13.dw,
-              family: kFontFam2,
-              isBolded: true,
-              color: !isExpense
-                  ? appColors.positiveColor
-                  : appColors.negativeColor)
-        ],
-      ),
-    );
+    return ValueListenableBuilder<double>(
+        valueListenable: scrollNotificationNotifier,
+        builder: (context, scrollValue, snapshot) {
+          return Container(
+            width: 125.dw,
+            padding: EdgeInsets.symmetric(vertical: 5.dh),
+            alignment: Alignment.center,
+            color: appColors.secondaryColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppText(text.toUpperCase(),
+                    size: 15.dw,
+                    color: scrollValue > 40
+                        ? appColors.textColor
+                        : appColors.textColor2),
+                AppText(amount,
+                    size: 13.dw,
+                    family: kFontFam2,
+                    isBolded: true,
+                    color: !isExpense
+                        ? appColors.positiveColor
+                        : appColors.negativeColor)
+              ],
+            ),
+          );
+        });
   }
 
   /* 

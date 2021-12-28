@@ -8,11 +8,12 @@ const kRecords = 'records';
 const kBudgets = 'budgets';
 const kTotalRecords = 'total_records';
 const kAllDaysTotals = 'all_days_total_amounts';
+const kGrossAmounts = 'gross_amounts';
 const kExpense = 'expense';
 const kIncome = 'income';
 
 const kFontFam2 = 'Louis';
-const kFontFam5 = 'KumbhSans';
+const kFontFam3 = 'Gramatika';
 
 const kAddCategoryPosition = 'add_category_position';
 const kWithTotalsList = 'with_totals_list';

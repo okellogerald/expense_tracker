@@ -11,6 +11,7 @@ class AppColors {
       onPrimaryColor,
       secondaryColor,
       iconColor,
+      iconColor2,
       textColor,
       textColor2,
       textColor3,
@@ -26,7 +27,8 @@ class AppColors {
     primaryColor = isDark ? const Color(0xff97BFB4) : const Color(0xff132F70);
     onPrimaryColor = isDark ? Colors.black : Colors.white;
     secondaryColor = isDark ? const Color(0xff433D3C) : Colors.black12;
-    iconColor = isDark ? Colors.white70 : Colors.black87;
+    iconColor = isDark ? Colors.white : Colors.black;
+    iconColor2 = isDark ? Colors.white70 : Colors.black87;
     positiveColor = isDark ? const Color(0xff77D970) : const Color(0xff116530);
     negativeColor = const Color(0xffF58840);
     textColor = isDark ? Colors.white : Colors.black;

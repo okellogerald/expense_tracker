@@ -9,15 +9,18 @@ class BudgetPage extends StatefulWidget {
 
 class _BudgetPageState extends State<BudgetPage> {
   late final BudgetPageBloc bloc;
-  late final BudgetsService service;
+  late final BudgetsService budgetsService;
+  late final GrossAmountsService grossAmountsService;
 
   static var themeProvider = ThemeProvider();
   static var appColors = AppColors('Light');
 
   @override
   void initState() {
-    service = Provider.of<BudgetsService>(context, listen: false);
-    bloc = BudgetPageBloc(service);
+    budgetsService = Provider.of<BudgetsService>(context, listen: false);
+    grossAmountsService =
+        Provider.of<GrossAmountsService>(context, listen: false);
+    bloc = BudgetPageBloc(budgetsService, grossAmountsService);
     bloc.init();
     super.initState();
   }
@@ -57,6 +60,7 @@ class _BudgetPageState extends State<BudgetPage> {
         _buildBudgets(budgetList, 7, 'Weekly Budgets'),
         _buildBudgets(budgetList, 1, 'Daily Budgets'),
         _buildBudgets(budgetList, 0, 'Custom Duration Budgets'),
+        SizedBox(height: 70.dh)
       ],
     );
   }
@@ -140,18 +144,20 @@ class _BudgetPageState extends State<BudgetPage> {
             ],
           ),
           hasCustomDuration
-              ? AppText(
-                  budget.duration.toString() + ' days',
-                  family: kFontFam2,
-                  size: 18.dw,
-                  color: appColors.textColor2,
+              ? Padding(
+                  padding: EdgeInsets.only(left: 35.dw),
+                  child: AppText(
+                    budget.duration.toString() + ' DAYS',
+                    family: kFontFam2,
+                    size: 16.dw,
+                    color: appColors.textColor,
+                  ),
                 )
               : Container(),
           _buildBudgetAmounts('Budget', budget.getAmount, appColors.textColor),
+          _buildBudgetAmounts('Used', budget.getUsed, appColors.negativeColor),
           _buildBudgetAmounts(
-              'Used', budget.getAmount, appColors.negativeColor),
-          _buildBudgetAmounts(
-              'Balance', budget.getAmount, appColors.positiveColor)
+              'Balance', budget.getBalance, appColors.positiveColor)
         ],
       ),
     );

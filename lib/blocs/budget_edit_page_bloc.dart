@@ -9,12 +9,16 @@ class BudgetEditPageBloc extends Cubit<BudgetEditPageState> {
 
   final _idList = <String>[];
   final _values = <String, double>{};
+  var _categoryList = <Category>[];
 
   void init() {
     emit(BudgetEditPageState.loading(
         state.categoryList, state.idList, state.form));
     final categoryList = categoriesService.getCategories();
-    final expensesList = categoryList.where((e) => e.type == kExpense).toList();
+    _categoryList = categoryList.where((e) => e.type == kExpense).toList();
+    final expensesList = _categoryList
+        .where((e) => !budgetsService.isExisting(1, e.id))
+        .toList();
     final form = state.form.copyWith(duration: 1);
     emit(BudgetEditPageState.content(expensesList, state.idList, form));
   }
@@ -22,8 +26,36 @@ class BudgetEditPageBloc extends Cubit<BudgetEditPageState> {
   void updateDuration(int duration) {
     emit(BudgetEditPageState.loading(
         state.categoryList, state.idList, state.form));
-    final form = state.form.copyWith(duration: duration);
+    final form =
+        state.form.copyWith(duration: duration, isUsingCustomDuration: false);
+    final categoryList = _categoryList
+        .where((e) => !budgetsService.isExisting(duration, e.id))
+        .toList();
+    emit(BudgetEditPageState.content(categoryList, state.idList, form));
+  }
+
+  void markAsUsingCustomDuration() {
+    emit(BudgetEditPageState.loading(
+        state.categoryList, state.idList, state.form));
+    final form = state.form.copyWith(isUsingCustomDuration: true, duration: 0);
     emit(BudgetEditPageState.content(state.categoryList, state.idList, form));
+  }
+
+  void updateCustomDuration(String duration) {
+    emit(BudgetEditPageState.loading(
+        state.categoryList, state.idList, state.form));
+    final _duration = int.tryParse(duration);
+    if (_duration == null) {
+      final form = state.form
+          .copyWith(errors: {'duration': 'invalid input for duration'});
+      emit(BudgetEditPageState.content([], state.idList, form));
+      return;
+    }
+    final form = state.form.copyWith(duration: _duration);
+    final categoryList = _categoryList
+        .where((e) => !budgetsService.isExisting(_duration, e.id))
+        .toList();
+    emit(BudgetEditPageState.content(categoryList, state.idList, form));
   }
 
   void updateIdList(String id) {
@@ -38,13 +70,6 @@ class BudgetEditPageBloc extends Cubit<BudgetEditPageState> {
     }
     final form = state.form.copyWith(values: _values);
     emit(BudgetEditPageState.content(state.categoryList, _idList, form));
-  }
-
-  void markAsDone() {
-    emit(BudgetEditPageState.loading(
-        state.categoryList, state.idList, state.form));
-    final form = state.form.copyWith(isDoneSelectingCategories: true);
-    emit(BudgetEditPageState.content(state.categoryList, state.idList, form));
   }
 
   void updateAmount(String id, String amount) {
@@ -71,10 +96,15 @@ class BudgetEditPageBloc extends Cubit<BudgetEditPageState> {
   }
 
   void uploadBudgets() {
-    if (state.form.errors.isNotEmpty) return;
-
     emit(BudgetEditPageState.loading(
         state.categoryList, state.idList, state.form));
+
+    if (state.form.duration == 0) {
+      final form =
+          state.form.copyWith(errors: {'duration': 'Duration can\'t be zero'});
+      emit(BudgetEditPageState.content(state.categoryList, state.idList, form));
+      return;
+    }
 
     for (String id in state.idList) {
       final value = state.form.values[id];

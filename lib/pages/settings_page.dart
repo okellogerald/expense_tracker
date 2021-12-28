@@ -14,7 +14,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final colors = AppColors(themeProvider.getCurrentTheme);
+    //final colors = AppColors(themeProvider.getCurrentTheme);
 
     return Scaffold(
       body: ListView(

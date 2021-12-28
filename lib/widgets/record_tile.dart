@@ -13,7 +13,8 @@ class RecordTile extends StatefulWidget {
   final Record record;
   final bool isSelected;
   final VoidCallback editCallback;
-  final ValueChanged<String> onTap, deleteCallback, cancelCallback;
+  final ValueChanged<String> onTap, cancelCallback;
+  final void Function(String, double) deleteCallback;
 
   @override
   _RecordTileState createState() => _RecordTileState();
@@ -156,6 +157,7 @@ class _RecordTileState extends State<RecordTile> {
       {bool isEditing = false,
       bool isDeleting = false,
       bool isChangingNotesVisibility = false}) {
+    final record = widget.record;
     return AppTextButton(
         text: text,
         margin: EdgeInsets.only(left: isChangingNotesVisibility ? 0 : 20.dw),
@@ -165,7 +167,7 @@ class _RecordTileState extends State<RecordTile> {
         onPressed: isEditing
             ? () => widget.editCallback()
             : isDeleting
-                ? () => widget.deleteCallback(widget.record.id)
+                ? () => widget.deleteCallback(record.id, record.amount)
                 : isChangingNotesVisibility
                     ? _changeNotesVisibility
                     : () => widget.cancelCallback('-1'));

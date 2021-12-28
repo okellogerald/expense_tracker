@@ -17,6 +17,9 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   final controller = TextEditingController();
   late final CategoriesService categoryService;
   late final PreferencesService prefsService;
+  late final GrossAmountsService grossAmountsService;
+  late final BudgetsService budgetsService;
+  late final RecordsService recordsService;
   late final CategoriesPageBloc bloc;
   final scrollController = ScrollController();
 
@@ -34,7 +37,14 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   void initState() {
     categoryService = Provider.of<CategoriesService>(context, listen: false);
     prefsService = Provider.of<PreferencesService>(context, listen: false);
-    bloc = CategoriesPageBloc(categoryService, prefsService);
+    recordsService = Provider.of<RecordsService>(context, listen: false);
+    budgetsService = Provider.of<BudgetsService>(context, listen: false);
+    bloc = CategoriesPageBloc(
+      categoryService,
+      prefsService,
+      recordsService,
+      budgetsService,
+    );
     bloc.init(category: widget.category);
     super.initState();
   }
@@ -54,11 +64,13 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
         });
   }
 
-  Widget _buildLoading(List<Category> categoryList, Supplements supplements) {
+  Widget _buildLoading(List<Category> categoryList, CategoryForm form) {
     return const CircularProgressIndicator();
   }
 
-  Widget _buildBody(List<Category> categoryList, Supplements supplements) {
+  Widget _buildBody(List<Category> categoryList, CategoryForm form) {
+    final isEditing = widget.category != null;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -68,12 +80,13 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
           children: [
             _buildPageTitle(),
             _buildSectionTitle('Title', topOffset: 20.dh),
-            _buildTextField(supplements),
-            _buildSectionTitle('Type'),
-            _buildOptions(supplements),
+            _buildTextField(form),
+            _buildSectionTitle(
+                isEditing ? 'Selected Type ( Unmodifiable )' : 'Type'),
+            _buildOptions(form),
             _buildSectionTitle('Icon'),
-            _buildCategoryIcons(supplements),
-            _buildButton()
+            _buildCategoryIcons(form),
+            _buildButton(),
           ],
         ),
       ),
@@ -86,8 +99,12 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppText('${isEditing ? 'Edit' : 'New'} Category',
-            size: 24.dw, color: appColors.textColor),
+        AppText(
+          '${isEditing ? 'Edit' : 'New'} Category',
+          size: 24.dw,
+          color: appColors.textColor,
+          family: kFontFam3,
+        ),
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
@@ -99,44 +116,49 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
 
   _buildSectionTitle(String text, {double? topOffset}) {
     return Padding(
-      padding: EdgeInsets.only(top: topOffset ?? 60.dh, bottom: 5.dh),
-      child: AppText(text, size: 18.dw, color: appColors.textColor2),
+      padding: EdgeInsets.only(top: topOffset ?? 40.dh, bottom: 10.dh),
+      child: AppText(
+        text,
+        size: 18.dw,
+        color: appColors.textColor2,
+      ),
     );
   }
 
-  _buildTextField(Supplements supplements) {
+  _buildTextField(CategoryForm form) {
     return AppTextField(
-        errors: supplements.errors,
-        text: supplements.title,
+        errors: form.errors,
+        text: form.title,
         onChanged: bloc.updateTitle,
         hintText: 'Type category title here',
         keyboardType: TextInputType.name);
   }
 
-  _buildOptions(Supplements supplements) {
+  _buildOptions(CategoryForm form) {
     return Row(
       children: [
-        _buildOption('Income', kIncome, supplements.type),
+        _buildOption('Income', kIncome, form.type),
         SizedBox(width: 20.dw),
-        _buildOption('Expense', kExpense, supplements.type),
+        _buildOption('Expense', kExpense, form.type),
       ],
     );
   }
 
   _buildOption(String text, String type, String currentType) {
     final isSelected = currentType == type;
+    final isEditing = widget.category != null;
 
     return OptionCircle(
-        onTap: () => bloc.updateType(type.toLowerCase()),
+        onTap: isEditing ? () {} : () => bloc.updateType(type.toLowerCase()),
         option: text,
         isSelected: isSelected);
   }
 
-  _buildCategoryIcons(Supplements supplements) {
+  _buildCategoryIcons(CategoryForm form) {
     final codePointList = IconCodePointGenerator.codePointList;
 
     return Container(
-        color: Colors.white.withOpacity(.8),
+        color: appColors.backgroundColor2,
         height: 290.dh,
         child: GridView.count(
             crossAxisCount: 6,
@@ -149,16 +171,23 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
             children: codePointList.map((e) {
               final formatted = '0xe' + e.toString();
               final codePoint = int.parse(formatted);
-              final isSelected = supplements.codePoint == codePoint;
+              final isSelected = form.codePoint == codePoint;
 
               return GestureDetector(
                 onTap: () => bloc.updatecodePoint(codePoint),
                 child: Container(
-                    color:
-                        isSelected ? AppColors.accentColor : Colors.transparent,
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(.0),
+                        border: Border.all(
+                            width: isSelected ? 1.5 : 0,
+                            color: isSelected
+                                ? AppColors.accentColor
+                                : Colors.transparent)),
                     child: Icon(
                       AppIcons.getIcon(codePoint),
-                      color: isSelected ? Colors.white : Colors.black,
+                      color: isSelected
+                          ? appColors.iconColor
+                          : appColors.iconColor2,
                     )),
               );
             }).toList()));
@@ -176,13 +205,24 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
               isEditing ? bloc.editCategory() : bloc.addCategory();
             },
             buttonColor: appColors.primaryColor,
-            margin: EdgeInsets.only(bottom: 20.dh),
+            margin: EdgeInsets.only(bottom: 10.dh),
             text: isEditing ? 'Edit' : 'Add',
             isBolded: true,
             height: 45.dh,
           ),
+          if (isEditing) _buildDisclaimer(),
+          SizedBox(height: 20.dh)
         ],
       ),
+    );
+  }
+
+  _buildDisclaimer() {
+    return AppText(
+      '**Editing the category changes the respective entries of this category in the records and budgets pages.',
+      size: 16.dw,
+      color: AppColors.accentColor,
+      family: kFontFam2,
     );
   }
 }

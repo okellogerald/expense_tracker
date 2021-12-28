@@ -58,6 +58,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
                 height: 40.dw,
                 text: 'Add Category',
                 buttonColor: appColors.primaryColor,
+                isBolded: true,
               ),
               !isTapped
                   ? AppIconButton(

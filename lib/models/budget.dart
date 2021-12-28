@@ -17,17 +17,32 @@ class Budget extends HiveObject {
   @HiveField(3)
   final int duration;
 
+  @HiveField(4)
+  final double used;
+
   Budget({
     required this.category,
     required this.amount,
     required this.id,
     required this.duration,
+    this.used = 0.0,
   });
 
   static Budget empty() =>
       Budget(category: Category(), amount: 0, id: '-1', duration: 0);
 
+  Budget copyWith(
+          {double? used, int? duration, Category? category, double? amount}) =>
+      Budget(
+          amount: amount ?? this.amount,
+          category: category ?? this.category,
+          duration: duration ?? this.duration,
+          id: id,
+          used: used ?? this.used);
+
   String get getAmount => Utils.convertToMoneyFormat(amount);
 
- // double get getPercent => 
+  String get getUsed => Utils.convertToMoneyFormat(used);
+
+  String get getBalance => Utils.convertToMoneyFormat(amount - used);
 }

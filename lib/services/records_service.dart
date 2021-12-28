@@ -45,7 +45,7 @@ class RecordsService {
       final amountsList = _getTotalAmountsByDay(day);
       amountsMap[day] = amountsList;
     }
-     return amountsMap;
+    return amountsMap;
   }
 
   TotalRecords getTotalAmounts() {
@@ -77,6 +77,19 @@ class RecordsService {
     _addToController();
   }
 
+  void editSimilarCategories(Category category) {
+    final recordList =
+        _recordList.where((e) => e.category.id == category.id).toList();
+    for (Record record in recordList) {
+      final id = record.category.id;
+      final index = _recordList.indexWhere((e) => e.category.id == id);
+      final _updatedRecord = record.copyWith(category: category);
+      _recordList[index] = _updatedRecord;
+      _recordsBox.put(id, _updatedRecord);
+    }
+    _addToController();
+  }
+
   void delete(String id) {
     _recordsBox.delete(id);
     final index = _recordList.indexWhere((e) => e.id == id);
@@ -84,6 +97,15 @@ class RecordsService {
     _updateTotalRecords(record.amount, record.category.type, isDeleting: true);
     _recordList.removeAt(index);
     _addToController();
+  }
+
+  List<String> getCategoryIds() {
+    final idList = <String>[];
+    for (Record record in _recordList) {
+      final id = record.category.id;
+      idList.add(id);
+    }
+    return idList;
   }
 
   void _updateTotalRecords(double amount, String type,

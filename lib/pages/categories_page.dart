@@ -13,13 +13,22 @@ class _CategoriesPageState extends State<CategoriesPage> {
   late final CategoriesPageBloc bloc;
   late final CategoriesService categoryService;
   late final PreferencesService prefsService;
+  late final RecordsService recordsService;
+  late final BudgetsService budgetsService;
   final editTypeNotifier = ValueNotifier<EditType>(EditType.addingCategory);
 
   @override
   void initState() {
     categoryService = Provider.of<CategoriesService>(context, listen: false);
     prefsService = Provider.of<PreferencesService>(context, listen: false);
-    bloc = CategoriesPageBloc(categoryService, prefsService);
+    recordsService = Provider.of<RecordsService>(context, listen: false);
+    budgetsService = Provider.of<BudgetsService>(context, listen: false);
+    bloc = CategoriesPageBloc(
+      categoryService,
+      prefsService,
+      recordsService,
+      budgetsService,
+    );
     bloc.init();
     super.initState();
   }
@@ -47,31 +56,31 @@ class _CategoriesPageState extends State<CategoriesPage> {
     );
   }
 
-  Widget _buildLoading(List<Category> categoryList, Supplements supplements) {
+  Widget _buildLoading(List<Category> categoryList, CategoryForm form) {
     return const CircularProgressIndicator();
   }
 
-  Widget _buildContent(List<Category> categoryList, Supplements supplements) {
-    final isAtTheTop = supplements.position == AddCategoryWidgetPosition.top;
+  Widget _buildContent(List<Category> categoryList, CategoryForm form) {
+    final isAtTheTop = form.position == AddCategoryWidgetPosition.top;
 
     return ListView(padding: EdgeInsets.only(top: 30.dh), children: [
-      isAtTheTop ? _buildAddCategoryTile(supplements) : Container(),
+      isAtTheTop ? _buildAddCategoryTile(form) : Container(),
       isAtTheTop ? Container() : SizedBox(height: 20.dh),
-      _buildIncomeCategories(categoryList, supplements.id),
-      _buildExpenseCategories(categoryList, supplements.id),
-      isAtTheTop ? Container() : _buildAddCategoryTile(supplements),
+      _buildIncomeCategories(categoryList, form),
+      _buildExpenseCategories(categoryList, form),
+      isAtTheTop ? Container() : _buildAddCategoryTile(form),
     ]);
   }
 
-  _buildAddCategoryTile(Supplements supplements) {
+  _buildAddCategoryTile(CategoryForm form) {
     return AddCategoryWidget(
       onPressed: _navigateToEditPage,
       whereToShowCallback: bloc.updatePosition,
-      position: supplements.position,
+      position: form.position,
     );
   }
 
-  _buildIncomeCategories(List<Category> categoryList, String selectedId) {
+  _buildIncomeCategories(List<Category> categoryList, CategoryForm form) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -88,7 +97,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                     .map((e) => CategoryTile(
                           category: e,
                           editCallback: () => _navigateToEditPage(category: e),
-                          isSelected: e.id == selectedId,
+                          isSelected: e.id == form.id,
+                           isUndeletable: form.undeletableCategories.contains(e.id),
                           cancelCallback: bloc.cancel,
                           changeSelectedIdCallback: bloc.updateId,
                           deleteCallback: bloc.deleteCategory,
@@ -98,7 +108,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     );
   }
 
-  _buildExpenseCategories(List<Category> categoryList, String selectedId) {
+  _buildExpenseCategories(List<Category> categoryList, CategoryForm form) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -116,7 +126,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           category: e,
                           cancelCallback: bloc.cancel,
                           editCallback: () => _navigateToEditPage(category: e),
-                          isSelected: e.id == selectedId,
+                          isSelected: e.id == form.id,
+                          isUndeletable: form.undeletableCategories.contains(e.id),
                           changeSelectedIdCallback: bloc.updateId,
                           deleteCallback: bloc.deleteCategory,
                         ))

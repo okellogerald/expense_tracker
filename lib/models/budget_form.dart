@@ -7,7 +7,7 @@ class BudgetForm with _$BudgetForm {
  const factory BudgetForm({
    @Default(0) int duration,
    @Default(0) double amount,
-   @Default(false) bool isDoneSelectingCategories,
+   @Default(false) bool isUsingCustomDuration,
    @Default({}) Map<String, dynamic> errors,
    @Default({}) Map<String, double> values,
   }) = _BudgetForm;

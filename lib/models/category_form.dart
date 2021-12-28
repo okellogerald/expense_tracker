@@ -1,11 +1,11 @@
 import 'package:budgetting_app/source.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'supplements.freezed.dart';
+part 'category_form.freezed.dart';
 
 @freezed
-class Supplements with _$Supplements {
-  const factory Supplements({
+class CategoryForm with _$CategoryForm {
+  const factory CategoryForm({
     @Default('-1') String id,
     @Default('') String title,
     @Default(false) bool isEditing,
@@ -13,5 +13,6 @@ class Supplements with _$Supplements {
     @Default(-1) int codePoint,
     @Default(AddCategoryWidgetPosition.top) AddCategoryWidgetPosition position,
     @Default({}) Map<String, dynamic> errors,
-  }) = _Supplements;
+    @Default([]) List<String> undeletableCategories,
+  }) = _CategoryForm;
 }

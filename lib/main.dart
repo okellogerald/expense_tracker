@@ -12,6 +12,7 @@ void main() async {
     ..registerAdapter(CategoryAdapter())
     ..registerAdapter(RecordAdapter())
     ..registerAdapter(BudgetAdapter())
+    ..registerAdapter(GrossAmountAdapter())
     ..registerAdapter(TotalRecordsAdapter());
 
   await Hive.openBox(kCategories);
@@ -19,6 +20,7 @@ void main() async {
   await Hive.openBox(kTotalRecords);
   await Hive.openBox(kRecords);
   await Hive.openBox(kBudgets);
+  await Hive.openBox(kGrossAmounts);
 
   IconCodePointGenerator.generate(54);
 
@@ -30,6 +32,7 @@ void main() async {
       Provider<PreferencesService>(create: (_) => PreferencesService()),
       Provider<RecordsService>(create: (_) => RecordsService()),
       Provider<BudgetsService>(create: (_) => BudgetsService()),
+      Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
       ChangeNotifierProvider(create: (_) => ThemeProvider()),
     ],
     child: const MyApp(),

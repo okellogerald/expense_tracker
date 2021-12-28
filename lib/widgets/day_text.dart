@@ -48,7 +48,7 @@ class _DayTextState extends State<DayText> {
     return widget.isSelected
         ? Container(
             margin: EdgeInsets.only(top: 8.dw),
-            width: ScreenSizeConfig.getDeviceSize.width - 30.dw,
+            width: ScreenSizeConfig.getFullWidth - 30.dw,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
