@@ -11,28 +11,57 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  static var themeProvider = ThemeProvider();
+  static var appColors = AppColors('Light');
+
+  @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    //final colors = AppColors(themeProvider.getCurrentTheme);
+    final currentTheme = themeProvider.getCurrentTheme;
 
     return Scaffold(
+      appBar: _buildAppBar(),
       body: ListView(
+        padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
         children: [
-          AppText('Change app theme to', size: 16.dw),
+          AppText('Theme', size: 18.dw, family: kFontFam2),
+          SizedBox(height: 10.dh),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               OptionCircle(
-                  onTap: themeProvider.changeTheme,
-                  isSelected: false,
-                  option: 'System Theme'),
+                  onTap: () {}, isSelected: false, option: 'System Theme'),
               OptionCircle(
-                  onTap: () {}, isSelected: true, option: 'Light Theme'),
+                  onTap: () => themeProvider.changeThemeTo('Light'),
+                  isSelected: currentTheme == 'Light',
+                  option: 'Light Theme'),
               OptionCircle(
-                  onTap: () {}, isSelected: false, option: 'Dark Theme'),
+                  onTap: () => themeProvider.changeThemeTo('Dark'),
+                  isSelected: currentTheme == 'Dark',
+                  option: 'Dark Theme'),
             ],
           )
         ],
+      ),
+    );
+  }
+
+  _buildAppBar() {
+    return AppBar(
+      title: AppText('Preferences',
+          size: 24.dw, family: kFontFam3, color: appColors.textColor),
+      elevation: 0,
+      backgroundColor: appColors.backgroundColor,
+      leading: AppIconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: Icons.arrow_back,
+        iconColor: appColors.iconColor,
       ),
     );
   }

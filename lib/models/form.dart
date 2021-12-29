@@ -5,7 +5,7 @@ part 'form.freezed.dart';
 @freezed
 class RecordEditPageForm with _$RecordEditPageForm {
   const factory RecordEditPageForm({
-    @Default(0) double amount,
+    @Default('') String amount,
     @Default('') String notes,
     @Default('') String id,
     required DateTime date,

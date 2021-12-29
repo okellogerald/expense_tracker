@@ -30,6 +30,22 @@ class BudgetsService {
     controller.add(_budgetList);
   }
 
+  void edit(String id, double amount) {
+    final budget = _budgetsBox.get(id) as Budget;
+    final updatedBudget = budget.copyWith(amount: amount);
+    _budgetsBox.put(id, updatedBudget);
+    final index = _budgetList.indexWhere((e) => e.id == id);
+    _budgetList[index] = updatedBudget;
+    controller.add(_budgetList);
+  }
+
+  void delete(String id) {
+    _budgetsBox.delete(id);
+    final index = _budgetList.indexWhere((e) => e.id == id);
+    _budgetList.removeAt(index);
+    controller.add(_budgetList);
+  }
+
   void editSimilarCategories(Category category) {
     final budgetList =
         _budgetList.where((e) => e.category.id == category.id).toList();

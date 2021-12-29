@@ -3,7 +3,7 @@ import '../source.dart';
 class ThemeProvider extends ChangeNotifier {
   String _theme = 'Dark';
 
-  void changeTheme() {
+  void changeThemeTo(String theme) {
     if (_theme == 'Dark') {
       _theme = 'Light';
     } else {

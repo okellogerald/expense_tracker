@@ -29,7 +29,8 @@ class _RecordsPageState extends State<RecordsPage> {
   void initState() {
     recordsService = Provider.of<RecordsService>(context, listen: false);
     prefsService = Provider.of<PreferencesService>(context, listen: false);
-    grossAmountsService = Provider.of<GrossAmountsService>(context, listen: false);
+    grossAmountsService =
+        Provider.of<GrossAmountsService>(context, listen: false);
     bloc = RecordsPageBloc(recordsService, prefsService, grossAmountsService);
     bloc.init();
     super.initState();
@@ -100,8 +101,7 @@ class _RecordsPageState extends State<RecordsPage> {
           margin: EdgeInsets.only(right: 15.dw),
           iconSize: 24.dw,
           iconColor: appColors.primaryColor,
-          onPressed: /* () => SettingsPage.navigateTo(context) */ themeProvider
-              .changeTheme,
+          onPressed: () => SettingsPage.navigateTo(context),
         )
       ],
       pinned: true,

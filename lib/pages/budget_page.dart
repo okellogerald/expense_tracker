@@ -16,6 +16,13 @@ class _BudgetPageState extends State<BudgetPage> {
   static var appColors = AppColors('Light');
 
   @override
+  void didChangeDependencies() {
+    themeProvider = Provider.of<ThemeProvider>(context);
+    appColors = AppColors(themeProvider.getCurrentTheme);
+    super.didChangeDependencies();
+  }
+
+  @override
   void initState() {
     budgetsService = Provider.of<BudgetsService>(context, listen: false);
     grossAmountsService =
@@ -23,13 +30,6 @@ class _BudgetPageState extends State<BudgetPage> {
     bloc = BudgetPageBloc(budgetsService, grossAmountsService);
     bloc.init();
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
   }
 
   @override
@@ -44,28 +44,30 @@ class _BudgetPageState extends State<BudgetPage> {
     );
   }
 
-  Widget _buildLoading(List<Budget> budgetList) {
+  Widget _buildLoading(List<Budget> budgetList, String id) {
     return const Center(
       child: CircularProgressIndicator(),
     );
   }
 
-  Widget _buildContent(List<Budget> budgetList) {
+  Widget _buildContent(List<Budget> budgetList, String id) {
     if (budgetList.isEmpty) return _buildEmptyState();
 
     return ListView(
       padding: EdgeInsets.only(top: 50.dh),
       children: [
-        _buildBudgets(budgetList, Utils.getDaysInMonth(), 'Monthly Budgets'),
-        _buildBudgets(budgetList, 7, 'Weekly Budgets'),
-        _buildBudgets(budgetList, 1, 'Daily Budgets'),
-        _buildBudgets(budgetList, 0, 'Custom Duration Budgets'),
+        _buildBudgets(
+            budgetList, Utils.getDaysInMonth(), 'Monthly Budgets', id),
+        _buildBudgets(budgetList, 7, 'Weekly Budgets', id),
+        _buildBudgets(budgetList, 1, 'Daily Budgets', id),
+        _buildBudgets(budgetList, 0, 'Custom Duration Budgets', id),
         SizedBox(height: 70.dh)
       ],
     );
   }
 
-  _buildBudgets(List<Budget> budgetList, int duration, String title) {
+  _buildBudgets(
+      List<Budget> budgetList, int duration, String title, String id) {
     var list = <Budget>[];
     if (duration == 0) {
       list = budgetList
@@ -92,95 +94,20 @@ class _BudgetPageState extends State<BudgetPage> {
             color: appColors.backgroundColor2,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: list.map((e) => _buildBudget(e)).toList(),
+              children: list
+                  .map((e) => BudgetTile(
+                        budget: e,
+                        selectedId: id,
+                        editCallback: (budget) =>
+                            BudgetEditPage.navigateTo(context, budget: budget),
+                        deleteCallback: bloc.delete,
+                        updateIdCallback: bloc.updateId,
+                      ))
+                  .toList(),
             ),
           )
         ],
       ),
-    );
-  }
-
-  Widget _buildBudget(Budget budget) {
-    final category = budget.category;
-    final duration = budget.duration;
-    final hasCustomDuration =
-        duration != 1 && duration != 7 && duration != Utils.getDaysInMonth();
-
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.white.withOpacity(.0),
-          border: Border(
-              bottom: BorderSide(
-                  width: 1.5, color: appColors.dividerColor.withOpacity(.5)))),
-      padding:
-          EdgeInsets.only(left: 15.dw, bottom: 5.dh, right: 15.dw, top: 5.dh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    AppIcons.getIcon(category.codePoint),
-                    color: appColors.iconColor,
-                    size: 20.dw,
-                  ),
-                  SizedBox(width: 15.dw),
-                  AppText(
-                    budget.category.title,
-                    family: kFontFam2,
-                    size: 18.dw,
-                  ),
-                ],
-              ),
-              AppIconButton(
-                onPressed: () {},
-                icon: Icons.more_horiz,
-                iconColor: appColors.iconColor,
-                spreadRadius: 25.dw,
-              )
-            ],
-          ),
-          hasCustomDuration
-              ? Padding(
-                  padding: EdgeInsets.only(left: 35.dw),
-                  child: AppText(
-                    budget.duration.toString() + ' DAYS',
-                    family: kFontFam2,
-                    size: 16.dw,
-                    color: appColors.textColor,
-                  ),
-                )
-              : Container(),
-          _buildBudgetAmounts('Budget', budget.getAmount, appColors.textColor),
-          _buildBudgetAmounts('Used', budget.getUsed, appColors.negativeColor),
-          _buildBudgetAmounts(
-              'Balance', budget.getBalance, appColors.positiveColor)
-        ],
-      ),
-    );
-  }
-
-  _buildBudgetAmounts(String title, String amount, Color color) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        AppText(
-          title,
-          family: kFontFam2,
-          size: 16.dw,
-          color: appColors.textColor2,
-        ),
-        AppText(
-          amount,
-          family: kFontFam2,
-          size: 16.dw,
-          color: color,
-          isBolded: true,
-        )
-      ],
     );
   }
 

@@ -1,10 +1,13 @@
 import '../source.dart';
 
 class BudgetEditPage extends StatefulWidget {
-  const BudgetEditPage({Key? key}) : super(key: key);
+  const BudgetEditPage({this.budget, Key? key}) : super(key: key);
 
-  static void navigateTo(BuildContext context) => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => const BudgetEditPage()));
+  final Budget? budget;
+
+  static void navigateTo(BuildContext context, {Budget? budget}) =>
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => BudgetEditPage(budget: budget)));
 
   @override
   _BudgetEditPageState createState() => _BudgetEditPageState();
@@ -18,6 +21,8 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
   static var themeProvider = ThemeProvider();
   static var appColors = AppColors('Light');
 
+  static var isEditing = false;
+
   @override
   void didChangeDependencies() {
     themeProvider = Provider.of<ThemeProvider>(context);
@@ -27,10 +32,11 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
 
   @override
   void initState() {
+    isEditing = widget.budget != null;
     categoriesService = Provider.of<CategoriesService>(context, listen: false);
     budgetsService = Provider.of<BudgetsService>(context, listen: false);
     bloc = BudgetEditPageBloc(categoriesService, budgetsService);
-    bloc.init();
+    bloc.init(budget: widget.budget);
     super.initState();
   }
 
@@ -63,16 +69,24 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
 
   Widget _buildContent(
       List<Category> categoryList, List<String> idList, BudgetForm form) {
-    return ListView(
-      padding: EdgeInsets.fromLTRB(15.dw, 30.dh, 15.dw, 20.dh),
-      children: [
-        _buildTitle(),
-        _buildFirstOperation(form),
-        _buildSecondOperation(categoryList, idList),
-        idList.isNotEmpty
-            ? _buildThirdOperation(categoryList, idList, form)
-            : Container(),
-        idList.isNotEmpty ? _buildUploadTextButton() : Container()
+    return CustomScrollView(
+      slivers: [
+        SliverFillRemaining(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(15.dw, 30.dh, 15.dw, 0),
+            child: Column(
+              children: [
+                _buildTitle(),
+                _buildFirstOperation(form),
+                _buildSecondOperation(categoryList, idList),
+                idList.isNotEmpty
+                    ? _buildThirdOperation(categoryList, idList, form)
+                    : Container(),
+                idList.isNotEmpty ? _buildUploadTextButton() : Container()
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
@@ -81,7 +95,8 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppText('Plan your budget', size: 23.dw, family: kFontFam3),
+        AppText('${isEditing ? 'Edit' : 'Plan your'}  budget',
+            size: 23.dw, family: kFontFam3),
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
@@ -95,7 +110,10 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildBudgetSection('Choose Duration',
+        _buildBudgetSection(
+            isEditing
+                ? 'Selected Duration ( Unmodifiable )'
+                : 'Choose Duration',
             'A duration within which you want to plan your budget.'),
         SizedBox(height: 20.dh),
         _buildDurationActions(form),
@@ -108,9 +126,14 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 30.dh),
-        _buildBudgetSection('Choose Categories',
-            'Categories within which the selected duration applies. This step applies only to unbudgetted expenses.'),
-        _buildCategories(categoryList, idList),
+        _buildBudgetSection(
+            isEditing
+                ? 'Selected Category ( Unmodifiable )'
+                : 'Choose Categories',
+            '${isEditing ? 'A category' : 'Categories'} within which the selected duration applies. This step applies only to unbudgetted expenses.'),
+        isEditing
+            ? _buildCategory(categoryList.first, idList)
+            : _buildCategories(categoryList, idList),
       ],
     );
   }
@@ -124,7 +147,10 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       children: [
         SizedBox(height: 30.dh),
         _buildBudgetSection(
-            'Decide Amounts', 'Decide amounts for each category you selected.'),
+            isEditing ? 'Edit Amount' : 'Decide Amounts',
+            isEditing
+                ? 'Decide the amount for this category'
+                : 'Decide amounts for each category you selected.'),
         _buildSelectedCategories(list, form),
       ],
     );
@@ -184,9 +210,10 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
     final isSelected = idList.contains(category.id);
 
     return GestureDetector(
-      onTap: () => bloc.updateIdList(category.id),
+      onTap: isEditing ? () {} : () => bloc.updateIdList(category.id),
       child: Container(
         margin: EdgeInsets.all(8.dw),
+        padding: EdgeInsets.all(8.dw),
         decoration: BoxDecoration(
             color: Colors.white.withOpacity(.0),
             border: Border.all(
@@ -221,58 +248,28 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
             _buildDurationOption('Weekly', 7, form.duration),
             _buildDurationOption(
                 'Monthly', Utils.getDaysInMonth(), form.duration),
-            _buildCustomDurationButton(form),
           ],
         ),
-        if (form.isUsingCustomDuration) _buildCustomDurationTextField(form)
-      ],
-    );
-  }
-
-  _buildCustomDurationButton(BudgetForm form) {
-    return Expanded(
-        child: form.isUsingCustomDuration
-            ? Container(
-                alignment: Alignment.centerRight,
-                child: OptionCircle(
-                  onTap: () {},
-                  isSelected: true,
-                  option: 'Custom Category',
-                ))
-            : AppTextButton(
-                text: 'Custom Duration ?',
-                alignment: Alignment.centerRight,
-                borderColor: Colors.transparent,
-                textColor: appColors.primaryColor,
-                useButtonSizeOnly: false,
-                onPressed: bloc.markAsUsingCustomDuration,
-              ));
-  }
-
-  _buildCustomDurationTextField(BudgetForm form) {
-    return Column(
-      children: [
-        SizedBox(height: 20.dh),
-        AppTextField(
-            errors: form.errors,
-            text: form.duration.toString(),
-            onChanged: bloc.updateCustomDuration,
-            hintText: '0',
-            errorName: 'duration',
-            keyboardType: TextInputType.number),
       ],
     );
   }
 
   Widget _buildUploadTextButton() {
-    return AppTextButton(
-      text: 'Add Budgets',
-      isBolded: true,
-      height: 40.dh,
-      margin: EdgeInsets.only(top: 30.dh),
-      borderColor: Colors.transparent,
-      buttonColor: appColors.primaryColor,
-      onPressed: bloc.uploadBudgets,
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          AppTextButton(
+            text: isEditing ? 'Done Editing' : 'Add Budgets',
+            isBolded: true,
+            height: 40.dh,
+            margin: EdgeInsets.only(top: 30.dh, bottom: 20.dh),
+            borderColor: Colors.transparent,
+            buttonColor: appColors.primaryColor,
+            onPressed: isEditing ? bloc.edit : bloc.add,
+          ),
+        ],
+      ),
     );
   }
 
@@ -282,7 +279,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(right: 20.dw),
       child: OptionCircle(
-          onTap: () => bloc.updateDuration(duration),
+          onTap: isEditing ? () {} : () => bloc.updateDuration(duration),
           isSelected: isSelected,
           option: text),
     );

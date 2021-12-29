@@ -45,4 +45,7 @@ class Budget extends HiveObject {
   String get getUsed => Utils.convertToMoneyFormat(used);
 
   String get getBalance => Utils.convertToMoneyFormat(amount - used);
+
+  String get getBalanceAsPercentage =>
+      ((1 - (used / amount)) * 100).toStringAsFixed(2);
 }

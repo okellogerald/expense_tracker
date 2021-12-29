@@ -27,7 +27,8 @@ class _HomepageState extends State<Homepage> {
           builder: (context, index, child) {
             if (index == 0) return const RecordsPage();
             if (index == 1) return const CategoriesPage();
-            return const BudgetPage();
+            if (index == 2) return const BudgetPage();
+            return const ReportsPage();
           }),
       bottomNavigationBar: _buildBottomNavBar(),
     );

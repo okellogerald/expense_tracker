@@ -18,7 +18,7 @@ class _$RecordEditPageFormTearOff {
   const _$RecordEditPageFormTearOff();
 
   _RecordEditPageForm call(
-      {double amount = 0,
+      {String amount = '',
       String notes = '',
       String id = '',
       required DateTime date,
@@ -38,7 +38,7 @@ const $RecordEditPageForm = _$RecordEditPageFormTearOff();
 
 /// @nodoc
 mixin _$RecordEditPageForm {
-  double get amount => throw _privateConstructorUsedError;
+  String get amount => throw _privateConstructorUsedError;
   String get notes => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
@@ -55,7 +55,7 @@ abstract class $RecordEditPageFormCopyWith<$Res> {
           RecordEditPageForm value, $Res Function(RecordEditPageForm) then) =
       _$RecordEditPageFormCopyWithImpl<$Res>;
   $Res call(
-      {double amount,
+      {String amount,
       String notes,
       String id,
       DateTime date,
@@ -83,7 +83,7 @@ class _$RecordEditPageFormCopyWithImpl<$Res>
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as double,
+              as String,
       notes: notes == freezed
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
@@ -112,7 +112,7 @@ abstract class _$RecordEditPageFormCopyWith<$Res>
       __$RecordEditPageFormCopyWithImpl<$Res>;
   @override
   $Res call(
-      {double amount,
+      {String amount,
       String notes,
       String id,
       DateTime date,
@@ -142,7 +142,7 @@ class __$RecordEditPageFormCopyWithImpl<$Res>
       amount: amount == freezed
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as double,
+              as String,
       notes: notes == freezed
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
@@ -167,7 +167,7 @@ class __$RecordEditPageFormCopyWithImpl<$Res>
 
 class _$_RecordEditPageForm implements _RecordEditPageForm {
   const _$_RecordEditPageForm(
-      {this.amount = 0,
+      {this.amount = '',
       this.notes = '',
       this.id = '',
       required this.date,
@@ -175,7 +175,7 @@ class _$_RecordEditPageForm implements _RecordEditPageForm {
 
   @JsonKey()
   @override
-  final double amount;
+  final String amount;
   @JsonKey()
   @override
   final String notes;
@@ -222,14 +222,14 @@ class _$_RecordEditPageForm implements _RecordEditPageForm {
 
 abstract class _RecordEditPageForm implements RecordEditPageForm {
   const factory _RecordEditPageForm(
-      {double amount,
+      {String amount,
       String notes,
       String id,
       required DateTime date,
       Map<String, dynamic> errors}) = _$_RecordEditPageForm;
 
   @override
-  double get amount;
+  String get amount;
   @override
   String get notes;
   @override

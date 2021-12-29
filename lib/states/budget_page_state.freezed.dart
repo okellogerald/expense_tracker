@@ -17,15 +17,17 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$BudgetPageStateTearOff {
   const _$BudgetPageStateTearOff();
 
-  _Loading loading(List<Budget> budgetList) {
+  _Loading loading(List<Budget> budgetList, String id) {
     return _Loading(
       budgetList,
+      id,
     );
   }
 
-  _Content content(List<Budget> budgetList) {
+  _Content content(List<Budget> budgetList, String id) {
     return _Content(
       budgetList,
+      id,
     );
   }
 }
@@ -36,23 +38,24 @@ const $BudgetPageState = _$BudgetPageStateTearOff();
 /// @nodoc
 mixin _$BudgetPageState {
   List<Budget> get budgetList => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Budget> budgetList) loading,
-    required TResult Function(List<Budget> budgetList) content,
+    required TResult Function(List<Budget> budgetList, String id) loading,
+    required TResult Function(List<Budget> budgetList, String id) content,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList)? loading,
-    TResult Function(List<Budget> budgetList)? content,
+    TResult Function(List<Budget> budgetList, String id)? loading,
+    TResult Function(List<Budget> budgetList, String id)? content,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList)? loading,
-    TResult Function(List<Budget> budgetList)? content,
+    TResult Function(List<Budget> budgetList, String id)? loading,
+    TResult Function(List<Budget> budgetList, String id)? content,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -86,7 +89,7 @@ abstract class $BudgetPageStateCopyWith<$Res> {
   factory $BudgetPageStateCopyWith(
           BudgetPageState value, $Res Function(BudgetPageState) then) =
       _$BudgetPageStateCopyWithImpl<$Res>;
-  $Res call({List<Budget> budgetList});
+  $Res call({List<Budget> budgetList, String id});
 }
 
 /// @nodoc
@@ -101,12 +104,17 @@ class _$BudgetPageStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? budgetList = freezed,
+    Object? id = freezed,
   }) {
     return _then(_value.copyWith(
       budgetList: budgetList == freezed
           ? _value.budgetList
           : budgetList // ignore: cast_nullable_to_non_nullable
               as List<Budget>,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -117,7 +125,7 @@ abstract class _$LoadingCopyWith<$Res>
   factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
       __$LoadingCopyWithImpl<$Res>;
   @override
-  $Res call({List<Budget> budgetList});
+  $Res call({List<Budget> budgetList, String id});
 }
 
 /// @nodoc
@@ -132,12 +140,17 @@ class __$LoadingCopyWithImpl<$Res> extends _$BudgetPageStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? budgetList = freezed,
+    Object? id = freezed,
   }) {
     return _then(_Loading(
       budgetList == freezed
           ? _value.budgetList
           : budgetList // ignore: cast_nullable_to_non_nullable
               as List<Budget>,
+      id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -145,14 +158,16 @@ class __$LoadingCopyWithImpl<$Res> extends _$BudgetPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Loading implements _Loading {
-  const _$_Loading(this.budgetList);
+  const _$_Loading(this.budgetList, this.id);
 
   @override
   final List<Budget> budgetList;
+  @override
+  final String id;
 
   @override
   String toString() {
-    return 'BudgetPageState.loading(budgetList: $budgetList)';
+    return 'BudgetPageState.loading(budgetList: $budgetList, id: $id)';
   }
 
   @override
@@ -161,12 +176,15 @@ class _$_Loading implements _Loading {
         (other.runtimeType == runtimeType &&
             other is _Loading &&
             const DeepCollectionEquality()
-                .equals(other.budgetList, budgetList));
+                .equals(other.budgetList, budgetList) &&
+            const DeepCollectionEquality().equals(other.id, id));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(budgetList));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(budgetList),
+      const DeepCollectionEquality().hash(id));
 
   @JsonKey(ignore: true)
   @override
@@ -176,30 +194,30 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Budget> budgetList) loading,
-    required TResult Function(List<Budget> budgetList) content,
+    required TResult Function(List<Budget> budgetList, String id) loading,
+    required TResult Function(List<Budget> budgetList, String id) content,
   }) {
-    return loading(budgetList);
+    return loading(budgetList, id);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList)? loading,
-    TResult Function(List<Budget> budgetList)? content,
+    TResult Function(List<Budget> budgetList, String id)? loading,
+    TResult Function(List<Budget> budgetList, String id)? content,
   }) {
-    return loading?.call(budgetList);
+    return loading?.call(budgetList, id);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList)? loading,
-    TResult Function(List<Budget> budgetList)? content,
+    TResult Function(List<Budget> budgetList, String id)? loading,
+    TResult Function(List<Budget> budgetList, String id)? content,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading(budgetList);
+      return loading(budgetList, id);
     }
     return orElse();
   }
@@ -237,10 +255,12 @@ class _$_Loading implements _Loading {
 }
 
 abstract class _Loading implements BudgetPageState {
-  const factory _Loading(List<Budget> budgetList) = _$_Loading;
+  const factory _Loading(List<Budget> budgetList, String id) = _$_Loading;
 
   @override
   List<Budget> get budgetList;
+  @override
+  String get id;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -253,7 +273,7 @@ abstract class _$ContentCopyWith<$Res>
   factory _$ContentCopyWith(_Content value, $Res Function(_Content) then) =
       __$ContentCopyWithImpl<$Res>;
   @override
-  $Res call({List<Budget> budgetList});
+  $Res call({List<Budget> budgetList, String id});
 }
 
 /// @nodoc
@@ -268,12 +288,17 @@ class __$ContentCopyWithImpl<$Res> extends _$BudgetPageStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? budgetList = freezed,
+    Object? id = freezed,
   }) {
     return _then(_Content(
       budgetList == freezed
           ? _value.budgetList
           : budgetList // ignore: cast_nullable_to_non_nullable
               as List<Budget>,
+      id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -281,14 +306,16 @@ class __$ContentCopyWithImpl<$Res> extends _$BudgetPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Content implements _Content {
-  const _$_Content(this.budgetList);
+  const _$_Content(this.budgetList, this.id);
 
   @override
   final List<Budget> budgetList;
+  @override
+  final String id;
 
   @override
   String toString() {
-    return 'BudgetPageState.content(budgetList: $budgetList)';
+    return 'BudgetPageState.content(budgetList: $budgetList, id: $id)';
   }
 
   @override
@@ -297,12 +324,15 @@ class _$_Content implements _Content {
         (other.runtimeType == runtimeType &&
             other is _Content &&
             const DeepCollectionEquality()
-                .equals(other.budgetList, budgetList));
+                .equals(other.budgetList, budgetList) &&
+            const DeepCollectionEquality().equals(other.id, id));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(budgetList));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(budgetList),
+      const DeepCollectionEquality().hash(id));
 
   @JsonKey(ignore: true)
   @override
@@ -312,30 +342,30 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Budget> budgetList) loading,
-    required TResult Function(List<Budget> budgetList) content,
+    required TResult Function(List<Budget> budgetList, String id) loading,
+    required TResult Function(List<Budget> budgetList, String id) content,
   }) {
-    return content(budgetList);
+    return content(budgetList, id);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList)? loading,
-    TResult Function(List<Budget> budgetList)? content,
+    TResult Function(List<Budget> budgetList, String id)? loading,
+    TResult Function(List<Budget> budgetList, String id)? content,
   }) {
-    return content?.call(budgetList);
+    return content?.call(budgetList, id);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList)? loading,
-    TResult Function(List<Budget> budgetList)? content,
+    TResult Function(List<Budget> budgetList, String id)? loading,
+    TResult Function(List<Budget> budgetList, String id)? content,
     required TResult orElse(),
   }) {
     if (content != null) {
-      return content(budgetList);
+      return content(budgetList, id);
     }
     return orElse();
   }
@@ -373,10 +403,12 @@ class _$_Content implements _Content {
 }
 
 abstract class _Content implements BudgetPageState {
-  const factory _Content(List<Budget> budgetList) = _$_Content;
+  const factory _Content(List<Budget> budgetList, String id) = _$_Content;
 
   @override
   List<Budget> get budgetList;
+  @override
+  String get id;
   @override
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>

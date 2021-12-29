@@ -19,7 +19,7 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
     final categoryList = categoriesService.getCategories();
     if (record != null) {
       form = form.copyWith(
-        amount: record.amount,
+        amount: record.amount.toString(),
         id: record.id,
         notes: record.notes,
         date: record.date,
@@ -36,15 +36,16 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
     if (state.form.errors.isNotEmpty) return;
     final form = state.form;
     final category = state.category;
+    final amount = double.parse(form.amount);
     final record = Record.empty().copyWith(
       id: form.id,
       date: form.date,
       category: category,
-      amount: form.amount,
+      amount: amount,
       notes: form.notes,
     );
     recordsService.edit(record);
-    grossAmountsService.editAmount(category.id, form.amount, _beforeEditAmount);
+    grossAmountsService.editAmount(category.id, amount, _beforeEditAmount);
     emit(RecordEditPageState.success(state.categoryList, category, form));
   }
 
@@ -54,13 +55,14 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
     if (state.form.errors.isNotEmpty) return;
     final form = state.form;
     final category = state.category;
+    final amount = double.parse(form.amount);
     final record = Record.empty().copyWith(
       category: category,
-      amount: form.amount,
+      amount: amount,
       notes: form.notes,
     );
     recordsService.add(record);
-    grossAmountsService.add(category.id, category.title, form.amount);
+    grossAmountsService.add(category.id, category.title, amount);
     emit(RecordEditPageState.success(state.categoryList, category, form));
   }
 
@@ -71,30 +73,11 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
     _updateAttributes(category: category);
   }
 
-  void updateAmount(String amount) {
-    emit(RecordEditPageState.loading(
-        state.categoryList, state.category, state.form));
-    final _amount = double.tryParse(amount);
-    if (amount.trim().isEmpty) {
-      final form = state.form.copyWith(amount: 0, errors: {});
-      emit(RecordEditPageState.content(
-          state.categoryList, state.category, form));
-      return;
-    }
-    if (_amount == null) {
-      final error = {'amount': 'Invalid amount is entered'};
-      final form = state.form.copyWith(errors: error);
-      emit(RecordEditPageState.content(
-          state.categoryList, state.category, form));
-      return;
-    }
-    final form = state.form.copyWith(amount: _amount, errors: {});
-    emit(RecordEditPageState.content(state.categoryList, state.category, form));
-  }
+  void updateAmount(String amount) => _updateAttributes(amount: amount);
 
   void updateNotes(String notes) => _updateAttributes(notes: notes);
 
-  void _updateAttributes({Category? category, double? amount, String? notes}) {
+  void _updateAttributes({Category? category, String? amount, String? notes}) {
     emit(RecordEditPageState.loading(
         state.categoryList, state.category, state.form));
     final _category = category ?? state.category;
@@ -110,13 +93,21 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
         state.categoryList, state.category, state.form));
 
     var errors = <String, dynamic>{};
+    var form = state.form;
 
     if (state.category.id == '-1') {
-      errors = {'category': 'You have not selected the category'};
-    } else if (state.form.amount == 0) {
+      errors['category'] = 'You have not selected the category';
+    }
+
+    final amount = double.tryParse(form.amount);
+    if (amount == null) {
+      errors['amount'] = 'Invalid amount is entered';
+    }
+    if (amount == 0 || state.form.amount.trim().isEmpty) {
       errors = {'amount': 'The amount can\'t be 0'};
     }
-    final form = state.form.copyWith(errors: errors);
+
+    form = state.form.copyWith(errors: errors);
     emit(RecordEditPageState.content(state.categoryList, state.category, form));
   }
 }

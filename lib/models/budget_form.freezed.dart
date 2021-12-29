@@ -19,14 +19,12 @@ class _$BudgetFormTearOff {
 
   _BudgetForm call(
       {int duration = 0,
-      double amount = 0,
-      bool isUsingCustomDuration = false,
+      String id = '-1',
       Map<String, dynamic> errors = const {},
-      Map<String, double> values = const {}}) {
+      Map<String, String> values = const {}}) {
     return _BudgetForm(
       duration: duration,
-      amount: amount,
-      isUsingCustomDuration: isUsingCustomDuration,
+      id: id,
       errors: errors,
       values: values,
     );
@@ -39,10 +37,9 @@ const $BudgetForm = _$BudgetFormTearOff();
 /// @nodoc
 mixin _$BudgetForm {
   int get duration => throw _privateConstructorUsedError;
-  double get amount => throw _privateConstructorUsedError;
-  bool get isUsingCustomDuration => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   Map<String, dynamic> get errors => throw _privateConstructorUsedError;
-  Map<String, double> get values => throw _privateConstructorUsedError;
+  Map<String, String> get values => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BudgetFormCopyWith<BudgetForm> get copyWith =>
@@ -56,10 +53,9 @@ abstract class $BudgetFormCopyWith<$Res> {
       _$BudgetFormCopyWithImpl<$Res>;
   $Res call(
       {int duration,
-      double amount,
-      bool isUsingCustomDuration,
+      String id,
       Map<String, dynamic> errors,
-      Map<String, double> values});
+      Map<String, String> values});
 }
 
 /// @nodoc
@@ -73,8 +69,7 @@ class _$BudgetFormCopyWithImpl<$Res> implements $BudgetFormCopyWith<$Res> {
   @override
   $Res call({
     Object? duration = freezed,
-    Object? amount = freezed,
-    Object? isUsingCustomDuration = freezed,
+    Object? id = freezed,
     Object? errors = freezed,
     Object? values = freezed,
   }) {
@@ -83,14 +78,10 @@ class _$BudgetFormCopyWithImpl<$Res> implements $BudgetFormCopyWith<$Res> {
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int,
-      amount: amount == freezed
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      isUsingCustomDuration: isUsingCustomDuration == freezed
-          ? _value.isUsingCustomDuration
-          : isUsingCustomDuration // ignore: cast_nullable_to_non_nullable
-              as bool,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       errors: errors == freezed
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
@@ -98,7 +89,7 @@ class _$BudgetFormCopyWithImpl<$Res> implements $BudgetFormCopyWith<$Res> {
       values: values == freezed
           ? _value.values
           : values // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
+              as Map<String, String>,
     ));
   }
 }
@@ -111,10 +102,9 @@ abstract class _$BudgetFormCopyWith<$Res> implements $BudgetFormCopyWith<$Res> {
   @override
   $Res call(
       {int duration,
-      double amount,
-      bool isUsingCustomDuration,
+      String id,
       Map<String, dynamic> errors,
-      Map<String, double> values});
+      Map<String, String> values});
 }
 
 /// @nodoc
@@ -130,8 +120,7 @@ class __$BudgetFormCopyWithImpl<$Res> extends _$BudgetFormCopyWithImpl<$Res>
   @override
   $Res call({
     Object? duration = freezed,
-    Object? amount = freezed,
-    Object? isUsingCustomDuration = freezed,
+    Object? id = freezed,
     Object? errors = freezed,
     Object? values = freezed,
   }) {
@@ -140,14 +129,10 @@ class __$BudgetFormCopyWithImpl<$Res> extends _$BudgetFormCopyWithImpl<$Res>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int,
-      amount: amount == freezed
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      isUsingCustomDuration: isUsingCustomDuration == freezed
-          ? _value.isUsingCustomDuration
-          : isUsingCustomDuration // ignore: cast_nullable_to_non_nullable
-              as bool,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       errors: errors == freezed
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
@@ -155,7 +140,7 @@ class __$BudgetFormCopyWithImpl<$Res> extends _$BudgetFormCopyWithImpl<$Res>
       values: values == freezed
           ? _value.values
           : values // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
+              as Map<String, String>,
     ));
   }
 }
@@ -165,8 +150,7 @@ class __$BudgetFormCopyWithImpl<$Res> extends _$BudgetFormCopyWithImpl<$Res>
 class _$_BudgetForm implements _BudgetForm {
   const _$_BudgetForm(
       {this.duration = 0,
-      this.amount = 0,
-      this.isUsingCustomDuration = false,
+      this.id = '-1',
       this.errors = const {},
       this.values = const {}});
 
@@ -175,20 +159,17 @@ class _$_BudgetForm implements _BudgetForm {
   final int duration;
   @JsonKey()
   @override
-  final double amount;
-  @JsonKey()
-  @override
-  final bool isUsingCustomDuration;
+  final String id;
   @JsonKey()
   @override
   final Map<String, dynamic> errors;
   @JsonKey()
   @override
-  final Map<String, double> values;
+  final Map<String, String> values;
 
   @override
   String toString() {
-    return 'BudgetForm(duration: $duration, amount: $amount, isUsingCustomDuration: $isUsingCustomDuration, errors: $errors, values: $values)';
+    return 'BudgetForm(duration: $duration, id: $id, errors: $errors, values: $values)';
   }
 
   @override
@@ -197,9 +178,7 @@ class _$_BudgetForm implements _BudgetForm {
         (other.runtimeType == runtimeType &&
             other is _BudgetForm &&
             const DeepCollectionEquality().equals(other.duration, duration) &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality()
-                .equals(other.isUsingCustomDuration, isUsingCustomDuration) &&
+            const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.errors, errors) &&
             const DeepCollectionEquality().equals(other.values, values));
   }
@@ -208,8 +187,7 @@ class _$_BudgetForm implements _BudgetForm {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(duration),
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(isUsingCustomDuration),
+      const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(errors),
       const DeepCollectionEquality().hash(values));
 
@@ -222,21 +200,18 @@ class _$_BudgetForm implements _BudgetForm {
 abstract class _BudgetForm implements BudgetForm {
   const factory _BudgetForm(
       {int duration,
-      double amount,
-      bool isUsingCustomDuration,
+      String id,
       Map<String, dynamic> errors,
-      Map<String, double> values}) = _$_BudgetForm;
+      Map<String, String> values}) = _$_BudgetForm;
 
   @override
   int get duration;
   @override
-  double get amount;
-  @override
-  bool get isUsingCustomDuration;
+  String get id;
   @override
   Map<String, dynamic> get errors;
   @override
-  Map<String, double> get values;
+  Map<String, String> get values;
   @override
   @JsonKey(ignore: true)
   _$BudgetFormCopyWith<_BudgetForm> get copyWith =>
