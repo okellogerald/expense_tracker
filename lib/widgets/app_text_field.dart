@@ -70,7 +70,6 @@ class _AppTextFieldState extends State<AppTextField> {
               textCapitalization: TextCapitalization.sentences,
               style: TextStyle(
                 color: appColors.textColor,
-                fontFamily: kFontFam2,
                 letterSpacing: widget.letterSpacing,
                 fontSize: 16.dw,
               ),
@@ -79,7 +78,6 @@ class _AppTextFieldState extends State<AppTextField> {
                   hintText: widget.hintText,
                   hintStyle: TextStyle(
                     color: appColors.textColor2,
-                    fontFamily: kFontFam2,
                     fontSize: 14.dw,
                   ),
                   fillColor: appColors.backgroundColor2,
@@ -97,7 +95,6 @@ class _AppTextFieldState extends State<AppTextField> {
                 child: AppText(
                   widget.errors[widget.errorName]!,
                   color: AppColors.errorColor,
-                  family: kFontFam2,
                   size: 16.dw,
                 ),
               )

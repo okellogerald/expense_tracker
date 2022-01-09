@@ -61,7 +61,6 @@ class _CategoryTileState extends State<CategoryTile> {
                     widget.category.title,
                     size: 16.dw,
                     color: appColors.textColor2,
-                    family: kFontFam2,
                   ),
                   const Spacer(),
                   !isSelected

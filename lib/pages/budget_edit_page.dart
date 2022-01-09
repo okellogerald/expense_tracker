@@ -192,7 +192,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         childAspectRatio: .7.dw,
-        padding: EdgeInsets.only(top: 10.dh),
+        padding: EdgeInsets.only(top: 8.dw),
         children: categoryList.map((e) => _buildCategory(e, idList)).toList(),
       ),
     );
@@ -217,12 +217,11 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
           children: [
             Icon(AppIcons.getIcon(category.codePoint),
                 color: isSelected ? appColors.iconColor : appColors.iconColor2),
-            SizedBox(height: 10.dh),
+            SizedBox(height: 8.dh),
             AppText(
               category.title,
               size: 15.dw,
               color: isSelected ? appColors.textColor : appColors.textColor2,
-              family: kFontFam2,
             ),
           ],
         ),
@@ -289,7 +288,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
             description,
             color: appColors.textColor2,
             size: 15.dw,
-            //  family: kFontFam2,
+            alignment: TextAlign.start,
             maxLines: 10,
           ),
         ],

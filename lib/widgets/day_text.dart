@@ -41,7 +41,6 @@ class _DayTextState extends State<DayText> {
             widget.text,
             color: appColors.textColor2,
             size: 18.dw,
-            family: kFontFam2,
           ),
           _buildActionButtons(),
         ],

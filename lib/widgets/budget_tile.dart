@@ -87,7 +87,6 @@ class _BudgetTileState extends State<BudgetTile> {
             SizedBox(width: 15.dw),
             AppText(
               widget.budget.category.title.toUpperCase(),
-              family: kFontFam2,
               size: 15.dw,
             ),
           ],
@@ -154,20 +153,17 @@ class _BudgetTileState extends State<BudgetTile> {
         children: [
           AppText(
             title,
-            family: kFontFam2,
             size: 16.dw,
             color: appColors.textColor2,
           ),
           AppText(
             isBalance ? '$balancePercent %' : '',
-            family: kFontFam2,
             size: 16.dw,
             color: color,
             isBolded: true,
           ),
           AppText(
             amount,
-            family: kFontFam2,
             size: 16.dw,
             color: color,
             isBolded: true,

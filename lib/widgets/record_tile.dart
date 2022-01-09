@@ -62,7 +62,6 @@ class _RecordTileState extends State<RecordTile> {
                     AppText(
                       category.title,
                       size: 14.dw,
-                      family: kFontFam2,
                       color: appColors.textColor2,
                       isBolded: true,
                     )
@@ -70,7 +69,6 @@ class _RecordTileState extends State<RecordTile> {
                 ),
                 AppText(
                   record.getAmount,
-                  family: kFontFam2,
                   size: 15.dw,
                   isBolded: true,
                   color: category.type == kIncome
@@ -96,7 +94,6 @@ class _RecordTileState extends State<RecordTile> {
               widget.record.notes,
               color: appColors.textColor3,
               size: 14.dw,
-              family: kFontFam2,
             ),
           )
         : Container();
@@ -124,7 +121,6 @@ class _RecordTileState extends State<RecordTile> {
               'Created at $strHour : $strMinutes $time.',
               color: appColors.textColor3,
               size: 14.dw,
-              family: kFontFam2,
             ),
           )
         : Container();

@@ -52,7 +52,6 @@ class _OptionCircleState extends State<OptionCircle> {
             widget.option,
             size: 15.dw,
             isBolded: true,
-            family: kFontFam2,
             color: widget.isSelected
                 ? AppColors.accentColor
                 : appColors.textColor2,

@@ -24,12 +24,24 @@ class _ReportsPageState extends State<ReportsPage> {
       body: ListView(
         padding: EdgeInsets.only(top: 40.dh),
         children: [
+          _buildSectionTitle('So far'),
+          PieChart(
+            incomeRatio: .7,
+            backgroundColor: appColors.backgroundColor,
+            backgroundColor2: appColors.textColor,
+            textColor: appColors.backgroundColor,
+          ),
           _buildSectionTitle('Budgets Analysis'),
           _buildSectionTitle('Income Analysis'),
           _buildSectionTitle('Expenses Analysis'),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.dw, vertical: 20.dh),
             child: const BarChart(),
+          ),
+          AppText(
+            'How is your day today Gaia again ?',
+            family: 'Avenir',
+            size: 16.dw,
           )
         ],
       ),

@@ -80,10 +80,8 @@ class _RecordsPageState extends State<RecordsPage> {
         Center(
           child: AppText(
             'December, 2021',
-            family: kFontFam2,
             color: appColors.textColor,
             size: value,
-            isBolded: true,
           ),
         ),
         AppIconButton(
@@ -263,12 +261,10 @@ class _RecordsPageState extends State<RecordsPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AppText(text.toUpperCase(),
-              size: 15.dw, family: kFontFam2, color: appColors.textColor2),
+          AppText(text.toUpperCase(), size: 15.dw, color: appColors.textColor2),
           SizedBox(height: 5.dh),
           AppText(amount,
               size: 13.dw,
-              family: kFontFam2,
               isBolded: true,
               color: !isExpense
                   ? appColors.positiveColor
