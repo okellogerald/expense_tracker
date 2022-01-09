@@ -20,7 +20,6 @@ class DayText extends StatefulWidget {
 }
 
 class _DayTextState extends State<DayText> {
-  
   static var themeProvider = ThemeProvider();
   static var appColors = AppColors('Light');
 
@@ -30,6 +29,7 @@ class _DayTextState extends State<DayText> {
     appColors = AppColors(themeProvider.getCurrentTheme);
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -37,7 +37,12 @@ class _DayTextState extends State<DayText> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText(widget.text, color: appColors.textColor2, size: 18.dw),
+          AppText(
+            widget.text,
+            color: appColors.textColor2,
+            size: 18.dw,
+            family: kFontFam2,
+          ),
           _buildActionButtons(),
         ],
       ),

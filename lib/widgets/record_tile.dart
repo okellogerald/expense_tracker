@@ -61,7 +61,6 @@ class _RecordTileState extends State<RecordTile> {
                     SizedBox(width: 20.dw),
                     AppText(
                       category.title,
-                      family: kFontFam2,
                       size: 16.dw,
                       color: appColors.textColor2,
                     )

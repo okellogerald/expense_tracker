@@ -17,6 +17,9 @@ class _RecordsPageState extends State<RecordsPage> {
   static var appColors = AppColors('Light');
 
   final scrollNotificationNotifier = ValueNotifier<double>(0.0);
+  bool _isScrollingUp = false;
+  double _startValue = 0.0;
+  double _endValue = 0.0;
 
   @override
   void didChangeDependencies() {
@@ -68,58 +71,93 @@ class _RecordsPageState extends State<RecordsPage> {
     return NotificationListener(
       onNotification: (ScrollNotification notification) {
         scrollNotificationNotifier.value = notification.metrics.pixels.dh;
+        if (notification is ScrollStartNotification) {
+          setState(() {
+            _startValue = notification.metrics.pixels.dh;
+          });
+          log('START VALUE');
+          log(_startValue.toString());
+        }
+        if (notification is ScrollUpdateNotification) {
+          final scrollValue = notification.metrics.pixels.dh;
+          setState(() {
+            _endValue = scrollValue;
+            if (scrollValue > _startValue) _isScrollingUp = true;
+            if (scrollValue < _startValue) _isScrollingUp = false;
+          });
+          log('UPDATED VALUE');
+          log(_endValue.toString());
+        }
+        if (notification is ScrollEndNotification) {
+          setState(() {
+            _endValue = notification.metrics.pixels.dh;
+          });
+        }
         return true;
       },
-      child: CustomScrollView(
-        slivers: [
-          _buildTitles(supplements),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
           recordsList.isEmpty
               ? _buildEmptyList()
-              : _buildRecords(recordsList, supplements)
+              : _buildRecords(recordsList, supplements),
+          _buildTitles(supplements),
         ],
       ),
     );
   }
 
   _buildTitles(RecordsPageSupplements supplements) {
-    return SliverAppBar(
-      backgroundColor: appColors.backgroundColor,
-      title: ValueListenableBuilder<double>(
-          valueListenable: scrollNotificationNotifier,
-          builder: (context, scrollValue, snapshot) {
-            return AppText(
-              'December, 2021',
-              family: kFontFam2,
-              color:
-                  scrollValue > 55 ? Colors.transparent : appColors.textColor,
-              size: 24.dw,
-            );
-          }),
-      actions: [
-        AppIconButton(
-          icon: Icons.settings,
-          margin: EdgeInsets.only(right: 15.dw),
-          iconSize: 24.dw,
-          iconColor: appColors.primaryColor,
-          onPressed: () => SettingsPage.navigateTo(context),
-        )
-      ],
-      pinned: true,
-      floating: true,
-      snap: true,
-      toolbarHeight: 55.dh,
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(61.dh),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.dw),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Positioned(
+      top: 0,
+      child: Material(
+        elevation: _isScrollingUp ? 4 : 0,
+        child: Container(
+          padding: EdgeInsets.fromLTRB(
+              15.dw, _isScrollingUp ? 25.dh : 35.dh, 15.dw, 0),
+          width: ScreenSizeConfig.getFullWidth,
+          color: appColors.backgroundColor,
+          child: Column(
             children: [
-              _buildBudgetAmount('Income', supplements.totalRecords.getIncome),
-              _buildBudgetAmount(
-                  'Expenses', supplements.totalRecords.getExpenses),
-              _buildBudgetAmount(
-                  'Balance', supplements.totalRecords.getBalance),
+              ValueListenableBuilder<double>(
+                  valueListenable: scrollNotificationNotifier,
+                  builder: (context, scrollValue, snapshot) {
+                    log(scrollValue.toString());
+                    final value = scrollValue <= 1
+                        ? 25.dw
+                        : _isScrollingUp
+                            ? 25 / scrollValue
+                            : 25.dw;
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Center(
+                          child: AppText('December, 2021',
+                              family: kFontFam2,
+                              color: appColors.textColor,
+                              size: value),
+                        ),
+                        AppIconButton(
+                          icon: Icons.settings,
+                          iconSize: value,
+                          iconColor: appColors.primaryColor,
+                          onPressed: () => SettingsPage.navigateTo(context),
+                        ),
+                      ],
+                    );
+                  }),
+              SizedBox(height: 5.dh),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildBudgetAmount(
+                      'Income', supplements.totalRecords.getIncome),
+                  _buildBudgetAmount(
+                      'Expenses', supplements.totalRecords.getExpenses),
+                  _buildBudgetAmount(
+                      'Balance', supplements.totalRecords.getBalance),
+                ],
+              ),
             ],
           ),
         ),
@@ -128,37 +166,31 @@ class _RecordsPageState extends State<RecordsPage> {
   }
 
   _buildEmptyList() {
-    return SliverFillRemaining(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.network(
-            'https://cdn1.iconfinder.com/data/icons/bam-free-3d/512/Empty-Files.png',
-            height: 80.dh,
-            fit: BoxFit.contain,
-          ),
-          SizedBox(height: 20.dh),
-          AppText('Records you add shall be added here.',
-              color: appColors.textColor3, size: 14.dw)
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.network(
+          'https://cdn1.iconfinder.com/data/icons/bam-free-3d/512/Empty-Files.png',
+          height: 80.dh,
+          fit: BoxFit.contain,
+        ),
+        SizedBox(height: 20.dh),
+        AppText('Records you add shall be added here.',
+            color: appColors.textColor3, size: 14.dw)
+      ],
     );
   }
 
   _buildRecords(List<Record> recordsList, RecordsPageSupplements supplements) {
-    return SliverPadding(
-      padding: EdgeInsets.only(bottom: 90.dh, top: 20.dh),
-      sliver: SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, i) {
-            final index = Utils.getDaysInMonth() - i + 1;
-            final recordList =
-                recordsList.where((e) => e.date.day == index).toList();
-            return _buildDayRecords(recordList, index, supplements);
-          },
-          childCount: Utils.getDaysInMonth(),
-        ),
-      ),
+    return ListView.builder(
+      padding: EdgeInsets.only(bottom: 90.dh, top: 150.dh),
+      itemBuilder: (context, i) {
+        final index = Utils.getDaysInMonth() - i + 1;
+        final recordList =
+            recordsList.where((e) => e.date.day == index).toList();
+        return _buildDayRecords(recordList, index, supplements);
+      },
+      itemCount: Utils.getDaysInMonth(),
     );
   }
 
