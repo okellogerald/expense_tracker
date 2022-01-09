@@ -89,9 +89,9 @@ class _RecordsPageState extends State<RecordsPage> {
           builder: (context, scrollValue, snapshot) {
             return AppText(
               'December, 2021',
-              family: 'Gramatika',
+              family: kFontFam2,
               color:
-                  scrollValue > 40 ? Colors.transparent : appColors.textColor,
+                  scrollValue > 55 ? Colors.transparent : appColors.textColor,
               size: 24.dw,
             );
           }),
@@ -107,9 +107,9 @@ class _RecordsPageState extends State<RecordsPage> {
       pinned: true,
       floating: true,
       snap: true,
-      toolbarHeight: 40.dh,
+      toolbarHeight: 55.dh,
       bottom: PreferredSize(
-        preferredSize: Size.fromHeight(45.dh),
+        preferredSize: Size.fromHeight(61.dh),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.dw),
           child: Row(
@@ -132,7 +132,11 @@ class _RecordsPageState extends State<RecordsPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.speaker_notes_off, color: appColors.iconColor),
+          Image.network(
+            'https://cdn1.iconfinder.com/data/icons/bam-free-3d/512/Empty-Files.png',
+            height: 80.dh,
+            fit: BoxFit.contain,
+          ),
           SizedBox(height: 20.dh),
           AppText('Records you add shall be added here.',
               color: appColors.textColor3, size: 14.dw)
@@ -283,6 +287,7 @@ class _RecordsPageState extends State<RecordsPage> {
           return Container(
             width: 125.dw,
             padding: EdgeInsets.symmetric(vertical: 5.dh),
+            //  margin: EdgeInsets.only(top: 10.dh),
             alignment: Alignment.center,
             color: appColors.secondaryColor,
             child: Column(
@@ -290,9 +295,11 @@ class _RecordsPageState extends State<RecordsPage> {
               children: [
                 AppText(text.toUpperCase(),
                     size: 15.dw,
+                    family: kFontFam2,
                     color: scrollValue > 40
                         ? appColors.textColor
                         : appColors.textColor2),
+                SizedBox(height: 5.dh),
                 AppText(amount,
                     size: 13.dw,
                     family: kFontFam2,

@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
   _buildAppBar() {
     return AppBar(
       title: AppText('Preferences',
-          size: 24.dw, family: kFontFam3, color: appColors.textColor),
+          size: 24.dw, family: kFontFam2, color: appColors.textColor),
       elevation: 0,
       backgroundColor: appColors.backgroundColor,
       leading: AppIconButton(

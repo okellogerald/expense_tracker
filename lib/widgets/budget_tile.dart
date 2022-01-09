@@ -76,16 +76,19 @@ class _BudgetTileState extends State<BudgetTile> {
       children: [
         Row(
           children: [
-            Icon(
-              AppIcons.getIcon(category.codePoint),
-              color: appColors.iconColor,
-              size: 20.dw,
+            Padding(
+              padding: EdgeInsets.only(bottom: 5.dw),
+              child: Icon(
+                AppIcons.getIcon(category.codePoint),
+                color: appColors.iconColor,
+                size: 20.dw,
+              ),
             ),
             SizedBox(width: 15.dw),
             AppText(
-              widget.budget.category.title,
+              widget.budget.category.title.toUpperCase(),
               family: kFontFam2,
-              size: 16.dw,
+              size: 15.dw,
             ),
           ],
         ),
@@ -144,30 +147,33 @@ class _BudgetTileState extends State<BudgetTile> {
   _buildBudgetAmounts(String title, String amount, Color color,
       {String balancePercent = ''}) {
     final isBalance = balancePercent.trim().isNotEmpty;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        AppText(
-          title,
-          family: kFontFam2,
-          size: 16.dw,
-          color: appColors.textColor2,
-        ),
-        AppText(
-          isBalance ? '$balancePercent %' : '',
-          family: kFontFam2,
-          size: 16.dw,
-          color: color,
-          isBolded: true,
-        ),
-        AppText(
-          amount,
-          family: kFontFam2,
-          size: 16.dw,
-          color: color,
-          isBolded: true,
-        )
-      ],
+    return Padding(
+      padding: EdgeInsets.only(top: 4.dh),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppText(
+            title,
+            family: kFontFam2,
+            size: 16.dw,
+            color: appColors.textColor2,
+          ),
+          AppText(
+            isBalance ? '$balancePercent %' : '',
+            family: kFontFam2,
+            size: 16.dw,
+            color: color,
+            isBolded: true,
+          ),
+          AppText(
+            amount,
+            family: kFontFam2,
+            size: 16.dw,
+            color: color,
+            isBolded: true,
+          )
+        ],
+      ),
     );
   }
 }

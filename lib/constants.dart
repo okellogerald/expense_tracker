@@ -12,8 +12,8 @@ const kGrossAmounts = 'gross_amounts';
 const kExpense = 'expense';
 const kIncome = 'income';
 
-const kFontFam2 = 'Louis';
-const kFontFam3 = 'Gramatika';
+const kFontFam = 'Avenir';
+const kFontFam2 = 'AndroidEuclid';
 
 const kAddCategoryPosition = 'add_category_position';
 const kWithTotalsList = 'with_totals_list';

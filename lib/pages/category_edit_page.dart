@@ -103,7 +103,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
           '${isEditing ? 'Edit' : 'New'} Category',
           size: 24.dw,
           color: appColors.textColor,
-          family: kFontFam3,
+          family: kFontFam2,
         ),
         AppIconButton(
           onPressed: () => Navigator.pop(context),

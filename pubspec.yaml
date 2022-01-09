@@ -1,6 +1,6 @@
 name: budgetting_app
 description: A Simple Budgetting App.
-publish_to: 'none'
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
@@ -31,16 +31,17 @@ flutter:
   uses-material-design: true
 
   fonts:
-     - family: Gramatika
-       fonts:
-         - asset: fonts/Gramatika.ttf
-     - family: Porpora
-       fonts:
-         - asset: fonts/Porpora.ttf
-     - family: Louis
-       fonts:
-         - asset: fonts/Louis.ttf
-     - family: AppIcons
-       fonts:
-         - asset: fonts/AppIcons.ttf
+    - family: Avenir
+      fonts:
+        - asset: fonts/Avenir-Roman.ttf
 
+    - family: AndroidEuclid
+      fonts:
+        - asset: fonts/AndroidEuclid-Medium.otf
+        - weight: 400
+        - asset: fonts/AndroidEuclid-Bold.otf
+        - weight: 600
+
+    - family: AppIcons
+      fonts:
+        - asset: fonts/AppIcons.ttf

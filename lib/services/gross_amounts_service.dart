@@ -12,8 +12,16 @@ class GrossAmountsService {
   Stream<GrossAmountsMap> get getGrossAmountStream => controller.stream;
 
   void add(String id, String title, double amount) {
-    final grossAmount = GrossAmount(
-        id: id, title: title, amount: amount, lastDate: DateTime.now());
+    final isAlreadyPresent = grossAmountsMap[id] != null;
+    var grossAmount = GrossAmount.empty();
+    if (isAlreadyPresent) {
+      final prevGrossAmount = grossAmountsMap[id] as GrossAmount;
+      grossAmount =
+          prevGrossAmount.copyWith(amount: prevGrossAmount.amount + amount);
+    } else {
+      grossAmount = GrossAmount(
+          id: id, title: title, amount: amount, lastDate: DateTime.now());
+    }
     grossAmountsMap[id] = grossAmount;
     box.put(id, grossAmount);
   }

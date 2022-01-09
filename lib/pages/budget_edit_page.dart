@@ -69,24 +69,16 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
 
   Widget _buildContent(
       List<Category> categoryList, List<String> idList, BudgetForm form) {
-    return CustomScrollView(
-      slivers: [
-        SliverFillRemaining(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(15.dw, 30.dh, 15.dw, 0),
-            child: Column(
-              children: [
-                _buildTitle(),
-                _buildFirstOperation(form),
-                _buildSecondOperation(categoryList, idList),
-                idList.isNotEmpty
-                    ? _buildThirdOperation(categoryList, idList, form)
-                    : Container(),
-                idList.isNotEmpty ? _buildUploadTextButton() : Container()
-              ],
-            ),
-          ),
-        )
+    return ListView(
+      padding: EdgeInsets.fromLTRB(15.dw, 40.dw, 15.dw, 0),
+      children: [
+        _buildTitle(),
+        _buildFirstOperation(form),
+        _buildSecondOperation(categoryList, idList),
+        idList.isNotEmpty
+            ? _buildThirdOperation(categoryList, idList, form)
+            : Container(),
+        idList.isNotEmpty ? _buildUploadTextButton() : Container()
       ],
     );
   }
@@ -96,7 +88,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppText('${isEditing ? 'Edit' : 'Plan your'}  budget',
-            size: 23.dw, family: kFontFam3),
+            size: 23.dw, family: kFontFam2),
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
@@ -255,21 +247,14 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
   }
 
   Widget _buildUploadTextButton() {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          AppTextButton(
-            text: isEditing ? 'Done Editing' : 'Add Budgets',
-            isBolded: true,
-            height: 40.dh,
-            margin: EdgeInsets.only(top: 30.dh, bottom: 20.dh),
-            borderColor: Colors.transparent,
-            buttonColor: appColors.primaryColor,
-            onPressed: isEditing ? bloc.edit : bloc.add,
-          ),
-        ],
-      ),
+    return AppTextButton(
+      text: isEditing ? 'Done Editing' : 'Add Budgets',
+      isBolded: true,
+      height: 40.dh,
+      margin: EdgeInsets.only(top: 30.dh, bottom: 20.dh),
+      borderColor: Colors.transparent,
+      buttonColor: appColors.primaryColor,
+      onPressed: isEditing ? bloc.edit : bloc.add,
     );
   }
 
@@ -299,11 +284,12 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
             color: appColors.textColor,
             size: 17.dw,
           ),
+          SizedBox(height: 5.dh),
           AppText(
             description,
             color: appColors.textColor2,
-            size: 16.dw,
-            family: kFontFam2,
+            size: 15.dw,
+            //  family: kFontFam2,
             maxLines: 10,
           ),
         ],
