@@ -12,3 +12,4 @@ export 'day_text.dart';
 export 'option_circle.dart';
 export 'budget_tile.dart';
 export 'bar_chart.dart';
+export 'app_list_view.dart';

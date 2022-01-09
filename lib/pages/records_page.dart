@@ -16,11 +16,6 @@ class _RecordsPageState extends State<RecordsPage> {
   static var themeProvider = ThemeProvider();
   static var appColors = AppColors('Light');
 
-  final scrollNotificationNotifier = ValueNotifier<double>(0.0);
-  bool _isScrollingUp = false;
-  double _startValue = 0.0;
-  double _endValue = 0.0;
-
   @override
   void didChangeDependencies() {
     themeProvider = Provider.of<ThemeProvider>(context);
@@ -68,100 +63,47 @@ class _RecordsPageState extends State<RecordsPage> {
 
   Widget _buildContent(
       List<Record> recordsList, RecordsPageSupplements supplements) {
-    return NotificationListener(
-      onNotification: (ScrollNotification notification) {
-        scrollNotificationNotifier.value = notification.metrics.pixels.dh;
-        if (notification is ScrollStartNotification) {
-          setState(() {
-            _startValue = notification.metrics.pixels.dh;
-          });
-          log('START VALUE');
-          log(_startValue.toString());
-        }
-        if (notification is ScrollUpdateNotification) {
-          final scrollValue = notification.metrics.pixels.dh;
-          setState(() {
-            _endValue = scrollValue;
-            if (scrollValue > _startValue) _isScrollingUp = true;
-            if (scrollValue < _startValue) _isScrollingUp = false;
-          });
-          log('UPDATED VALUE');
-          log(_endValue.toString());
-        }
-        if (notification is ScrollEndNotification) {
-          setState(() {
-            _endValue = notification.metrics.pixels.dh;
-          });
-        }
-        return true;
-      },
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          recordsList.isEmpty
-              ? _buildEmptyList()
-              : _buildRecords(recordsList, supplements),
-          _buildTitles(supplements),
-        ],
-      ),
+    return AppListView(
+      backgroundColor: appColors.backgroundColor,
+      appBarDisapperingWidget: (value) => _buildTitle1(value, supplements),
+      appBarRemainingWidget: () => _buildTitle2(supplements),
+      listWidget: recordsList.isEmpty
+          ? _buildEmptyList()
+          : _buildRecords(recordsList, supplements),
     );
   }
 
-  _buildTitles(RecordsPageSupplements supplements) {
-    return Positioned(
-      top: 0,
-      child: Material(
-        elevation: _isScrollingUp ? 4 : 0,
-        child: Container(
-          padding: EdgeInsets.fromLTRB(
-              15.dw, _isScrollingUp ? 25.dh : 35.dh, 15.dw, 0),
-          width: ScreenSizeConfig.getFullWidth,
-          color: appColors.backgroundColor,
-          child: Column(
-            children: [
-              ValueListenableBuilder<double>(
-                  valueListenable: scrollNotificationNotifier,
-                  builder: (context, scrollValue, snapshot) {
-                    log(scrollValue.toString());
-                    final value = scrollValue <= 1
-                        ? 25.dw
-                        : _isScrollingUp
-                            ? 25 / scrollValue
-                            : 25.dw;
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Center(
-                          child: AppText('December, 2021',
-                              family: kFontFam2,
-                              color: appColors.textColor,
-                              size: value),
-                        ),
-                        AppIconButton(
-                          icon: Icons.settings,
-                          iconSize: value,
-                          iconColor: appColors.primaryColor,
-                          onPressed: () => SettingsPage.navigateTo(context),
-                        ),
-                      ],
-                    );
-                  }),
-              SizedBox(height: 5.dh),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildBudgetAmount(
-                      'Income', supplements.totalRecords.getIncome),
-                  _buildBudgetAmount(
-                      'Expenses', supplements.totalRecords.getExpenses),
-                  _buildBudgetAmount(
-                      'Balance', supplements.totalRecords.getBalance),
-                ],
-              ),
-            ],
+  Widget _buildTitle1(double value, RecordsPageSupplements supp) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Center(
+          child: AppText(
+            'December, 2021',
+            family: kFontFam2,
+            color: appColors.textColor,
+            size: value,
+            isBolded: true,
           ),
         ),
-      ),
+        AppIconButton(
+          icon: Icons.settings,
+          iconSize: value,
+          iconColor: appColors.primaryColor,
+          onPressed: () => SettingsPage.navigateTo(context),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTitle2(RecordsPageSupplements supplements) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildBudgetAmount('Income', supplements.totalRecords.getIncome),
+        _buildBudgetAmount('Expenses', supplements.totalRecords.getExpenses),
+        _buildBudgetAmount('Balance', supplements.totalRecords.getBalance),
+      ],
     );
   }
 
@@ -313,52 +255,28 @@ class _RecordsPageState extends State<RecordsPage> {
   _buildBudgetAmount(String text, String amount) {
     final isExpense = text == 'Expenses';
 
-    return ValueListenableBuilder<double>(
-        valueListenable: scrollNotificationNotifier,
-        builder: (context, scrollValue, snapshot) {
-          return Container(
-            width: 125.dw,
-            padding: EdgeInsets.symmetric(vertical: 5.dh),
-            //  margin: EdgeInsets.only(top: 10.dh),
-            alignment: Alignment.center,
-            color: appColors.secondaryColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AppText(text.toUpperCase(),
-                    size: 15.dw,
-                    family: kFontFam2,
-                    color: scrollValue > 40
-                        ? appColors.textColor
-                        : appColors.textColor2),
-                SizedBox(height: 5.dh),
-                AppText(amount,
-                    size: 13.dw,
-                    family: kFontFam2,
-                    isBolded: true,
-                    color: !isExpense
-                        ? appColors.positiveColor
-                        : appColors.negativeColor)
-              ],
-            ),
-          );
-        });
-  }
-
-  /* 
-  _buildCircularIndicator() {
-    return AppCircularStepIndicator(
-      width: 60.dw,
-      height: 60.dw,
-      stepWidth: 3.5,
-      stepColor: AppColors.accentColor,
-      fillColor: AppColors.backgroundColor,
-      child: AppText(
-        '-30%',
-        size: 12.dw,
+    return Container(
+      width: 125.dw,
+      padding: EdgeInsets.symmetric(vertical: 5.dh),
+      alignment: Alignment.center,
+      color: appColors.secondaryColor,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AppText(text.toUpperCase(),
+              size: 15.dw, family: kFontFam2, color: appColors.textColor2),
+          SizedBox(height: 5.dh),
+          AppText(amount,
+              size: 13.dw,
+              family: kFontFam2,
+              isBolded: true,
+              color: !isExpense
+                  ? appColors.positiveColor
+                  : appColors.negativeColor)
+        ],
       ),
     );
-  } */
+  }
 
   _buildFloatingActionButton() {
     return AppIconButton(

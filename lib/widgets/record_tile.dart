@@ -61,8 +61,10 @@ class _RecordTileState extends State<RecordTile> {
                     SizedBox(width: 20.dw),
                     AppText(
                       category.title,
-                      size: 16.dw,
+                      size: 14.dw,
+                      family: kFontFam2,
                       color: appColors.textColor2,
+                      isBolded: true,
                     )
                   ],
                 ),
@@ -92,8 +94,8 @@ class _RecordTileState extends State<RecordTile> {
             padding: EdgeInsets.only(top: 8.dh),
             child: AppText(
               widget.record.notes,
-              color: appColors.textColor2,
-              size: 16.dw,
+              color: appColors.textColor3,
+              size: 14.dw,
               family: kFontFam2,
             ),
           )

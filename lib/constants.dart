@@ -12,7 +12,7 @@ const kGrossAmounts = 'gross_amounts';
 const kExpense = 'expense';
 const kIncome = 'income';
 
-const kFontFam = 'Avenir';
+const kFontFam = 'AndroidEuclid';
 const kFontFam2 = 'AndroidEuclid';
 
 const kAddCategoryPosition = 'add_category_position';
