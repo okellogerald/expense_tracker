@@ -1,58 +1,72 @@
 import '../source.dart';
 
 class BarChart extends StatelessWidget {
-  const BarChart({Key? key}) : super(key: key);
+  const BarChart(
+      {required this.value,
+      required this.valueColor,
+      required this.lineColor,
+      required this.title,
+      Key? key})
+      : super(key: key);
+
+  final double value;
+  final String title;
+  final Color valueColor, lineColor;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 300,
-      width: 300,
-      child: CustomPaint(painter: BarPainter()),
+    final data = (value * 100).round();
+
+    return Container(
+      height: 280.dh,
+      width: 50.dw,
+      margin: EdgeInsets.symmetric(vertical: 15.dh, horizontal: 5.dw),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          RotatedBox(quarterTurns: 3, child: AppText(title, size: 14.dw)),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              AppText(data.toString() + '%', size: 14.dw, family: kFontFam2),
+              SizedBox(
+                  height: 230.dh,
+                  width: 20.dw,
+                  child: CustomPaint(
+                      painter: BarPainter(
+                    value,
+                    valueColor,
+                    lineColor,
+                  ))),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
 
 class BarPainter extends CustomPainter {
+  BarPainter(this.value, this.valueColor, this.lineColor);
+  final double value;
+  final Color valueColor;
+  final Color lineColor;
+
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Rect.fromLTWH(0, 0, 30, size.height);
-    final rect2 = Rect.fromLTWH(0, 0, 30, size.height * .65);
-    final paint = Paint()..color = Colors.white;
-    final paint2 = Paint()..color = Colors.blue;
+    final height = size.height;
+    final width = size.width;
+    final rect = Rect.fromLTWH(0, height, width, -height * value);
+    final paint = Paint()..color = valueColor;
+    final linePaint = Paint()
+      ..color = lineColor
+      ..strokeWidth = 2;
 
-    final textPainter = TextPainter(
-      text: TextSpan(
-          text: '20 %',
-          style: TextStyle(
-              fontFamily: 'Louis', fontSize: 12.dw, color: Colors.black)),
-      textDirection: TextDirection.ltr,
-    );
-    final textPainter2 = TextPainter(
-      text: TextSpan(
-          text: '80 %',
-          style: TextStyle(
-              fontFamily: 'Louis', fontSize: 12.dw, color: Colors.black)),
-      textDirection: TextDirection.ltr,
-    );
-    textPainter.layout(
-      minWidth: 0,
-      maxWidth: size.width,
-    );
-    textPainter2.layout(
-      minWidth: 0,
-      maxWidth: size.width,
-    );
-    final xCenter = (30 - textPainter.width) / 2;
-    final yCenter = (size.height - textPainter.height);
-    final yCenter2 = (size.height * .65 - textPainter.height);
-    final offset = Offset(xCenter, yCenter);
-    final offset2 = Offset(xCenter, yCenter2);
+    final p1 = Offset(width / 2, height);
+    final p2 = Offset(width / 2, 0);
 
+    canvas.drawLine(p1, p2, linePaint);
     canvas.drawRect(rect, paint);
-    canvas.drawRect(rect2, paint2);
-    textPainter.paint(canvas, offset);
-    textPainter2.paint(canvas, offset2);
   }
 
   @override

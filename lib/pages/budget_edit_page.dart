@@ -103,9 +103,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildBudgetSection(
-            isEditing
-                ? 'Selected Duration ( Unmodifiable )'
-                : 'Choose Duration',
+            isEditing ? 'Selected Duration ( Unmodifiable )' : 'Duration',
             'A duration within which you want to plan your budget.'),
         SizedBox(height: 20.dh),
         _buildDurationActions(form),
@@ -236,7 +234,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         Row(
           children: [
             _buildDurationOption('Daily', 1, form.duration),
-            _buildDurationOption('Weekly', 7, form.duration),
+            //   _buildDurationOption('Weekly', 7, form.duration),
             _buildDurationOption(
                 'Monthly', Utils.getDaysInMonth(), form.duration),
           ],

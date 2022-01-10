@@ -9,10 +9,14 @@ class ReportsPageSupplements with _$ReportsPageSupplements {
   const factory ReportsPageSupplements({
     required TotalRecords totalRecords,
     required CurrentAnalysis currentAnalysis,
+    required List<Record> records,
+    required int index,
   }) = _ReportsPageSupplements;
 
   factory ReportsPageSupplements.empty() => ReportsPageSupplements(
         totalRecords: TotalRecords(),
         currentAnalysis: CurrentAnalysis.so_far,
+        records: [],
+        index: -1,
       );
 }

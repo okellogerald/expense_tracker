@@ -32,7 +32,7 @@ class BudgetEditPageBloc extends Cubit<BudgetEditPageState> {
     final expensesList = _categoryList
         .where((e) => !budgetsService.isExisting(1, e.id))
         .toList();
-    final form = state.form.copyWith(duration: 1);
+    final form = state.form.copyWith(duration: Utils.getDaysInMonth());
     emit(BudgetEditPageState.content(expensesList, state.idList, form));
   }
 

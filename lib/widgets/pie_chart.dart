@@ -18,7 +18,6 @@ class PieChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(vertical: 20.dh),
       child: Column(
         children: [
           CustomPaint(

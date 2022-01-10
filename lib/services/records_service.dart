@@ -140,6 +140,28 @@ class RecordsService {
     _totalRecordsBox.put(kTotalRecords, _totalRecords);
   }
 
+  List<Record> getUniqueRecords() {
+    var _uniqueList = <Record>[];
+    final idList = <String>[];
+
+    for (Record record in _recordList) {
+      final id = record.category.id;
+      if (idList.contains(record.category.id)) {
+        log('in here');
+
+        final index = _uniqueList.indexWhere((e) => e.category.id == id);
+        final _record = _uniqueList[index];
+        _uniqueList[index] =
+            _record.copyWith(amount: _record.amount + record.amount);
+      } else {
+        _uniqueList.add(record);
+        idList.add(id);
+      }
+    }
+
+    return _uniqueList;
+  }
+
   _addToController() {
     final amountsMap = getAllTotalAmounts();
     controller.add({

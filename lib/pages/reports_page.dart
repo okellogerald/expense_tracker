@@ -52,9 +52,16 @@ class _ReportsPageState extends State<ReportsPage> {
       padding: EdgeInsets.only(top: 40.dh),
       children: [
         _buildSoFarSection('So far', supp, CurrentAnalysis.so_far),
-        _buildExpensesSection('Income Analysis', supp, CurrentAnalysis.income),
-        _buildSectionTitle('Expenses Analysis', supp, CurrentAnalysis.expenses),
-        _buildSectionTitle('Budgets Analysis', supp, CurrentAnalysis.budgets),
+        _buildIncomeSection('Income Analysis', supp, CurrentAnalysis.income),
+        _buildExpensesSection(
+            'Expenses Analysis', supp, CurrentAnalysis.expenses),
+        _buildSectionTitle(
+            'Daily Budget Analysis', supp, CurrentAnalysis.budgets),
+        Padding(
+          padding: EdgeInsets.only(top: 15.dh),
+          child: _buildSectionTitle(
+              'All Categories', supp, CurrentAnalysis.all_categories),
+        )
       ],
     );
   }
@@ -65,6 +72,8 @@ class _ReportsPageState extends State<ReportsPage> {
 
     return Container(
       color: !isSelected ? Colors.transparent : appColors.backgroundColor2,
+      margin: EdgeInsets.only(bottom: 15.dh),
+      padding: isSelected ? EdgeInsets.symmetric(vertical: 15.dh) : null,
       child: Column(
         children: [
           _buildSectionTitle(title, supp, sectionAnalysis),
@@ -82,17 +91,74 @@ class _ReportsPageState extends State<ReportsPage> {
     );
   }
 
-  _buildExpensesSection(String title, ReportsPageSupplements supp,
+  _buildIncomeSection(String title, ReportsPageSupplements supp,
       CurrentAnalysis sectionAnalysis) {
     final isSelected = supp.currentAnalysis == sectionAnalysis;
+    final list = supp.records.where((e) => e.category.type == kIncome).toList();
 
     return Container(
       color: !isSelected ? Colors.transparent : appColors.backgroundColor2,
-      margin: EdgeInsets.symmetric(vertical: 15.dh),
+      margin: EdgeInsets.only(bottom: 15.dh),
+      padding: isSelected ? EdgeInsets.symmetric(vertical: 10.dh) : null,
+      width: ScreenSizeConfig.getFullWidth,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildSectionTitle(title, supp, sectionAnalysis),
-          isSelected ? const BarChart() : Container(),
+          isSelected
+              ? Container(
+                  padding: EdgeInsets.only(left: 15.dw),
+                  height: 280.dh,
+                  child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: list
+                          .map((e) => GestureDetector(
+                                onTap: () => bloc.updateIndex(e.category.id),
+                                child: BarChart(
+                                    valueColor: const Color(0xffFF6675),
+                                    lineColor: appColors.textColor,
+                                    value: e.amount /
+                                        supp.totalRecords.totalIncome,
+                                    title: e.category.title),
+                              ))
+                          .toList()),
+                )
+              : Container(),
+        ],
+      ),
+    );
+  }
+
+  _buildExpensesSection(String title, ReportsPageSupplements supp,
+      CurrentAnalysis sectionAnalysis) {
+    final isSelected = supp.currentAnalysis == sectionAnalysis;
+    final list =
+        supp.records.where((e) => e.category.type == kExpense).toList();
+
+    return Container(
+      color: !isSelected ? Colors.transparent : appColors.backgroundColor2,
+      margin: EdgeInsets.only(bottom: 15.dh),
+      width: ScreenSizeConfig.getFullWidth,
+      padding: isSelected ? EdgeInsets.symmetric(vertical: 10.dh) : null,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSectionTitle(title, supp, sectionAnalysis),
+          isSelected
+              ? Container(
+                  padding: EdgeInsets.only(left: 15.dw),
+                  height: 280.dh,
+                  child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: list
+                          .map((e) => BarChart(
+                              valueColor: const Color(0xff6E71D8),
+                              lineColor: appColors.textColor,
+                              value: e.amount / supp.totalRecords.totalExpenses,
+                              title: e.category.title))
+                          .toList()),
+                )
+              : Container(),
         ],
       ),
     );

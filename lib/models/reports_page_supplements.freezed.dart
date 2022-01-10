@@ -19,10 +19,14 @@ class _$ReportsPageSupplementsTearOff {
 
   _ReportsPageSupplements call(
       {required TotalRecords totalRecords,
-      required CurrentAnalysis currentAnalysis}) {
+      required CurrentAnalysis currentAnalysis,
+      required List<Record> records,
+      required int index}) {
     return _ReportsPageSupplements(
       totalRecords: totalRecords,
       currentAnalysis: currentAnalysis,
+      records: records,
+      index: index,
     );
   }
 }
@@ -34,6 +38,8 @@ const $ReportsPageSupplements = _$ReportsPageSupplementsTearOff();
 mixin _$ReportsPageSupplements {
   TotalRecords get totalRecords => throw _privateConstructorUsedError;
   CurrentAnalysis get currentAnalysis => throw _privateConstructorUsedError;
+  List<Record> get records => throw _privateConstructorUsedError;
+  int get index => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReportsPageSupplementsCopyWith<ReportsPageSupplements> get copyWith =>
@@ -45,7 +51,11 @@ abstract class $ReportsPageSupplementsCopyWith<$Res> {
   factory $ReportsPageSupplementsCopyWith(ReportsPageSupplements value,
           $Res Function(ReportsPageSupplements) then) =
       _$ReportsPageSupplementsCopyWithImpl<$Res>;
-  $Res call({TotalRecords totalRecords, CurrentAnalysis currentAnalysis});
+  $Res call(
+      {TotalRecords totalRecords,
+      CurrentAnalysis currentAnalysis,
+      List<Record> records,
+      int index});
 }
 
 /// @nodoc
@@ -61,6 +71,8 @@ class _$ReportsPageSupplementsCopyWithImpl<$Res>
   $Res call({
     Object? totalRecords = freezed,
     Object? currentAnalysis = freezed,
+    Object? records = freezed,
+    Object? index = freezed,
   }) {
     return _then(_value.copyWith(
       totalRecords: totalRecords == freezed
@@ -71,6 +83,14 @@ class _$ReportsPageSupplementsCopyWithImpl<$Res>
           ? _value.currentAnalysis
           : currentAnalysis // ignore: cast_nullable_to_non_nullable
               as CurrentAnalysis,
+      records: records == freezed
+          ? _value.records
+          : records // ignore: cast_nullable_to_non_nullable
+              as List<Record>,
+      index: index == freezed
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -82,7 +102,11 @@ abstract class _$ReportsPageSupplementsCopyWith<$Res>
           $Res Function(_ReportsPageSupplements) then) =
       __$ReportsPageSupplementsCopyWithImpl<$Res>;
   @override
-  $Res call({TotalRecords totalRecords, CurrentAnalysis currentAnalysis});
+  $Res call(
+      {TotalRecords totalRecords,
+      CurrentAnalysis currentAnalysis,
+      List<Record> records,
+      int index});
 }
 
 /// @nodoc
@@ -100,6 +124,8 @@ class __$ReportsPageSupplementsCopyWithImpl<$Res>
   $Res call({
     Object? totalRecords = freezed,
     Object? currentAnalysis = freezed,
+    Object? records = freezed,
+    Object? index = freezed,
   }) {
     return _then(_ReportsPageSupplements(
       totalRecords: totalRecords == freezed
@@ -110,6 +136,14 @@ class __$ReportsPageSupplementsCopyWithImpl<$Res>
           ? _value.currentAnalysis
           : currentAnalysis // ignore: cast_nullable_to_non_nullable
               as CurrentAnalysis,
+      records: records == freezed
+          ? _value.records
+          : records // ignore: cast_nullable_to_non_nullable
+              as List<Record>,
+      index: index == freezed
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -118,16 +152,23 @@ class __$ReportsPageSupplementsCopyWithImpl<$Res>
 
 class _$_ReportsPageSupplements implements _ReportsPageSupplements {
   const _$_ReportsPageSupplements(
-      {required this.totalRecords, required this.currentAnalysis});
+      {required this.totalRecords,
+      required this.currentAnalysis,
+      required this.records,
+      required this.index});
 
   @override
   final TotalRecords totalRecords;
   @override
   final CurrentAnalysis currentAnalysis;
+  @override
+  final List<Record> records;
+  @override
+  final int index;
 
   @override
   String toString() {
-    return 'ReportsPageSupplements(totalRecords: $totalRecords, currentAnalysis: $currentAnalysis)';
+    return 'ReportsPageSupplements(totalRecords: $totalRecords, currentAnalysis: $currentAnalysis, records: $records, index: $index)';
   }
 
   @override
@@ -138,14 +179,18 @@ class _$_ReportsPageSupplements implements _ReportsPageSupplements {
             const DeepCollectionEquality()
                 .equals(other.totalRecords, totalRecords) &&
             const DeepCollectionEquality()
-                .equals(other.currentAnalysis, currentAnalysis));
+                .equals(other.currentAnalysis, currentAnalysis) &&
+            const DeepCollectionEquality().equals(other.records, records) &&
+            const DeepCollectionEquality().equals(other.index, index));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(totalRecords),
-      const DeepCollectionEquality().hash(currentAnalysis));
+      const DeepCollectionEquality().hash(currentAnalysis),
+      const DeepCollectionEquality().hash(records),
+      const DeepCollectionEquality().hash(index));
 
   @JsonKey(ignore: true)
   @override
@@ -157,12 +202,18 @@ class _$_ReportsPageSupplements implements _ReportsPageSupplements {
 abstract class _ReportsPageSupplements implements ReportsPageSupplements {
   const factory _ReportsPageSupplements(
       {required TotalRecords totalRecords,
-      required CurrentAnalysis currentAnalysis}) = _$_ReportsPageSupplements;
+      required CurrentAnalysis currentAnalysis,
+      required List<Record> records,
+      required int index}) = _$_ReportsPageSupplements;
 
   @override
   TotalRecords get totalRecords;
   @override
   CurrentAnalysis get currentAnalysis;
+  @override
+  List<Record> get records;
+  @override
+  int get index;
   @override
   @JsonKey(ignore: true)
   _$ReportsPageSupplementsCopyWith<_ReportsPageSupplements> get copyWith =>
