@@ -41,6 +41,7 @@ class _DayTextState extends State<DayText> {
             widget.text,
             color: appColors.textColor2,
             size: 18.dw,
+            family: kFontFam2,
           ),
           _buildActionButtons(),
         ],
@@ -74,7 +75,6 @@ class _DayTextState extends State<DayText> {
         borderColor: Colors.transparent,
         textColor: appColors.primaryColor,
         margin: EdgeInsets.only(left: 8.dw),
-        useButtonSizeOnly: false,
         onPressed: isShowingTotals
             ? () => widget.showTotalsCallback(widget.day)
             : () => widget.cancelCallback(-1));

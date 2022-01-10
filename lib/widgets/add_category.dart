@@ -19,10 +19,8 @@ class AddCategoryWidget extends StatefulWidget {
 }
 
 class _AddCategoryWidgetState extends State<AddCategoryWidget> {
-
   bool isTapped = false;
 
-  
   static var themeProvider = ThemeProvider();
   static var appColors = AppColors('Light');
 
@@ -95,7 +93,6 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
                       }),
                       text: 'Cancel',
                       textColor: appColors.primaryColor,
-                      useButtonSizeOnly: false,
                       margin: EdgeInsets.only(bottom: 15.dh, right: 15.dw),
                     ),
                   ],

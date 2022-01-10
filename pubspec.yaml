@@ -35,12 +35,13 @@ flutter:
       fonts:
         - asset: fonts/Avenir-Roman.ttf
 
+    - family: LondonTube
+      fonts:
+        - asset: fonts/LondonTube.ttf
+
     - family: AndroidEuclid
       fonts:
         - asset: fonts/AndroidEuclid-Medium.otf
-        - weight: 400
-        - asset: fonts/AndroidEuclid-Bold.otf
-        - weight: 600
 
     - family: AppIcons
       fonts:

@@ -103,7 +103,6 @@ class _CategoryTileState extends State<CategoryTile> {
         margin: EdgeInsets.only(left: 20.dw),
         borderColor: Colors.transparent,
         textColor: appColors.primaryColor,
-        useButtonSizeOnly: false,
         onPressed: () => onPressed());
   }
 

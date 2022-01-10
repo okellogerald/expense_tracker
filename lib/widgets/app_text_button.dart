@@ -16,7 +16,6 @@ class AppTextButton extends StatefulWidget {
       this.text,
       this.alignment,
       this.child,
-      this.useButtonSizeOnly = true,
       this.isBolded = false,
       this.withIcon = false,
       this.useFullWidth = false,
@@ -41,7 +40,7 @@ class AppTextButton extends StatefulWidget {
   final EdgeInsetsGeometry? margin;
   final String? text;
   final double? fontSize;
-  final bool isBolded, withIcon, useButtonSizeOnly, useFullWidth;
+  final bool isBolded, withIcon, useFullWidth;
   final Widget? child;
   final Alignment? alignment;
 
@@ -99,23 +98,10 @@ class _AppTextButtonState extends State<AppTextButton>
               padding: widget.padding ?? EdgeInsets.zero,
               alignment: widget.alignment ?? Alignment.center,
               decoration: BoxDecoration(
-                  color: widget.useButtonSizeOnly
-                      ? animation.value
-                      : Colors.transparent,
-                  border: Border.all(
-                      color: widget.useButtonSizeOnly
-                          ? controller.value > 0
-                              ? animation.value ?? Colors.transparent
-                              : widget.borderColor ?? Colors.transparent
-                          : Colors.transparent,
-                      width: widget.borderColor == null ? 0 : 1.5),
+                  color: animation.value,
                   borderRadius: BorderRadius.all(
                       Radius.circular(widget.borderRadius ?? 0))),
-              child: CustomPaint(
-                child: child,
-                painter: RectTappedRippleEffectPainter(
-                    animation.value, widget.useButtonSizeOnly),
-              )),
+              child: child),
         );
       },
     );
@@ -141,6 +127,7 @@ class _AppTextButtonState extends State<AppTextButton>
     return AppText(widget.text ?? 'Click Me',
         size: widget.fontSize ?? 15.dw,
         isBolded: widget.isBolded,
+        family: kFontFam,
         color: widget.textColor ?? appColors.onPrimaryColor);
   }
 
@@ -149,24 +136,4 @@ class _AppTextButtonState extends State<AppTextButton>
     controller.dispose();
     super.dispose();
   }
-}
-
-class RectTappedRippleEffectPainter extends CustomPainter {
-  final Color? highlightColor;
-  final bool useButtonSizeOnly;
-  RectTappedRippleEffectPainter(this.highlightColor, this.useButtonSizeOnly);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final rect = Rect.fromCenter(
-        center: center,
-        width: size.width * (useButtonSizeOnly ? 0 : 1.1),
-        height: size.height * (useButtonSizeOnly ? 0 : 1.25));
-    final paint = Paint()..color = highlightColor ?? Colors.transparent;
-    canvas.drawRect(rect, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

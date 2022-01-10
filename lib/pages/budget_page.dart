@@ -88,7 +88,11 @@ class _BudgetPageState extends State<BudgetPage> {
         children: [
           Padding(
             padding: EdgeInsets.only(left: 15.dw, bottom: 10.dh),
-            child: AppText(title, size: 22.dw),
+            child: AppText(
+              title,
+              size: 22.dw,
+              family: kFontFam2,
+            ),
           ),
           Container(
             color: appColors.backgroundColor2,

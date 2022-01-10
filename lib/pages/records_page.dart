@@ -82,6 +82,7 @@ class _RecordsPageState extends State<RecordsPage> {
             'December, 2021',
             color: appColors.textColor,
             size: value,
+            family: kFontFam2,
           ),
         ),
         AppIconButton(
@@ -217,7 +218,7 @@ class _RecordsPageState extends State<RecordsPage> {
               AppText(
                 'Total Income',
                 size: 14.dw,
-                family: kFontFam2,
+                isBolded: true,
               ),
               AppText(
                 supplements.getIncomeTotal(day),
@@ -234,7 +235,7 @@ class _RecordsPageState extends State<RecordsPage> {
               AppText(
                 'Total Expenses',
                 size: 14.dw,
-                family: kFontFam2,
+                isBolded: true,
               ),
               AppText(
                 supplements.getExpensesTotal(day),

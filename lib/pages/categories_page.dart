@@ -86,8 +86,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 10.dw, bottom: 5.dh),
-          child: AppText('Income Categories',
-              size: 20.dw, color: appColors.textColor),
+          child: AppText(
+            'Income Categories',
+            size: 20.dw,
+            color: appColors.textColor,
+            family: kFontFam2,
+          ),
         ),
         Container(
             color: appColors.backgroundColor2,
@@ -98,7 +102,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           category: e,
                           editCallback: () => _navigateToEditPage(category: e),
                           isSelected: e.id == form.id,
-                           isUndeletable: form.undeletableCategories.contains(e.id),
+                          isUndeletable:
+                              form.undeletableCategories.contains(e.id),
                           cancelCallback: bloc.cancel,
                           changeSelectedIdCallback: bloc.updateId,
                           deleteCallback: bloc.deleteCategory,
@@ -114,8 +119,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
       children: [
         Padding(
           padding: EdgeInsets.only(left: 10.dw, bottom: 5.dh, top: 30.dh),
-          child: AppText('Expenses Categories',
-              size: 20.dw, color: appColors.textColor),
+          child: AppText(
+            'Expenses Categories',
+            size: 20.dw,
+            color: appColors.textColor,
+            family: kFontFam2,
+          ),
         ),
         Container(
             color: appColors.backgroundColor2,
@@ -127,7 +136,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           cancelCallback: bloc.cancel,
                           editCallback: () => _navigateToEditPage(category: e),
                           isSelected: e.id == form.id,
-                          isUndeletable: form.undeletableCategories.contains(e.id),
+                          isUndeletable:
+                              form.undeletableCategories.contains(e.id),
                           changeSelectedIdCallback: bloc.updateId,
                           deleteCallback: bloc.deleteCategory,
                         ))

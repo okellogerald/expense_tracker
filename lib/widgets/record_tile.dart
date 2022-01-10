@@ -61,9 +61,9 @@ class _RecordTileState extends State<RecordTile> {
                     SizedBox(width: 20.dw),
                     AppText(
                       category.title,
-                      size: 14.dw,
+                      size: 15.dw,
                       color: appColors.textColor2,
-                      isBolded: true,
+                      //  isBolded: true,
                     )
                   ],
                 ),
@@ -71,6 +71,7 @@ class _RecordTileState extends State<RecordTile> {
                   record.getAmount,
                   size: 15.dw,
                   isBolded: true,
+                  family: kFontFam2,
                   color: category.type == kIncome
                       ? appColors.positiveColor
                       : appColors.negativeColor,
@@ -160,7 +161,6 @@ class _RecordTileState extends State<RecordTile> {
         margin: EdgeInsets.only(left: isChangingNotesVisibility ? 0 : 20.dw),
         borderColor: Colors.transparent,
         textColor: appColors.primaryColor,
-        useButtonSizeOnly: false,
         onPressed: isEditing
             ? () => widget.editCallback()
             : isDeleting

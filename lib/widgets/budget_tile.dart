@@ -135,7 +135,6 @@ class _BudgetTileState extends State<BudgetTile> {
         margin: EdgeInsets.only(left: isChangingNotesVisibility ? 0 : 20.dw),
         borderColor: Colors.transparent,
         textColor: appColors.primaryColor,
-        useButtonSizeOnly: false,
         onPressed: isEditing
             ? () => widget.editCallback(widget.budget)
             : isDeleting
@@ -160,13 +159,13 @@ class _BudgetTileState extends State<BudgetTile> {
             isBalance ? '$balancePercent %' : '',
             size: 16.dw,
             color: color,
-            isBolded: true,
+            family: kFontFam2,
           ),
           AppText(
             amount,
             size: 16.dw,
             color: color,
-            isBolded: true,
+            family: kFontFam2,
           )
         ],
       ),

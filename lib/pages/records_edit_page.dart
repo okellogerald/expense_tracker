@@ -109,8 +109,12 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppText('${isEditing ? 'Edit' : 'New'} Record',
-            size: 24.dw, color: appColors.textColor),
+        AppText(
+          '${isEditing ? 'Edit' : 'New'} Record',
+          size: 24.dw,
+          color: appColors.textColor,
+          family: kFontFam2,
+        ),
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
@@ -132,7 +136,6 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
                 _text,
                 AppTextButton(
                     text: 'Add Category',
-                    useButtonSizeOnly: false,
                     textColor: appColors.primaryColor,
                     onPressed: () => CategoryEditPage.navigateTo(context))
               ],
@@ -219,7 +222,6 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
               AppText(
                 category.title,
                 color: isSelected ? appColors.textColor : appColors.textColor2,
-                family: kFontFam2,
                 size: 14.dw,
               )
             ],
