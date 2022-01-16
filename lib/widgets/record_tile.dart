@@ -42,6 +42,7 @@ class _RecordTileState extends State<RecordTile> {
       onTap: _onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 7.5.dh, horizontal: 15.dw),
+        width: ScreenSizeConfig.getFullWidth,
         decoration: BoxDecoration(
             color: Colors.white.withOpacity(.0),
             border: Border(
@@ -54,18 +55,25 @@ class _RecordTileState extends State<RecordTile> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    Icon(record.category.getIcon,
-                        color: appColors.iconColor, size: 18.dw),
-                    SizedBox(width: 20.dw),
-                    AppText(
-                      category.title,
-                      size: 15.dw,
-                      color: appColors.textColor2,
-                      //  isBolded: true,
-                    )
-                  ],
+                Expanded(
+                  child: Row(
+                    children: [
+                      Icon(record.category.getIcon,
+                          color: appColors.iconColor, size: 18.dw),
+                      SizedBox(width: 20.dw),
+                      Expanded(
+                        child: Container(
+                            alignment: Alignment.centerLeft,
+                            margin: EdgeInsets.only(right: 15.dw),
+                            child: AppText(
+                              category.title,
+                              size: 15.dw,
+                              color: appColors.textColor2,
+                              maxLines: 2,
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
                 AppText(
                   record.getAmount,

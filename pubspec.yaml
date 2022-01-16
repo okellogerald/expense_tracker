@@ -30,19 +30,19 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  fonts:
-    - family: Avenir
-      fonts:
-        - asset: fonts/Avenir-Roman.ttf
+  assets:
+    - assets/images/
+    - assets/fonts/
 
+  fonts:
     - family: LondonTube
       fonts:
-        - asset: fonts/LondonTube.ttf
+        - asset: assets/fonts/LondonTube.ttf
 
     - family: AndroidEuclid
       fonts:
-        - asset: fonts/AndroidEuclid-Medium.otf
+        - asset: assets/fonts/AndroidEuclid-Medium.otf
 
     - family: AppIcons
       fonts:
-        - asset: fonts/AppIcons.ttf
+        - asset: assets/fonts/AppIcons.ttf

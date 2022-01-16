@@ -79,7 +79,7 @@ class _RecordsPageState extends State<RecordsPage> {
       children: [
         Center(
           child: AppText(
-            'December, 2021',
+            '${Utils.getDaysInMonth()}, ${Utils.getCurrentYear()}',
             color: appColors.textColor,
             size: value,
             family: kFontFam2,
@@ -107,18 +107,21 @@ class _RecordsPageState extends State<RecordsPage> {
   }
 
   _buildEmptyList() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.network(
-          'https://cdn1.iconfinder.com/data/icons/bam-free-3d/512/Empty-Files.png',
-          height: 80.dh,
-          fit: BoxFit.contain,
-        ),
-        SizedBox(height: 20.dh),
-        AppText('Records you add shall be added here.',
-            color: appColors.textColor3, size: 14.dw)
-      ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.dw),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/records.png',
+            height: 80.dh,
+            fit: BoxFit.contain,
+          ),
+          SizedBox(height: 20.dh),
+          AppText('Records you add shall be appear here.',
+              color: appColors.textColor3, size: 15.dw)
+        ],
+      ),
     );
   }
 

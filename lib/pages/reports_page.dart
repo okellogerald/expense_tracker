@@ -48,6 +48,8 @@ class _ReportsPageState extends State<ReportsPage> {
   }
 
   Widget _buildContent(ReportsPageSupplements supp) {
+    if (supp.records.isEmpty) return _buildEmptyState();
+
     return ListView(
       padding: EdgeInsets.only(top: 40.dh),
       children: [
@@ -55,14 +57,107 @@ class _ReportsPageState extends State<ReportsPage> {
         _buildIncomeSection('Income Analysis', supp, CurrentAnalysis.income),
         _buildExpensesSection(
             'Expenses Analysis', supp, CurrentAnalysis.expenses),
-        _buildSectionTitle(
-            'Daily Budget Analysis', supp, CurrentAnalysis.budgets),
-        Padding(
-          padding: EdgeInsets.only(top: 15.dh),
-          child: _buildSectionTitle(
-              'All Categories', supp, CurrentAnalysis.all_categories),
-        )
+        _buildAllCategoriesSection(
+            'All Categories', supp, CurrentAnalysis.all_categories)
       ],
+    );
+  }
+
+  _buildEmptyState() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.dw),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/reports.png',
+            height: 100.dh,
+            fit: BoxFit.contain,
+          ),
+          SizedBox(height: 20.dh),
+          AppText(
+            'There is no much information to create the reports. Only one record is required.',
+            size: 15.dw,
+            color: appColors.textColor2,
+            alignment: TextAlign.center,
+          )
+        ],
+      ),
+    );
+  }
+
+  _buildAllCategoriesSection(String title, ReportsPageSupplements supp,
+      CurrentAnalysis sectionAnalysis) {
+    final isSelected = supp.currentAnalysis == sectionAnalysis;
+    final incomeList =
+        supp.records.where((e) => e.category.type == kIncome).toList();
+    final expensesList =
+        supp.records.where((e) => e.category.type == kExpense).toList();
+
+    return Container(
+      color: !isSelected ? Colors.transparent : appColors.backgroundColor2,
+      margin: EdgeInsets.only(bottom: 15.dh),
+      padding: isSelected ? EdgeInsets.symmetric(vertical: 15.dh) : null,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSectionTitle(title, supp, sectionAnalysis),
+          incomeList.isNotEmpty && isSelected
+              ? _buildCategoriesTitle(
+                  'income',
+                  const Color(0xffFF6675),
+                )
+              : Container(),
+          isSelected ? _buildList(incomeList) : Container(),
+          expensesList.isNotEmpty && isSelected
+              ? _buildCategoriesTitle(
+                  'expenses',
+                  const Color(0xff6E71D8),
+                )
+              : Container(),
+          isSelected ? _buildList(expensesList) : Container(),
+        ],
+      ),
+    );
+  }
+
+  _buildCategoriesTitle(String title, Color color) {
+    return Padding(
+      padding: EdgeInsets.only(left: 15.dw, top: 10.dh),
+      child: AppText(
+        title.toUpperCase(),
+        size: 14.dw,
+        color: color,
+        isBolded: true,
+      ),
+    );
+  }
+
+  _buildList(List<Record> recordList) {
+    if (recordList.isEmpty) return Container();
+
+    return Column(
+      children: recordList
+          .map((e) => Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.dw),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          margin: EdgeInsets.only(right: 15.dw),
+                          child: AppText(
+                            e.category.title,
+                            size: 14.dw,
+                            maxLines: 1,
+                          ),
+                        ),
+                      ),
+                      AppText(e.getAmount, size: 14.dw, family: kFontFam2)
+                    ]),
+              ))
+          .toList(),
     );
   }
 
@@ -95,6 +190,8 @@ class _ReportsPageState extends State<ReportsPage> {
       CurrentAnalysis sectionAnalysis) {
     final isSelected = supp.currentAnalysis == sectionAnalysis;
     final list = supp.records.where((e) => e.category.type == kIncome).toList();
+
+    if (list.isEmpty) return Container();
 
     return Container(
       color: !isSelected ? Colors.transparent : appColors.backgroundColor2,
@@ -134,6 +231,8 @@ class _ReportsPageState extends State<ReportsPage> {
     final isSelected = supp.currentAnalysis == sectionAnalysis;
     final list =
         supp.records.where((e) => e.category.type == kExpense).toList();
+
+    if (list.isEmpty) return Container();
 
     return Container(
       color: !isSelected ? Colors.transparent : appColors.backgroundColor2,

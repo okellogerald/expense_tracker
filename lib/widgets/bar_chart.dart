@@ -21,14 +21,19 @@ class BarChart extends StatelessWidget {
       height: 280.dh,
       width: 50.dw,
       margin: EdgeInsets.symmetric(vertical: 15.dh, horizontal: 5.dw),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Column(
         children: [
-          RotatedBox(quarterTurns: 3, child: AppText(title, size: 14.dw)),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+          AppText(data.toString() + '%', size: 14.dw, family: kFontFam2),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              AppText(data.toString() + '%', size: 14.dw, family: kFontFam2),
+              RotatedBox(
+                  quarterTurns: 3,
+                  child: AppText(
+                    title,
+                    size: 14.dw,
+                    maxLines: 1,
+                  )),
               SizedBox(
                   height: 230.dh,
                   width: 20.dw,

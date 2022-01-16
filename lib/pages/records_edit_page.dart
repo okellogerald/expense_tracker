@@ -169,7 +169,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 160.dh,
+          height: 170.dh,
           width: ScreenSizeConfig.getFullWidth,
           margin: EdgeInsets.only(top: 20.dh, bottom: hasErrors ? 0 : 40.dh),
           color: appColors.backgroundColor2,
@@ -223,6 +223,8 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
                 category.title,
                 color: isSelected ? appColors.textColor : appColors.textColor2,
                 size: 14.dw,
+                maxLines: 2,
+                alignment: TextAlign.center,
               )
             ],
           )),

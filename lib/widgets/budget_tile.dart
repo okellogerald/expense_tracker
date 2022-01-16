@@ -45,6 +45,7 @@ class _BudgetTileState extends State<BudgetTile> {
                     color: appColors.dividerColor.withOpacity(.5)))),
         padding:
             EdgeInsets.only(left: 15.dw, bottom: 5.dh, right: 15.dw, top: 5.dh),
+        width: ScreenSizeConfig.getFullWidth,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -74,24 +75,33 @@ class _BudgetTileState extends State<BudgetTile> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 5.dw),
-              child: Icon(
-                AppIcons.getIcon(category.codePoint),
-                color: appColors.iconColor,
-                size: 20.dw,
+        Expanded(
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 5.dw),
+                child: Icon(
+                  AppIcons.getIcon(category.codePoint),
+                  color: appColors.iconColor,
+                  size: 20.dw,
+                ),
               ),
-            ),
-            SizedBox(width: 15.dw),
-            AppText(
-              widget.budget.category.title.toUpperCase(),
-              size: 15.dw,
-              color: appColors.textColor2,
-              isBolded: true,
-            ),
-          ],
+              SizedBox(width: 15.dw),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(right: 15.dw),
+                  child: AppText(
+                    widget.budget.category.title.toUpperCase(),
+                    size: 15.dw,
+                    color: appColors.textColor2,
+                    isBolded: true,
+                    maxLines: 2,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         isSelected
             ? Container()

@@ -1,7 +1,7 @@
 import '../source.dart';
 
 // ignore: constant_identifier_names
-enum CurrentAnalysis { so_far, budgets, income, expenses, all_categories, none }
+enum CurrentAnalysis { so_far, income, expenses, all_categories, none }
 
 class ReportsPageBloc extends Cubit<ReportsPageState> {
   ReportsPageBloc(this.recordsService) : super(ReportsPageState.initial());

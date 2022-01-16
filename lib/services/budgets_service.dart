@@ -12,6 +12,7 @@ class BudgetsService {
   Stream<List<Budget>> get getBudgetListStream => controller.stream;
 
   List<Budget> getBudgets() {
+    log(_budgetsBox.isEmpty.toString());
     if (_budgetsBox.isEmpty) return [];
     final values = _budgetsBox.values;
     for (Budget budget in values) {

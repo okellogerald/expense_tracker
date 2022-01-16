@@ -11,6 +11,7 @@ class _BudgetPageState extends State<BudgetPage> {
   late final BudgetPageBloc bloc;
   late final BudgetsService budgetsService;
   late final GrossAmountsService grossAmountsService;
+  late final RecordsService recordsService;
 
   static var themeProvider = ThemeProvider();
   static var appColors = AppColors('Light');
@@ -25,9 +26,10 @@ class _BudgetPageState extends State<BudgetPage> {
   @override
   void initState() {
     budgetsService = Provider.of<BudgetsService>(context, listen: false);
+    recordsService = Provider.of<RecordsService>(context, listen: false);
     grossAmountsService =
         Provider.of<GrossAmountsService>(context, listen: false);
-    bloc = BudgetPageBloc(budgetsService, grossAmountsService);
+    bloc = BudgetPageBloc(budgetsService, grossAmountsService, recordsService);
     bloc.init();
     super.initState();
   }
@@ -44,41 +46,29 @@ class _BudgetPageState extends State<BudgetPage> {
     );
   }
 
-  Widget _buildLoading(List<Budget> budgetList, String id) {
+  Widget _buildLoading(BudgetPageSupplements supp) {
     return const Center(
       child: CircularProgressIndicator(),
     );
   }
 
-  Widget _buildContent(List<Budget> budgetList, String id) {
-    if (budgetList.isEmpty) return _buildEmptyState();
+  Widget _buildContent(BudgetPageSupplements supp) {
+    if (supp.budgetList.isEmpty) return _buildEmptyState();
 
     return ListView(
       padding: EdgeInsets.only(top: 50.dh),
       children: [
-        _buildBudgets(
-            budgetList, Utils.getDaysInMonth(), 'Monthly Budgets', id),
-        _buildBudgets(budgetList, 7, 'Weekly Budgets', id),
-        _buildBudgets(budgetList, 1, 'Daily Budgets', id),
-        _buildBudgets(budgetList, 0, 'Custom Duration Budgets', id),
+        _buildMonthlyBudgets(supp.budgetList, 'Monthly Budgets',
+            Utils.getDaysInMonth(), supp.id),
         SizedBox(height: 70.dh)
       ],
     );
   }
 
-  _buildBudgets(
-      List<Budget> budgetList, int duration, String title, String id) {
+  _buildMonthlyBudgets(
+      List<Budget> budgetList, String title, int duration, String id) {
     var list = <Budget>[];
-    if (duration == 0) {
-      list = budgetList
-          .where((e) =>
-              e.duration != 7 &&
-              e.duration != Utils.getDaysInMonth() &&
-              e.duration != 1)
-          .toList();
-    } else {
-      list = budgetList.where((e) => e.duration == duration).toList();
-    }
+    list = budgetList.where((e) => e.duration == duration).toList();
 
     if (list.isEmpty) return Container();
     return Padding(
@@ -118,12 +108,22 @@ class _BudgetPageState extends State<BudgetPage> {
   _buildEmptyState() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.dw),
-      child: Center(
-        child: AppText(
-          'The budgets you create shall appear here.',
-          size: 15.dw,
-          color: appColors.textColor2,
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/budgets.png',
+            height: 100.dh,
+            fit: BoxFit.contain,
+          ),
+          SizedBox(height: 20.dh),
+          AppText(
+            'You have not created any budget yet. All the budgets will be shown on this page.',
+            size: 15.dw,
+            color: appColors.textColor2,
+            alignment: TextAlign.center,
+          )
+        ],
       ),
     );
   }

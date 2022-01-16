@@ -17,17 +17,15 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$BudgetPageStateTearOff {
   const _$BudgetPageStateTearOff();
 
-  _Loading loading(List<Budget> budgetList, String id) {
+  _Loading loading(BudgetPageSupplements supp) {
     return _Loading(
-      budgetList,
-      id,
+      supp,
     );
   }
 
-  _Content content(List<Budget> budgetList, String id) {
+  _Content content(BudgetPageSupplements supp) {
     return _Content(
-      budgetList,
-      id,
+      supp,
     );
   }
 }
@@ -37,25 +35,24 @@ const $BudgetPageState = _$BudgetPageStateTearOff();
 
 /// @nodoc
 mixin _$BudgetPageState {
-  List<Budget> get budgetList => throw _privateConstructorUsedError;
-  String get id => throw _privateConstructorUsedError;
+  BudgetPageSupplements get supp => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Budget> budgetList, String id) loading,
-    required TResult Function(List<Budget> budgetList, String id) content,
+    required TResult Function(BudgetPageSupplements supp) loading,
+    required TResult Function(BudgetPageSupplements supp) content,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList, String id)? loading,
-    TResult Function(List<Budget> budgetList, String id)? content,
+    TResult Function(BudgetPageSupplements supp)? loading,
+    TResult Function(BudgetPageSupplements supp)? content,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList, String id)? loading,
-    TResult Function(List<Budget> budgetList, String id)? content,
+    TResult Function(BudgetPageSupplements supp)? loading,
+    TResult Function(BudgetPageSupplements supp)? content,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -89,7 +86,9 @@ abstract class $BudgetPageStateCopyWith<$Res> {
   factory $BudgetPageStateCopyWith(
           BudgetPageState value, $Res Function(BudgetPageState) then) =
       _$BudgetPageStateCopyWithImpl<$Res>;
-  $Res call({List<Budget> budgetList, String id});
+  $Res call({BudgetPageSupplements supp});
+
+  $BudgetPageSupplementsCopyWith<$Res> get supp;
 }
 
 /// @nodoc
@@ -103,19 +102,21 @@ class _$BudgetPageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? budgetList = freezed,
-    Object? id = freezed,
+    Object? supp = freezed,
   }) {
     return _then(_value.copyWith(
-      budgetList: budgetList == freezed
-          ? _value.budgetList
-          : budgetList // ignore: cast_nullable_to_non_nullable
-              as List<Budget>,
-      id: id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
+      supp: supp == freezed
+          ? _value.supp
+          : supp // ignore: cast_nullable_to_non_nullable
+              as BudgetPageSupplements,
     ));
+  }
+
+  @override
+  $BudgetPageSupplementsCopyWith<$Res> get supp {
+    return $BudgetPageSupplementsCopyWith<$Res>(_value.supp, (value) {
+      return _then(_value.copyWith(supp: value));
+    });
   }
 }
 
@@ -125,7 +126,10 @@ abstract class _$LoadingCopyWith<$Res>
   factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
       __$LoadingCopyWithImpl<$Res>;
   @override
-  $Res call({List<Budget> budgetList, String id});
+  $Res call({BudgetPageSupplements supp});
+
+  @override
+  $BudgetPageSupplementsCopyWith<$Res> get supp;
 }
 
 /// @nodoc
@@ -139,18 +143,13 @@ class __$LoadingCopyWithImpl<$Res> extends _$BudgetPageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? budgetList = freezed,
-    Object? id = freezed,
+    Object? supp = freezed,
   }) {
     return _then(_Loading(
-      budgetList == freezed
-          ? _value.budgetList
-          : budgetList // ignore: cast_nullable_to_non_nullable
-              as List<Budget>,
-      id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
+      supp == freezed
+          ? _value.supp
+          : supp // ignore: cast_nullable_to_non_nullable
+              as BudgetPageSupplements,
     ));
   }
 }
@@ -158,16 +157,14 @@ class __$LoadingCopyWithImpl<$Res> extends _$BudgetPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Loading implements _Loading {
-  const _$_Loading(this.budgetList, this.id);
+  const _$_Loading(this.supp);
 
   @override
-  final List<Budget> budgetList;
-  @override
-  final String id;
+  final BudgetPageSupplements supp;
 
   @override
   String toString() {
-    return 'BudgetPageState.loading(budgetList: $budgetList, id: $id)';
+    return 'BudgetPageState.loading(supp: $supp)';
   }
 
   @override
@@ -175,16 +172,12 @@ class _$_Loading implements _Loading {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Loading &&
-            const DeepCollectionEquality()
-                .equals(other.budgetList, budgetList) &&
-            const DeepCollectionEquality().equals(other.id, id));
+            const DeepCollectionEquality().equals(other.supp, supp));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(budgetList),
-      const DeepCollectionEquality().hash(id));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(supp));
 
   @JsonKey(ignore: true)
   @override
@@ -194,30 +187,30 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Budget> budgetList, String id) loading,
-    required TResult Function(List<Budget> budgetList, String id) content,
+    required TResult Function(BudgetPageSupplements supp) loading,
+    required TResult Function(BudgetPageSupplements supp) content,
   }) {
-    return loading(budgetList, id);
+    return loading(supp);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList, String id)? loading,
-    TResult Function(List<Budget> budgetList, String id)? content,
+    TResult Function(BudgetPageSupplements supp)? loading,
+    TResult Function(BudgetPageSupplements supp)? content,
   }) {
-    return loading?.call(budgetList, id);
+    return loading?.call(supp);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList, String id)? loading,
-    TResult Function(List<Budget> budgetList, String id)? content,
+    TResult Function(BudgetPageSupplements supp)? loading,
+    TResult Function(BudgetPageSupplements supp)? content,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading(budgetList, id);
+      return loading(supp);
     }
     return orElse();
   }
@@ -255,12 +248,10 @@ class _$_Loading implements _Loading {
 }
 
 abstract class _Loading implements BudgetPageState {
-  const factory _Loading(List<Budget> budgetList, String id) = _$_Loading;
+  const factory _Loading(BudgetPageSupplements supp) = _$_Loading;
 
   @override
-  List<Budget> get budgetList;
-  @override
-  String get id;
+  BudgetPageSupplements get supp;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -273,7 +264,10 @@ abstract class _$ContentCopyWith<$Res>
   factory _$ContentCopyWith(_Content value, $Res Function(_Content) then) =
       __$ContentCopyWithImpl<$Res>;
   @override
-  $Res call({List<Budget> budgetList, String id});
+  $Res call({BudgetPageSupplements supp});
+
+  @override
+  $BudgetPageSupplementsCopyWith<$Res> get supp;
 }
 
 /// @nodoc
@@ -287,18 +281,13 @@ class __$ContentCopyWithImpl<$Res> extends _$BudgetPageStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? budgetList = freezed,
-    Object? id = freezed,
+    Object? supp = freezed,
   }) {
     return _then(_Content(
-      budgetList == freezed
-          ? _value.budgetList
-          : budgetList // ignore: cast_nullable_to_non_nullable
-              as List<Budget>,
-      id == freezed
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
+      supp == freezed
+          ? _value.supp
+          : supp // ignore: cast_nullable_to_non_nullable
+              as BudgetPageSupplements,
     ));
   }
 }
@@ -306,16 +295,14 @@ class __$ContentCopyWithImpl<$Res> extends _$BudgetPageStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Content implements _Content {
-  const _$_Content(this.budgetList, this.id);
+  const _$_Content(this.supp);
 
   @override
-  final List<Budget> budgetList;
-  @override
-  final String id;
+  final BudgetPageSupplements supp;
 
   @override
   String toString() {
-    return 'BudgetPageState.content(budgetList: $budgetList, id: $id)';
+    return 'BudgetPageState.content(supp: $supp)';
   }
 
   @override
@@ -323,16 +310,12 @@ class _$_Content implements _Content {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Content &&
-            const DeepCollectionEquality()
-                .equals(other.budgetList, budgetList) &&
-            const DeepCollectionEquality().equals(other.id, id));
+            const DeepCollectionEquality().equals(other.supp, supp));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(budgetList),
-      const DeepCollectionEquality().hash(id));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(supp));
 
   @JsonKey(ignore: true)
   @override
@@ -342,30 +325,30 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Budget> budgetList, String id) loading,
-    required TResult Function(List<Budget> budgetList, String id) content,
+    required TResult Function(BudgetPageSupplements supp) loading,
+    required TResult Function(BudgetPageSupplements supp) content,
   }) {
-    return content(budgetList, id);
+    return content(supp);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList, String id)? loading,
-    TResult Function(List<Budget> budgetList, String id)? content,
+    TResult Function(BudgetPageSupplements supp)? loading,
+    TResult Function(BudgetPageSupplements supp)? content,
   }) {
-    return content?.call(budgetList, id);
+    return content?.call(supp);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Budget> budgetList, String id)? loading,
-    TResult Function(List<Budget> budgetList, String id)? content,
+    TResult Function(BudgetPageSupplements supp)? loading,
+    TResult Function(BudgetPageSupplements supp)? content,
     required TResult orElse(),
   }) {
     if (content != null) {
-      return content(budgetList, id);
+      return content(supp);
     }
     return orElse();
   }
@@ -403,12 +386,10 @@ class _$_Content implements _Content {
 }
 
 abstract class _Content implements BudgetPageState {
-  const factory _Content(List<Budget> budgetList, String id) = _$_Content;
+  const factory _Content(BudgetPageSupplements supp) = _$_Content;
 
   @override
-  List<Budget> get budgetList;
-  @override
-  String get id;
+  BudgetPageSupplements get supp;
   @override
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>

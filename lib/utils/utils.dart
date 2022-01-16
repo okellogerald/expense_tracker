@@ -35,6 +35,31 @@ class Utils {
     return monthLength[date.month - 1];
   }
 
+  static String getCurrentMonth() {
+    final date = DateTime.now();
+    final monthsList = [
+      'January',
+      'February',
+      'March',
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+
+    return monthsList[date.month - 1];
+  }
+
+  static int getCurrentYear() {
+    final date = DateTime.now();
+    return date.year;
+  }
+
   static String getWeekDay(int weekDay) {
     switch (weekDay) {
       case 1:

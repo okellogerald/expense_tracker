@@ -108,7 +108,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
-          iconColor: Colors.white70,
+          iconColor: appColors.iconColor,
         )
       ],
     );
@@ -220,9 +220,8 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   _buildDisclaimer() {
     return AppText(
       '**Editing the category changes the respective entries of this category in the records and budgets pages.',
-      size: 16.dw,
+      size: 15.dw,
       color: AppColors.accentColor,
-      family: kFontFam2,
     );
   }
 }

@@ -140,6 +140,7 @@ class RecordsService {
     _totalRecordsBox.put(kTotalRecords, _totalRecords);
   }
 
+  ///Gets the amounts used for each category recorded, incomes and expenses.
   List<Record> getUniqueRecords() {
     var _uniqueList = <Record>[];
     final idList = <String>[];
@@ -147,8 +148,6 @@ class RecordsService {
     for (Record record in _recordList) {
       final id = record.category.id;
       if (idList.contains(record.category.id)) {
-        log('in here');
-
         final index = _uniqueList.indexWhere((e) => e.category.id == id);
         final _record = _uniqueList[index];
         _uniqueList[index] =
@@ -160,6 +159,30 @@ class RecordsService {
     }
 
     return _uniqueList;
+  }
+
+  Map<int, double> getDailyAmountByCategory(Category category) {
+    var _dailyAmountMap = <int, double>{};
+    final dateList = <int>[];
+
+    final id = category.id;
+    final list = _recordList.where((e) => e.category.id == id).toList();
+
+    for (Record record in list) {
+      final day = record.date.day;
+
+      if (dateList.contains(day)) {
+        final amount = _dailyAmountMap[day]!;
+        _dailyAmountMap[day] = amount + record.amount;
+      } else {
+        _dailyAmountMap[day] = record.amount;
+        dateList.add(day);
+      }
+    }
+
+    log(_dailyAmountMap.toString());
+
+    return _dailyAmountMap;
   }
 
   _addToController() {

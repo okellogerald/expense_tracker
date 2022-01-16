@@ -57,12 +57,18 @@ class _CategoryTileState extends State<CategoryTile> {
                       size: 20.dw,
                       color: appColors.iconColor),
                   SizedBox(width: 20.dw),
-                  AppText(
-                    widget.category.title,
-                    size: 16.dw,
-                    color: appColors.textColor2,
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      margin: EdgeInsets.only(right: 15.dw),
+                      child: AppText(
+                        widget.category.title,
+                        size: 16.dw,
+                        color: appColors.textColor2,
+                        maxLines: 2,
+                      ),
+                    ),
                   ),
-                  const Spacer(),
                   !isSelected
                       ? AppIconButton(
                           onPressed: _onTap,
