@@ -79,7 +79,7 @@ class _RecordsPageState extends State<RecordsPage> {
       children: [
         Center(
           child: AppText(
-            '${Utils.getDaysInMonth()}, ${Utils.getCurrentYear()}',
+            '${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
             color: appColors.textColor,
             size: value,
             family: kFontFam2,
