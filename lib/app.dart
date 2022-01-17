@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
           fontFamily: kFontFam,
           scaffoldBackgroundColor: appColors.backgroundColor,
         ),
-        home: const Homepage(),
+        home: const OnBoardingPage(),
       ),
     );
   }

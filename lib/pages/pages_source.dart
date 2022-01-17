@@ -7,3 +7,5 @@ export 'records_edit_page.dart';
 export 'budget_page.dart';
 export 'settings_page.dart';
 export 'reports_page.dart';
+export 'on_boarding_page.dart';
+
