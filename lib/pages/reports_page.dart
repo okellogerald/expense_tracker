@@ -8,8 +8,6 @@ class ReportsPage extends StatefulWidget {
 }
 
 class _ReportsPageState extends State<ReportsPage> {
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
   late final ReportsPageBloc bloc;
   late final RecordsService recordsService;
 
@@ -19,13 +17,6 @@ class _ReportsPageState extends State<ReportsPage> {
     bloc = ReportsPageBloc(recordsService);
     bloc.init();
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
   }
 
   @override
@@ -78,7 +69,7 @@ class _ReportsPageState extends State<ReportsPage> {
           AppText(
             'There is no much information to create the reports. Only one record is required.',
             size: 15.dw,
-            color: appColors.textColor2,
+            color: AppColors.onBackground2,
             alignment: TextAlign.center,
           )
         ],
@@ -95,7 +86,7 @@ class _ReportsPageState extends State<ReportsPage> {
         supp.records.where((e) => e.category.type == kExpense).toList();
 
     return Container(
-      color: !isSelected ? Colors.transparent : appColors.backgroundColor2,
+      color: !isSelected ? Colors.transparent : AppColors.surface,
       margin: EdgeInsets.only(bottom: 15.dh),
       padding: isSelected ? EdgeInsets.symmetric(vertical: 15.dh) : null,
       child: Column(
@@ -166,7 +157,7 @@ class _ReportsPageState extends State<ReportsPage> {
     final isSelected = supp.currentAnalysis == sectionAnalysis;
 
     return Container(
-      color: !isSelected ? Colors.transparent : appColors.backgroundColor2,
+      color: !isSelected ? Colors.transparent : AppColors.surface,
       margin: EdgeInsets.only(bottom: 15.dh),
       padding: isSelected ? EdgeInsets.symmetric(vertical: 15.dh) : null,
       child: Column(
@@ -176,9 +167,9 @@ class _ReportsPageState extends State<ReportsPage> {
               ? PieChart(
                   income: supp.totalRecords.totalIncome,
                   expenses: supp.totalRecords.totalExpenses,
-                  backgroundColor: appColors.backgroundColor,
-                  backgroundColor2: appColors.textColor,
-                  textColor: appColors.backgroundColor,
+                  backgroundColor: AppColors.background,
+                  backgroundColor2: AppColors.surface,
+                  textColor: AppColors.onBackground,
                 )
               : Container(),
         ],
@@ -194,7 +185,7 @@ class _ReportsPageState extends State<ReportsPage> {
     if (list.isEmpty) return Container();
 
     return Container(
-      color: !isSelected ? Colors.transparent : appColors.backgroundColor2,
+      color: !isSelected ? Colors.transparent : AppColors.surface,
       margin: EdgeInsets.only(bottom: 15.dh),
       padding: isSelected ? EdgeInsets.symmetric(vertical: 10.dh) : null,
       width: ScreenSizeConfig.getFullWidth,
@@ -213,7 +204,7 @@ class _ReportsPageState extends State<ReportsPage> {
                                 onTap: () => bloc.updateIndex(e.category.id),
                                 child: BarChart(
                                     valueColor: const Color(0xffFF6675),
-                                    lineColor: appColors.textColor,
+                                    lineColor: AppColors.onBackground,
                                     value: e.amount /
                                         supp.totalRecords.totalIncome,
                                     title: e.category.title),
@@ -235,7 +226,7 @@ class _ReportsPageState extends State<ReportsPage> {
     if (list.isEmpty) return Container();
 
     return Container(
-      color: !isSelected ? Colors.transparent : appColors.backgroundColor2,
+      color: !isSelected ? Colors.transparent : AppColors.surface,
       margin: EdgeInsets.only(bottom: 15.dh),
       width: ScreenSizeConfig.getFullWidth,
       padding: isSelected ? EdgeInsets.symmetric(vertical: 10.dh) : null,
@@ -252,7 +243,7 @@ class _ReportsPageState extends State<ReportsPage> {
                       children: list
                           .map((e) => BarChart(
                               valueColor: const Color(0xff6E71D8),
-                              lineColor: appColors.textColor,
+                              lineColor: AppColors.onBackground,
                               value: e.amount / supp.totalRecords.totalExpenses,
                               title: e.category.title))
                           .toList()),
@@ -274,14 +265,14 @@ class _ReportsPageState extends State<ReportsPage> {
           AppIconButton(
             onPressed: () => bloc.updateSelectedAnalysis(sectionAnalysis),
             icon: isSelected ? Icons.remove : Icons.add,
-            iconColor: appColors.primaryColor,
+            iconColor: AppColors.primary,
           ),
           SizedBox(width: 10.dw),
           AppText(
             title.toUpperCase(),
             family: kFontFam2,
             size: 15.dw,
-            color: appColors.textColor,
+            color: AppColors.onBackground,
           ),
         ],
       ),

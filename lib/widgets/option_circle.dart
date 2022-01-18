@@ -17,16 +17,6 @@ class OptionCircle extends StatefulWidget {
 }
 
 class _OptionCircleState extends State<OptionCircle> {
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -37,14 +27,12 @@ class _OptionCircleState extends State<OptionCircle> {
           widget.isSelected
               ? Container(
                   decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: appColors.iconColor),
+                    border: Border.all(width: 1, color: AppColors.onBackground),
                     shape: BoxShape.circle,
                   ),
                   padding: EdgeInsets.all(3.dw),
                   child: _buildCircle(
-                    widget.isSelected
-                        ? AppColors.accentColor
-                        : Colors.grey,
+                    widget.isSelected ? AppColors.accent : Colors.grey,
                   ))
               : Container(),
           SizedBox(width: !widget.isSelected ? 0 : 10.dw),
@@ -52,9 +40,8 @@ class _OptionCircleState extends State<OptionCircle> {
             widget.option,
             size: 15.dw,
             isBolded: true,
-            color: widget.isSelected
-                ? AppColors.accentColor
-                : appColors.textColor2,
+            color:
+                widget.isSelected ? AppColors.accent : AppColors.onBackground2,
           )
         ]),
       ),

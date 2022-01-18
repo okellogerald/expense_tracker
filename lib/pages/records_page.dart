@@ -3,6 +3,9 @@ import '../../source.dart';
 class RecordsPage extends StatefulWidget {
   const RecordsPage({Key? key}) : super(key: key);
 
+  static void navigateTo(BuildContext context) => Navigator.of(context)
+      .push(MaterialPageRoute(builder: (_) => const RecordsPage()));
+
   @override
   State<RecordsPage> createState() => _RecordsPageState();
 }
@@ -12,16 +15,6 @@ class _RecordsPageState extends State<RecordsPage> {
   late final RecordsService recordsService;
   late final PreferencesService prefsService;
   late final GrossAmountsService grossAmountsService;
-
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
 
   @override
   void initState() {
@@ -64,7 +57,7 @@ class _RecordsPageState extends State<RecordsPage> {
   Widget _buildContent(
       List<Record> recordsList, RecordsPageSupplements supplements) {
     return AppListView(
-      backgroundColor: appColors.backgroundColor,
+      backgroundColor: AppColors.background,
       appBarDisapperingWidget: (value) => _buildTitle1(value, supplements),
       appBarRemainingWidget: () => _buildTitle2(supplements),
       listWidget: recordsList.isEmpty
@@ -80,7 +73,7 @@ class _RecordsPageState extends State<RecordsPage> {
         Center(
           child: AppText(
             '${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
-            color: appColors.textColor,
+            color: AppColors.onBackground,
             size: value,
             family: kFontFam2,
           ),
@@ -88,7 +81,7 @@ class _RecordsPageState extends State<RecordsPage> {
         AppIconButton(
           icon: Icons.settings,
           iconSize: value,
-          iconColor: appColors.primaryColor,
+          iconColor: AppColors.primary,
           onPressed: () => SettingsPage.navigateTo(context),
         ),
       ],
@@ -119,7 +112,7 @@ class _RecordsPageState extends State<RecordsPage> {
           ),
           SizedBox(height: 20.dh),
           AppText('Records you add shall be appear here.',
-              color: appColors.textColor3, size: 15.dw)
+              color: AppColors.onBackground2, size: 15.dw)
         ],
       ),
     );
@@ -175,7 +168,7 @@ class _RecordsPageState extends State<RecordsPage> {
                             child: AppIconButton(
                               onPressed: () => bloc.updateDay(day),
                               icon: Icons.more_horiz,
-                              iconColor: appColors.iconColor,
+                              iconColor: AppColors.onBackground,
                               spreadRadius: 25.dw,
                             ),
                           )
@@ -183,7 +176,7 @@ class _RecordsPageState extends State<RecordsPage> {
                   ],
                 ),
                 Container(
-                  color: appColors.backgroundColor2,
+                  color: AppColors.surface,
                   child: Column(
                     children: recordList
                         .map((e) => RecordTile(
@@ -212,7 +205,7 @@ class _RecordsPageState extends State<RecordsPage> {
       padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 5.dh),
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(color: appColors.dividerColor, width: 2.dw))),
+              bottom: BorderSide(color: AppColors.divider, width: 2.dw))),
       child: Column(
         children: [
           Row(
@@ -226,7 +219,7 @@ class _RecordsPageState extends State<RecordsPage> {
               AppText(
                 supplements.getIncomeTotal(day),
                 size: 14.dw,
-                color: appColors.positiveColor,
+                color: AppColors.positive,
                 family: kFontFam2,
                 isBolded: true,
               ),
@@ -243,7 +236,7 @@ class _RecordsPageState extends State<RecordsPage> {
               AppText(
                 supplements.getExpensesTotal(day),
                 size: 14.dw,
-                color: appColors.negativeColor,
+                color: AppColors.negative,
                 family: kFontFam2,
                 isBolded: true,
               ),
@@ -261,18 +254,17 @@ class _RecordsPageState extends State<RecordsPage> {
       width: 125.dw,
       padding: EdgeInsets.symmetric(vertical: 5.dh),
       alignment: Alignment.center,
-      color: appColors.secondaryColor,
+      color: AppColors.secondary,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AppText(text.toUpperCase(), size: 15.dw, color: appColors.textColor2),
+          AppText(text.toUpperCase(),
+              size: 15.dw, color: AppColors.onBackground2),
           SizedBox(height: 5.dh),
           AppText(amount,
               size: 13.dw,
               isBolded: true,
-              color: !isExpense
-                  ? appColors.positiveColor
-                  : appColors.negativeColor)
+              color: !isExpense ? AppColors.positive : AppColors.negative)
         ],
       ),
     );
@@ -281,9 +273,9 @@ class _RecordsPageState extends State<RecordsPage> {
   _buildFloatingActionButton() {
     return AppIconButton(
       onPressed: () => RecordsEditPage.navigateTo(context),
-      buttonColor: appColors.primaryColor,
+      buttonColor: AppColors.primary,
       icon: Icons.add,
-      iconColor: appColors.onPrimaryColor,
+      iconColor: AppColors.onPrimary,
       height: 55.dw,
       width: 55.dw,
       spreadRadius: 30.dw,

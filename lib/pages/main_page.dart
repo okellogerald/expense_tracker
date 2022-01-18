@@ -9,16 +9,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +27,9 @@ class _HomepageState extends State<Homepage> {
   _buildBottomNavBar() {
     return Container(
         height: 60,
-        decoration: BoxDecoration(
-            border: Border(
-                top: BorderSide(width: 1, color: appColors.dividerColor))),
+        decoration: const BoxDecoration(
+            border:
+                Border(top: BorderSide(width: 1, color: AppColors.divider))),
         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           _bottonNavBarItem(Icons.notes, 'Records', 0),
           _bottonNavBarItem(Icons.category, 'Categories', 1),
@@ -66,15 +56,15 @@ class _HomepageState extends State<Homepage> {
                       Icon(icon,
                           size: 22,
                           color: isActive
-                              ? appColors.primaryColor
-                              : appColors.iconColor),
+                              ? AppColors.primary
+                              : AppColors.onBackground),
                       SizedBox(height: 5.dw),
                       AppText(
                         text,
                         isBolded: isActive,
                         color: isActive
-                            ? appColors.primaryColor
-                            : appColors.iconColor,
+                            ? AppColors.primary
+                            : AppColors.onBackground,
                         size: 14.dw,
                       )
                     ]);

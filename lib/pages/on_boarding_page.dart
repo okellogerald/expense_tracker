@@ -8,16 +8,6 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +46,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           AppText(
             'Sign in to continue',
             size: 16.dw,
-            color: appColors.textColor2,
+            color: AppColors.onBackground2,
           ),
         ],
       ),
@@ -72,7 +62,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           AppText(
             'Enter your phone number:',
             size: 16.dw,
-            color: appColors.textColor2,
+            color: AppColors.onBackground2,
           ),
           SizedBox(height: 5.dh),
           AppTextField(
@@ -86,7 +76,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           AppTextButton(
             onPressed: () {},
             text: 'Log in',
-            buttonColor: appColors.primaryColor,
+            buttonColor: AppColors.primary,
             isBolded: true,
             height: 40.dh,
             fontSize: 16.dw,
@@ -104,7 +94,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           AppText(
             'or continue with:',
             size: 16.dw,
-            color: appColors.textColor2,
+            color: AppColors.onBackground2,
           ),
           SizedBox(height: 30.dh),
           Row(
@@ -113,7 +103,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 child: AppTextButton(
                   onPressed: () {},
                   text: 'Google',
-                  buttonColor: Colors.white,
+                  buttonColor: AppColors.secondary,
                   isBolded: true,
                   height: 40.dh,
                   fontSize: 16.dw,
@@ -122,9 +112,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               SizedBox(width: 25.dw),
               Expanded(
                 child: AppTextButton(
-                  onPressed: () {},
+                  onPressed: () => RecordsPage.navigateTo(context),
                   text: 'Facebook',
-                  buttonColor: Colors.white,
+                  buttonColor: AppColors.secondary,
                   isBolded: true,
                   height: 40.dh,
                   fontSize: 16.dw,
@@ -147,7 +137,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           AppTextButton(
             onPressed: () {},
             text: 'Register',
-            textColor: AppColors.accentColor,
+            textColor: AppColors.accent,
             margin: EdgeInsets.only(left: 15.dw),
             isBolded: true,
             fontSize: 16.dw,

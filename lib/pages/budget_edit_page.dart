@@ -18,17 +18,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
   late final CategoriesService categoriesService;
   late final BudgetsService budgetsService;
 
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
   static var isEditing = false;
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
 
   @override
   void initState() {
@@ -92,7 +82,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
-          iconColor: appColors.iconColor,
+          iconColor: AppColors.onBackground,
         )
       ],
     );
@@ -161,7 +151,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
           AppText(
             category.title,
             size: 16.dw,
-            color: appColors.textColor,
+            color: AppColors.onBackground,
             family: kFontFam2,
           ),
           SizedBox(height: 5.dh),
@@ -180,7 +170,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
 
   _buildCategories(List<Category> categoryList, List<String> idList) {
     return Container(
-      color: appColors.backgroundColor2,
+      color: AppColors.onBackground,
       height: 360.dh,
       width: ScreenSizeConfig.getFullWidth,
       margin: EdgeInsets.only(top: 10.dh),
@@ -207,18 +197,22 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
             color: Colors.white.withOpacity(.0),
             border: Border.all(
               width: isSelected ? 1.5 : 0,
-              color: isSelected ? AppColors.accentColor : Colors.transparent,
+              color: isSelected ? AppColors.accent : Colors.transparent,
             )),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(AppIcons.getIcon(category.codePoint),
-                color: isSelected ? appColors.iconColor : appColors.iconColor2),
+            Icon(
+              AppIcons.getIcon(category.codePoint),
+              color:
+                  isSelected ? AppColors.onBackground : AppColors.onBackground2,
+            ),
             SizedBox(height: 8.dh),
             AppText(
               category.title,
               size: 15.dw,
-              color: isSelected ? appColors.textColor : appColors.textColor2,
+              color:
+                  isSelected ? AppColors.onBackground : AppColors.onBackground2,
               maxLines: 1,
               alignment: TextAlign.center,
             ),
@@ -250,7 +244,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       height: 40.dh,
       margin: EdgeInsets.only(top: 30.dh, bottom: 20.dh),
       borderColor: Colors.transparent,
-      buttonColor: appColors.primaryColor,
+      buttonColor: AppColors.primary,
       onPressed: isEditing ? bloc.edit : bloc.add,
     );
   }
@@ -278,13 +272,13 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         children: [
           AppText(
             title.toUpperCase(),
-            color: appColors.textColor,
+            color: AppColors.onBackground,
             size: 17.dw,
           ),
           SizedBox(height: 5.dh),
           AppText(
             description,
-            color: appColors.textColor2,
+            color: AppColors.onBackground2,
             size: 15.dw,
             alignment: TextAlign.start,
             maxLines: 10,

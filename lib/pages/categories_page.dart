@@ -33,16 +33,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
     super.initState();
   }
 
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CategoriesPageBloc, CategoriesPageState>(
@@ -89,12 +79,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
           child: AppText(
             'Income Categories',
             size: 20.dw,
-            color: appColors.textColor,
+            color: AppColors.onBackground,
             family: kFontFam2,
           ),
         ),
         Container(
-            color: appColors.backgroundColor2,
+            color: AppColors.surface,
             child: Column(
                 children: categoryList
                     .where((e) => e.type == kIncome)
@@ -122,12 +112,12 @@ class _CategoriesPageState extends State<CategoriesPage> {
           child: AppText(
             'Expenses Categories',
             size: 20.dw,
-            color: appColors.textColor,
+            color: AppColors.onBackground,
             family: kFontFam2,
           ),
         ),
         Container(
-            color: appColors.backgroundColor2,
+            color: AppColors.surface,
             child: Column(
                 children: categoryList
                     .where((e) => e.type == kExpense)

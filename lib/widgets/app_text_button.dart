@@ -3,7 +3,7 @@ import '../source.dart';
 class AppTextButton extends StatefulWidget {
   const AppTextButton(
       {this.buttonColor = Colors.transparent,
-      this.highlightColor = AppColors.highlightColor,
+      this.highlightColor = AppColors.highlight,
       this.textColor,
       this.borderColor,
       this.icon,
@@ -52,16 +52,6 @@ class _AppTextButtonState extends State<AppTextButton>
     with SingleTickerProviderStateMixin {
   late final AnimationController controller;
   late final Animation<Color?> animation;
-
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
 
   @override
   void initState() {
@@ -115,7 +105,7 @@ class _AppTextButtonState extends State<AppTextButton>
         : widget.withIcon
             ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Icon(widget.icon ?? Icons.share,
-                    color: widget.iconColor ?? appColors.secondaryColor,
+                    color: widget.iconColor ?? AppColors.secondary,
                     size: 22.dw),
                 SizedBox(width: 15.dw),
                 _text(),
@@ -128,7 +118,7 @@ class _AppTextButtonState extends State<AppTextButton>
         size: widget.fontSize ?? 15.dw,
         isBolded: widget.isBolded,
         family: kFontFam2,
-        color: widget.textColor ?? appColors.onPrimaryColor);
+        color: widget.textColor ?? AppColors.onPrimary);
   }
 
   @override

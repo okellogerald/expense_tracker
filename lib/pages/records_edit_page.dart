@@ -22,9 +22,6 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   late final GrossAmountsService grossAmountsService;
   final controller = TextEditingController();
 
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
   @override
   void initState() {
     recordsService = Provider.of<RecordsService>(context, listen: false);
@@ -35,13 +32,6 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
         recordsService, categoriesService, grossAmountsService);
     bloc.init(record: widget.record);
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
   }
 
   @override
@@ -112,13 +102,13 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
         AppText(
           '${isEditing ? 'Edit' : 'New'} Record',
           size: 24.dw,
-          color: appColors.textColor,
+          color: AppColors.onBackground,
           family: kFontFam2,
         ),
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
-          iconColor: appColors.iconColor,
+          iconColor: AppColors.onBackground,
         )
       ],
     );
@@ -126,7 +116,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
 
   _buildSectionTitle(String text,
       {double? topOffset, bool withButton = false}) {
-    final _text = AppText(text, size: 18.dw, color: appColors.textColor2);
+    final _text = AppText(text, size: 18.dw, color: AppColors.onBackground2);
     return Padding(
       padding: EdgeInsets.only(top: topOffset ?? 60.dh, bottom: 5.dh),
       child: withButton
@@ -136,7 +126,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
                 _text,
                 AppTextButton(
                     text: 'Add Category',
-                    textColor: appColors.primaryColor,
+                    textColor: AppColors.primary,
                     onPressed: () => CategoryEditPage.navigateTo(context))
               ],
             )
@@ -172,7 +162,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
           height: 170.dh,
           width: ScreenSizeConfig.getFullWidth,
           margin: EdgeInsets.only(top: 20.dh, bottom: hasErrors ? 0 : 40.dh),
-          color: appColors.backgroundColor2,
+          color: AppColors.surface,
           child: GridView.count(
               crossAxisCount: 2,
               shrinkWrap: true,
@@ -192,7 +182,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
                   form.errors['category'],
                   family: kFontFam2,
                   size: 16.dw,
-                  color: AppColors.errorColor,
+                  color: AppColors.error,
                 ),
               )
             : Container()
@@ -210,18 +200,20 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
               color: Colors.white.withOpacity(.0),
               border: Border.all(
                   width: isSelected ? 1.5 : 0,
-                  color:
-                      isSelected ? AppColors.accentColor : Colors.transparent)),
+                  color: isSelected ? AppColors.accent : Colors.transparent)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(category.codePoint == -1 ? Icons.tag : category.getIcon,
-                  color:
-                      isSelected ? appColors.iconColor : appColors.iconColor2),
+                  color: isSelected
+                      ? AppColors.onBackground
+                      : AppColors.onBackground2),
               SizedBox(height: 10.dh),
               AppText(
                 category.title,
-                color: isSelected ? appColors.textColor : appColors.textColor2,
+                color: isSelected
+                    ? AppColors.onBackground
+                    : AppColors.onBackground2,
                 size: 14.dw,
                 maxLines: 2,
                 alignment: TextAlign.center,
@@ -267,7 +259,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
           margin: EdgeInsets.only(bottom: 30.dh),
           fontSize: 15.dw,
           isBolded: true,
-          buttonColor: appColors.primaryColor,
+          buttonColor: AppColors.primary,
         ),
       ],
     ));

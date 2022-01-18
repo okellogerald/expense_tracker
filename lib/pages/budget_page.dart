@@ -13,16 +13,6 @@ class _BudgetPageState extends State<BudgetPage> {
   late final GrossAmountsService grossAmountsService;
   late final RecordsService recordsService;
 
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
-
   @override
   void initState() {
     budgetsService = Provider.of<BudgetsService>(context, listen: false);
@@ -85,7 +75,7 @@ class _BudgetPageState extends State<BudgetPage> {
             ),
           ),
           Container(
-            color: appColors.backgroundColor2,
+            color: AppColors.surface,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: list
@@ -120,7 +110,7 @@ class _BudgetPageState extends State<BudgetPage> {
           AppText(
             'You have not created any budget yet. All the budgets will be shown on this page.',
             size: 15.dw,
-            color: appColors.textColor2,
+            color: AppColors.onBackground2,
             alignment: TextAlign.center,
           )
         ],
@@ -131,9 +121,9 @@ class _BudgetPageState extends State<BudgetPage> {
   _buildFloatingActionButton() {
     return AppIconButton(
       onPressed: () => BudgetEditPage.navigateTo(context),
-      buttonColor: appColors.primaryColor,
+      buttonColor: AppColors.primary,
       icon: Icons.add,
-      iconColor: appColors.onPrimaryColor,
+      iconColor: AppColors.onPrimary,
       height: 55.dw,
       width: 55.dw,
       spreadRadius: 30.dw,

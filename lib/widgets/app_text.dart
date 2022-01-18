@@ -27,19 +27,8 @@ class AppText extends StatefulWidget {
 }
 
 class _AppTextState extends State<AppText> {
-  
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
   @override
   Widget build(BuildContext context) {
-    
     return Padding(
       padding: EdgeInsets.only(top: 0.dw),
       child: Text(widget.data,
@@ -48,7 +37,7 @@ class _AppTextState extends State<AppText> {
           style: TextStyle(
               fontWeight: widget.isBolded ? FontWeight.w600 : FontWeight.w400,
               fontSize: widget.size ?? 20.dw,
-              color: widget.color ?? appColors.textColor,
+              color: widget.color ?? AppColors.onBackground,
               fontFamily: widget.family,
               height: widget.height,
               letterSpacing: widget.letterSpacing,

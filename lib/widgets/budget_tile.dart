@@ -20,16 +20,6 @@ class BudgetTile extends StatefulWidget {
 }
 
 class _BudgetTileState extends State<BudgetTile> {
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     final budget = widget.budget;
@@ -41,8 +31,7 @@ class _BudgetTileState extends State<BudgetTile> {
             color: Colors.white.withOpacity(.0),
             border: Border(
                 bottom: BorderSide(
-                    width: 1.5,
-                    color: appColors.dividerColor.withOpacity(.5)))),
+                    width: 1.5, color: AppColors.divider.withOpacity(.5)))),
         padding:
             EdgeInsets.only(left: 15.dw, bottom: 5.dh, right: 15.dw, top: 5.dh),
         width: ScreenSizeConfig.getFullWidth,
@@ -51,13 +40,12 @@ class _BudgetTileState extends State<BudgetTile> {
           children: [
             _buildTitle(),
             _buildBudgetAmounts(
-                'Budget', budget.getAmount, appColors.textColor),
-            _buildBudgetAmounts(
-                'Used', budget.getUsed, appColors.negativeColor),
+                'Budget', budget.getAmount, AppColors.onBackground),
+            _buildBudgetAmounts('Used', budget.getUsed, AppColors.negative),
             _buildBudgetAmounts(
               'Balance',
               budget.getBalance,
-              appColors.positiveColor,
+              AppColors.positive,
               balancePercent: budget.getBalanceAsPercentage,
             ),
             _buildActionButtons(),
@@ -82,7 +70,7 @@ class _BudgetTileState extends State<BudgetTile> {
                 padding: EdgeInsets.only(bottom: 5.dw),
                 child: Icon(
                   AppIcons.getIcon(category.codePoint),
-                  color: appColors.iconColor,
+                  color: AppColors.onBackground,
                   size: 20.dw,
                 ),
               ),
@@ -94,7 +82,7 @@ class _BudgetTileState extends State<BudgetTile> {
                   child: AppText(
                     widget.budget.category.title.toUpperCase(),
                     size: 15.dw,
-                    color: appColors.textColor2,
+                    color: AppColors.onBackground2,
                     isBolded: true,
                     maxLines: 2,
                   ),
@@ -108,7 +96,7 @@ class _BudgetTileState extends State<BudgetTile> {
             : AppIconButton(
                 onPressed: () => widget.updateIdCallback(budget.id),
                 icon: Icons.more_horiz,
-                iconColor: appColors.iconColor,
+                iconColor: AppColors.onBackground,
                 spreadRadius: 25.dw,
               )
       ],
@@ -122,10 +110,9 @@ class _BudgetTileState extends State<BudgetTile> {
         ? Container(
             margin: EdgeInsets.only(top: 10.dw),
             padding: EdgeInsets.only(top: 5.dh),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 border: Border(
-                    top:
-                        BorderSide(width: 1.5, color: appColors.dividerColor))),
+                    top: BorderSide(width: 1.5, color: AppColors.divider))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -146,7 +133,7 @@ class _BudgetTileState extends State<BudgetTile> {
         text: text,
         margin: EdgeInsets.only(left: isChangingNotesVisibility ? 0 : 20.dw),
         borderColor: Colors.transparent,
-        textColor: appColors.primaryColor,
+        textColor: AppColors.primary,
         onPressed: isEditing
             ? () => widget.editCallback(widget.budget)
             : isDeleting
@@ -170,7 +157,7 @@ class _BudgetTileState extends State<BudgetTile> {
                 AppText(
                   title,
                   size: 15.dw,
-                  color: appColors.textColor2,
+                  color: AppColors.onBackground2,
                 ),
                 AppText(
                   isBalance ? '$balancePercent %' : '',

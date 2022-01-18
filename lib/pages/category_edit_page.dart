@@ -23,16 +23,6 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   late final CategoriesPageBloc bloc;
   final scrollController = ScrollController();
 
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
-
   @override
   void initState() {
     categoryService = Provider.of<CategoriesService>(context, listen: false);
@@ -102,13 +92,13 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
         AppText(
           '${isEditing ? 'Edit' : 'New'} Category',
           size: 24.dw,
-          color: appColors.textColor,
+          color: AppColors.onBackground,
           family: kFontFam2,
         ),
         AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
-          iconColor: appColors.iconColor,
+          iconColor: AppColors.onBackground,
         )
       ],
     );
@@ -120,7 +110,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
       child: AppText(
         text,
         size: 18.dw,
-        color: appColors.textColor2,
+        color: AppColors.onBackground2,
       ),
     );
   }
@@ -158,7 +148,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
     final codePointList = IconCodePointGenerator.codePointList;
 
     return Container(
-        color: appColors.backgroundColor2,
+        color: AppColors.surface,
         height: 290.dh,
         child: GridView.count(
             crossAxisCount: 6,
@@ -181,13 +171,13 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                         border: Border.all(
                             width: isSelected ? 1.5 : 0,
                             color: isSelected
-                                ? AppColors.accentColor
+                                ? AppColors.accent
                                 : Colors.transparent)),
                     child: Icon(
                       AppIcons.getIcon(codePoint),
                       color: isSelected
-                          ? appColors.iconColor
-                          : appColors.iconColor2,
+                          ? AppColors.onBackground
+                          : AppColors.onBackground2,
                     )),
               );
             }).toList()));
@@ -204,7 +194,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
             onPressed: () {
               isEditing ? bloc.editCategory() : bloc.addCategory();
             },
-            buttonColor: appColors.primaryColor,
+            buttonColor: AppColors.primary,
             margin: EdgeInsets.only(bottom: 10.dh),
             text: isEditing ? 'Edit' : 'Add',
             isBolded: true,
@@ -221,7 +211,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
     return AppText(
       '**Editing the category changes the respective entries of this category in the records and budgets pages.',
       size: 15.dw,
-      color: AppColors.accentColor,
+      color: AppColors.accent,
     );
   }
 }

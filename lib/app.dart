@@ -6,9 +6,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final appColors = AppColors(themeProvider.getCurrentTheme);
-
     return ScreenSizeInit(
       designSize: const Size(411.4, 866.3),
       child: MaterialApp(
@@ -17,7 +14,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
           fontFamily: kFontFam,
-          scaffoldBackgroundColor: appColors.backgroundColor,
+          scaffoldBackgroundColor: AppColors.background,
         ),
         home: const OnBoardingPage(),
       ),

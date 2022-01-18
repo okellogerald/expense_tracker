@@ -21,16 +21,6 @@ class AddCategoryWidget extends StatefulWidget {
 class _AddCategoryWidgetState extends State<AddCategoryWidget> {
   bool isTapped = false;
 
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     final isAtTheTop = widget.position == AddCategoryWidgetPosition.top;
@@ -45,7 +35,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
         children: [
           SizedBox(height: 20.dh),
           AppText('You can always add your custom category',
-              size: 16.dw, color: appColors.textColor),
+              size: 16.dw, color: AppColors.onBackground),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -55,7 +45,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
                 width: 200.dw,
                 height: 40.dw,
                 text: 'Add Category',
-                buttonColor: appColors.primaryColor,
+                buttonColor: AppColors.primary,
                 isBolded: true,
               ),
               !isTapped
@@ -64,7 +54,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
                         isTapped = true;
                       }),
                       icon: Icons.more_horiz_outlined,
-                      iconColor: appColors.iconColor,
+                      iconColor: AppColors.onBackground,
                       margin: EdgeInsets.only(right: 15.dw),
                     )
                   : Container()
@@ -84,7 +74,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
                       }),
                       text:
                           'Show widget at the ${isAtTheTop ? 'bottom' : 'top'}',
-                      textColor: appColors.primaryColor,
+                      textColor: AppColors.primary,
                       margin: EdgeInsets.only(bottom: 15.dh, right: 15.dw),
                     ),
                     AppTextButton(
@@ -92,7 +82,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
                         isTapped = !isTapped;
                       }),
                       text: 'Cancel',
-                      textColor: appColors.primaryColor,
+                      textColor: AppColors.primary,
                       margin: EdgeInsets.only(bottom: 15.dh, right: 15.dw),
                     ),
                   ],

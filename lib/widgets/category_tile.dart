@@ -22,16 +22,6 @@ class CategoryTile extends StatefulWidget {
 }
 
 class _CategoryTileState extends State<CategoryTile> {
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     final isSelected = widget.isSelected;
@@ -55,7 +45,7 @@ class _CategoryTileState extends State<CategoryTile> {
                           ? Icons.tag
                           : widget.category.getIcon,
                       size: 20.dw,
-                      color: appColors.iconColor),
+                      color: AppColors.onBackground),
                   SizedBox(width: 20.dw),
                   Expanded(
                     child: Container(
@@ -64,7 +54,7 @@ class _CategoryTileState extends State<CategoryTile> {
                       child: AppText(
                         widget.category.title,
                         size: 16.dw,
-                        color: appColors.textColor2,
+                        color: AppColors.onBackground2,
                         maxLines: 2,
                       ),
                     ),
@@ -73,7 +63,7 @@ class _CategoryTileState extends State<CategoryTile> {
                       ? AppIconButton(
                           onPressed: _onTap,
                           icon: Icons.more_horiz,
-                          iconColor: appColors.iconColor,
+                          iconColor: AppColors.onBackground,
                           spreadRadius: 25.dw,
                         )
                       : Container(),
@@ -108,7 +98,7 @@ class _CategoryTileState extends State<CategoryTile> {
         text: text,
         margin: EdgeInsets.only(left: 20.dw),
         borderColor: Colors.transparent,
-        textColor: appColors.primaryColor,
+        textColor: AppColors.primary,
         onPressed: () => onPressed());
   }
 
@@ -116,8 +106,8 @@ class _CategoryTileState extends State<CategoryTile> {
     widget.changeSelectedIdCallback(widget.category.id);
   }
 
-  static final _selectedBorder =
-      BorderSide(width: 1.0, color: appColors.dividerColor);
+  static const _selectedBorder =
+      BorderSide(width: 1.0, color: AppColors.divider);
   static const _unSelectedBorder =
       BorderSide(width: 0.0, color: Colors.transparent);
 }

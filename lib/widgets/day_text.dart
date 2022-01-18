@@ -20,16 +20,6 @@ class DayText extends StatefulWidget {
 }
 
 class _DayTextState extends State<DayText> {
-  static var themeProvider = ThemeProvider();
-  static var appColors = AppColors('Light');
-
-  @override
-  void didChangeDependencies() {
-    themeProvider = Provider.of<ThemeProvider>(context);
-    appColors = AppColors(themeProvider.getCurrentTheme);
-    super.didChangeDependencies();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,7 +29,7 @@ class _DayTextState extends State<DayText> {
         children: [
           AppText(
             widget.text,
-            color: appColors.textColor2,
+            color: AppColors.onBackground2,
             size: 18.dw,
             family: kFontFam2,
           ),
@@ -73,7 +63,7 @@ class _DayTextState extends State<DayText> {
     return AppTextButton(
         text: text,
         borderColor: Colors.transparent,
-        textColor: appColors.primaryColor,
+        textColor: AppColors.primary,
         margin: EdgeInsets.only(left: 8.dw),
         onPressed: isShowingTotals
             ? () => widget.showTotalsCallback(widget.day)
