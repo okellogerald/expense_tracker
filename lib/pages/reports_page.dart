@@ -167,9 +167,6 @@ class _ReportsPageState extends State<ReportsPage> {
               ? PieChart(
                   income: supp.totalRecords.totalIncome,
                   expenses: supp.totalRecords.totalExpenses,
-                  backgroundColor: AppColors.background,
-                  backgroundColor2: AppColors.surface,
-                  textColor: AppColors.onBackground,
                 )
               : Container(),
         ],
@@ -272,7 +269,8 @@ class _ReportsPageState extends State<ReportsPage> {
             title.toUpperCase(),
             family: kFontFam2,
             size: 15.dw,
-            color: AppColors.onBackground,
+            color:
+                isSelected ? AppColors.onBackground : AppColors.onBackground2,
           ),
         ],
       ),

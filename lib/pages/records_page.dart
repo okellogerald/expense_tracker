@@ -3,9 +3,6 @@ import '../../source.dart';
 class RecordsPage extends StatefulWidget {
   const RecordsPage({Key? key}) : super(key: key);
 
-  static void navigateTo(BuildContext context) => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (_) => const RecordsPage()));
-
   @override
   State<RecordsPage> createState() => _RecordsPageState();
 }
@@ -111,7 +108,7 @@ class _RecordsPageState extends State<RecordsPage> {
             fit: BoxFit.contain,
           ),
           SizedBox(height: 20.dh),
-          AppText('Records you add shall be appear here.',
+          AppText('Records you add will be viewed from this page.',
               color: AppColors.onBackground2, size: 15.dw)
         ],
       ),
@@ -254,7 +251,7 @@ class _RecordsPageState extends State<RecordsPage> {
       width: 125.dw,
       padding: EdgeInsets.symmetric(vertical: 5.dh),
       alignment: Alignment.center,
-      color: AppColors.secondary,
+      color: AppColors.tertiary,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -264,6 +261,7 @@ class _RecordsPageState extends State<RecordsPage> {
           AppText(amount,
               size: 13.dw,
               isBolded: true,
+              family: kFontFam2,
               color: !isExpense ? AppColors.positive : AppColors.negative)
         ],
       ),

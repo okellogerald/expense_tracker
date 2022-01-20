@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:supabase/supabase.dart' hide Provider;
 import '../source.dart';
 import 'app.dart';
 
@@ -13,7 +14,8 @@ void main() async {
     ..registerAdapter(RecordAdapter())
     ..registerAdapter(BudgetAdapter())
     ..registerAdapter(GrossAmountAdapter())
-    ..registerAdapter(TotalRecordsAdapter());
+    ..registerAdapter(TotalRecordsAdapter())
+    ..registerAdapter(ClientAdapter());
 
   await Hive.openBox(kCategories);
   await Hive.openBox(kPreferences);
@@ -21,10 +23,13 @@ void main() async {
   await Hive.openBox(kRecords);
   await Hive.openBox(kBudgets);
   await Hive.openBox(kGrossAmounts);
+  await Hive.openBox(kClient);
 
   IconCodePointGenerator.generate(54);
 
   PreferencesService.initPrefs();
+
+  final client = SupabaseClient(kSupabaseUrl, kSupabaseSecret);
 
   final myApp = MultiProvider(
     providers: [
@@ -33,7 +38,7 @@ void main() async {
       Provider<RecordsService>(create: (_) => RecordsService()),
       Provider<BudgetsService>(create: (_) => BudgetsService()),
       Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
-      ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      Provider<UserService>(create: (_) => UserService(client)),
     ],
     child: const MyApp(),
   );

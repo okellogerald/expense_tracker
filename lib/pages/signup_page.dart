@@ -1,17 +1,83 @@
 import '../source.dart';
 
-class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
-  State<OnBoardingPage> createState() => _OnBoardingPageState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _OnBoardingPageState extends State<OnBoardingPage> {
+class _SignUpPageState extends State<SignUpPage> {
+  late final OnBoardingPageBloc bloc;
+  late final UserService userService;
+
+  @override
+  void initState() {
+    userService = Provider.of<UserService>(context, listen: false);
+    bloc = OnBoardingPageBloc(userService);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
+        body: BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
+            bloc: bloc,
+            listener: (_, state) {
+              final hasSucceded =
+                  state.maybeWhen(success: (_) => true, orElse: () => false);
+
+              final hasFailed =
+                  state.maybeWhen(failed: (_, __) => true, orElse: () => false);
+
+              if (hasSucceded) {
+                final user = state.supplements.client;
+                CurrencyPage.navigateTo(context, user);
+              }
+
+              if (hasFailed) {
+                final message =
+                    state.maybeWhen(failed: (_, m) => m, orElse: () => null);
+                _showSnackBar(message!);
+              }
+            },
+            builder: (_, state) {
+              return state.when(
+                laoding: _buildLoading,
+                content: _buildContent,
+                success: _buildContent,
+                failed: (supp, _) => _buildContent(supp),
+              );
+            }));
+  }
+
+  _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dh),
+        content: AppText(
+          message,
+          size: 16.dw,
+          color: AppColors.onError,
+        )));
+  }
+
+  Widget _buildLoading(OnBoardingSupplements supp) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15.dw),
+      width: ScreenSizeConfig.getFullWidth,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const CircularProgressIndicator(),
+          SizedBox(height: 20.dh),
+          AppText('signing up...', size: 16.dw, color: AppColors.onBackground2)
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContent(OnBoardingSupplements supp) {
+    return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.dw),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,7 +88,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           _buildNewUser(),
         ],
       ),
-    ));
+    );
   }
 
   _buildTitle() {
@@ -38,13 +104,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           ),
           SizedBox(height: 100.dh),
           AppText(
-            'Welcome !',
+            'Sign-up page',
             size: 30.dw,
             family: kFontFam2,
           ),
           SizedBox(height: 10.dh),
           AppText(
-            'Sign in to continue',
+            'Choose your preferred method for signing up.',
             size: 16.dw,
             color: AppColors.onBackground2,
           ),
@@ -75,7 +141,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           SizedBox(height: 25.dh),
           AppTextButton(
             onPressed: () {},
-            text: 'Log in',
+            text: 'Sign up',
             buttonColor: AppColors.primary,
             isBolded: true,
             height: 40.dh,
@@ -101,7 +167,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             children: [
               Expanded(
                 child: AppTextButton(
-                  onPressed: () {},
+                  onPressed: bloc.signUpWithGoogle,
                   text: 'Google',
                   buttonColor: AppColors.secondary,
                   isBolded: true,
@@ -112,7 +178,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               SizedBox(width: 25.dw),
               Expanded(
                 child: AppTextButton(
-                  onPressed: () => RecordsPage.navigateTo(context),
+                  onPressed: () => MainPage.navigateTo(context),
                   text: 'Facebook',
                   buttonColor: AppColors.secondary,
                   isBolded: true,
@@ -133,11 +199,15 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          AppText('New User ?', size: 16.dw),
+          AppText(
+            'Already have an account ?',
+            size: 15.dw,
+            color: AppColors.onBackground2,
+          ),
           AppTextButton(
-            onPressed: () {},
-            text: 'Register',
-            textColor: AppColors.accent,
+            onPressed: _onPressed,
+            text: 'Log-in',
+            textColor: AppColors.primary,
             margin: EdgeInsets.only(left: 15.dw),
             isBolded: true,
             fontSize: 16.dw,
@@ -146,4 +216,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       ),
     );
   }
+
+  _onPressed() => Navigator.push(
+      context, MaterialPageRoute(builder: (_) => const LoginPage()));
 }

@@ -2,17 +2,10 @@ import 'dart:math';
 import '../source.dart';
 
 class PieChart extends StatelessWidget {
-  const PieChart(
-      {required this.income,
-      required this.expenses,
-      required this.backgroundColor,
-      required this.textColor,
-      required this.backgroundColor2,
-      Key? key})
+  const PieChart({required this.income, required this.expenses, Key? key})
       : super(key: key);
 
   final double income, expenses;
-  final Color backgroundColor, textColor, backgroundColor2;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +13,11 @@ class PieChart extends StatelessWidget {
       alignment: Alignment.center,
       child: Column(
         children: [
-          CustomPaint(
-            size: Size(330.dw, 200.dh),
-            painter: PieChartPainter(
-              income / (income + expenses),
-              backgroundColor,
-              backgroundColor2,
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 15.dh),
+            child: CustomPaint(
+              size: Size(330.dw, 200.dh),
+              painter: PieChartPainter(income / (income + expenses)),
             ),
           ),
           _buildInterpretation()
@@ -46,7 +38,7 @@ class PieChart extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText('KEY', size: 18.dw, color: backgroundColor2),
+          AppText('KEY', size: 18.dw, color: AppColors.onBackground),
           _intepretation(
             'Income',
             Utils.convertToMoneyFormat(income),
@@ -84,7 +76,7 @@ class PieChart extends StatelessWidget {
               AppText(
                 percent + ' % ',
                 size: 15.dw,
-                color: backgroundColor2,
+                color: AppColors.onBackground,
               )
             ],
           )),
@@ -94,7 +86,7 @@ class PieChart extends StatelessWidget {
                 child: AppText(
                   value,
                   size: 15.dw,
-                  color: backgroundColor2,
+                  color: AppColors.onBackground,
                 )),
           ),
         ],
@@ -110,19 +102,14 @@ class PieChart extends StatelessWidget {
         color: keyColor,
         margin: EdgeInsets.only(right: 10.dw),
       ),
-      AppText(title, size: 16.dw, color: backgroundColor2),
+      AppText(title, size: 16.dw, color: AppColors.onBackground),
     ]);
   }
 }
 
 class PieChartPainter extends CustomPainter {
-  PieChartPainter(
-    this.incomeRatio,
-    this.backgroundColor,
-    this.textColor,
-  );
+  PieChartPainter(this.incomeRatio);
   final double incomeRatio;
-  final Color backgroundColor, textColor;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -132,7 +119,7 @@ class PieChartPainter extends CustomPainter {
     final rectPaint = Paint()..color = Colors.transparent;
     final paint = Paint()..color = const Color(0xffFF6675);
     final _paint = Paint()..color = const Color(0xff6E71D8);
-    final __paint = Paint()..color = backgroundColor;
+    final __paint = Paint()..color = AppColors.background;
 
     final center = Offset(width / 2, height / 2);
     final radius = min(width / 2, height / 2);

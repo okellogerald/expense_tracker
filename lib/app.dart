@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
           fontFamily: kFontFam,
           scaffoldBackgroundColor: AppColors.background,
         ),
-        home: const OnBoardingPage(),
+        home: const LoginPage(),
       ),
     );
   }

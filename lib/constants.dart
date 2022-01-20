@@ -1,5 +1,8 @@
 import 'source.dart';
 
+const kSupabaseUrl = 'https://mzdcrckdvywjtgjxlogb.supabase.co';
+const kSupabaseSecret = '547df72f-cef7-466e-9a5d-52af5e191571';
+
 const kCategories = 'categories_box';
 const kPreferences = 'preferences_box';
 const kPrefs = 'preferences';
@@ -11,6 +14,7 @@ const kAllDaysTotals = 'all_days_total_amounts';
 const kGrossAmounts = 'gross_amounts';
 const kExpense = 'expense';
 const kIncome = 'income';
+const kClient = 'client';
 
 const kFontFam2 = 'AndroidEuclid';
 const kFontFam = "LondonTube";

@@ -11,19 +11,68 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  late final SettingsPageBloc bloc;
+  late final UserService userService;
+
+  @override
+  void initState() {
+    userService = Provider.of<UserService>(context, listen: false);
+    bloc = SettingsPageBloc(userService);
+    bloc.init();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
+        appBar: _buildAppBar(),
+        body: BlocBuilder<SettingsPageBloc, SettingsPageState>(
+            bloc: bloc,
+            builder: (_, state) {
+              return state.when(loading: _buildLoading, content: _buildContent);
+            }));
+  }
+
+  Widget _buildLoading(Client client) {
+    return const Center(
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  Widget _buildContent(Client client) {
+    return ListView(
+      padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
+      children: [_buildClientAccount(client)],
+    );
+  }
+
+  _buildClientAccount(Client client) {
+    return Container(
+      color: AppColors.surface,
+      padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 10.dh),
+      margin: EdgeInsets.only(bottom: 10.dh),
+      child: Row(
         children: [
-          AppText('Theme', size: 18.dw, family: kFontFam2),
-          SizedBox(height: 10.dh),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [AppText('settings to be added here', size: 18.dw)],
-          )
+          CircleAvatar(
+            backgroundImage: NetworkImage(client.photoUrl),
+            radius: 30.dw,
+          ),
+          SizedBox(width: 25.dw),
+          Expanded(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppText(client.displayName, size: 16.dw, family: kFontFam2),
+              AppTextButton(
+                onPressed: () {},
+                text: 'Go to account settings',
+                textColor: AppColors.primary,
+                margin: EdgeInsets.only(top: 5.dh),
+                alignment: Alignment.centerLeft,
+                width: 170.dw,
+              ),
+            ],
+          ))
         ],
       ),
     );
