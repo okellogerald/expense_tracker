@@ -24,6 +24,7 @@ dependencies:
   flutter_facebook_auth: ^4.0.1
   supabase: ^0.2.13
   http: ^0.13.4
+  email_auth: ^1.0.0
 
 dev_dependencies:
   flutter_test:

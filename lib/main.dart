@@ -29,7 +29,7 @@ void main() async {
 
   PreferencesService.initPrefs();
 
-  final client = SupabaseClient(kSupabaseUrl, kSupabaseSecret);
+  final client = SupabaseClient(kSupabaseEndpoint, kSupabaseSecret);
 
   final myApp = MultiProvider(
     providers: [

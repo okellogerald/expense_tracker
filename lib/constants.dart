@@ -1,7 +1,8 @@
 import 'source.dart';
 
-const kSupabaseUrl = 'https://mzdcrckdvywjtgjxlogb.supabase.co';
-const kSupabaseSecret = '547df72f-cef7-466e-9a5d-52af5e191571';
+const kSupabaseEndpoint = 'https://mzdcrckdvywjtgjxlogb.supabase.co';
+const kSupabaseSecret =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQyNDM1MjY5LCJleHAiOjE5NTgwMTEyNjl9.W8j-5U6AgrQ48gFLvLppmyhw9AlVkRF2fgL2CWBmOLY';
 
 const kCategories = 'categories_box';
 const kPreferences = 'preferences_box';

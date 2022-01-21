@@ -53,11 +53,16 @@ class _SignUpPageState extends State<SignUpPage> {
 
   _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: AppColors.error,
         padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dh),
-        content: AppText(
-          message,
-          size: 16.dw,
-          color: AppColors.onError,
+        content: Material(
+          color: AppColors.error,
+          child: AppText(
+            message,
+            size: 14.dw,
+            color: AppColors.onError,
+            alignment: TextAlign.start,
+          ),
         )));
   }
 
@@ -65,22 +70,16 @@ class _SignUpPageState extends State<SignUpPage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.dw),
       width: ScreenSizeConfig.getFullWidth,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const CircularProgressIndicator(),
-          SizedBox(height: 20.dh),
-          AppText('signing up...', size: 16.dw, color: AppColors.onBackground2)
-        ],
-      ),
+      alignment: Alignment.center,
+      child: const CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(AppColors.primary)),
     );
   }
 
   Widget _buildContent(OnBoardingSupplements supp) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.dw),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
         children: [
           _buildTitle(),
           _buildPhoneTextField(),
@@ -105,7 +104,7 @@ class _SignUpPageState extends State<SignUpPage> {
           SizedBox(height: 100.dh),
           AppText(
             'Sign-up page',
-            size: 30.dw,
+            size: 32.dw,
             family: kFontFam2,
           ),
           SizedBox(height: 10.dh),
@@ -121,21 +120,23 @@ class _SignUpPageState extends State<SignUpPage> {
 
   _buildPhoneTextField() {
     return Padding(
-      padding: EdgeInsets.only(top: 100.dh),
+      padding: EdgeInsets.only(top: 80.dh),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText(
-            'Enter your phone number:',
-            size: 16.dw,
-            color: AppColors.onBackground2,
-          ),
-          SizedBox(height: 5.dh),
           AppTextField(
             errors: const {},
             text: '',
             onChanged: (_) {},
-            hintText: 'Phone number',
+            hintText: 'Email',
+            keyboardType: TextInputType.number,
+          ),
+          SizedBox(height: 15.dh),
+          AppTextField(
+            errors: const {},
+            text: '',
+            onChanged: (_) {},
+            hintText: 'Password',
             keyboardType: TextInputType.number,
           ),
           SizedBox(height: 25.dh),
@@ -167,7 +168,7 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               Expanded(
                 child: AppTextButton(
-                  onPressed: bloc.signUpWithGoogle,
+                  onPressed: bloc.signupWithGoogle,
                   text: 'Google',
                   buttonColor: AppColors.secondary,
                   isBolded: true,
@@ -178,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(width: 25.dw),
               Expanded(
                 child: AppTextButton(
-                  onPressed: () => MainPage.navigateTo(context),
+                  onPressed: bloc.signupWithFacebook,
                   text: 'Facebook',
                   buttonColor: AppColors.secondary,
                   isBolded: true,

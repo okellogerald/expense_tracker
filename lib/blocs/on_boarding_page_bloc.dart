@@ -5,43 +5,43 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
   final UserService service;
 
-  void signUpWithGoogle() async {
-    var supp = state.supplements;
-    emit(OnBoardingPageState.laoding(supp));
-    final user = await service.signUpWithGoogle();
-    if (user == null) {
-      const message = 'An error occured, please try again';
-      emit(OnBoardingPageState.failed(supp, message));
-      return;
-    }
-    supp = supp.copyWith(client: user);
-    emit(OnBoardingPageState.success(supp));
-  }
+  void signupWithGoogle() async => await _onboard(true, Providers.google);
 
-  void loginWithFacebook() async {
-    var supp = state.supplements;
-    emit(OnBoardingPageState.laoding(supp));
-    final user = await service.logInWithFacebook();
-    if (user == null) {
-      const message = 'An error occured, please try again';
-      emit(OnBoardingPageState.failed(supp, message));
-      return;
-    }
-    supp = supp.copyWith(client: user);
-    emit(OnBoardingPageState.success(supp));
-  }
+  void loginWithGoogle() async => await _onboard(false, Providers.google);
 
-  void logInWithGoogle() async {
+  void signupWithFacebook() async => await _onboard(true, Providers.facebook);
+
+  void loginWithFacebook() async => await _onboard(false, Providers.facebook);
+
+  Future<void> _onboard(bool isSigningUp, String provider) async {
     var supp = state.supplements;
     emit(OnBoardingPageState.laoding(supp));
-    final user = await service.logInWithGoogle();
-    log('$user');
-    if (user == null) {
-      const message = 'No email matches this account.';
-      emit(OnBoardingPageState.failed(supp, message));
-      return;
+
+    Client? user;
+
+    try {
+      switch (provider) {
+        case Providers.email_password:
+          break;
+        case Providers.google:
+          if (isSigningUp) user = await service.signUpWithGoogle();
+          if (!isSigningUp) user = await service.logInWithGoogle();
+          break;
+        case Providers.facebook:
+          if (isSigningUp) user = await service.signUpWithFacebook();
+          if (!isSigningUp) user = await service.logInWithFacebook();
+          break;
+        default:
+      }
+
+      if (user == null) {
+        emit(OnBoardingPageState.content(supp));
+        return;
+      }
+      supp = supp.copyWith(client: user);
+      emit(OnBoardingPageState.success(supp));
+    } on DatabaseError catch (_) {
+      emit(OnBoardingPageState.failed(supp, _.message));
     }
-    supp = supp.copyWith(client: user);
-    emit(OnBoardingPageState.success(supp));
   }
 }
