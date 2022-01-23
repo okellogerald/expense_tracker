@@ -6,8 +6,8 @@ part 'settings_page_state.freezed.dart';
 
 @freezed
 class SettingsPageState with _$SettingsPageState {
-  const factory SettingsPageState.loading(Client client) = _Loading;
-  const factory SettingsPageState.content(Client client) = _Content;
+  const factory SettingsPageState.loading(User client) = _Loading;
+  const factory SettingsPageState.content(User client) = _Content;
 
-  factory SettingsPageState.initial() => SettingsPageState.content(Client.empty());
+  factory SettingsPageState.initial() => SettingsPageState.content(User.empty());
 }

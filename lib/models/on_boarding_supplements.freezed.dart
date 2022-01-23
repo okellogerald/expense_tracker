@@ -17,9 +17,15 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$OnBoardingSupplementsTearOff {
   const _$OnBoardingSupplementsTearOff();
 
-  _OnBoardingSupplements call({required String phone, required Client client}) {
+  _OnBoardingSupplements call(
+      {required String password,
+      required Map<String, String> errors,
+      required Map<int, String> otp,
+      required User client}) {
     return _OnBoardingSupplements(
-      phone: phone,
+      password: password,
+      errors: errors,
+      otp: otp,
       client: client,
     );
   }
@@ -30,8 +36,10 @@ const $OnBoardingSupplements = _$OnBoardingSupplementsTearOff();
 
 /// @nodoc
 mixin _$OnBoardingSupplements {
-  String get phone => throw _privateConstructorUsedError;
-  Client get client => throw _privateConstructorUsedError;
+  String get password => throw _privateConstructorUsedError;
+  Map<String, String> get errors => throw _privateConstructorUsedError;
+  Map<int, String> get otp => throw _privateConstructorUsedError;
+  User get client => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OnBoardingSupplementsCopyWith<OnBoardingSupplements> get copyWith =>
@@ -43,7 +51,11 @@ abstract class $OnBoardingSupplementsCopyWith<$Res> {
   factory $OnBoardingSupplementsCopyWith(OnBoardingSupplements value,
           $Res Function(OnBoardingSupplements) then) =
       _$OnBoardingSupplementsCopyWithImpl<$Res>;
-  $Res call({String phone, Client client});
+  $Res call(
+      {String password,
+      Map<String, String> errors,
+      Map<int, String> otp,
+      User client});
 }
 
 /// @nodoc
@@ -57,18 +69,28 @@ class _$OnBoardingSupplementsCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? phone = freezed,
+    Object? password = freezed,
+    Object? errors = freezed,
+    Object? otp = freezed,
     Object? client = freezed,
   }) {
     return _then(_value.copyWith(
-      phone: phone == freezed
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
+      password: password == freezed
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String,
+      errors: errors == freezed
+          ? _value.errors
+          : errors // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      otp: otp == freezed
+          ? _value.otp
+          : otp // ignore: cast_nullable_to_non_nullable
+              as Map<int, String>,
       client: client == freezed
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
-              as Client,
+              as User,
     ));
   }
 }
@@ -80,7 +102,11 @@ abstract class _$OnBoardingSupplementsCopyWith<$Res>
           $Res Function(_OnBoardingSupplements) then) =
       __$OnBoardingSupplementsCopyWithImpl<$Res>;
   @override
-  $Res call({String phone, Client client});
+  $Res call(
+      {String password,
+      Map<String, String> errors,
+      Map<int, String> otp,
+      User client});
 }
 
 /// @nodoc
@@ -96,18 +122,28 @@ class __$OnBoardingSupplementsCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? phone = freezed,
+    Object? password = freezed,
+    Object? errors = freezed,
+    Object? otp = freezed,
     Object? client = freezed,
   }) {
     return _then(_OnBoardingSupplements(
-      phone: phone == freezed
-          ? _value.phone
-          : phone // ignore: cast_nullable_to_non_nullable
+      password: password == freezed
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
               as String,
+      errors: errors == freezed
+          ? _value.errors
+          : errors // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>,
+      otp: otp == freezed
+          ? _value.otp
+          : otp // ignore: cast_nullable_to_non_nullable
+              as Map<int, String>,
       client: client == freezed
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
-              as Client,
+              as User,
     ));
   }
 }
@@ -115,16 +151,24 @@ class __$OnBoardingSupplementsCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_OnBoardingSupplements implements _OnBoardingSupplements {
-  const _$_OnBoardingSupplements({required this.phone, required this.client});
+  const _$_OnBoardingSupplements(
+      {required this.password,
+      required this.errors,
+      required this.otp,
+      required this.client});
 
   @override
-  final String phone;
+  final String password;
   @override
-  final Client client;
+  final Map<String, String> errors;
+  @override
+  final Map<int, String> otp;
+  @override
+  final User client;
 
   @override
   String toString() {
-    return 'OnBoardingSupplements(phone: $phone, client: $client)';
+    return 'OnBoardingSupplements(password: $password, errors: $errors, otp: $otp, client: $client)';
   }
 
   @override
@@ -132,14 +176,18 @@ class _$_OnBoardingSupplements implements _OnBoardingSupplements {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _OnBoardingSupplements &&
-            const DeepCollectionEquality().equals(other.phone, phone) &&
+            const DeepCollectionEquality().equals(other.password, password) &&
+            const DeepCollectionEquality().equals(other.errors, errors) &&
+            const DeepCollectionEquality().equals(other.otp, otp) &&
             const DeepCollectionEquality().equals(other.client, client));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(phone),
+      const DeepCollectionEquality().hash(password),
+      const DeepCollectionEquality().hash(errors),
+      const DeepCollectionEquality().hash(otp),
       const DeepCollectionEquality().hash(client));
 
   @JsonKey(ignore: true)
@@ -151,13 +199,19 @@ class _$_OnBoardingSupplements implements _OnBoardingSupplements {
 
 abstract class _OnBoardingSupplements implements OnBoardingSupplements {
   const factory _OnBoardingSupplements(
-      {required String phone,
-      required Client client}) = _$_OnBoardingSupplements;
+      {required String password,
+      required Map<String, String> errors,
+      required Map<int, String> otp,
+      required User client}) = _$_OnBoardingSupplements;
 
   @override
-  String get phone;
+  String get password;
   @override
-  Client get client;
+  Map<String, String> get errors;
+  @override
+  Map<int, String> get otp;
+  @override
+  User get client;
   @override
   @JsonKey(ignore: true)
   _$OnBoardingSupplementsCopyWith<_OnBoardingSupplements> get copyWith =>

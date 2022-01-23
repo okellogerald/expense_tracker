@@ -14,7 +14,7 @@ class AppColors {
   static const positive = Color(0xff77D970);
   static const negative = Color(0xffF58840);
   static const divider = Color(0xffDBDDD0);
-  static const accent = Color(0xffC84B31);
+  static const accent = Color(0xfff57e5e);
   static const error = Color(0xffBC3A38);
   static const onError = Colors.white;
   static const disabled = Colors.white54;

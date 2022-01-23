@@ -33,20 +33,23 @@ class _SettingsPageState extends State<SettingsPage> {
             }));
   }
 
-  Widget _buildLoading(Client client) {
+  Widget _buildLoading(User user) {
     return const Center(
       child: CircularProgressIndicator(),
     );
   }
 
-  Widget _buildContent(Client client) {
+  Widget _buildContent(User user) {
     return ListView(
       padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
-      children: [_buildClientAccount(client)],
+      children: [
+        _buildUserAccount(user),
+        _buildCurrencyIcons(),
+      ],
     );
   }
 
-  _buildClientAccount(Client client) {
+  _buildUserAccount(User user) {
     return Container(
       color: AppColors.surface,
       padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 10.dh),
@@ -54,7 +57,7 @@ class _SettingsPageState extends State<SettingsPage> {
       child: Row(
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(client.photoUrl),
+            backgroundImage: NetworkImage(user.photoUrl),
             radius: 30.dw,
           ),
           SizedBox(width: 25.dw),
@@ -62,7 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText(client.displayName, size: 16.dw, family: kFontFam2),
+              AppText(user.displayName, size: 16.dw, family: kFontFam2),
               AppTextButton(
                 onPressed: () {},
                 text: 'Go to account settings',
@@ -90,5 +93,44 @@ class _SettingsPageState extends State<SettingsPage> {
         iconColor: AppColors.onBackground,
       ),
     );
+  }
+
+  _buildCurrencyIcons() {
+    final codePointList = IconCodePointGenerator.categoryIconscodePointList;
+
+    return Container(
+        color: AppColors.surface,
+        height: 290.dh,
+        child: GridView.count(
+            crossAxisCount: 6,
+            childAspectRatio: .75.dw,
+            shrinkWrap: true,
+            //: scrollController,
+            scrollDirection: Axis.horizontal,
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.all(10.dw),
+            children: codePointList.map((e) {
+              final formatted = '0xe' + e.toString();
+              final codePoint = int.parse(formatted);
+              const isSelected = true;
+
+              return GestureDetector(
+                // onTap: () => bloc.updatecodePoint(codePoint),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(.0),
+                        border: Border.all(
+                            width: isSelected ? 1.5 : 0,
+                            color: isSelected
+                                ? AppColors.accent
+                                : Colors.transparent)),
+                    child: Icon(
+                      AppIcons.getIcon(codePoint),
+                      color: isSelected
+                          ? AppColors.onBackground
+                          : AppColors.onBackground2,
+                    )),
+              );
+            }).toList()));
   }
 }

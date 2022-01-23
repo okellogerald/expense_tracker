@@ -242,6 +242,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
       onChanged: bloc.updateNotes,
       hintText: 'Add short notes for this record here.',
       keyboardType: TextInputType.name,
+      errorName: '',
     );
   }
 

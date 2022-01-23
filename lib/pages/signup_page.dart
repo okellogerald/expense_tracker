@@ -31,8 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   state.maybeWhen(failed: (_, __) => true, orElse: () => false);
 
               if (hasSucceded) {
-                final user = state.supplements.client;
-                CurrencyPage.navigateTo(context, user);
+                _navigateToVerificationPage();
               }
 
               if (hasFailed) {
@@ -77,16 +76,14 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _buildContent(OnBoardingSupplements supp) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.dw),
-      child: ListView(
-        children: [
-          _buildTitle(),
-          _buildPhoneTextField(),
-          _buildOtherAuthenticators(),
-          _buildNewUser(),
-        ],
-      ),
+    return ListView(
+      padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
+      children: [
+        _buildTitle(),
+        _buildPhoneTextField(supp),
+        _buildOtherAuthenticators(),
+        _buildNewUser(),
+      ],
     );
   }
 
@@ -98,13 +95,13 @@ class _SignUpPageState extends State<SignUpPage> {
         children: [
           SizedBox(height: 60.dh),
           Center(
-            child: Image.asset('assets/images/logo.png',
-                height: 60.dh, fit: BoxFit.contain),
+            child: Image.network(kRegisterImageurl,
+                height: 80.dh, fit: BoxFit.contain),
           ),
-          SizedBox(height: 100.dh),
+          SizedBox(height: 120.dh),
           AppText(
             'Sign-up page',
-            size: 32.dw,
+            size: 28.dw,
             family: kFontFam2,
           ),
           SizedBox(height: 10.dh),
@@ -118,30 +115,35 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  _buildPhoneTextField() {
+  _buildPhoneTextField(OnBoardingSupplements supp) {
     return Padding(
       padding: EdgeInsets.only(top: 80.dh),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppTextField(
-            errors: const {},
-            text: '',
-            onChanged: (_) {},
+            errors: supp.errors,
+            text: supp.client.email,
+            onChanged: bloc.updateEmail,
             hintText: 'Email',
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.emailAddress,
+            textCapitalization: TextCapitalization.none,
+            errorName: 'email',
           ),
           SizedBox(height: 15.dh),
           AppTextField(
-            errors: const {},
-            text: '',
-            onChanged: (_) {},
+            errors: supp.errors,
+            text: supp.password,
+            onChanged: bloc.updatePassword,
             hintText: 'Password',
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.visiblePassword,
+            textCapitalization: TextCapitalization.none,
+            errorName: 'password',
+            isPassword: true,
           ),
           SizedBox(height: 25.dh),
           AppTextButton(
-            onPressed: () {},
+            onPressed: bloc.saveDataForVerification,
             text: 'Sign up',
             buttonColor: AppColors.primary,
             isBolded: true,
@@ -206,7 +208,7 @@ class _SignUpPageState extends State<SignUpPage> {
             color: AppColors.onBackground2,
           ),
           AppTextButton(
-            onPressed: _onPressed,
+            onPressed: _onLoginPressed,
             text: 'Log-in',
             textColor: AppColors.primary,
             margin: EdgeInsets.only(left: 15.dw),
@@ -218,6 +220,9 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  _onPressed() => Navigator.push(
+  _onLoginPressed() => Navigator.push(
       context, MaterialPageRoute(builder: (_) => const LoginPage()));
+
+  _navigateToVerificationPage() => Navigator.of(context)
+      .push(MaterialPageRoute(builder: (_) => const VerificationPage()));
 }

@@ -117,11 +117,13 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
 
   _buildTextField(CategoryForm form) {
     return AppTextField(
-        errors: form.errors,
-        text: form.title,
-        onChanged: bloc.updateTitle,
-        hintText: 'Type category title here',
-        keyboardType: TextInputType.name);
+      errors: form.errors,
+      text: form.title,
+      onChanged: bloc.updateTitle,
+      hintText: 'Type category title here',
+      keyboardType: TextInputType.name,
+      errorName: '',
+    );
   }
 
   _buildOptions(CategoryForm form) {
@@ -145,7 +147,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   }
 
   _buildCategoryIcons(CategoryForm form) {
-    final codePointList = IconCodePointGenerator.codePointList;
+    final codePointList = IconCodePointGenerator.categoryIconscodePointList;
 
     return Container(
         color: AppColors.surface,

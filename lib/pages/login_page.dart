@@ -76,16 +76,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildContent(OnBoardingSupplements supp) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.dw),
-      child: ListView(
-        children: [
-          _buildTitle(),
-          _buildPhoneTextField(),
-          _buildOtherAuthenticators(),
-          _buildNewUser(),
-        ],
-      ),
+    return ListView(
+      padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
+      children: [
+        _buildTitle(),
+        _buildPhoneTextField(supp),
+        _buildOtherAuthenticators(),
+        _buildNewUser(),
+      ],
     );
   }
 
@@ -117,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _buildPhoneTextField() {
+  _buildPhoneTextField(OnBoardingSupplements supp) {
     return Padding(
       padding: EdgeInsets.only(top: 80.dh),
       child: Column(
@@ -125,22 +123,25 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           SizedBox(height: 5.dh),
           AppTextField(
-            errors: const {},
+            errors: supp.errors,
             text: '',
-            onChanged: (_) {},
+            onChanged: bloc.updateEmail,
             hintText: 'Email',
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.emailAddress,
+            textCapitalization: TextCapitalization.none,
+            errorName: 'email',
           ),
           SizedBox(height: 15.dh),
           AppTextField(
-            errors: const {},
+            errors: supp.errors,
             text: '',
-            onChanged: (_) {},
+            onChanged: bloc.updatePassword,
             hintText: 'Password',
             keyboardType: TextInputType.number,
+            errorName: 'password',
           ),
           AppTextButton(
-            onPressed: () {},
+            onPressed: bloc.loginWithEmailPassword,
             text: 'Log in',
             buttonColor: AppColors.primary,
             isBolded: true,

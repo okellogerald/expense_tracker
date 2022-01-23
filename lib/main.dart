@@ -15,7 +15,7 @@ void main() async {
     ..registerAdapter(BudgetAdapter())
     ..registerAdapter(GrossAmountAdapter())
     ..registerAdapter(TotalRecordsAdapter())
-    ..registerAdapter(ClientAdapter());
+    ..registerAdapter(UserAdapter());
 
   await Hive.openBox(kCategories);
   await Hive.openBox(kPreferences);
@@ -23,9 +23,9 @@ void main() async {
   await Hive.openBox(kRecords);
   await Hive.openBox(kBudgets);
   await Hive.openBox(kGrossAmounts);
-  await Hive.openBox(kClient);
+  await Hive.openBox(kUser);
 
-  IconCodePointGenerator.generate(54);
+  IconCodePointGenerator.generate();
 
   PreferencesService.initPrefs();
 
@@ -39,6 +39,7 @@ void main() async {
       Provider<BudgetsService>(create: (_) => BudgetsService()),
       Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
       Provider<UserService>(create: (_) => UserService(client)),
+     // Provider<OnBoardingPageBloc>(create: (_)=>OnBoardingPageBloc());
     ],
     child: const MyApp(),
   );

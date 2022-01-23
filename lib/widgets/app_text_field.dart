@@ -8,8 +8,10 @@ class AppTextField extends StatefulWidget {
       this.maxLines = 1,
       required this.hintText,
       required this.keyboardType,
-      this.errorName = 'title',
+      this.textCapitalization = TextCapitalization.sentences,
+      required this.errorName,
       this.letterSpacing,
+      this.isPassword = false,
       Key? key})
       : super(key: key);
 
@@ -20,6 +22,8 @@ class AppTextField extends StatefulWidget {
   final String hintText, errorName;
   final double? letterSpacing;
   final TextInputType keyboardType;
+  final TextCapitalization textCapitalization;
+  final bool isPassword;
 
   @override
   _AppTextFieldState createState() => _AppTextFieldState();
@@ -27,6 +31,7 @@ class AppTextField extends StatefulWidget {
 
 class _AppTextFieldState extends State<AppTextField> {
   final controller = TextEditingController();
+  final isVisibleNotifier = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -51,33 +56,51 @@ class _AppTextFieldState extends State<AppTextField> {
       children: [
         SizedBox(
           height: 40.dh,
-          child: TextField(
-              controller: controller,
-              onChanged: widget.onChanged,
-              maxLines: widget.maxLines,
-              minLines: 1,
-              keyboardType: widget.keyboardType,
-              textCapitalization: TextCapitalization.sentences,
-              style: TextStyle(
-                color: AppColors.onBackground,
-                letterSpacing: widget.letterSpacing,
-                fontSize: 16.dw,
-              ),
-              cursorColor: AppColors.onBackground,
-              decoration: InputDecoration(
-                  hintText: widget.hintText,
-                  hintStyle: TextStyle(
-                    color: AppColors.onBackground2,
-                    fontSize: 14.dw,
-                  ),
-                  fillColor: AppColors.surface,
-                  filled: true,
-                  isDense: true,
-                  border: border,
-                  focusedBorder: border,
-                  enabledBorder: border,
-                  contentPadding:
-                      EdgeInsets.only(left: 10.dw, top: 12.dw, bottom: 8.dw))),
+          child: ValueListenableBuilder<bool>(
+              valueListenable: isVisibleNotifier,
+              builder: (context, isVisible, snapshot) {
+                return TextField(
+                    controller: controller,
+                    onChanged: widget.onChanged,
+                    maxLines: widget.maxLines,
+                    minLines: 1,
+                    keyboardType: widget.keyboardType,
+                    textCapitalization: widget.textCapitalization,
+                    style: TextStyle(
+                      color: AppColors.onBackground,
+                      letterSpacing: widget.letterSpacing,
+                      fontSize: 16.dw,
+                    ),
+                    cursorColor: AppColors.primary,
+                    obscureText: widget.isPassword && !isVisible,
+                    obscuringCharacter: '*',
+                    decoration: InputDecoration(
+                        hintText: widget.hintText,
+                        hintStyle: TextStyle(
+                          color: AppColors.onBackground2,
+                          fontSize: 14.dw,
+                        ),
+                        fillColor: AppColors.surface,
+                        suffixIcon: widget.isPassword
+                            ? GestureDetector(
+                                onTap: () =>
+                                    isVisibleNotifier.value = !isVisible,
+                                child: Icon(
+                                    !isVisible
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    size: 16.dw,
+                                    color: AppColors.accent),
+                              )
+                            : Container(width: 0.01),
+                        filled: true,
+                        isDense: true,
+                        border: border,
+                        focusedBorder: border,
+                        enabledBorder: border,
+                        contentPadding: EdgeInsets.only(
+                            left: 10.dw, top: 12.dw, bottom: 8.dw)));
+              }),
         ),
         hasError
             ? Padding(
@@ -85,7 +108,7 @@ class _AppTextFieldState extends State<AppTextField> {
                 child: AppText(
                   widget.errors[widget.errorName]!,
                   color: AppColors.error,
-                  size: 16.dw,
+                  size: 14.dw,
                 ),
               )
             : Container()

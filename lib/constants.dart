@@ -15,7 +15,22 @@ const kAllDaysTotals = 'all_days_total_amounts';
 const kGrossAmounts = 'gross_amounts';
 const kExpense = 'expense';
 const kIncome = 'income';
-const kClient = 'client';
+const kUser = 'user';
+
+const kRegisterImageurl =
+    'https://mzdcrckdvywjtgjxlogb.supabase.in/storage/v1/object/sign/app.images/register.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAuaW1hZ2VzL3JlZ2lzdGVyLnBuZyIsImlhdCI6MTY0MjkzMzc5NCwiZXhwIjoxOTU4MjkzNzk0fQ.7Zmq8NQsjospOKNbDcLHmtbIdVI3fYQ0fkcy1WkAu0c';
+
+const kVerifyImageurl =
+    'https://mzdcrckdvywjtgjxlogb.supabase.in/storage/v1/object/sign/app.images/stamp.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAuaW1hZ2VzL3N0YW1wLnBuZyIsImlhdCI6MTY0MjkzMzc3NCwiZXhwIjoxOTU4MjkzNzc0fQ.dySoF3sSg7V97q9Ow_AGbPc0pqoeqzrvVvEWsL-DsjE';
+
+const kVerifyUserImageUrl =
+    'https://mzdcrckdvywjtgjxlogb.supabase.in/storage/v1/object/sign/app.images/verify.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAuaW1hZ2VzL3ZlcmlmeS5wbmciLCJpYXQiOjE2NDI5MzM3NTAsImV4cCI6MTk1ODI5Mzc1MH0.Da19FtMFqnlQ-1RuYmYfOD9PycX64dAajZ_6zYj1-WU';
+
+const kCompleteImageUrl =
+    'https://mzdcrckdvywjtgjxlogb.supabase.in/storage/v1/object/sign/app.images/complete.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAuaW1hZ2VzL2NvbXBsZXRlLnBuZyIsImlhdCI6MTY0MjkzMzYzMCwiZXhwIjoxOTU4MjkzNjMwfQ.XpOP6K96qLiwnk4JiqpOgw8NgzF45ESwhHodq4Fjs-I';
+
+const kVerifyImage3Url =
+    'https://mzdcrckdvywjtgjxlogb.supabase.in/storage/v1/object/sign/app.images/verify_account.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAuaW1hZ2VzL3ZlcmlmeV9hY2NvdW50LnBuZyIsImlhdCI6MTY0MjkzMzcyMiwiZXhwIjoxOTU4MjkzNzIyfQ.1Hd9H_-0ratkmOg88L3tYP-ItMpqWRmnnZ_JSFg6M_0';
 
 const kFontFam2 = 'AndroidEuclid';
 const kFontFam = "LondonTube";

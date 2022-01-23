@@ -6,10 +6,12 @@ part 'on_boarding_supplements.freezed.dart';
 @freezed
 class OnBoardingSupplements with _$OnBoardingSupplements {
   const factory OnBoardingSupplements({
-    required String phone,
-    required Client client,
+    required String password,
+    required Map<String, String> errors,
+    required Map<int, String> otp,
+    required User client,
   }) = _OnBoardingSupplements;
 
-  factory OnBoardingSupplements.empty() =>
-      OnBoardingSupplements(phone: '', client: Client.empty());
+  factory OnBoardingSupplements.empty() => OnBoardingSupplements(
+      password: '', client: User.empty(), errors: {}, otp: {});
 }

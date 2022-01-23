@@ -10,4 +10,4 @@ export 'gross_amount.dart';
 export 'reports_page_supplements.dart';
 export 'budget_page_supplements.dart';
 export 'on_boarding_supplements.dart';
-export 'client.dart';
+export 'user.dart';

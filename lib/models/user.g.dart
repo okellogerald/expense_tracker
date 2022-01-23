@@ -1,38 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'client.dart';
+part of 'user.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ClientAdapter extends TypeAdapter<Client> {
+class UserAdapter extends TypeAdapter<User> {
   @override
   final int typeId = 6;
 
   @override
-  Client read(BinaryReader reader) {
+  User read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Client(
+    return User(
       displayName: fields[0] as String,
       email: fields[1] as String,
       photoUrl: fields[2] as String,
+      currencyCodePoint: fields[3] as int,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Client obj) {
+  void write(BinaryWriter writer, User obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.displayName)
       ..writeByte(1)
       ..write(obj.email)
       ..writeByte(2)
-      ..write(obj.photoUrl);
+      ..write(obj.photoUrl)
+      ..writeByte(3)
+      ..write(obj.currencyCodePoint);
   }
 
   @override
@@ -41,7 +44,7 @@ class ClientAdapter extends TypeAdapter<Client> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ClientAdapter &&
+      other is UserAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

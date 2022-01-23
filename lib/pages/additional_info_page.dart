@@ -1,18 +1,18 @@
 import '../source.dart';
 
-class CurrencyPage extends StatefulWidget {
-  const CurrencyPage(this.client, {Key? key}) : super(key: key);
+class AdditionalInfoPage extends StatefulWidget {
+  const AdditionalInfoPage(this.client, {Key? key}) : super(key: key);
 
-  final Client client;
+  final User client;
 
-  static void navigateTo(BuildContext context, Client client) => Navigator.push(
-      context, MaterialPageRoute(builder: (_) => CurrencyPage(client)));
+  static void navigateTo(BuildContext context, User client) => Navigator.push(
+      context, MaterialPageRoute(builder: (_) => AdditionalInfoPage(client)));
 
   @override
-  _CurrencyPageState createState() => _CurrencyPageState();
+  _AdditionalInfoPageState createState() => _AdditionalInfoPageState();
 }
 
-class _CurrencyPageState extends State<CurrencyPage> {
+class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
   @override
   Widget build(BuildContext context) {
     final client = widget.client;

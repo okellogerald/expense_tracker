@@ -17,13 +17,13 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SettingsPageStateTearOff {
   const _$SettingsPageStateTearOff();
 
-  _Loading loading(Client client) {
+  _Loading loading(User client) {
     return _Loading(
       client,
     );
   }
 
-  _Content content(Client client) {
+  _Content content(User client) {
     return _Content(
       client,
     );
@@ -35,24 +35,24 @@ const $SettingsPageState = _$SettingsPageStateTearOff();
 
 /// @nodoc
 mixin _$SettingsPageState {
-  Client get client => throw _privateConstructorUsedError;
+  User get client => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Client client) loading,
-    required TResult Function(Client client) content,
+    required TResult Function(User client) loading,
+    required TResult Function(User client) content,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(Client client)? loading,
-    TResult Function(Client client)? content,
+    TResult Function(User client)? loading,
+    TResult Function(User client)? content,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Client client)? loading,
-    TResult Function(Client client)? content,
+    TResult Function(User client)? loading,
+    TResult Function(User client)? content,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -86,7 +86,7 @@ abstract class $SettingsPageStateCopyWith<$Res> {
   factory $SettingsPageStateCopyWith(
           SettingsPageState value, $Res Function(SettingsPageState) then) =
       _$SettingsPageStateCopyWithImpl<$Res>;
-  $Res call({Client client});
+  $Res call({User client});
 }
 
 /// @nodoc
@@ -106,7 +106,7 @@ class _$SettingsPageStateCopyWithImpl<$Res>
       client: client == freezed
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
-              as Client,
+              as User,
     ));
   }
 }
@@ -117,7 +117,7 @@ abstract class _$LoadingCopyWith<$Res>
   factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
       __$LoadingCopyWithImpl<$Res>;
   @override
-  $Res call({Client client});
+  $Res call({User client});
 }
 
 /// @nodoc
@@ -137,7 +137,7 @@ class __$LoadingCopyWithImpl<$Res> extends _$SettingsPageStateCopyWithImpl<$Res>
       client == freezed
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
-              as Client,
+              as User,
     ));
   }
 }
@@ -148,7 +148,7 @@ class _$_Loading implements _Loading {
   const _$_Loading(this.client);
 
   @override
-  final Client client;
+  final User client;
 
   @override
   String toString() {
@@ -175,8 +175,8 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Client client) loading,
-    required TResult Function(Client client) content,
+    required TResult Function(User client) loading,
+    required TResult Function(User client) content,
   }) {
     return loading(client);
   }
@@ -184,8 +184,8 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(Client client)? loading,
-    TResult Function(Client client)? content,
+    TResult Function(User client)? loading,
+    TResult Function(User client)? content,
   }) {
     return loading?.call(client);
   }
@@ -193,8 +193,8 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Client client)? loading,
-    TResult Function(Client client)? content,
+    TResult Function(User client)? loading,
+    TResult Function(User client)? content,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -236,10 +236,10 @@ class _$_Loading implements _Loading {
 }
 
 abstract class _Loading implements SettingsPageState {
-  const factory _Loading(Client client) = _$_Loading;
+  const factory _Loading(User client) = _$_Loading;
 
   @override
-  Client get client;
+  User get client;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -252,7 +252,7 @@ abstract class _$ContentCopyWith<$Res>
   factory _$ContentCopyWith(_Content value, $Res Function(_Content) then) =
       __$ContentCopyWithImpl<$Res>;
   @override
-  $Res call({Client client});
+  $Res call({User client});
 }
 
 /// @nodoc
@@ -272,7 +272,7 @@ class __$ContentCopyWithImpl<$Res> extends _$SettingsPageStateCopyWithImpl<$Res>
       client == freezed
           ? _value.client
           : client // ignore: cast_nullable_to_non_nullable
-              as Client,
+              as User,
     ));
   }
 }
@@ -283,7 +283,7 @@ class _$_Content implements _Content {
   const _$_Content(this.client);
 
   @override
-  final Client client;
+  final User client;
 
   @override
   String toString() {
@@ -310,8 +310,8 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Client client) loading,
-    required TResult Function(Client client) content,
+    required TResult Function(User client) loading,
+    required TResult Function(User client) content,
   }) {
     return content(client);
   }
@@ -319,8 +319,8 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(Client client)? loading,
-    TResult Function(Client client)? content,
+    TResult Function(User client)? loading,
+    TResult Function(User client)? content,
   }) {
     return content?.call(client);
   }
@@ -328,8 +328,8 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Client client)? loading,
-    TResult Function(Client client)? content,
+    TResult Function(User client)? loading,
+    TResult Function(User client)? content,
     required TResult orElse(),
   }) {
     if (content != null) {
@@ -371,10 +371,10 @@ class _$_Content implements _Content {
 }
 
 abstract class _Content implements SettingsPageState {
-  const factory _Content(Client client) = _$_Content;
+  const factory _Content(User client) = _$_Content;
 
   @override
-  Client get client;
+  User get client;
   @override
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>

@@ -20,61 +20,271 @@ class UserService {
 
   final SupabaseClient client;
 
-  final _box = Hive.box(kClient);
+  static const _usersTable = 'Users';
+  static const _otpVerificationTable = 'OTP';
+
+  final _box = Hive.box(kUser);
   final _google = GoogleSignIn();
   final _facebook = FacebookAuth.instance;
+  var _unverifiedUserEmail = '';
+  var _unverifiedUserPassword = '';
 
-  Client get getClient => _box.get(kClient) as Client;
+  User get getClient => _box.get(kUser) as User;
   bool get isLoggedIn => _box.isNotEmpty;
 
-  Future<Client?> signUpWithGoogle() async {
-    final client = await _initGoogle();
-
-    if (client != null) {
-      await _signUp(client.email, '', provider: Providers.google);
-      return client;
-    }
-    //else returns null
-  }
-
-  Future<Client?> signUpWithFacebook() async {
-    final client = await _initFacebook();
-
-    if (client != null) {
-      await _signUp(client.email, '', provider: Providers.facebook);
-      return client;
-    }
-    //else returns null
-  }
-
-  Future<Client?> logInWithGoogle() async {
-    final client = await _initGoogle();
-
-    if (client != null) {
-      await _logIn(client.email, provider: Providers.google);
-      return client;
-    }
-    //else returns null
-  }
-
-  Future<Client?> logInWithFacebook() async {
-    final client = await _initFacebook();
-
-    if (client != null) {
-      await _logIn(client.email, provider: Providers.facebook);
-      return client;
-    }
-    //else returns null
-  }
-
-  Future<void> _signUp(String email, String password,
-      {String provider = Providers.email_password}) async {
-    await _checkIfUserExistsDuringSignup(email, password);
+  Future<User?> signUpWithEmailPassword() async {
+    final email = _unverifiedUserEmail;
 
     try {
-      await client.from('Users').insert({
+      final result = await client
+          .from(_usersTable)
+          .select()
+          .match({'email': email}).execute();
+      final doesExist = result.data.isNotEmpty;
+      if (doesExist) throw DatabaseError.emailAvailable();
+      await client.from(_usersTable).insert({
         'email': email,
+        'password': _unverifiedUserPassword,
+        'provider': Providers.email_password
+      }).execute();
+      final user = User.empty().copyWith(email: email);
+      await _box.put(kUser, user);
+      return user;
+    } on PostgrestError catch (e) {
+      throw DatabaseError.specific(e.message);
+    } on DatabaseError catch (_) {
+      rethrow;
+    } catch (_) {
+      log(_.toString());
+      throw DatabaseError.unknown();
+    }
+  }
+
+  saveDataForVerification(String email, String password) {
+    _unverifiedUserEmail = email;
+    _unverifiedUserPassword = password;
+  }
+
+  Future<void> sendOTP() async {
+    final otp = Utils.generateOTP();
+    log(otp);
+
+    try {
+      final result = await client
+          .from(_otpVerificationTable)
+          .select()
+          .match({'email': _unverifiedUserEmail}).execute();
+      log('${result.data}');
+      final doesExist = result.data?.isNotEmpty ?? false;
+      final hasError = result.error != null;
+      if (hasError) throw DatabaseError.unknown();
+
+      if (doesExist) {
+        final result = await client
+            .from(_otpVerificationTable)
+            .update({'OTP': otp})
+            .eq('email', _unverifiedUserEmail)
+            .execute();
+
+        log(result.error?.message ?? 'no error');
+        final hasError = result.error != null;
+        if (hasError) throw DatabaseError.unknown();
+      } else {
+        final result = await client
+            .from(_otpVerificationTable)
+            .insert({'email': _unverifiedUserEmail, 'OTP': otp}).execute();
+
+        log(result.error?.message ?? 'no error');
+        final hasError = result.error != null;
+        if (hasError) throw DatabaseError.unknown();
+      }
+
+      const key = 'lLRz4FQyJDRYC5Hp1JmkyA';
+
+      var headers = {
+        'Content-Type': 'application/json',
+      };
+
+      final message = {
+        "key": key,
+        "message": {
+          "from_email": "developer@okellogerald.dev",
+          "subject": "Email Verification",
+          "text":
+              "Hi!\n\nUse the below OTP code to verify your account at Expense Tracker app.\n\n$otp\n\nPlease ignore this email if it was sent against your consent.",
+          "to": [
+            {"email": "hi@okellogerald.dev", "type": "to"}
+          ]
+        }
+      };
+
+      var response = await http.post(
+          Uri.parse('https://mandrillapp.com/api/1.0/messages/send'),
+          headers: headers,
+          body: json.encode(message));
+
+      if (response.statusCode != 200) throw DatabaseError.internet();
+    } on SocketException catch (_) {
+      throw DatabaseError.internet();
+    } on TimeoutException catch (_) {
+      throw DatabaseError.internet();
+    } on DatabaseError catch (_) {
+      rethrow;
+    } catch (_) {
+      log(_.toString());
+      throw DatabaseError.unknown();
+    }
+  }
+
+  Map<int, String> updateOTP(Map<int, String> current, int id, int otp) {
+    current[id] = otp.toString();
+    return current;
+  }
+
+  String _generateOTPString(Map<int, String> otp) {
+    var otpString = '';
+    for (int id = 1; id <= 5; id++) {
+      otpString += otp[id]!;
+    }
+    return otpString;
+  }
+
+  Future<bool> verifyEmail(Map<int, String> otpMap) async {
+    final otp = _generateOTPString(otpMap);
+
+    try {
+      final result = await client
+          .from(_otpVerificationTable)
+          .select()
+          .match({'email': _unverifiedUserEmail}).execute();
+      //log('${result.data}');
+      final doesExist = result.data?.isNotEmpty ?? false;
+      final hasError = result.error != null;
+      if (hasError) throw DatabaseError.unknown();
+
+      if (doesExist) {
+        log('enterd otp');
+        log(otp);
+        log('true otp');
+        log(result.data.first['OTP']);
+        if (otp == result.data.first['OTP']) {
+          return true;
+        }
+        return false;
+      } else {
+        throw DatabaseError.unknown();
+      }
+    } on SocketException catch (_) {
+      throw DatabaseError.internet();
+    } on TimeoutException catch (_) {
+      throw DatabaseError.internet();
+    } on DatabaseError catch (_) {
+      rethrow;
+    } catch (_) {
+      log(_.toString());
+      throw DatabaseError.unknown();
+    }
+  }
+
+  Future<User?> updateUser(
+      {required String email,
+      required File file,
+      required String name,
+      required int currency}) async {
+    try {
+      final path = 'users.image/$email.png';
+      await client.storage.from('users.image').upload(path, file);
+      final bytes = await client.storage.from('users.image').download(path);
+      await client
+          .from(_usersTable)
+          .update({'photoUrl': bytes.data, 'name': name, currency: currency})
+          .eq('email', email)
+          .execute();
+      final user =
+          User.empty().copyWith(email: email, photoUrl: 'photoUrl', name: name);
+      await _box.put(kUser, user);
+      return user;
+    } on PostgrestError catch (e) {
+      throw DatabaseError.specific(e.message);
+    } on DatabaseError catch (_) {
+      rethrow;
+    } catch (_) {
+      log(_.toString());
+      throw DatabaseError.unknown();
+    }
+  }
+
+  Future<User?> logInWithEmailPassword(String email, password) async {
+    try {
+      final result = await client
+          .from(_usersTable)
+          .select()
+          .match({'email': email}).execute();
+      final doesExist = result.data.isNotEmpty;
+      if (!doesExist) throw DatabaseError.invalidDetails();
+      if (doesExist) {
+        log('${result.data}');
+      }
+    } on PostgrestError catch (e) {
+      throw DatabaseError.specific(e.message);
+    } on DatabaseError catch (_) {
+      rethrow;
+    } catch (_) {
+      log(_.toString());
+      throw DatabaseError.unknown();
+    }
+  }
+
+  Future<User?> signUpWithGoogle() async {
+    final user = await _initGoogle();
+
+    if (user != null) {
+      await _signUp(user, '', provider: Providers.google);
+      return user;
+    }
+    //else returns null
+  }
+
+  Future<User?> signUpWithFacebook() async {
+    final user = await _initFacebook();
+
+    if (user != null) {
+      await _signUp(user, '', provider: Providers.facebook);
+      return user;
+    }
+    //else returns null
+  }
+
+  Future<User?> logInWithGoogle() async {
+    final client = await _initGoogle();
+
+    if (client != null) {
+      await _logIn(client, provider: Providers.google);
+      return client;
+    }
+    //else returns null
+  }
+
+  Future<User?> logInWithFacebook() async {
+    final client = await _initFacebook();
+
+    if (client != null) {
+      await _logIn(client, provider: Providers.facebook);
+      return client;
+    }
+    //else returns null
+  }
+
+  Future<void> _signUp(User user, String password,
+      {String provider = Providers.email_password}) async {
+    await _checkIfUserExistsDuringSignup(user.email, password);
+
+    try {
+      await client.from(_usersTable).insert({
+        'email': user.email,
         'password': password,
+        'name': user.displayName,
+        'photo_url': user.photoUrl,
         'provider': provider
       }).execute();
     } on PostgrestError catch (e) {
@@ -85,15 +295,22 @@ class UserService {
     }
   }
 
-  Future<void> _logIn(String email,
+  Future<void> _logIn(User user,
       {String provider = Providers.email_password}) async {
     try {
-      final result =
-          await client.from('Users').select().match({'email': email}).execute();
+      final result = await client
+          .from(_usersTable)
+          .select()
+          .match({'email': user.email}).execute();
       final doesNotExist = result.data.isEmpty;
       if (doesNotExist) {
-        await client.from('Users').insert(
-            {'email': email, 'password': '', 'provider': provider}).execute();
+        await client.from('Users').insert({
+          'email': user.email,
+          'password': '',
+          'name': user.displayName,
+          'photo_url': user.photoUrl,
+          'provider': provider,
+        }).execute();
       }
     } on PostgrestError catch (e) {
       throw DatabaseError.specific(e.message);
@@ -107,8 +324,10 @@ class UserService {
   Future<void> _checkIfUserExistsDuringSignup(
       String email, String password) async {
     try {
-      final result =
-          await client.from('Users').select().match({'email': email}).execute();
+      final result = await client
+          .from(_usersTable)
+          .select()
+          .match({'email': email}).execute();
       final doesExist = result.data.isNotEmpty;
       if (doesExist) throw DatabaseError.emailAvailable();
     } on PostgrestError catch (e) {
@@ -125,7 +344,7 @@ class UserService {
   ///returns the client object if the operation is successful. Or else it returns
   ///null if the user didn't select any account or throws an exception indicating
   ///unsuccessful operation.
-  Future<Client?> _initFacebook() async {
+  Future<User?> _initFacebook() async {
     try {
       final result = await _facebook.login();
 
@@ -135,9 +354,9 @@ class UserService {
 
         var response = await http.get(Uri.parse(url));
         var profile = json.decode(response.body);
-        final client = Client.fromFacebookProfile(profile);
-        _box.put(kClient, client);
-        return client;
+        final user = User.fromFacebookProfile(profile);
+        _box.put(kUser, user);
+        return user;
       }
       //else returns null
     } on SocketException catch (_) {
@@ -153,7 +372,7 @@ class UserService {
   ///returns the client object if the operation is successful. Or else it returns
   ///null if the user didn't select any account or throws an exception indicating
   ///unsuccessful operation.
-  Future<Client?> _initGoogle() async {
+  Future<User?> _initGoogle() async {
     try {
       try {
         await _google.disconnect();
@@ -161,9 +380,9 @@ class UserService {
 
       final account = await _google.signIn();
       if (account != null) {
-        final client = Client.fromGoogleAccount(account);
-        _box.put(kClient, client);
-        return client;
+        final user = User.fromGoogleAccount(account);
+        _box.put(kUser, user);
+        return user;
       }
       //else returns null
     } on SocketException catch (_) {

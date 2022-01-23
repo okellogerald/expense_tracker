@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:budgetting_app/source.dart';
 import 'package:budgetting_app/widgets/screen_size_config.dart';
 
@@ -124,5 +126,15 @@ class Utils {
     return (isNegative ? '-' : '') +
         money +
         (decimals.length == 2 ? '${decimals}0' : decimals);
+  }
+
+  static String generateOTP() {
+    final random = Random();
+    var otp = '';
+
+    for (var i = 1; i <= 5; i++) {
+      otp += random.nextInt(9).toString();
+    }
+    return otp;
   }
 }
