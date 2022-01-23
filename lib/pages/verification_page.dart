@@ -9,12 +9,11 @@ class VerificationPage extends StatefulWidget {
 
 class _VerificationPageState extends State<VerificationPage> {
   late final OnBoardingPageBloc bloc;
-  late final UserService userService;
 
   @override
   void initState() {
-    userService = Provider.of<UserService>(context, listen: false);
-    bloc = OnBoardingPageBloc(userService);
+    bloc = Provider.of<OnBoardingPageBloc>(context, listen: false);
+    log(bloc.state.supplements.user.email);
     super.initState();
   }
 
@@ -31,8 +30,7 @@ class _VerificationPageState extends State<VerificationPage> {
                   state.maybeWhen(failed: (_, __) => true, orElse: () => false);
 
               if (hasSucceded) {
-                final user = state.supplements.client;
-                AdditionalInfoPage.navigateTo(context, user);
+                AdditionalInfoPage.navigateTo(context);
               }
 
               if (hasFailed) {

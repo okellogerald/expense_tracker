@@ -5,10 +5,6 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
   final UserService service;
 
-  void showValues() {
-    log(state.supplements.client.email);
-  }
-
   void signupWithGoogle() async => await _onboard(true, Providers.google);
 
   void loginWithGoogle() async => await _onboard(false, Providers.google);
@@ -17,11 +13,19 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
   void loginWithFacebook() async => await _onboard(false, Providers.facebook);
 
+  void init({User? user}) {
+    if (user == null) return;
+    var supp = state.supplements;
+    emit(OnBoardingPageState.laoding(supp));
+    supp = supp.copyWith(user: user);
+    emit(OnBoardingPageState.content(supp));
+  }
+
   void updateEmail(String email) {
     var supp = state.supplements;
     emit(OnBoardingPageState.laoding(supp));
-    final client = supp.client.copyWith(email: email);
-    supp = supp.copyWith(client: client);
+    final user = supp.user.copyWith(email: email);
+    supp = supp.copyWith(user: user);
     emit(OnBoardingPageState.content(supp));
   }
 
@@ -36,15 +40,15 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
   void signupWithEmailPassword() async => await _onboardWithEmailPassword(true);
 
-  void saveDataForVerification() =>
-      _onboardWithEmailPassword(false, isSavingForVerification: true);
+  void sendOTP() => _onboardWithEmailPassword(false, isVerifying: true);
 
   void verify() async {
     var supp = state.supplements;
     emit(OnBoardingPageState.laoding(supp));
     try {
-      final isVerified = await service.verifyEmail(supp.otp);
-      if (!isVerified) {
+      final user =
+          await service.verifyEmail(supp.user.email, supp.password, supp.otp);
+      if (user == null) {
         emit(OnBoardingPageState.failed(supp, 'Invalid code!'));
         return;
       }
@@ -58,12 +62,12 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
   void updateOtp(int id, int current) {
     var supp = state.supplements;
     emit(OnBoardingPageState.laoding(supp));
-    final otp = service.updateOTP(supp.otp,id, current);
+    final otp = service.updateOTP(supp.otp, id, current);
     emit(OnBoardingPageState.content(supp.copyWith(otp: otp)));
   }
 
   Future<void> _onboardWithEmailPassword(bool isSigningUp,
-      {bool isSavingForVerification = false}) async {
+      {bool isVerifying = false}) async {
     //clear errors.
     var supp = state.supplements.copyWith(errors: {});
     emit(OnBoardingPageState.laoding(supp));
@@ -73,18 +77,21 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
     emit(OnBoardingPageState.laoding(supp));
 
-    if (isSavingForVerification) {
-      service.saveDataForVerification(supp.client.email, supp.password);
-      await service.sendOTP();
+    if (isVerifying) {
+      try {
+        await service.sendOTP(supp.user.email);
+        emit(OnBoardingPageState.success(supp));
+      } on DatabaseError catch (_) {
+        emit(OnBoardingPageState.failed(supp, _.message));
+      }
     } else {
       await _onboard(isSigningUp, Providers.email_password);
     }
-    emit(OnBoardingPageState.success(supp));
   }
 
   void _validate() {
     var supp = state.supplements;
-    final email = supp.client.email.trim();
+    final email = supp.user.email.trim();
     final password = supp.password.trim();
 
     final regex = RegExp(
@@ -110,16 +117,16 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
     User? user;
 
-    final email = supp.client.email;
+    final email = supp.user.email;
     final password = supp.password;
 
     try {
       switch (provider) {
         case Providers.email_password:
           if (isSigningUp) {
-            user = await service.signUpWithEmailPassword();
+            user = await service.signUpWithEmailPassword(email, password);
           } else {
-            user = await service.logInWithEmailPassword(email, password);
+            user = await service.loginWithEmailPassword(email, password);
           }
           break;
         case Providers.google:
@@ -137,7 +144,10 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
         emit(OnBoardingPageState.content(supp));
         return;
       }
-      supp = supp.copyWith(client: user);
+
+      log('user is not null');
+
+      supp = supp.copyWith(user: user);
       emit(OnBoardingPageState.success(supp));
     } on DatabaseError catch (_) {
       emit(OnBoardingPageState.failed(supp, _.message));

@@ -30,7 +30,10 @@ const kCompleteImageUrl =
     'https://mzdcrckdvywjtgjxlogb.supabase.in/storage/v1/object/sign/app.images/complete.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAuaW1hZ2VzL2NvbXBsZXRlLnBuZyIsImlhdCI6MTY0MjkzMzYzMCwiZXhwIjoxOTU4MjkzNjMwfQ.XpOP6K96qLiwnk4JiqpOgw8NgzF45ESwhHodq4Fjs-I';
 
 const kVerifyImage3Url =
-    'https://mzdcrckdvywjtgjxlogb.supabase.in/storage/v1/object/sign/app.images/verify_account.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAuaW1hZ2VzL3ZlcmlmeV9hY2NvdW50LnBuZyIsImlhdCI6MTY0MjkzMzcyMiwiZXhwIjoxOTU4MjkzNzIyfQ.1Hd9H_-0ratkmOg88L3tYP-ItMpqWRmnnZ_JSFg6M_0';
+    'https://mzdcrckdvywjtgjxlogb.supabase.in/storage/v1/object/sign/app.images/verify_account.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAuaW1hZ2VzL3ZlcmlmeV9hY2NvdW50LnBuZyIsImlhdCI6MTY0MjkzNDY5OSwiZXhwIjoxOTU4Mjk0Njk5fQ.YKyt-y2zUCXKwuEUaU0NfMms8DkCBA8V3B8UhzbidZQ';
+
+
+const kDefaultPhotoUrl = 'https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-128.png';
 
 const kFontFam2 = 'AndroidEuclid';
 const kFontFam = "LondonTube";

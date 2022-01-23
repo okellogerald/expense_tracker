@@ -9,9 +9,9 @@ class OnBoardingSupplements with _$OnBoardingSupplements {
     required String password,
     required Map<String, String> errors,
     required Map<int, String> otp,
-    required User client,
+    required User user,
   }) = _OnBoardingSupplements;
 
   factory OnBoardingSupplements.empty() => OnBoardingSupplements(
-      password: '', client: User.empty(), errors: {}, otp: {});
+      password: '', user: User.empty(), errors: {}, otp: {});
 }

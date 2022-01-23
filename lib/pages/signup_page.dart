@@ -9,12 +9,10 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   late final OnBoardingPageBloc bloc;
-  late final UserService userService;
 
   @override
   void initState() {
-    userService = Provider.of<UserService>(context, listen: false);
-    bloc = OnBoardingPageBloc(userService);
+    bloc = Provider.of<OnBoardingPageBloc>(context, listen: false);
     super.initState();
   }
 
@@ -123,7 +121,7 @@ class _SignUpPageState extends State<SignUpPage> {
         children: [
           AppTextField(
             errors: supp.errors,
-            text: supp.client.email,
+            text: supp.user.email,
             onChanged: bloc.updateEmail,
             hintText: 'Email',
             keyboardType: TextInputType.emailAddress,
@@ -143,7 +141,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           SizedBox(height: 25.dh),
           AppTextButton(
-            onPressed: bloc.saveDataForVerification,
+            onPressed: bloc.sendOTP,
             text: 'Sign up',
             buttonColor: AppColors.primary,
             isBolded: true,

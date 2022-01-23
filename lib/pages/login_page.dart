@@ -9,12 +9,10 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   late final OnBoardingPageBloc bloc;
-  late final UserService userService;
 
   @override
   void initState() {
-    userService = Provider.of<UserService>(context, listen: false);
-    bloc = OnBoardingPageBloc(userService);
+    bloc = Provider.of<OnBoardingPageBloc>(context, listen: false);
     super.initState();
   }
 
@@ -31,7 +29,11 @@ class _LoginPageState extends State<LoginPage> {
                   state.maybeWhen(failed: (_, __) => true, orElse: () => false);
 
               if (hasSucceded) {
-                MainPage.navigateTo(context);
+                if (!state.supplements.user.isProfileComplete) {
+                  AdditionalInfoPage.navigateTo(context);
+                } else {
+                  MainPage.navigateTo(context);
+                }
               }
 
               if (hasFailed) {
@@ -124,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(height: 5.dh),
           AppTextField(
             errors: supp.errors,
-            text: '',
+            text: supp.user.email,
             onChanged: bloc.updateEmail,
             hintText: 'Email',
             keyboardType: TextInputType.emailAddress,
@@ -134,10 +136,12 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(height: 15.dh),
           AppTextField(
             errors: supp.errors,
-            text: '',
+            text: supp.password,
             onChanged: bloc.updatePassword,
             hintText: 'Password',
-            keyboardType: TextInputType.number,
+            keyboardType: TextInputType.visiblePassword,
+            textCapitalization: TextCapitalization.none,
+            isLoginPasswrd: true,
             errorName: 'password',
           ),
           AppTextButton(

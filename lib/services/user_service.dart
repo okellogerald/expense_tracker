@@ -26,15 +26,11 @@ class UserService {
   final _box = Hive.box(kUser);
   final _google = GoogleSignIn();
   final _facebook = FacebookAuth.instance;
-  var _unverifiedUserEmail = '';
-  var _unverifiedUserPassword = '';
 
   User get getClient => _box.get(kUser) as User;
   bool get isLoggedIn => _box.isNotEmpty;
 
-  Future<User?> signUpWithEmailPassword() async {
-    final email = _unverifiedUserEmail;
-
+  Future<User?> signUpWithEmailPassword(String email, String password) async {
     try {
       final result = await client
           .from(_usersTable)
@@ -44,7 +40,7 @@ class UserService {
       if (doesExist) throw DatabaseError.emailAvailable();
       await client.from(_usersTable).insert({
         'email': email,
-        'password': _unverifiedUserPassword,
+        'password': password,
         'provider': Providers.email_password
       }).execute();
       final user = User.empty().copyWith(email: email);
@@ -60,21 +56,38 @@ class UserService {
     }
   }
 
-  saveDataForVerification(String email, String password) {
-    _unverifiedUserEmail = email;
-    _unverifiedUserPassword = password;
+  Future<User?> loginWithEmailPassword(String email, String password) async {
+    try {
+      final result = await client
+          .from(_usersTable)
+          .select()
+          .match({'email': email, 'password': password}).execute();
+
+      final doesExist = result.data.isNotEmpty;
+
+      if (!doesExist) throw DatabaseError.invalidDetails();
+
+      final user = User.fromDatabase(result.data.first);
+      await _box.put(kUser, user);
+      return user;
+    } on PostgrestError catch (e) {
+      throw DatabaseError.specific(e.message);
+    } on DatabaseError catch (_) {
+      rethrow;
+    } catch (_) {
+      log(_.toString());
+      throw DatabaseError.unknown();
+    }
   }
 
-  Future<void> sendOTP() async {
+  Future<void> sendOTP(String email) async {
     final otp = Utils.generateOTP();
-    log(otp);
-
     try {
       final result = await client
           .from(_otpVerificationTable)
           .select()
-          .match({'email': _unverifiedUserEmail}).execute();
-      log('${result.data}');
+          .match({'email': email}).execute();
+
       final doesExist = result.data?.isNotEmpty ?? false;
       final hasError = result.error != null;
       if (hasError) throw DatabaseError.unknown();
@@ -83,7 +96,7 @@ class UserService {
         final result = await client
             .from(_otpVerificationTable)
             .update({'OTP': otp})
-            .eq('email', _unverifiedUserEmail)
+            .eq('email', email)
             .execute();
 
         log(result.error?.message ?? 'no error');
@@ -92,7 +105,7 @@ class UserService {
       } else {
         final result = await client
             .from(_otpVerificationTable)
-            .insert({'email': _unverifiedUserEmail, 'OTP': otp}).execute();
+            .insert({'email': email, 'OTP': otp}).execute();
 
         log(result.error?.message ?? 'no error');
         final hasError = result.error != null;
@@ -149,28 +162,44 @@ class UserService {
     return otpString;
   }
 
-  Future<bool> verifyEmail(Map<int, String> otpMap) async {
+  Future<User?> verifyEmail(
+      String email, String password, Map<int, String> otpMap) async {
     final otp = _generateOTPString(otpMap);
 
     try {
-      final result = await client
+      var result = await client
           .from(_otpVerificationTable)
           .select()
-          .match({'email': _unverifiedUserEmail}).execute();
-      //log('${result.data}');
+          .match({'email': email}).execute();
+
       final doesExist = result.data?.isNotEmpty ?? false;
       final hasError = result.error != null;
       if (hasError) throw DatabaseError.unknown();
 
       if (doesExist) {
-        log('enterd otp');
-        log(otp);
-        log('true otp');
-        log(result.data.first['OTP']);
         if (otp == result.data.first['OTP']) {
-          return true;
+          result = await client.from(_usersTable).insert({
+            'email': email,
+            'password': password,
+            'provider': Providers.email_password
+          }).execute();
+
+          var hasError = result.error != null;
+          if (hasError) throw DatabaseError.unknown();
+
+          result = await client
+              .from(_otpVerificationTable)
+              .delete()
+              .eq('email', email)
+              .execute();
+
+          hasError = result.error != null;
+          if (hasError) throw DatabaseError.unknown();
+
+          final user = User.empty().copyWith(email: email);
+          await _box.put(kUser, user);
+          return user;
         }
-        return false;
       } else {
         throw DatabaseError.unknown();
       }
@@ -204,27 +233,6 @@ class UserService {
           User.empty().copyWith(email: email, photoUrl: 'photoUrl', name: name);
       await _box.put(kUser, user);
       return user;
-    } on PostgrestError catch (e) {
-      throw DatabaseError.specific(e.message);
-    } on DatabaseError catch (_) {
-      rethrow;
-    } catch (_) {
-      log(_.toString());
-      throw DatabaseError.unknown();
-    }
-  }
-
-  Future<User?> logInWithEmailPassword(String email, password) async {
-    try {
-      final result = await client
-          .from(_usersTable)
-          .select()
-          .match({'email': email}).execute();
-      final doesExist = result.data.isNotEmpty;
-      if (!doesExist) throw DatabaseError.invalidDetails();
-      if (doesExist) {
-        log('${result.data}');
-      }
     } on PostgrestError catch (e) {
       throw DatabaseError.specific(e.message);
     } on DatabaseError catch (_) {

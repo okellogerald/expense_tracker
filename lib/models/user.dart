@@ -1,3 +1,4 @@
+import 'package:budgetting_app/source.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 
@@ -24,6 +25,8 @@ class User extends HiveObject {
     required this.currencyCodePoint,
   });
 
+  bool get isProfileComplete => currencyCodePoint != 0;
+
   factory User.empty() => User(
         displayName: '',
         email: '',
@@ -46,8 +49,7 @@ class User extends HiveObject {
       User(
         displayName: account.displayName!,
         email: account.email,
-        photoUrl: account.photoUrl ??
-            'https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-128.png',
+        photoUrl: account.photoUrl ?? kDefaultPhotoUrl,
         currencyCodePoint: currency,
       );
 
@@ -56,8 +58,16 @@ class User extends HiveObject {
       User(
         displayName: account['name'],
         email: account['email'],
-        photoUrl: account['picture']['data']['url'] ??
-            'https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-128.png',
+        photoUrl: account['picture']['data']['url'] ?? kDefaultPhotoUrl,
         currencyCodePoint: currency,
       );
+
+  static User fromDatabase(Map<String, dynamic> json) {
+    return User(
+      displayName: json['display_name'] ?? '',
+      email: json['email'],
+      photoUrl: json['photo_url'] ?? '',
+      currencyCodePoint: json['currency'] ?? 0,
+    );
+  }
 }

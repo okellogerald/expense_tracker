@@ -12,6 +12,7 @@ class AppTextField extends StatefulWidget {
       required this.errorName,
       this.letterSpacing,
       this.isPassword = false,
+      this.isLoginPasswrd = false,
       Key? key})
       : super(key: key);
 
@@ -24,6 +25,7 @@ class AppTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
   final bool isPassword;
+  final bool isLoginPasswrd;
 
   @override
   _AppTextFieldState createState() => _AppTextFieldState();
@@ -50,6 +52,8 @@ class _AppTextFieldState extends State<AppTextField> {
   Widget build(BuildContext context) {
     final hasError = widget.errors.containsKey(widget.errorName);
     final border = hasError ? errorBorder : _inputBorder;
+    final hasNoText = controller.text.isEmpty;
+    final emptyContainer = Container(width: 0.01);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +76,9 @@ class _AppTextFieldState extends State<AppTextField> {
                       fontSize: 16.dw,
                     ),
                     cursorColor: AppColors.primary,
-                    obscureText: widget.isPassword && !isVisible,
+                    obscureText: widget.isLoginPasswrd
+                        ? true
+                        : widget.isPassword && !isVisible,
                     obscuringCharacter: '*',
                     decoration: InputDecoration(
                         hintText: widget.hintText,
@@ -81,18 +87,20 @@ class _AppTextFieldState extends State<AppTextField> {
                           fontSize: 14.dw,
                         ),
                         fillColor: AppColors.surface,
-                        suffixIcon: widget.isPassword
-                            ? GestureDetector(
-                                onTap: () =>
-                                    isVisibleNotifier.value = !isVisible,
-                                child: Icon(
-                                    !isVisible
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    size: 16.dw,
-                                    color: AppColors.accent),
-                              )
-                            : Container(width: 0.01),
+                        suffixIcon: hasNoText
+                            ? emptyContainer
+                            : widget.isPassword
+                                ? GestureDetector(
+                                    onTap: () =>
+                                        isVisibleNotifier.value = !isVisible,
+                                    child: Icon(
+                                        !isVisible
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                        size: 16.dw,
+                                        color: AppColors.accent),
+                                  )
+                                : emptyContainer,
                         filled: true,
                         isDense: true,
                         border: border,

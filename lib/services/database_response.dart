@@ -13,10 +13,10 @@ class DatabaseError {
   factory DatabaseError.unknown() =>
       DatabaseError._('Unknown error happened, please try again.');
 
-  ///No registered user corresponds to the information entered during sign-up.
+  ///No registered user corresponds to the information entered during sign-in.
   ///Maybe the credentials entered are wrongly typed or the user has not sign-up.
   factory DatabaseError.invalidDetails() =>
-      DatabaseError._('Unknown error happened, please try again.');
+      DatabaseError._('Invalid email address or password');
 
   ///The email used for signing-up is already used by other user.
   factory DatabaseError.emailAvailable() => DatabaseError._(
