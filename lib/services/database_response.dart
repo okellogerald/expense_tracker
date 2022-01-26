@@ -13,6 +13,10 @@ class DatabaseError {
   factory DatabaseError.unknown() =>
       DatabaseError._('Unknown error happened, please try again.');
 
+  ///Unknown error. Not anticipated by the pre-determined possible errors.
+  factory DatabaseError.postgrestError() =>
+      DatabaseError._('An error happened when communicating with the database. Please try again later.');
+
   ///No registered user corresponds to the information entered during sign-in.
   ///Maybe the credentials entered are wrongly typed or the user has not sign-up.
   factory DatabaseError.invalidDetails() =>
@@ -26,11 +30,11 @@ class DatabaseError {
   ///putting the password of his/her gmail account won't work, since for all
   ///users logged in with social platforms, the password is empty.
   factory DatabaseError.signedByGoogleNotEmailPassword() => DatabaseError._(
-      'This email was used when signing up with Google. Try signing in with Google again. Or rather create an account with email and password.');
+      'This email was used when signing up with Google. Try signing in with Google again. Or rather delete this account first.');
 
   ///The email used for signing-in has not been registered by email-password. Hence
   ///putting the password of his/her gmail account won't work, since for all
   ///users logged in with social platforms, the password is empty.
   factory DatabaseError.signedByFacebookNotEmailPassword() => DatabaseError._(
-      'This email was used when signing up with Facebook. Try signing in with Facebook again. Or rather create an account with email and password.');
+      'This email was used when signing up with Facebook. Try signing in with Facebook again. Or rather delete this account first.');
 }

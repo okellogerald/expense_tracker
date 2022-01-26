@@ -59,6 +59,33 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     }
   }
 
+  void updateUser() async {
+    log('in here');
+    var supp = state.supplements.copyWith(errors: {});
+    emit(OnBoardingPageState.laoding(supp));
+
+    _validateName();
+    if (supp.errors.isNotEmpty) return;
+
+    emit(OnBoardingPageState.laoding(supp));
+
+    try {
+      final user = await service.updateUser(
+          email: supp.user.email,
+          name: supp.user.displayName,
+          currency: supp.currency);
+      if (user == null) {
+        log('is null the user from updating user function');
+        emit(OnBoardingPageState.failed(supp, 'Invalid code!'));
+        return;
+      }
+      emit(OnBoardingPageState.success(supp));
+    } on DatabaseError catch (_) {
+      emit(OnBoardingPageState.failed(supp, _.message));
+      return;
+    }
+  }
+
   void updateOtp(int id, int current) {
     var supp = state.supplements;
     emit(OnBoardingPageState.laoding(supp));
@@ -79,6 +106,7 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
     if (isVerifying) {
       try {
+        await service.checkIfRegisteredWithSocial(supp.user.email);
         await service.sendOTP(supp.user.email);
         emit(OnBoardingPageState.success(supp));
       } on DatabaseError catch (_) {
@@ -107,6 +135,19 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     if (password.isEmpty) {
       supp.errors['password'] = 'Password is required';
     }
+
+    emit(OnBoardingPageState.content(supp));
+  }
+
+  void _validateName() {
+    var supp = state.supplements;
+    final name = supp.user.displayName.trim();
+
+    if (name.isEmpty) {
+      supp.errors['name'] = 'Username can\'t be empty';
+    }
+
+    log(name.isEmpty.toString());
 
     emit(OnBoardingPageState.content(supp));
   }
@@ -152,5 +193,12 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     } on DatabaseError catch (_) {
       emit(OnBoardingPageState.failed(supp, _.message));
     }
+  }
+
+  void updateCodePoint(int codePoint) {
+    var supp = state.supplements;
+    emit(OnBoardingPageState.laoding(supp));
+    supp = supp.copyWith(currency: codePoint);
+    emit(OnBoardingPageState.content(supp));
   }
 }

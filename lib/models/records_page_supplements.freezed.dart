@@ -22,13 +22,15 @@ class _$RecordsPageSupplementsTearOff {
       String id = '-1',
       int day = -1,
       List<dynamic> withTotalsDays = const [],
-      Map<int, List<double>> totalsMap = const {}}) {
+      Map<int, List<double>> totalsMap = const {},
+      int currency = 0}) {
     return _RecordsPageSupplements(
       totalRecords: totalRecords,
       id: id,
       day: day,
       withTotalsDays: withTotalsDays,
       totalsMap: totalsMap,
+      currency: currency,
     );
   }
 }
@@ -43,6 +45,7 @@ mixin _$RecordsPageSupplements {
   int get day => throw _privateConstructorUsedError;
   List<dynamic> get withTotalsDays => throw _privateConstructorUsedError;
   Map<int, List<double>> get totalsMap => throw _privateConstructorUsedError;
+  int get currency => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RecordsPageSupplementsCopyWith<RecordsPageSupplements> get copyWith =>
@@ -59,7 +62,8 @@ abstract class $RecordsPageSupplementsCopyWith<$Res> {
       String id,
       int day,
       List<dynamic> withTotalsDays,
-      Map<int, List<double>> totalsMap});
+      Map<int, List<double>> totalsMap,
+      int currency});
 }
 
 /// @nodoc
@@ -78,6 +82,7 @@ class _$RecordsPageSupplementsCopyWithImpl<$Res>
     Object? day = freezed,
     Object? withTotalsDays = freezed,
     Object? totalsMap = freezed,
+    Object? currency = freezed,
   }) {
     return _then(_value.copyWith(
       totalRecords: totalRecords == freezed
@@ -100,6 +105,10 @@ class _$RecordsPageSupplementsCopyWithImpl<$Res>
           ? _value.totalsMap
           : totalsMap // ignore: cast_nullable_to_non_nullable
               as Map<int, List<double>>,
+      currency: currency == freezed
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -116,7 +125,8 @@ abstract class _$RecordsPageSupplementsCopyWith<$Res>
       String id,
       int day,
       List<dynamic> withTotalsDays,
-      Map<int, List<double>> totalsMap});
+      Map<int, List<double>> totalsMap,
+      int currency});
 }
 
 /// @nodoc
@@ -137,6 +147,7 @@ class __$RecordsPageSupplementsCopyWithImpl<$Res>
     Object? day = freezed,
     Object? withTotalsDays = freezed,
     Object? totalsMap = freezed,
+    Object? currency = freezed,
   }) {
     return _then(_RecordsPageSupplements(
       totalRecords: totalRecords == freezed
@@ -159,6 +170,10 @@ class __$RecordsPageSupplementsCopyWithImpl<$Res>
           ? _value.totalsMap
           : totalsMap // ignore: cast_nullable_to_non_nullable
               as Map<int, List<double>>,
+      currency: currency == freezed
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -171,7 +186,8 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
       this.id = '-1',
       this.day = -1,
       this.withTotalsDays = const [],
-      this.totalsMap = const {}})
+      this.totalsMap = const {},
+      this.currency = 0})
       : super._();
 
   @override
@@ -188,10 +204,13 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
   @JsonKey()
   @override
   final Map<int, List<double>> totalsMap;
+  @JsonKey()
+  @override
+  final int currency;
 
   @override
   String toString() {
-    return 'RecordsPageSupplements(totalRecords: $totalRecords, id: $id, day: $day, withTotalsDays: $withTotalsDays, totalsMap: $totalsMap)';
+    return 'RecordsPageSupplements(totalRecords: $totalRecords, id: $id, day: $day, withTotalsDays: $withTotalsDays, totalsMap: $totalsMap, currency: $currency)';
   }
 
   @override
@@ -205,7 +224,8 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
             const DeepCollectionEquality().equals(other.day, day) &&
             const DeepCollectionEquality()
                 .equals(other.withTotalsDays, withTotalsDays) &&
-            const DeepCollectionEquality().equals(other.totalsMap, totalsMap));
+            const DeepCollectionEquality().equals(other.totalsMap, totalsMap) &&
+            const DeepCollectionEquality().equals(other.currency, currency));
   }
 
   @override
@@ -215,7 +235,8 @@ class _$_RecordsPageSupplements extends _RecordsPageSupplements {
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(day),
       const DeepCollectionEquality().hash(withTotalsDays),
-      const DeepCollectionEquality().hash(totalsMap));
+      const DeepCollectionEquality().hash(totalsMap),
+      const DeepCollectionEquality().hash(currency));
 
   @JsonKey(ignore: true)
   @override
@@ -230,7 +251,8 @@ abstract class _RecordsPageSupplements extends RecordsPageSupplements {
       String id,
       int day,
       List<dynamic> withTotalsDays,
-      Map<int, List<double>> totalsMap}) = _$_RecordsPageSupplements;
+      Map<int, List<double>> totalsMap,
+      int currency}) = _$_RecordsPageSupplements;
   const _RecordsPageSupplements._() : super._();
 
   @override
@@ -243,6 +265,8 @@ abstract class _RecordsPageSupplements extends RecordsPageSupplements {
   List<dynamic> get withTotalsDays;
   @override
   Map<int, List<double>> get totalsMap;
+  @override
+  int get currency;
   @override
   @JsonKey(ignore: true)
   _$RecordsPageSupplementsCopyWith<_RecordsPageSupplements> get copyWith =>

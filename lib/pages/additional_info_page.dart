@@ -19,7 +19,7 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
   @override
   void initState() {
     bloc = Provider.of<OnBoardingPageBloc>(context, listen: false);
-    bloc.init();
+    bloc.init(user: widget.user);
     super.initState();
   }
 
@@ -86,8 +86,7 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
       padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
       children: [
         _buildTitle(),
-        _buildPicture(supp),
-        _buildNameTextfield(),
+        _buildNameTextfield(supp),
         _buildCurrencyIcons(supp),
         _buildDoneTextField(),
       ],
@@ -113,7 +112,7 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
           ),
           SizedBox(height: 10.dh),
           AppText(
-            'Complete the onboarding process with filling details below.',
+            'Complete the onboarding process by filling the details below.',
             size: 16.dw,
             color: AppColors.onBackground2,
           ),
@@ -122,48 +121,24 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
     );
   }
 
-  _buildPicture(OnBoardingSupplements supp) {
-    final image = supp.user.photoUrl;
-    return Column(
-      children: [
-        SizedBox(height: 40.dh),
-        Stack(
-          children: [
-            CircleAvatar(
-              radius: 70.dw,
-              backgroundColor: AppColors.surface,
-              backgroundImage:
-                  NetworkImage(image.isEmpty ? kDefaultPhotoUrl : image),
-            ),
-            Positioned(
-                right: 10.dw,
-                bottom: 10.dw,
-                child: AppIconButton(
-                  icon: Icons.add_a_photo,
-                  iconColor: AppColors.primary,
-                  onPressed: () {},
-                  iconSize: 30.dw,
-                ))
-          ],
-        )
-      ],
-    );
-  }
+  _buildNameTextfield(OnBoardingSupplements supp) {
+    final name = supp.user.displayName;
 
-  _buildNameTextfield() {
-    return Column(
-      children: [
-        SizedBox(height: 40.dh),
-        AppTextField(
-          errors: const {},
-          text: '',
-          onChanged: (_) {},
-          hintText: 'Username',
-          keyboardType: TextInputType.name,
-          errorName: 'username',
-        )
-      ],
-    );
+    return name.isEmpty
+        ? Column(
+            children: [
+              SizedBox(height: 40.dh),
+              AppTextField(
+                errors: const {},
+                text: name,
+                onChanged: (_) {},
+                hintText: 'Username',
+                keyboardType: TextInputType.name,
+                errorName: 'username',
+              )
+            ],
+          )
+        : Container();
   }
 
   _buildCurrencyIcons(OnBoardingSupplements supp) {
@@ -181,24 +156,29 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
         SizedBox(height: 10.dh),
         Container(
             color: AppColors.surface,
-            height: 290.dh,
+            height: 200.dh,
+            width: ScreenSizeConfig.getFullWidth,
             child: GridView.count(
                 crossAxisCount: 3,
                 shrinkWrap: true,
+                childAspectRatio: .9.dw,
                 scrollDirection: Axis.horizontal,
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.all(10.dw),
                 children: codePointList.map((e) {
                   final formatted = '0xe' + e.toString();
                   final codePoint = int.parse(formatted);
-                  log(formatted);
+                  final isSelected = codePoint == supp.currency;
 
                   return GestureDetector(
-                    //onTap: () => bloc.updatecodePoint(codePoint),
+                    onTap: () => bloc.updateCodePoint(codePoint),
                     child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white.withOpacity(.0),
-                            border: Border.all(color: Colors.transparent)),
+                            border: Border.all(
+                                color: isSelected
+                                    ? AppColors.accent
+                                    : Colors.transparent)),
                         child: Icon(
                           CurrencyIcons.getIcon(codePoint),
                           color: AppColors.onBackground2,
@@ -211,11 +191,11 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
 
   _buildDoneTextField() {
     return AppTextButton(
-      onPressed: () {},
+      onPressed: bloc.updateUser,
       buttonColor: AppColors.primary,
       text: 'Done',
       height: 40.dh,
-      margin: EdgeInsets.only(top: 20.dh),
+      margin: EdgeInsets.only(top: 40.dh),
     );
   }
 }

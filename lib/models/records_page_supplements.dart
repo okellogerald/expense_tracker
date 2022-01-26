@@ -13,6 +13,7 @@ class RecordsPageSupplements with _$RecordsPageSupplements {
     @Default(-1) int day,
     @Default([]) List withTotalsDays,
     @Default({}) Map<int, List<double>> totalsMap,
+    @Default(0) int currency,
   }) = _RecordsPageSupplements;
 
   factory RecordsPageSupplements.empty() =>

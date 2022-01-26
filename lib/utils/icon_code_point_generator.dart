@@ -6,7 +6,7 @@ class IconCodePointGenerator {
     //generating category icons codepoints
     _generate(54);
     //generating currency icons codepoints
-    _generate(11, isGeneratingForCategories: false);
+    _generate(13, isGeneratingForCategories: false);
   }
 
   ///generates the code points for the icons in the generated font from either
@@ -24,8 +24,7 @@ class IconCodePointGenerator {
     for (int i = 1; i < numberOfIcons; i++) {
       if (roundType == 'first_round') {
         final divisor = withNumbers / 10;
-        final limitIsReached =
-            divisor.toString().endsWith('0') && divisor != 0.0;
+        final limitIsReached = divisor.toString().endsWith('.9');
 
         if (limitIsReached) {
           roundType = 'second_round';

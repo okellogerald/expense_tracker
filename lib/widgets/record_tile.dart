@@ -1,3 +1,5 @@
+import 'package:hive/hive.dart';
+
 import '../source.dart';
 
 class RecordTile extends StatefulWidget {
@@ -22,6 +24,14 @@ class RecordTile extends StatefulWidget {
 
 class _RecordTileState extends State<RecordTile> {
   bool isShowingMore = false;
+  late int currency;
+
+  @override
+  void initState() {
+    final user = Hive.box(kUser).get(kUser) as User;
+    currency = user.currencyCodePoint;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,14 +75,26 @@ class _RecordTileState extends State<RecordTile> {
                     ],
                   ),
                 ),
-                AppText(
-                  record.getAmount,
-                  size: 15.dw,
-                  isBolded: true,
-                  family: kFontFam2,
-                  color: category.type == kIncome
-                      ? AppColors.positive
-                      : AppColors.negative,
+                Row(
+                  children: [
+                    Icon(
+                      CurrencyIcons.getIcon(currency),
+                      color: category.type == kIncome
+                          ? AppColors.positive
+                          : AppColors.negative,
+                      size: 12.dw,
+                    ),
+                    SizedBox(width: 8.dw),
+                    AppText(
+                      record.getAmount,
+                      size: 15.dw,
+                      isBolded: true,
+                      family: kFontFam2,
+                      color: category.type == kIncome
+                          ? AppColors.positive
+                          : AppColors.negative,
+                    ),
+                  ],
                 )
               ],
             ),

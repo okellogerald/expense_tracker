@@ -1,3 +1,5 @@
+import 'package:hive/hive.dart';
+
 import '../source.dart';
 
 class RecordsPageBloc extends Cubit<RecordsPageState> {
@@ -18,6 +20,7 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
 
   void init() {
     emit(RecordsPageState.loading(state.recordList, state.supplements));
+
     var recordList = state.recordList;
     recordList = recordsService.getAll();
     final totalRecords = recordsService.getTotalAmounts();

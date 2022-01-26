@@ -162,6 +162,35 @@ class UserService {
     return otpString;
   }
 
+  Future<void> checkIfRegisteredWithSocial(String email) async {
+    try {
+      var result = await client
+          .from(_usersTable)
+          .select()
+          .match({'email': email}).execute();
+
+      final hasError = result.error != null;
+      if (hasError) throw DatabaseError.postgrestError();
+
+      final data = result.data;
+
+      if (data.first['provider'] == Providers.facebook) {
+        throw DatabaseError.signedByFacebookNotEmailPassword();
+      }
+      if (data.first['provider'] == Providers.google) {
+        throw DatabaseError.signedByGoogleNotEmailPassword();
+      }
+    } on DatabaseError catch (_) {
+      rethrow;
+    } on SocketException catch (_) {
+      throw DatabaseError.internet();
+    } on TimeoutException catch (_) {
+      throw DatabaseError.internet();
+    } catch (_) {
+      throw DatabaseError.unknown();
+    }
+  }
+
   Future<User?> verifyEmail(
       String email, String password, Map<int, String> otpMap) async {
     final otp = _generateOTPString(otpMap);
@@ -174,7 +203,8 @@ class UserService {
 
       final doesExist = result.data?.isNotEmpty ?? false;
       final hasError = result.error != null;
-      if (hasError) throw DatabaseError.unknown();
+
+      if (hasError) throw DatabaseError.postgrestError();
 
       if (doesExist) {
         if (otp == result.data.first['OTP']) {
@@ -194,7 +224,7 @@ class UserService {
               .execute();
 
           hasError = result.error != null;
-          if (hasError) throw DatabaseError.unknown();
+          if (hasError) throw DatabaseError.postgrestError();
 
           final user = User.empty().copyWith(email: email);
           await _box.put(kUser, user);
@@ -217,20 +247,23 @@ class UserService {
 
   Future<User?> updateUser(
       {required String email,
-      required File file,
       required String name,
       required int currency}) async {
     try {
-      final path = 'users.image/$email.png';
-      await client.storage.from('users.image').upload(path, file);
-      final bytes = await client.storage.from('users.image').download(path);
-      await client
+      //   final path = 'users.image/$email.png';
+      // await client.storage.from('users.image').upload(path, file);
+      // final bytes = await client.storage.from('users.image').download(path);
+      final result = await client
           .from(_usersTable)
-          .update({'photoUrl': bytes.data, 'name': name, currency: currency})
+          .update({'display_name': name, 'currency': currency.toString()})
           .eq('email', email)
           .execute();
+
+      final hasError = result.error != null;
+      if (hasError) throw DatabaseError.postgrestError();
+
       final user =
-          User.empty().copyWith(email: email, photoUrl: 'photoUrl', name: name);
+          User.empty().copyWith(email: email, currency: currency, name: name);
       await _box.put(kUser, user);
       return user;
     } on PostgrestError catch (e) {
