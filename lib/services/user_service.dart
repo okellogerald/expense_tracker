@@ -18,8 +18,6 @@ class Providers {
 class UserService {
   UserService(this.client);
 
-  ///client is null for pages that want to access only the user, and do not query
-  ///anything on the database
   final SupabaseClient client;
 
   static const _usersTable = 'Users';
@@ -44,23 +42,39 @@ class UserService {
       final doesExist = result.data.isNotEmpty;
       if (doesExist) throw DatabaseError.emailAvailable();
 
-      await client.from(_usersTable).insert({
+      final data = {
         'email': email,
         'password': password,
         'provider': Providers.email_password,
-        'backUpOption': BackUpOptions.daily,
-      }).execute();
+        'backUpOption': BackUpOptions.daily
+      };
 
       final user = User.empty().copyWith(email: email);
       await _box.put(kUser, user);
       return user;
-    } on PostgrestError catch (e) {
-      throw DatabaseError.specific(e.message);
     } on DatabaseError catch (_) {
       rethrow;
-    } catch (_) {
-      log(_.toString());
-      throw DatabaseError.unknown();
+    }
+  }
+
+  Future<PostgrestResponse?> _insertTo(String values) async {
+    await client.from(_usersTable).insert(values).execute().then((value) {
+      return value;
+    }).catchError((error) => _handleError(error));
+  }
+
+  _handleError(dynamic error) {
+    log('handling the error');
+    switch (error) {
+      case SocketException:
+      case TimeoutException:
+        throw DatabaseError.internet();
+      case PostgrestError:
+        throw DatabaseError.postgrestError();
+      case DatabaseError:
+        throw error;
+      default:
+        throw DatabaseError.specific(error.message);
     }
   }
 
