@@ -1,8 +1,18 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:budgetting_app/source.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive/hive.dart';
 
 part 'user.g.dart';
+
+class BackUpOptions {
+  static const never = "Never";
+  static const daily = 'Daily';
+  static const weekly = 'Weekly';
+  static const end_of_the_month = 'End of Month';
+  static const on_button_tap = 'On Button Tap';
+}
 
 @HiveType(typeId: 6)
 class User extends HiveObject {
@@ -18,11 +28,15 @@ class User extends HiveObject {
   @HiveField(3)
   final int currencyCodePoint;
 
+  @HiveField(4)
+  final String backUpOption;
+
   User({
     required this.displayName,
     required this.email,
     required this.photoUrl,
     required this.currencyCodePoint,
+    this.backUpOption = BackUpOptions.daily,
   });
 
   bool get isProfileComplete => currencyCodePoint != 0;
@@ -35,12 +49,17 @@ class User extends HiveObject {
       );
 
   User copyWith(
-      {String? email, String? photoUrl, String? name, int? currency}) {
+      {String? email,
+      String? photoUrl,
+      String? name,
+      int? currency,
+      String? backUpOption}) {
     return User(
       displayName: name ?? displayName,
       email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
       currencyCodePoint: currency ?? currencyCodePoint,
+      backUpOption: backUpOption ?? this.backUpOption,
     );
   }
 
@@ -68,6 +87,7 @@ class User extends HiveObject {
       email: json['email'],
       photoUrl: json['photo_url'] ?? '',
       currencyCodePoint: json['currency'] ?? 0,
+      backUpOption: json['backUpOption'] ?? BackUpOptions.daily,
     );
   }
 }

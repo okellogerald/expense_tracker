@@ -11,13 +11,12 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  late final SettingsPageBloc bloc;
-  late final UserService userService;
+  late final OnBoardingPageBloc bloc;
+  final isSelectingBackupOptionNotifier = ValueNotifier<bool>(false);
 
   @override
   void initState() {
-    userService = UserService();
-    bloc = SettingsPageBloc(userService);
+    bloc = Provider.of(context, listen: false);
     bloc.init();
     super.initState();
   }
@@ -26,24 +25,30 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _buildAppBar(),
-        body: BlocBuilder<SettingsPageBloc, SettingsPageState>(
+        body: BlocBuilder<OnBoardingPageBloc, OnBoardingPageState>(
             bloc: bloc,
             builder: (_, state) {
-              return state.when(loading: _buildLoading, content: _buildContent);
+              return state.when(
+                laoding: _buildLoading,
+                content: _buildContent,
+                success: _buildContent,
+                failed: (supp, message) => _buildContent(supp),
+              );
             }));
   }
 
-  Widget _buildLoading(User user) {
+  Widget _buildLoading(OnBoardingSupplements supp) {
     return const Center(
       child: CircularProgressIndicator(),
     );
   }
 
-  Widget _buildContent(User user) {
+  Widget _buildContent(OnBoardingSupplements supp) {
     return ListView(
       padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
       children: [
-        _buildUserAccount(user),
+        _buildUserAccount(supp.user),
+        _buildBackupOptions(supp.user),
       ],
     );
   }
@@ -83,6 +88,69 @@ class _SettingsPageState extends State<SettingsPage> {
           ))
         ],
       ),
+    );
+  }
+
+  _buildBackupOptions(User user) {
+    return ValueListenableBuilder<bool>(
+        valueListenable: isSelectingBackupOptionNotifier,
+        builder: (context, isSelectingBackupOption, snapshot) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20.dh),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AppText('Backup Options', size: 20.dw),
+                  AppIconButton(
+                    onPressed: () => isSelectingBackupOptionNotifier.value =
+                        !isSelectingBackupOptionNotifier.value,
+                    icon: isSelectingBackupOption ? Icons.remove : Icons.add,
+                    iconColor: AppColors.onBackground,
+                  )
+                ],
+              ),
+              isSelectingBackupOption
+                  ? _buildBackUpOptionSelector(user)
+                  : Padding(
+                      padding: EdgeInsets.only(top: 8.dh),
+                      child: AppText(user.backUpOption,
+                          color: AppColors.accent, size: 15.dw),
+                    )
+            ],
+          );
+        });
+  }
+
+  _buildBackUpOptionSelector(User user) {
+    final backupOptions = [
+      BackUpOptions.never,
+      BackUpOptions.daily,
+      BackUpOptions.weekly,
+      BackUpOptions.end_of_the_month,
+      BackUpOptions.on_button_tap,
+    ];
+
+    return ListView.builder(
+      itemCount: 5,
+      shrinkWrap: true,
+      padding: EdgeInsets.only(top: 10.dh),
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (_, index) {
+        final option = backupOptions[index];
+        final isSelected = user.backUpOption == option;
+
+        return AppTextButton(
+            onPressed: () => bloc.updateBackUpOption(option),
+            padding: EdgeInsets.only(left: 10.dw),
+            text: backupOptions[index],
+            textColor:
+                isSelected ? AppColors.onBackground : AppColors.onBackground3,
+            height: 40.dh,
+            buttonColor: isSelected ? AppColors.accent : AppColors.background,
+            alignment: Alignment.centerLeft);
+      },
     );
   }
 

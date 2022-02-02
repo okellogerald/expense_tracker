@@ -40,6 +40,29 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     emit(OnBoardingPageState.content(supp));
   }
 
+  void updateBackUpOption(String selectedOption) async {
+    var supp = state.supplements;
+    var user = supp.user;
+    if (selectedOption == user.backUpOption) return;
+
+    emit(OnBoardingPageState.laoding(supp));
+    try {
+      final _user = await service.updateUser(
+          email: user.email,
+          name: user.displayName,
+          currency: user.currencyCodePoint,
+          backUpOption: user.backUpOption);
+
+      if (_user == null) throw DatabaseError.unknown();
+
+      supp = supp.copyWith(user: user);
+      emit(OnBoardingPageState.content(supp));
+    } on DatabaseError catch (_) {
+      emit(OnBoardingPageState.failed(supp, _.message));
+      return;
+    }
+  }
+
   void loginWithEmailPassword() async => await _onboardWithEmailPassword(false);
 
   void signupWithEmailPassword() async => await _onboardWithEmailPassword(true);
@@ -78,10 +101,10 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
           name: supp.user.displayName,
           currency: supp.currency);
       if (user == null) {
-        log('is null the user from updating user function');
         emit(OnBoardingPageState.failed(supp, 'Invalid code!'));
         return;
       }
+
       emit(OnBoardingPageState.success(supp));
     } on DatabaseError catch (_) {
       emit(OnBoardingPageState.failed(supp, _.message));
