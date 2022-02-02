@@ -21,10 +21,14 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     emit(OnBoardingPageState.content(supp));
   }
 
-  void updateEmail(String email) {
+  void updateEmail(String email) => updateUserDetails(email: email);
+
+  void updateName(String name) => updateUserDetails(name: name);
+
+  void updateUserDetails({String? name, String? email}) {
     var supp = state.supplements;
     emit(OnBoardingPageState.laoding(supp));
-    final user = supp.user.copyWith(email: email);
+    final user = supp.user.copyWith(name: name, email: email);
     supp = supp.copyWith(user: user);
     emit(OnBoardingPageState.content(supp));
   }
@@ -60,7 +64,6 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
   }
 
   void updateUser() async {
-    log('in here');
     var supp = state.supplements.copyWith(errors: {});
     emit(OnBoardingPageState.laoding(supp));
 
@@ -145,6 +148,9 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
     if (name.isEmpty) {
       supp.errors['name'] = 'Username can\'t be empty';
+    }
+    if (supp.currency == 0) {
+      supp.errors['currency'] = 'Currency is not selected';
     }
 
     log(name.isEmpty.toString());

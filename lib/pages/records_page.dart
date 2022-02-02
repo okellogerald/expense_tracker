@@ -197,7 +197,7 @@ class _RecordsPageState extends State<RecordsPage> {
           );
   }
 
-  _buildDayTotals(RecordsPageSupplements supplements, int day) {
+  _buildDayTotals(RecordsPageSupplements supp, int day) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 5.dh),
       decoration: BoxDecoration(
@@ -205,42 +205,35 @@ class _RecordsPageState extends State<RecordsPage> {
               bottom: BorderSide(color: AppColors.divider, width: 2.dw))),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppText(
-                'Total Income',
-                size: 14.dw,
-                isBolded: true,
-              ),
-              AppText(
-                supplements.getIncomeTotal(day),
-                size: 14.dw,
-                color: AppColors.positive,
-                family: kFontFam2,
-                isBolded: true,
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppText(
-                'Total Expenses',
-                size: 14.dw,
-                isBolded: true,
-              ),
-              AppText(
-                supplements.getExpensesTotal(day),
-                size: 14.dw,
-                color: AppColors.negative,
-                family: kFontFam2,
-                isBolded: true,
-              ),
-            ],
-          )
+          _buildTotals('Total Income', supp.getIncomeTotal(day), true),
+          _buildTotals('Total Expenses', supp.getExpensesTotal(day), false),
         ],
       ),
+    );
+  }
+
+  _buildTotals(String title, String amount, bool isIncome) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        AppText(
+          title,
+          size: 14.dw,
+          isBolded: true,
+        ),
+        Row(
+          children: [
+            Currency(color: isIncome ? AppColors.positive : AppColors.negative),
+            AppText(
+              amount,
+              size: 14.dw,
+              color: AppColors.positive,
+              family: kFontFam2,
+              isBolded: true,
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -258,11 +251,18 @@ class _RecordsPageState extends State<RecordsPage> {
           AppText(text.toUpperCase(),
               size: 15.dw, color: AppColors.onBackground2),
           SizedBox(height: 5.dh),
-          AppText(amount,
-              size: 13.dw,
-              isBolded: true,
-              family: kFontFam2,
-              color: !isExpense ? AppColors.positive : AppColors.negative)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Currency(
+                  color: isExpense ? AppColors.negative : AppColors.positive),
+              AppText(amount,
+                  size: 13.dw,
+                  isBolded: true,
+                  family: kFontFam2,
+                  color: !isExpense ? AppColors.positive : AppColors.negative),
+            ],
+          )
         ],
       ),
     );

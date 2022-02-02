@@ -35,10 +35,10 @@ class User extends HiveObject {
       );
 
   User copyWith(
-      {required String email, String? photoUrl, String? name, int? currency}) {
+      {String? email, String? photoUrl, String? name, int? currency}) {
     return User(
       displayName: name ?? displayName,
-      email: email,
+      email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
       currencyCodePoint: currency ?? currencyCodePoint,
     );

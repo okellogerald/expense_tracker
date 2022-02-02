@@ -170,7 +170,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
 
   _buildCategories(List<Category> categoryList, List<String> idList) {
     return Container(
-      color: AppColors.onBackground,
+      color: AppColors.surface,
       height: 360.dh,
       width: ScreenSizeConfig.getFullWidth,
       margin: EdgeInsets.only(top: 10.dh),
@@ -228,7 +228,6 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       children: [
         Row(
           children: [
-            //  _buildDurationOption('Daily', 1, form.duration),
             _buildDurationOption(
                 'Monthly', Utils.getDaysInMonth(), form.duration),
           ],

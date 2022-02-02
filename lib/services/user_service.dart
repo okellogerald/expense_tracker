@@ -16,9 +16,11 @@ class Providers {
 }
 
 class UserService {
-  UserService(this.client);
+  UserService({this.client});
 
-  final SupabaseClient client;
+  ///client is null for pages that want to access only the user, and do not query
+  ///anything on the database
+  final SupabaseClient? client;
 
   static const _usersTable = 'Users';
   static const _otpVerificationTable = 'OTP';
@@ -27,22 +29,27 @@ class UserService {
   final _google = GoogleSignIn();
   final _facebook = FacebookAuth.instance;
 
-  User get getClient => _box.get(kUser) as User;
+  User get getUser => _box.get(kUser) as User;
   bool get isLoggedIn => _box.isNotEmpty;
 
   Future<User?> signUpWithEmailPassword(String email, String password) async {
     try {
-      final result = await client
+      final result = await client!
           .from(_usersTable)
           .select()
           .match({'email': email}).execute();
+
+      log(result.data ?? 'no data');
+
       final doesExist = result.data.isNotEmpty;
       if (doesExist) throw DatabaseError.emailAvailable();
-      await client.from(_usersTable).insert({
+
+      await client!.from(_usersTable).insert({
         'email': email,
         'password': password,
         'provider': Providers.email_password
       }).execute();
+
       final user = User.empty().copyWith(email: email);
       await _box.put(kUser, user);
       return user;
@@ -58,7 +65,7 @@ class UserService {
 
   Future<User?> loginWithEmailPassword(String email, String password) async {
     try {
-      final result = await client
+      final result = await client!
           .from(_usersTable)
           .select()
           .match({'email': email, 'password': password}).execute();
@@ -81,19 +88,27 @@ class UserService {
   }
 
   Future<void> sendOTP(String email) async {
+    log('started in the sending OTP');
+
     final otp = Utils.generateOTP();
+
     try {
-      final result = await client
+      final result = await client!
           .from(_otpVerificationTable)
           .select()
           .match({'email': email}).execute();
+
+      log(' in the sending OTP');
+
+      log(result.error?.message ?? 'no error');
 
       final doesExist = result.data?.isNotEmpty ?? false;
       final hasError = result.error != null;
       if (hasError) throw DatabaseError.unknown();
 
       if (doesExist) {
-        final result = await client
+        log('in here');
+        final result = await client!
             .from(_otpVerificationTable)
             .update({'OTP': otp})
             .eq('email', email)
@@ -103,7 +118,7 @@ class UserService {
         final hasError = result.error != null;
         if (hasError) throw DatabaseError.unknown();
       } else {
-        final result = await client
+        final result = await client!
             .from(_otpVerificationTable)
             .insert({'email': email, 'OTP': otp}).execute();
 
@@ -163,8 +178,10 @@ class UserService {
   }
 
   Future<void> checkIfRegisteredWithSocial(String email) async {
+    log('Starting the verification process');
+
     try {
-      var result = await client
+      var result = await client!
           .from(_usersTable)
           .select()
           .match({'email': email}).execute();
@@ -172,7 +189,9 @@ class UserService {
       final hasError = result.error != null;
       if (hasError) throw DatabaseError.postgrestError();
 
-      final data = result.data;
+      final data = result.data as List;
+
+      if (data.isEmpty) return;
 
       if (data.first['provider'] == Providers.facebook) {
         throw DatabaseError.signedByFacebookNotEmailPassword();
@@ -196,7 +215,7 @@ class UserService {
     final otp = _generateOTPString(otpMap);
 
     try {
-      var result = await client
+      var result = await client!
           .from(_otpVerificationTable)
           .select()
           .match({'email': email}).execute();
@@ -208,7 +227,7 @@ class UserService {
 
       if (doesExist) {
         if (otp == result.data.first['OTP']) {
-          result = await client.from(_usersTable).insert({
+          result = await client!.from(_usersTable).insert({
             'email': email,
             'password': password,
             'provider': Providers.email_password
@@ -217,7 +236,7 @@ class UserService {
           var hasError = result.error != null;
           if (hasError) throw DatabaseError.unknown();
 
-          result = await client
+          result = await client!
               .from(_otpVerificationTable)
               .delete()
               .eq('email', email)
@@ -249,15 +268,18 @@ class UserService {
       {required String email,
       required String name,
       required int currency}) async {
+    log('$email $name $currency');
     try {
-      //   final path = 'users.image/$email.png';
-      // await client.storage.from('users.image').upload(path, file);
-      // final bytes = await client.storage.from('users.image').download(path);
-      final result = await client
+      // final path = 'users.image/$email.png';
+      // await client!.storage.from('users.image').upload(path, file);
+      // final bytes = await client!.storage.from('users.image').download(path);
+      final result = await client!
           .from(_usersTable)
           .update({'display_name': name, 'currency': currency.toString()})
           .eq('email', email)
           .execute();
+
+      log(result.data.toString());
 
       final hasError = result.error != null;
       if (hasError) throw DatabaseError.postgrestError();
@@ -297,21 +319,21 @@ class UserService {
   }
 
   Future<User?> logInWithGoogle() async {
-    final client = await _initGoogle();
+    final user = await _initGoogle();
 
-    if (client != null) {
-      await _logIn(client, provider: Providers.google);
-      return client;
+    if (user != null) {
+      await _logIn(user, provider: Providers.google);
+      return user;
     }
     //else returns null
   }
 
   Future<User?> logInWithFacebook() async {
-    final client = await _initFacebook();
+    final user = await _initFacebook();
 
-    if (client != null) {
-      await _logIn(client, provider: Providers.facebook);
-      return client;
+    if (user != null) {
+      await _logIn(user, provider: Providers.facebook);
+      return user;
     }
     //else returns null
   }
@@ -321,7 +343,7 @@ class UserService {
     await _checkIfUserExistsDuringSignup(user.email, password);
 
     try {
-      await client.from(_usersTable).insert({
+      await client!.from(_usersTable).insert({
         'email': user.email,
         'password': password,
         'name': user.displayName,
@@ -339,13 +361,13 @@ class UserService {
   Future<void> _logIn(User user,
       {String provider = Providers.email_password}) async {
     try {
-      final result = await client
+      final result = await client!
           .from(_usersTable)
           .select()
           .match({'email': user.email}).execute();
       final doesNotExist = result.data.isEmpty;
       if (doesNotExist) {
-        await client.from('Users').insert({
+        await client!.from('Users').insert({
           'email': user.email,
           'password': '',
           'name': user.displayName,
@@ -365,7 +387,7 @@ class UserService {
   Future<void> _checkIfUserExistsDuringSignup(
       String email, String password) async {
     try {
-      final result = await client
+      final result = await client!
           .from(_usersTable)
           .select()
           .match({'email': email}).execute();
@@ -382,7 +404,7 @@ class UserService {
     }
   }
 
-  ///returns the client object if the operation is successful. Or else it returns
+  ///returns the client! object if the operation is successful. Or else it returns
   ///null if the user didn't select any account or throws an exception indicating
   ///unsuccessful operation.
   Future<User?> _initFacebook() async {
@@ -410,7 +432,7 @@ class UserService {
     }
   }
 
-  ///returns the client object if the operation is successful. Or else it returns
+  ///returns the client! object if the operation is successful. Or else it returns
   ///null if the user didn't select any account or throws an exception indicating
   ///unsuccessful operation.
   Future<User?> _initGoogle() async {

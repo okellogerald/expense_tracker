@@ -81,13 +81,19 @@ class PieChart extends StatelessWidget {
             ],
           )),
           Expanded(
-            child: Container(
-                alignment: Alignment.centerRight,
-                child: AppText(
-                  value,
-                  size: 15.dw,
-                  color: AppColors.onBackground,
-                )),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Currency(color: AppColors.onBackground),
+                Container(
+                    alignment: Alignment.centerRight,
+                    child: AppText(
+                      value,
+                      size: 15.dw,
+                      color: AppColors.onBackground,
+                    )),
+              ],
+            ),
           ),
         ],
       ),

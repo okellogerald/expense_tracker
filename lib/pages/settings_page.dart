@@ -16,7 +16,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    userService = Provider.of<UserService>(context, listen: false);
+    userService = UserService();
     bloc = SettingsPageBloc(userService);
     bloc.init();
     super.initState();
@@ -44,7 +44,6 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
       children: [
         _buildUserAccount(user),
-        _buildCurrencyIcons(),
       ],
     );
   }
@@ -56,10 +55,16 @@ class _SettingsPageState extends State<SettingsPage> {
       margin: EdgeInsets.only(bottom: 10.dh),
       child: Row(
         children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(user.photoUrl),
-            radius: 30.dw,
-          ),
+          user.photoUrl.isEmpty
+              ? CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 30.dw,
+                  child: Icon(Icons.person, size: 30.dw),
+                )
+              : CircleAvatar(
+                  backgroundImage: NetworkImage(user.photoUrl),
+                  radius: 30.dw,
+                ),
           SizedBox(width: 25.dw),
           Expanded(
               child: Column(
@@ -93,44 +98,5 @@ class _SettingsPageState extends State<SettingsPage> {
         iconColor: AppColors.onBackground,
       ),
     );
-  }
-
-  _buildCurrencyIcons() {
-    final codePointList = IconCodePointGenerator.categoryIconscodePointList;
-
-    return Container(
-        color: AppColors.surface,
-        height: 290.dh,
-        child: GridView.count(
-            crossAxisCount: 6,
-            childAspectRatio: .75.dw,
-            shrinkWrap: true,
-            //: scrollController,
-            scrollDirection: Axis.horizontal,
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.all(10.dw),
-            children: codePointList.map((e) {
-              final formatted = '0xe' + e.toString();
-              final codePoint = int.parse(formatted);
-              const isSelected = true;
-
-              return GestureDetector(
-                // onTap: () => bloc.updatecodePoint(codePoint),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.0),
-                        border: Border.all(
-                            width: isSelected ? 1.5 : 0,
-                            color: isSelected
-                                ? AppColors.accent
-                                : Colors.transparent)),
-                    child: Icon(
-                      AppIcons.getIcon(codePoint),
-                      color: isSelected
-                          ? AppColors.onBackground
-                          : AppColors.onBackground2,
-                    )),
-              );
-            }).toList()));
   }
 }

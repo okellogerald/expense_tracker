@@ -37,7 +37,7 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
 
               if (hasSucceded) {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const RecordsPage()));
+                    MaterialPageRoute(builder: (_) => const MainPage()));
               }
 
               if (hasFailed) {
@@ -122,23 +122,19 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
   }
 
   _buildNameTextfield(OnBoardingSupplements supp) {
-    final name = supp.user.displayName;
-
-    return name.isEmpty
-        ? Column(
-            children: [
-              SizedBox(height: 40.dh),
-              AppTextField(
-                errors: const {},
-                text: name,
-                onChanged: (_) {},
-                hintText: 'Username',
-                keyboardType: TextInputType.name,
-                errorName: 'username',
-              )
-            ],
-          )
-        : Container();
+    return Column(
+      children: [
+        SizedBox(height: 40.dh),
+        AppTextField(
+          errors: const {},
+          text: supp.user.displayName,
+          onChanged: bloc.updateName,
+          hintText: 'Username',
+          keyboardType: TextInputType.name,
+          errorName: 'username',
+        )
+      ],
+    );
   }
 
   _buildCurrencyIcons(OnBoardingSupplements supp) {
@@ -185,6 +181,16 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
                         )),
                   );
                 }).toList())),
+        supp.errors['currency'] != null
+            ? Padding(
+                padding: EdgeInsets.only(top: 8.dh),
+                child: AppText(
+                  supp.errors['currency']!,
+                  size: 14.dw,
+                  color: AppColors.accent,
+                ),
+              )
+            : Container(),
       ],
     );
   }

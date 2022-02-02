@@ -8,7 +8,7 @@ class SettingsPageBloc extends Cubit<SettingsPageState> {
   void init() {
     var client = state.client;
     emit(SettingsPageState.loading(client));
-    client = userService.getClient;
+    client = userService.getUser;
     emit(SettingsPageState.content(client));
   }
 }

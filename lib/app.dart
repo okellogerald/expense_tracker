@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     if (user == null) {
       return const LoginPage();
     } else if (user.isProfileComplete) {
-      return const RecordsPage();
+      return const MainPage();
     } else if (!user.isProfileComplete) {
       return AdditionalInfoPage(user: user);
     }

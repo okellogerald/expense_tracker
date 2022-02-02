@@ -168,11 +168,16 @@ class _BudgetTileState extends State<BudgetTile> {
               ],
             ),
           ),
-          AppText(
-            amount,
-            size: 16.dw,
-            color: color,
-            family: kFontFam2,
+          Row(
+            children: [
+              Currency(color: color),
+              AppText(
+                amount,
+                size: 16.dw,
+                color: color,
+                family: kFontFam2,
+              ),
+            ],
           )
         ],
       ),

@@ -77,14 +77,10 @@ class _RecordTileState extends State<RecordTile> {
                 ),
                 Row(
                   children: [
-                    Icon(
-                      CurrencyIcons.getIcon(currency),
-                      color: category.type == kIncome
-                          ? AppColors.positive
-                          : AppColors.negative,
-                      size: 12.dw,
-                    ),
-                    SizedBox(width: 8.dw),
+                    Currency(
+                        color: category.type == kIncome
+                            ? AppColors.positive
+                            : AppColors.negative),
                     AppText(
                       record.getAmount,
                       size: 15.dw,
