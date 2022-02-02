@@ -8,5 +8,6 @@ export 'package:budgetting_app/states/states_source.dart';
 export 'package:budgetting_app/utils/utils_source.dart';
 
 export 'constants.dart';
+export 'secrets.dart';
 export 'dart:developer' show log;
 export 'package:flutter/material.dart';

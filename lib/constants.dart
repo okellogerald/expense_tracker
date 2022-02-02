@@ -1,9 +1,5 @@
 import 'source.dart';
 
-const kSupabaseEndpoint = 'https://mzdcrckdvywjtgjxlogb.supabase.co';
-const kSupabaseSecret =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQyNDM1MjY5LCJleHAiOjE5NTgwMTEyNjl9.W8j-5U6AgrQ48gFLvLppmyhw9AlVkRF2fgL2CWBmOLY';
-
 const kCategories = 'categories_box';
 const kPreferences = 'preferences_box';
 const kPrefs = 'preferences';
@@ -32,8 +28,8 @@ const kCompleteImageUrl =
 const kVerifyImage3Url =
     'https://mzdcrckdvywjtgjxlogb.supabase.in/storage/v1/object/sign/app.images/verify_account.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAuaW1hZ2VzL3ZlcmlmeV9hY2NvdW50LnBuZyIsImlhdCI6MTY0MjkzNDY5OSwiZXhwIjoxOTU4Mjk0Njk5fQ.YKyt-y2zUCXKwuEUaU0NfMms8DkCBA8V3B8UhzbidZQ';
 
-
-const kDefaultPhotoUrl = 'https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-128.png';
+const kDefaultPhotoUrl =
+    'https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-128.png';
 
 const kFontFam2 = 'AndroidEuclid';
 const kFontFam = "LondonTube";
