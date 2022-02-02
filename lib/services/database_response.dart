@@ -14,8 +14,8 @@ class DatabaseError {
       DatabaseError._('Unknown error happened, please try again.');
 
   ///Unknown error. Not anticipated by the pre-determined possible errors.
-  factory DatabaseError.postgrestError() =>
-      DatabaseError._('An error happened when communicating with the database. Please try again later.');
+  factory DatabaseError.postgrestError() => DatabaseError._(
+      'An error happened when communicating with the database. Please try again later.');
 
   ///No registered user corresponds to the information entered during sign-in.
   ///Maybe the credentials entered are wrongly typed or the user has not sign-up.
@@ -37,4 +37,9 @@ class DatabaseError {
   ///users logged in with social platforms, the password is empty.
   factory DatabaseError.signedByFacebookNotEmailPassword() => DatabaseError._(
       'This email was used when signing up with Facebook. Try signing in with Facebook again. Or rather delete this account first.');
+
+  @override
+  String toString() {
+    return message;
+  }
 }

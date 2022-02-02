@@ -37,44 +37,23 @@ class UserService {
           .select()
           .match({'email': email}).execute();
 
-      log(result.data ?? 'no data');
-
       final doesExist = result.data.isNotEmpty;
       if (doesExist) throw DatabaseError.emailAvailable();
 
-      final data = {
+      final values = {
         'email': email,
         'password': password,
         'provider': Providers.email_password,
         'backUpOption': BackUpOptions.daily
       };
 
+      await _insertToUsersTable(json.encode(values));
+
       final user = User.empty().copyWith(email: email);
       await _box.put(kUser, user);
       return user;
-    } on DatabaseError catch (_) {
-      rethrow;
-    }
-  }
-
-  Future<PostgrestResponse?> _insertTo(String values) async {
-    await client.from(_usersTable).insert(values).execute().then((value) {
-      return value;
-    }).catchError((error) => _handleError(error));
-  }
-
-  _handleError(dynamic error) {
-    log('handling the error');
-    switch (error) {
-      case SocketException:
-      case TimeoutException:
-        throw DatabaseError.internet();
-      case PostgrestError:
-        throw DatabaseError.postgrestError();
-      case DatabaseError:
-        throw error;
-      default:
-        throw DatabaseError.specific(error.message);
+    } catch (_) {
+      _handleError(_);
     }
   }
 
@@ -92,19 +71,12 @@ class UserService {
       final user = User.fromDatabase(result.data.first);
       await _box.put(kUser, user);
       return user;
-    } on PostgrestError catch (e) {
-      throw DatabaseError.specific(e.message);
-    } on DatabaseError catch (_) {
-      rethrow;
     } catch (_) {
-      log(_.toString());
-      throw DatabaseError.unknown();
+      _handleError(_);
     }
   }
 
   Future<void> sendOTP(String email) async {
-    log('started in the sending OTP');
-
     final otp = Utils.generateOTP();
 
     try {
@@ -113,23 +85,17 @@ class UserService {
           .select()
           .match({'email': email}).execute();
 
-      log(' in the sending OTP');
-
-      log(result.error?.message ?? 'no error');
-
       final doesExist = result.data?.isNotEmpty ?? false;
       final hasError = result.error != null;
       if (hasError) throw DatabaseError.unknown();
 
       if (doesExist) {
-        log('in here');
         final result = await client
             .from(_otpVerificationTable)
             .update({'OTP': otp})
             .eq('email', email)
             .execute();
 
-        log(result.error?.message ?? 'no error');
         final hasError = result.error != null;
         if (hasError) throw DatabaseError.unknown();
       } else {
@@ -137,29 +103,15 @@ class UserService {
             .from(_otpVerificationTable)
             .insert({'email': email, 'OTP': otp}).execute();
 
-        log(result.error?.message ?? 'no error');
         final hasError = result.error != null;
         if (hasError) throw DatabaseError.unknown();
       }
-
-      const key = 'lLRz4FQyJDRYC5Hp1JmkyA';
 
       var headers = {
         'Content-Type': 'application/json',
       };
 
-      final message = {
-        "key": key,
-        "message": {
-          "from_email": "developer@okellogerald.dev",
-          "subject": "Email Verification",
-          "text":
-              "Hi!\n\nUse the below OTP code to verify your account at Expense Tracker app.\n\n$otp\n\nPlease ignore this email if it was sent against your consent.",
-          "to": [
-            {"email": "hi@okellogerald.dev", "type": "to"}
-          ]
-        }
-      };
+      final message = _emailVerificationMessage(otp);
 
       var response = await http.post(
           Uri.parse('https://mandrillapp.com/api/1.0/messages/send'),
@@ -167,15 +119,8 @@ class UserService {
           body: json.encode(message));
 
       if (response.statusCode != 200) throw DatabaseError.internet();
-    } on SocketException catch (_) {
-      throw DatabaseError.internet();
-    } on TimeoutException catch (_) {
-      throw DatabaseError.internet();
-    } on DatabaseError catch (_) {
-      rethrow;
     } catch (_) {
-      log(_.toString());
-      throw DatabaseError.unknown();
+      _handleError(_);
     }
   }
 
@@ -193,8 +138,6 @@ class UserService {
   }
 
   Future<void> checkIfRegisteredWithSocial(String email) async {
-    log('Starting the verification process');
-
     try {
       var result = await client
           .from(_usersTable)
@@ -214,14 +157,8 @@ class UserService {
       if (data.first['provider'] == Providers.google) {
         throw DatabaseError.signedByGoogleNotEmailPassword();
       }
-    } on DatabaseError catch (_) {
-      rethrow;
-    } on SocketException catch (_) {
-      throw DatabaseError.internet();
-    } on TimeoutException catch (_) {
-      throw DatabaseError.internet();
     } catch (_) {
-      throw DatabaseError.unknown();
+      _handleError(_);
     }
   }
 
@@ -242,12 +179,13 @@ class UserService {
 
       if (doesExist) {
         if (otp == result.data.first['OTP']) {
-          result = await client.from(_usersTable).insert({
+          final values = {
             'email': email,
             'password': password,
             'provider': Providers.email_password,
             'backUpOption': BackUpOptions.daily,
-          }).execute();
+          };
+          await _insertToUsersTable(json.encode(values));
 
           var hasError = result.error != null;
           if (hasError) throw DatabaseError.unknown();
@@ -268,15 +206,8 @@ class UserService {
       } else {
         throw DatabaseError.unknown();
       }
-    } on SocketException catch (_) {
-      throw DatabaseError.internet();
-    } on TimeoutException catch (_) {
-      throw DatabaseError.internet();
-    } on DatabaseError catch (_) {
-      rethrow;
     } catch (_) {
-      log(_.toString());
-      throw DatabaseError.unknown();
+      _handleError(_);
     }
   }
 
@@ -302,13 +233,8 @@ class UserService {
           User.empty().copyWith(email: email, currency: currency, name: name);
       await _box.put(kUser, user);
       return user;
-    } on PostgrestError catch (e) {
-      throw DatabaseError.specific(e.message);
-    } on DatabaseError catch (_) {
-      rethrow;
     } catch (_) {
-      log(_.toString());
-      throw DatabaseError.unknown();
+      _handleError(_);
     }
   }
 
@@ -357,19 +283,17 @@ class UserService {
     await _checkIfUserExistsDuringSignup(user.email, password);
 
     try {
-      await client.from(_usersTable).insert({
+      final values = {
         'email': user.email,
         'password': password,
         'name': user.displayName,
         'photo_url': user.photoUrl,
         'provider': provider,
         'backUpOption': BackUpOptions.daily,
-      }).execute();
-    } on PostgrestError catch (e) {
-      throw DatabaseError.specific(e.message);
+      };
+      await _insertToUsersTable(jsonEncode(values));
     } catch (_) {
-      log(_.toString());
-      throw DatabaseError.unknown();
+      _handleError(_);
     }
   }
 
@@ -382,20 +306,18 @@ class UserService {
           .match({'email': user.email}).execute();
       final doesNotExist = result.data.isEmpty;
       if (doesNotExist) {
-        await client.from('Users').insert({
+        final values = {
           'email': user.email,
           'password': '',
           'name': user.displayName,
           'photo_url': user.photoUrl,
           'provider': provider,
           'backUpOption': BackUpOptions.daily,
-        }).execute();
+        };
+        await _insertToUsersTable(jsonEncode(values));
       }
-    } on PostgrestError catch (e) {
-      throw DatabaseError.specific(e.message);
     } catch (_) {
-      log(_.toString());
-      throw DatabaseError.unknown();
+      _handleError(_);
     }
   }
 
@@ -409,14 +331,8 @@ class UserService {
           .match({'email': email}).execute();
       final doesExist = result.data.isNotEmpty;
       if (doesExist) throw DatabaseError.emailAvailable();
-    } on PostgrestError catch (e) {
-      log(e.message.toString());
-      throw DatabaseError.specific(e.message);
-    } on DatabaseError catch (_) {
-      rethrow;
-    } catch (error) {
-      log(error.toString());
-      throw DatabaseError.unknown();
+    } catch (_) {
+      _handleError(_);
     }
   }
 
@@ -438,13 +354,8 @@ class UserService {
         return user;
       }
       //else returns null
-    } on SocketException catch (_) {
-      throw DatabaseError.internet();
-    } on TimeoutException catch (_) {
-      throw DatabaseError.internet();
     } catch (_) {
-      log(_.toString());
-      throw DatabaseError.unknown();
+      _handleError(_);
     }
   }
 
@@ -464,13 +375,45 @@ class UserService {
         return user;
       }
       //else returns null
-    } on SocketException catch (_) {
-      throw DatabaseError.internet();
-    } on TimeoutException catch (_) {
-      throw DatabaseError.internet();
     } catch (_) {
-      log(_.toString());
-      throw DatabaseError.unknown();
+      _handleError(_);
     }
+  }
+
+  Future<PostgrestResponse?> _insertToUsersTable(String values) async {
+    await client.from(_usersTable).insert(values).execute().then((value) {
+      return value;
+    }).catchError((error) => _handleError(error));
+  }
+
+  _handleError(dynamic error) {
+    log(error.toString());
+
+    switch (error) {
+      case SocketException:
+      case TimeoutException:
+        throw DatabaseError.internet();
+      case PostgrestError:
+        throw DatabaseError.postgrestError();
+      case DatabaseError:
+        throw error;
+      default:
+        throw DatabaseError.specific(error.message);
+    }
+  }
+
+  Map<String, dynamic> _emailVerificationMessage(String otp) {
+    return {
+      "key": mandrillKey,
+      "message": {
+        "from_email": "developer@okellogerald.dev",
+        "subject": "Email Verification",
+        "text":
+            "Hi!\n\nUse the below OTP code to verify your account at Expense Tracker app.\n\n$otp\n\nPlease ignore this email if it was sent against your consent.",
+        "to": [
+          {"email": "hi@okellogerald.dev", "type": "to"}
+        ]
+      }
+    };
   }
 }
