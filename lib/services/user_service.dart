@@ -9,10 +9,10 @@ import 'package:supabase/supabase.dart' hide User;
 import 'package:http/http.dart' as http;
 
 class Providers {
-  static const google = 'google';
-  static const facebook = 'facebook';
   // ignore: constant_identifier_names
-  static const email_password = 'email_password';
+  static const email_password = 'Email & Password';
+  static const google = 'Google';
+  static const facebook = 'Facebook';
 }
 
 class UserService {
@@ -22,6 +22,7 @@ class UserService {
 
   static const _usersTable = 'Users';
   static const _otpVerificationTable = 'OTP';
+  static const timeLimit = Duration(seconds: 10);
 
   final _box = Hive.box(kUser);
   final _google = GoogleSignIn();
@@ -47,7 +48,7 @@ class UserService {
         'backUpOption': BackUpOptions.daily
       };
 
-      await _insertToUsersTable(json.encode(values));
+      await _insertToUsersTable(json.encode(values)).timeout(timeLimit);
 
       final user = User.empty().copyWith(email: email);
       await _box.put(kUser, user);
@@ -77,7 +78,7 @@ class UserService {
   }
 
   Future<void> sendOTP(String email) async {
-    final otp = Utils.generateOTP();
+    const otp = /* Utils.generateOTP() */ '12345';
 
     try {
       final result = await client
@@ -185,7 +186,7 @@ class UserService {
             'provider': Providers.email_password,
             'backUpOption': BackUpOptions.daily,
           };
-          await _insertToUsersTable(json.encode(values));
+          await _insertToUsersTable(json.encode(values)).timeout(timeLimit);
 
           var hasError = result.error != null;
           if (hasError) throw DatabaseError.unknown();
@@ -197,7 +198,9 @@ class UserService {
               .execute();
 
           hasError = result.error != null;
-          if (hasError) throw DatabaseError.postgrestError();
+          if (hasError) {
+            throw DatabaseError.postgrestError();
+          }
 
           final user = User.empty().copyWith(email: email);
           await _box.put(kUser, user);
@@ -217,20 +220,24 @@ class UserService {
       required int currency,
       String? backUpOption}) async {
     try {
-      // final path = 'users.image/$email.png';
-      // await client.storage.from('users.image').upload(path, file);
-      // final bytes = await client.storage.from('users.image').download(path);
       final result = await client
           .from(_usersTable)
-          .update({'display_name': name, 'currency': currency.toString()})
+          .update({
+            'display_name': name,
+            'currency': currency.toString(),
+            'backUpOption': backUpOption ?? BackUpOptions.daily
+          })
           .eq('email', email)
           .execute();
 
       final hasError = result.error != null;
       if (hasError) throw DatabaseError.postgrestError();
 
-      final user =
-          User.empty().copyWith(email: email, currency: currency, name: name);
+      final user = User.empty().copyWith(
+          email: email,
+          currency: currency,
+          name: name,
+          backUpOption: backUpOption);
       await _box.put(kUser, user);
       return user;
     } catch (_) {
@@ -240,42 +247,34 @@ class UserService {
 
   Future<User?> signUpWithGoogle() async {
     final user = await _initGoogle();
-
     if (user != null) {
       await _signUp(user, '', provider: Providers.google);
       return user;
     }
-    //else returns null
   }
 
   Future<User?> signUpWithFacebook() async {
     final user = await _initFacebook();
-
     if (user != null) {
       await _signUp(user, '', provider: Providers.facebook);
       return user;
     }
-    //else returns null
   }
 
   Future<User?> logInWithGoogle() async {
     final user = await _initGoogle();
-
     if (user != null) {
       await _logIn(user, provider: Providers.google);
       return user;
     }
-    //else returns null
   }
 
   Future<User?> logInWithFacebook() async {
     final user = await _initFacebook();
-
     if (user != null) {
       await _logIn(user, provider: Providers.facebook);
       return user;
     }
-    //else returns null
   }
 
   Future<void> _signUp(User user, String password,
@@ -286,12 +285,12 @@ class UserService {
       final values = {
         'email': user.email,
         'password': password,
-        'name': user.displayName,
+        'display_name': user.displayName,
         'photo_url': user.photoUrl,
         'provider': provider,
         'backUpOption': BackUpOptions.daily,
       };
-      await _insertToUsersTable(jsonEncode(values));
+      await _insertToUsersTable(jsonEncode(values)).timeout(timeLimit);
     } catch (_) {
       _handleError(_);
     }
@@ -300,21 +299,25 @@ class UserService {
   Future<void> _logIn(User user,
       {String provider = Providers.email_password}) async {
     try {
-      final result = await client
+      var result = await client
           .from(_usersTable)
           .select()
           .match({'email': user.email}).execute();
+
       final doesNotExist = result.data.isEmpty;
       if (doesNotExist) {
         final values = {
           'email': user.email,
           'password': '',
-          'name': user.displayName,
+          'display_name': user.displayName,
           'photo_url': user.photoUrl,
           'provider': provider,
           'backUpOption': BackUpOptions.daily,
         };
+
         await _insertToUsersTable(jsonEncode(values));
+      } else {
+        throw DatabaseError.emailInUse(result.data.first['provider']);
       }
     } catch (_) {
       _handleError(_);
@@ -353,7 +356,6 @@ class UserService {
         _box.put(kUser, user);
         return user;
       }
-      //else returns null
     } catch (_) {
       _handleError(_);
     }
@@ -374,31 +376,27 @@ class UserService {
         _box.put(kUser, user);
         return user;
       }
-      //else returns null
     } catch (_) {
       _handleError(_);
     }
   }
 
   Future<PostgrestResponse?> _insertToUsersTable(String values) async {
-    await client.from(_usersTable).insert(values).execute().then((value) {
+    final data = json.decode(values);
+    await client.from(_usersTable).insert(data).execute().then((value) {
       return value;
     }).catchError((error) => _handleError(error));
   }
 
   _handleError(dynamic error) {
-    log(error.toString());
-
-    switch (error) {
-      case SocketException:
-      case TimeoutException:
-        throw DatabaseError.internet();
-      case PostgrestError:
-        throw DatabaseError.postgrestError();
-      case DatabaseError:
-        throw error;
-      default:
-        throw DatabaseError.specific(error.message);
+    if (error is SocketException || error is TimeoutException) {
+      throw DatabaseError.internet();
+    } else if (error is DatabaseError) {
+      throw error;
+    } else if (error is PostgrestError) {
+      throw DatabaseError.postgrestError();
+    } else {
+      throw DatabaseError.unknown();
     }
   }
 

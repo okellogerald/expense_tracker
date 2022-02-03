@@ -86,7 +86,7 @@ class User extends HiveObject {
       displayName: json['display_name'] ?? '',
       email: json['email'],
       photoUrl: json['photo_url'] ?? '',
-      currencyCodePoint: json['currency'] ?? 0,
+      currencyCodePoint: int.parse(json['currency'] ?? 0),
       backUpOption: json['backUpOption'] ?? BackUpOptions.daily,
     );
   }

@@ -26,6 +26,10 @@ class DatabaseError {
   factory DatabaseError.emailAvailable() => DatabaseError._(
       'This email has already been used. If it is yours try signing in.');
 
+  ///The email used for signing-up is already used by other user.
+  factory DatabaseError.emailInUse(String signingMethod) => DatabaseError._(
+      'This email has already been used. Try signing in with the method you signed in with at first, $signingMethod');
+
   ///The email used for signing-in has not been registered by email-password. Hence
   ///putting the password of his/her gmail account won't work, since for all
   ///users logged in with social platforms, the password is empty.

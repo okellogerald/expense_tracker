@@ -9,19 +9,28 @@ class VerificationPage extends StatefulWidget {
 
 class _VerificationPageState extends State<VerificationPage> {
   late final OnBoardingPageBloc bloc;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     bloc = Provider.of<OnBoardingPageBloc>(context, listen: false);
-    log(bloc.state.supplements.user.email);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
+      key: scaffoldKey,
+      body: Builder(builder: (parentScaffoldContext) {
+        return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
             bloc: bloc,
+            /*    listenWhen: (previous, current) {
+              final currentCondition = current.maybeWhen(
+                  failed: (_, __) => false, orElse: () => true);
+              final prevCondition = previous.maybeWhen(
+                  failed: (_, __) => true, orElse: () => true);
+              return currentCondition && prevCondition;
+            }, */
             listener: (_, state) {
               final hasSucceded =
                   state.maybeWhen(success: (_) => true, orElse: () => false);
@@ -34,9 +43,11 @@ class _VerificationPageState extends State<VerificationPage> {
               }
 
               if (hasFailed) {
+                log('1'.toString());
+                log('2'.toString());
                 final message =
                     state.maybeWhen(failed: (_, m) => m, orElse: () => null);
-                _showSnackBar(message!);
+                _showSnackBar(parentScaffoldContext, message!);
               }
             },
             builder: (_, state) {
@@ -46,10 +57,12 @@ class _VerificationPageState extends State<VerificationPage> {
                 success: _buildContent,
                 failed: (supp, _) => _buildContent(supp),
               );
-            }));
+            });
+      }),
+    );
   }
 
-  _showSnackBar(String message) {
+  _showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: AppColors.error,
         padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dh),
@@ -62,6 +75,7 @@ class _VerificationPageState extends State<VerificationPage> {
             alignment: TextAlign.start,
           ),
         )));
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
   }
 
   Widget _buildLoading(OnBoardingSupplements supp) {
@@ -75,14 +89,16 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   Widget _buildContent(OnBoardingSupplements supp) {
-    return ListView(
-      padding: EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 20.dh),
-      children: [
-        _buildTitle(),
-        _buildEmailDetails(),
-        _buildTextFields(),
-        _buildverifyButton(),
-      ],
+    return Scaffold(
+      body: ListView(
+        padding: EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 20.dh),
+        children: [
+          _buildTitle(),
+          _buildEmailDetails(),
+          _buildTextFields(),
+        ],
+      ),
+      bottomNavigationBar: _buildVerifyButton(),
     );
   }
 
@@ -164,12 +180,12 @@ class _VerificationPageState extends State<VerificationPage> {
     );
   }
 
-  _buildverifyButton() {
+  _buildVerifyButton() {
     return AppTextButton(
       onPressed: bloc.verify,
       text: 'Verify',
       buttonColor: AppColors.primary,
-      margin: EdgeInsets.only(top: 30.dh),
+      margin: EdgeInsets.only(bottom: 15.dh, left: 15.dw, right: 15.dw),
       height: 40.dh,
     );
   }

@@ -117,7 +117,11 @@ class _SettingsPageState extends State<SettingsPage> {
                       padding: EdgeInsets.only(top: 8.dh),
                       child: AppText(user.backUpOption,
                           color: AppColors.accent, size: 15.dw),
-                    )
+                    ),
+              !isSelectingBackupOption &&
+                      user.backUpOption == BackUpOptions.on_button_tap
+                  ? _buildBackUpButton()
+                  : Container(),
             ],
           );
         });
@@ -151,6 +155,19 @@ class _SettingsPageState extends State<SettingsPage> {
             buttonColor: isSelected ? AppColors.accent : AppColors.background,
             alignment: Alignment.centerLeft);
       },
+    );
+  }
+
+  _buildBackUpButton() {
+    return AppTextButton(
+      onPressed: () {},
+      text: 'Back up now',
+      icon: Icons.backup,
+      withIcon: true,
+      buttonColor: AppColors.secondary,
+      iconColor: AppColors.primary,
+      height: 40.dh,
+      margin: EdgeInsets.only(top: 20.dh),
     );
   }
 

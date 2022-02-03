@@ -26,7 +26,8 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
+      body: Builder(builder: (parentScaffoldContext) {
+        return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
             bloc: bloc,
             listener: (_, state) {
               final hasSucceded =
@@ -43,7 +44,7 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
               if (hasFailed) {
                 final message =
                     state.maybeWhen(failed: (_, m) => m, orElse: () => null);
-                _showSnackBar(message!);
+                _showSnackBar(parentScaffoldContext, message!);
               }
             },
             builder: (_, state) {
@@ -53,10 +54,12 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
                 success: _buildContent,
                 failed: (supp, _) => _buildContent(supp),
               );
-            }));
+            });
+      }),
+    );
   }
 
-  _showSnackBar(String message) {
+  _showSnackBar(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: AppColors.error,
         padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dh),
@@ -82,14 +85,16 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
   }
 
   Widget _buildContent(OnBoardingSupplements supp) {
-    return ListView(
-      padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
-      children: [
-        _buildTitle(),
-        _buildNameTextfield(supp),
-        _buildCurrencyIcons(supp),
-        _buildDoneTextField(),
-      ],
+    return Scaffold(
+      body: ListView(
+        padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
+        children: [
+          _buildTitle(),
+          _buildNameTextfield(supp),
+          _buildCurrencyIcons(supp),
+        ],
+      ),
+      bottomNavigationBar: _buildDoneButton(),
     );
   }
 
@@ -126,11 +131,12 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
       children: [
         SizedBox(height: 40.dh),
         AppTextField(
-          errors: const {},
+          errors: supp.errors,
           text: supp.user.displayName,
           onChanged: bloc.updateName,
           hintText: 'Username',
           keyboardType: TextInputType.name,
+          textCapitalization: TextCapitalization.words,
           errorName: 'username',
         )
       ],
@@ -195,13 +201,13 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
     );
   }
 
-  _buildDoneTextField() {
+  _buildDoneButton() {
     return AppTextButton(
       onPressed: bloc.updateUser,
       buttonColor: AppColors.primary,
       text: 'Done',
       height: 40.dh,
-      margin: EdgeInsets.only(top: 40.dh),
+      margin: EdgeInsets.only(bottom: 15.dh, left: 15.dw, right: 15.dw),
     );
   }
 }

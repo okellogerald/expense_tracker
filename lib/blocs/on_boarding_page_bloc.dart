@@ -43,6 +43,7 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
   void updateBackUpOption(String selectedOption) async {
     var supp = state.supplements;
     var user = supp.user;
+
     if (selectedOption == user.backUpOption) return;
 
     emit(OnBoardingPageState.laoding(supp));
@@ -51,11 +52,11 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
           email: user.email,
           name: user.displayName,
           currency: user.currencyCodePoint,
-          backUpOption: user.backUpOption);
+          backUpOption: selectedOption);
 
       if (_user == null) throw DatabaseError.unknown();
 
-      supp = supp.copyWith(user: user);
+      supp = supp.copyWith(user: _user);
       emit(OnBoardingPageState.content(supp));
     } on DatabaseError catch (_) {
       emit(OnBoardingPageState.failed(supp, _.message));
@@ -170,13 +171,13 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     final name = supp.user.displayName.trim();
 
     if (name.isEmpty) {
-      supp.errors['name'] = 'Username can\'t be empty';
+      supp.errors['username'] = 'Username can\'t be empty';
     }
     if (supp.currency == 0) {
       supp.errors['currency'] = 'Currency is not selected';
     }
 
-    log(name.isEmpty.toString());
+    log(supp.errors.toString());
 
     emit(OnBoardingPageState.content(supp));
   }
