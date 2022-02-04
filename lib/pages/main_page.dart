@@ -4,8 +4,10 @@ class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
   static final bottomBarCurrentIndexNotifier = ValueNotifier<int>(0);
 
-  static void navigateTo(BuildContext context) => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (_) => const MainPage()));
+  static void navigateTo(BuildContext context) =>
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const MainPage()),
+          (route) => false);
 
   @override
   State<MainPage> createState() => _MainPageState();

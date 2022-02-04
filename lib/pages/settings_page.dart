@@ -25,8 +25,19 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _buildAppBar(),
-        body: BlocBuilder<OnBoardingPageBloc, OnBoardingPageState>(
+        body: BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
             bloc: bloc,
+            listener: (_, state) {
+              final isSignedOut =
+                  state.maybeWhen(orElse: () => false, success: (_) => true);
+
+              if (isSignedOut) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const LoginPage()),
+                    (route) => false);
+              }
+            },
             builder: (_, state) {
               return state.when(
                 laoding: _buildLoading,
@@ -44,12 +55,15 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildContent(OnBoardingSupplements supp) {
-    return ListView(
+    return Padding(
       padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
-      children: [
-        _buildUserAccount(supp.user),
-        _buildBackupOptions(supp.user),
-      ],
+      child: Column(
+        children: [
+          _buildUserAccount(supp.user),
+          _buildBackupOptions(supp.user),
+          _buildSignOutButton(),
+        ],
+      ),
     );
   }
 
@@ -168,6 +182,26 @@ class _SettingsPageState extends State<SettingsPage> {
       iconColor: AppColors.primary,
       height: 40.dh,
       margin: EdgeInsets.only(top: 20.dh),
+    );
+  }
+
+  _buildSignOutButton() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          AppTextButton(
+            onPressed: bloc.signOut,
+            text: 'Sign out',
+            icon: Icons.logout,
+            withIcon: true,
+            buttonColor: AppColors.secondary,
+            iconColor: AppColors.primary,
+            height: 40.dh,
+            margin: EdgeInsets.only(bottom: 20.dh),
+          ),
+        ],
+      ),
     );
   }
 

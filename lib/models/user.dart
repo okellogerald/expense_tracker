@@ -82,6 +82,7 @@ class User extends HiveObject {
       );
 
   static User fromDatabase(Map<String, dynamic> json) {
+    log(json['currency']);
     return User(
       displayName: json['display_name'] ?? '',
       email: json['email'],
@@ -89,5 +90,10 @@ class User extends HiveObject {
       currencyCodePoint: int.parse(json['currency'] ?? 0),
       backUpOption: json['backUpOption'] ?? BackUpOptions.daily,
     );
+  }
+
+  @override
+  String toString() {
+    return 'User(email: $email, displayName: $displayName, photoUrl: $photoUrl, currency: $currencyCodePoint, backUpOption: $backUpOption)';
   }
 }

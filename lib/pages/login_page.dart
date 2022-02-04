@@ -29,10 +29,10 @@ class _LoginPageState extends State<LoginPage> {
                   state.maybeWhen(failed: (_, __) => true, orElse: () => false);
 
               if (hasSucceded) {
-                if (!state.supplements.user.isProfileComplete) {
-                  AdditionalInfoPage.navigateTo(context);
-                } else {
+                if (state.supplements.user.isProfileComplete) {
                   MainPage.navigateTo(context);
+                } else {
+                  AdditionalInfoPage.navigateTo(context);
                 }
               }
 

@@ -24,13 +24,6 @@ class _VerificationPageState extends State<VerificationPage> {
       body: Builder(builder: (parentScaffoldContext) {
         return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
             bloc: bloc,
-            /*    listenWhen: (previous, current) {
-              final currentCondition = current.maybeWhen(
-                  failed: (_, __) => false, orElse: () => true);
-              final prevCondition = previous.maybeWhen(
-                  failed: (_, __) => true, orElse: () => true);
-              return currentCondition && prevCondition;
-            }, */
             listener: (_, state) {
               final hasSucceded =
                   state.maybeWhen(success: (_) => true, orElse: () => false);
@@ -43,8 +36,6 @@ class _VerificationPageState extends State<VerificationPage> {
               }
 
               if (hasFailed) {
-                log('1'.toString());
-                log('2'.toString());
                 final message =
                     state.maybeWhen(failed: (_, m) => m, orElse: () => null);
                 _showSnackBar(parentScaffoldContext, message!);

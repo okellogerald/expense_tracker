@@ -216,8 +216,6 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
         return;
       }
 
-      log('user is not null');
-
       supp = supp.copyWith(user: user);
       emit(OnBoardingPageState.success(supp));
     } on DatabaseError catch (_) {
@@ -230,5 +228,13 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     emit(OnBoardingPageState.laoding(supp));
     supp = supp.copyWith(currency: codePoint);
     emit(OnBoardingPageState.content(supp));
+  }
+
+  void signOut() async {
+    var supp = state.supplements;
+    emit(OnBoardingPageState.laoding(supp));
+    await service.signOut();
+    supp = OnBoardingSupplements.empty();
+    emit(OnBoardingPageState.success(supp));
   }
 }

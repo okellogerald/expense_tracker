@@ -5,9 +5,11 @@ class AdditionalInfoPage extends StatefulWidget {
 
   final User? user;
 
-  static void navigateTo(BuildContext context, {User? user}) => Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => AdditionalInfoPage(user: user)));
+  static void navigateTo(BuildContext context, {User? user}) =>
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => AdditionalInfoPage(user: user)),
+          (route) => false);
 
   @override
   _AdditionalInfoPageState createState() => _AdditionalInfoPageState();
@@ -37,8 +39,10 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
                   state.maybeWhen(failed: (_, __) => true, orElse: () => false);
 
               if (hasSucceded) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (_) => const MainPage()));
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (_) => const MainPage()),
+                    (route) => false);
               }
 
               if (hasFailed) {

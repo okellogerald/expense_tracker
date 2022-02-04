@@ -18,14 +18,13 @@ class _CurrencyState extends State<Currency> {
   void initState() {
     final user = Hive.box(kUser).get(kUser) as User;
     currency = user.currencyCodePoint;
-    log(currency.toString());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 5.dw),
+      padding: EdgeInsets.only(right: 10.dw),
       child: Icon(CurrencyIcons.getIcon(currency),
           color: widget.color, size: 12.dw),
     );

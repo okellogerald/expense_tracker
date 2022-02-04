@@ -246,38 +246,38 @@ class UserService {
   }
 
   Future<User?> signUpWithGoogle() async {
-    final user = await _initGoogle();
+    var user = await _initGoogle();
     if (user != null) {
-      await _signUp(user, '', provider: Providers.google);
+      user = await _signUp(user, '', provider: Providers.google);
       return user;
     }
   }
 
   Future<User?> signUpWithFacebook() async {
-    final user = await _initFacebook();
+    var user = await _initFacebook();
     if (user != null) {
-      await _signUp(user, '', provider: Providers.facebook);
+      user = await _signUp(user, '', provider: Providers.facebook);
       return user;
     }
   }
 
   Future<User?> logInWithGoogle() async {
-    final user = await _initGoogle();
+    var user = await _initGoogle();
     if (user != null) {
-      await _logIn(user, provider: Providers.google);
+      user = await _logIn(user, provider: Providers.google);
       return user;
     }
   }
 
   Future<User?> logInWithFacebook() async {
-    final user = await _initFacebook();
+    var user = await _initFacebook();
     if (user != null) {
-      await _logIn(user, provider: Providers.facebook);
+      user = await _logIn(user, provider: Providers.facebook);
       return user;
     }
   }
 
-  Future<void> _signUp(User user, String password,
+  Future<User?> _signUp(User user, String password,
       {String provider = Providers.email_password}) async {
     await _checkIfUserExistsDuringSignup(user.email, password);
 
@@ -291,13 +291,13 @@ class UserService {
         'backUpOption': BackUpOptions.daily,
       };
       await _insertToUsersTable(jsonEncode(values)).timeout(timeLimit);
+      _box.put(kUser, user);
     } catch (_) {
       _handleError(_);
     }
   }
 
-  Future<void> _logIn(User user,
-      {String provider = Providers.email_password}) async {
+  Future<User?> _logIn(User user, {String provider = Providers.google}) async {
     try {
       var result = await client
           .from(_usersTable)
@@ -316,8 +316,17 @@ class UserService {
         };
 
         await _insertToUsersTable(jsonEncode(values));
+        await _box.put(kUser, user);
+        return user;
       } else {
-        throw DatabaseError.emailInUse(result.data.first['provider']);
+        final userProvider = result.data.first['provider'];
+        if (provider != userProvider) {
+          throw DatabaseError.emailInUse(userProvider);
+        } else {
+          final user = User.fromDatabase(result.data.first);
+          await _box.put(kUser, user);
+          return user;
+        }
       }
     } catch (_) {
       _handleError(_);
@@ -353,7 +362,6 @@ class UserService {
         var response = await http.get(Uri.parse(url));
         var profile = json.decode(response.body);
         final user = User.fromFacebookProfile(profile);
-        _box.put(kUser, user);
         return user;
       }
     } catch (_) {
@@ -373,7 +381,6 @@ class UserService {
       final account = await _google.signIn();
       if (account != null) {
         final user = User.fromGoogleAccount(account);
-        _box.put(kUser, user);
         return user;
       }
     } catch (_) {
@@ -414,4 +421,6 @@ class UserService {
       }
     };
   }
+
+  Future<void> signOut() async => await _box.delete(kUser);
 }
