@@ -16,8 +16,9 @@ class _CurrencyState extends State<Currency> {
 
   @override
   void initState() {
-    final user = Hive.box(kUser).get(kUser) as User;
-    currency = user.currencyCodePoint;
+    // final user = Hive.box(kUser).get(kUser) as User;
+    // currency = user.currencyCodePoint;
+    currency = CurrencyIcons.dollar.codePoint;
     super.initState();
   }
 
