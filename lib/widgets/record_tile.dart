@@ -28,8 +28,9 @@ class _RecordTileState extends State<RecordTile> {
 
   @override
   void initState() {
-    final user = Hive.box(kUser).get(kUser) as User;
-    currency = user.currencyCodePoint;
+    /*  final user = Hive.box(kUser).get(kUser) as User;
+    currency = user.currencyCodePoint; */
+    currency = CurrencyIcons.dollar.codePoint;
     super.initState();
   }
 

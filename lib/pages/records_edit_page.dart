@@ -81,7 +81,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
                   withButton: !isEditing),
               _buildOptions(category),
               _buildCategoriesList(categoryList, category, form),
-              _buildSectionTitle('Amount Used', topOffset: 20.dh),
+              _buildSectionTitle('Amount', topOffset: 20.dh),
               _buildAmountTextField(form),
               _buildSectionTitle('Notes'),
               _buildNotesTextField(form.notes),

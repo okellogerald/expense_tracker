@@ -79,7 +79,7 @@ class _RecordsPageState extends State<RecordsPage> {
           icon: Icons.settings,
           iconSize: value,
           iconColor: AppColors.primary,
-          onPressed: () => SettingsPage.navigateTo(context),
+          onPressed: /* () => SettingsPage.navigateTo(context) */ () {},
         ),
       ],
     );
