@@ -1,5 +1,4 @@
 import 'package:budgetting_app/source.dart';
-import 'package:hive/hive.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -17,11 +16,11 @@ class MyApp extends StatelessWidget {
             fontFamily: kFontFam,
             scaffoldBackgroundColor: AppColors.background,
           ),
-          home: _returnFirstpage()),
+          home:  const MainPage()),
     );
   }
 
-  _returnFirstpage() {
+ /*  _returnFirstpage() {
     final user = Hive.box(kUser).get(kUser) as User?;
 
     if (user == null) {
@@ -31,5 +30,5 @@ class MyApp extends StatelessWidget {
     } else if (!user.isProfileComplete) {
       return AdditionalInfoPage(user: user);
     }
-  }
+  } */
 }
