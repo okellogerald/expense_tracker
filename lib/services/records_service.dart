@@ -1,6 +1,8 @@
 import 'dart:async';
+
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
+
 import '../source.dart';
 
 class RecordsService {
@@ -179,8 +181,6 @@ class RecordsService {
         dateList.add(day);
       }
     }
-
-    log(_dailyAmountMap.toString());
 
     return _dailyAmountMap;
   }

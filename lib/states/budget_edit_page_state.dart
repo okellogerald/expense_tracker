@@ -11,3 +11,11 @@ class BudgetEditPageState with _$BudgetEditPageState {
 
   factory  BudgetEditPageState.initial() => const BudgetEditPageState.content([], [], BudgetForm());
 }
+
+class BudgetEditingPageState {
+  BudgetEditingPageState._();
+
+  factory BudgetEditingPageState.loading() => BudgetEditingPageState._();
+  factory BudgetEditingPageState.content() => BudgetEditingPageState._();
+  factory BudgetEditingPageState.success() => BudgetEditingPageState._();
+}

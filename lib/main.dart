@@ -39,7 +39,7 @@ void main() async {
       Provider<RecordsService>(create: (_) => RecordsService()),
       Provider<BudgetsService>(create: (_) => BudgetsService()),
       Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
-      //  Provider<UserService>(create: (_) => UserService(client)),
+      Provider<UserService>(create: (_) => UserService(client)),
       Provider<OnBoardingPageBloc>(
           create: (_) => OnBoardingPageBloc(userService))
     ],
