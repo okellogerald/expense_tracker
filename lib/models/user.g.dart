@@ -3,51 +3,23 @@
 part of 'user.dart';
 
 // **************************************************************************
-// TypeAdapterGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-class UserAdapter extends TypeAdapter<User> {
-  @override
-  final int typeId = 6;
-
-  @override
-  User read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return User(
-      displayName: fields[0] as String,
-      email: fields[1] as String,
-      photoUrl: fields[2] as String,
-      currencyCodePoint: fields[3] as int,
-      backUpOption: fields[4] as String,
+User _$UserFromJson(Map<String, dynamic> json) => User(
+      displayName: json['display_name'] as String,
+      email: json['email'] as String,
+      signUpOption: json['signup_option'] as String,
+      photoUrl: json['photo_url'] as String,
+      backUpOption: json['backup_option'] as String,
+      currencyCodePoint: json['currency'] as int,
     );
-  }
 
-  @override
-  void write(BinaryWriter writer, User obj) {
-    writer
-      ..writeByte(5)
-      ..writeByte(0)
-      ..write(obj.displayName)
-      ..writeByte(1)
-      ..write(obj.email)
-      ..writeByte(2)
-      ..write(obj.photoUrl)
-      ..writeByte(3)
-      ..write(obj.currencyCodePoint)
-      ..writeByte(4)
-      ..write(obj.backUpOption);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is UserAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
+Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+      'display_name': instance.displayName,
+      'email': instance.email,
+      'signup_option': instance.signUpOption,
+      'photo_url': instance.photoUrl,
+      'backup_option': instance.backUpOption,
+      'currency': instance.currencyCodePoint,
+    };

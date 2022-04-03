@@ -5,13 +5,13 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
   final UserService service;
 
-  void signupWithGoogle() async => await _onboard(true, Providers.google);
+  /* void signupWithGoogle() async => await _onboard(true, Providers.google);
 
   void loginWithGoogle() async => await _onboard(false, Providers.google);
 
   void signupWithFacebook() async => await _onboard(true, Providers.facebook);
 
-  void loginWithFacebook() async => await _onboard(false, Providers.facebook);
+  void loginWithFacebook() async => await _onboard(false, Providers.facebook);*/
 
   void init({User? user}) {
     if (user == null) return;
@@ -28,8 +28,7 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
   void updateUserDetails({String? name, String? email}) {
     var supp = state.supplements;
     emit(OnBoardingPageState.laoding(supp));
-    final user = supp.user.copyWith(name: name, email: email);
-    supp = supp.copyWith(user: user);
+
     emit(OnBoardingPageState.content(supp));
   }
 
@@ -48,17 +47,8 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
     emit(OnBoardingPageState.laoding(supp));
     try {
-      final _user = await service.updateUser(
-          email: user.email,
-          name: user.displayName,
-          currency: user.currencyCodePoint,
-          backUpOption: selectedOption);
-
-      if (_user == null) throw DatabaseError.unknown();
-
-      supp = supp.copyWith(user: _user);
       emit(OnBoardingPageState.content(supp));
-    } on DatabaseError catch (_) {
+    } on ApiError catch (_) {
       emit(OnBoardingPageState.failed(supp, _.message));
       return;
     }
@@ -73,18 +63,6 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
   void verify() async {
     var supp = state.supplements;
     emit(OnBoardingPageState.laoding(supp));
-    try {
-      final user =
-          await service.verifyEmail(supp.user.email, supp.password, supp.otp);
-      if (user == null) {
-        emit(OnBoardingPageState.failed(supp, 'Invalid code!'));
-        return;
-      }
-      emit(OnBoardingPageState.success(supp));
-    } on DatabaseError catch (_) {
-      emit(OnBoardingPageState.failed(supp, _.message));
-      return;
-    }
   }
 
   void updateUser() async {
@@ -95,29 +73,6 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     if (supp.errors.isNotEmpty) return;
 
     emit(OnBoardingPageState.laoding(supp));
-
-    try {
-      final user = await service.updateUser(
-          email: supp.user.email,
-          name: supp.user.displayName,
-          currency: supp.currency);
-      if (user == null) {
-        emit(OnBoardingPageState.failed(supp, 'Invalid code!'));
-        return;
-      }
-
-      emit(OnBoardingPageState.success(supp));
-    } on DatabaseError catch (_) {
-      emit(OnBoardingPageState.failed(supp, _.message));
-      return;
-    }
-  }
-
-  void updateOtp(int id, int current) {
-    var supp = state.supplements;
-    emit(OnBoardingPageState.laoding(supp));
-    final otp = service.updateOTP(supp.otp, id, current);
-    emit(OnBoardingPageState.content(supp.copyWith(otp: otp)));
   }
 
   Future<void> _onboardWithEmailPassword(bool isSigningUp,
@@ -133,14 +88,14 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
     if (isVerifying) {
       try {
-        await service.checkIfRegisteredWithSocial(supp.user.email);
-        await service.sendOTP(supp.user.email);
+        //await service.checkIfRegisteredWithSocial(supp.user.email);
+        //await service.sendOTP(supp.user.email);
         emit(OnBoardingPageState.success(supp));
-      } on DatabaseError catch (_) {
+      } on ApiError catch (_) {
         emit(OnBoardingPageState.failed(supp, _.message));
       }
     } else {
-      await _onboard(isSigningUp, Providers.email_password);
+      // await _onboard(isSigningUp, Providers.email_password);
     }
   }
 
@@ -186,41 +141,8 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     var supp = state.supplements;
     emit(OnBoardingPageState.laoding(supp));
 
-    User? user;
-
-    final email = supp.user.email;
-    final password = supp.password;
-
-    try {
-      switch (provider) {
-        case Providers.email_password:
-          if (isSigningUp) {
-            user = await service.signUpWithEmailPassword(email, password);
-          } else {
-            user = await service.loginWithEmailPassword(email, password);
-          }
-          break;
-        case Providers.google:
-          if (isSigningUp) user = await service.signUpWithGoogle();
-          if (!isSigningUp) user = await service.logInWithGoogle();
-          break;
-        case Providers.facebook:
-          if (isSigningUp) user = await service.signUpWithFacebook();
-          if (!isSigningUp) user = await service.logInWithFacebook();
-          break;
-        default:
-      }
-
-      if (user == null) {
-        emit(OnBoardingPageState.content(supp));
-        return;
-      }
-
-      supp = supp.copyWith(user: user);
-      emit(OnBoardingPageState.success(supp));
-    } on DatabaseError catch (_) {
-      emit(OnBoardingPageState.failed(supp, _.message));
-    }
+    supp = supp.copyWith();
+    emit(OnBoardingPageState.success(supp));
   }
 
   void updateCodePoint(int codePoint) {

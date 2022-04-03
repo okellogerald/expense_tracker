@@ -1,10 +1,45 @@
-// ignore_for_file: constant_identifier_names
-
-import 'package:budgetting_app/source.dart';
+// ignore_for_file: constant_identifier_names, invalid_annotation_target
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hive/hive.dart';
 
+part 'user.freezed.dart';
 part 'user.g.dart';
+
+@freezed
+@JsonSerializable()
+class User with _$User {
+  const User._();
+
+  const factory User(
+      {@JsonKey(name: 'display_name') @Default('') String displayName,
+      @Default('') String email,
+      @JsonKey(name: 'signup_option') @Default('') String signUpOption,
+      @JsonKey(name: 'photo_url') @Default('') String photoUrl,
+      @JsonKey(name: 'backup_option') @Default('') String backUpOption,
+      @JsonKey(name: 'currency') @Default(0) int currencyCodePoint}) = _User;
+
+  bool get isProfileComplete => currencyCodePoint != 0;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  factory User.fromGoogleAccount(GoogleSignInAccount account) => User(
+      displayName: account.displayName!,
+      email: account.email,
+      photoUrl: account.photoUrl ?? '');
+
+  factory User.fromFacebookProfile(Map<String, dynamic> account) => User(
+      displayName: account['name'],
+      email: account['email'],
+      photoUrl: account['picture']['data']['url'] ?? '');
+}
+
+class SigningUpOptions {
+  static const email_password = 'Email & Password';
+  static const google = 'Google';
+  static const facebook = 'Facebook';
+}
 
 class BackUpOptions {
   static const never = "Never";
@@ -12,88 +47,4 @@ class BackUpOptions {
   static const weekly = 'Weekly';
   static const end_of_the_month = 'End of Month';
   static const on_button_tap = 'On Button Tap';
-}
-
-@HiveType(typeId: 6)
-class User extends HiveObject {
-  @HiveField(0)
-  final String displayName;
-
-  @HiveField(1)
-  final String email;
-
-  @HiveField(2)
-  final String photoUrl;
-
-  @HiveField(3)
-  final int currencyCodePoint;
-
-  @HiveField(4)
-  final String backUpOption;
-
-  User({
-    required this.displayName,
-    required this.email,
-    required this.photoUrl,
-    required this.currencyCodePoint,
-    this.backUpOption = BackUpOptions.daily,
-  });
-
-  bool get isProfileComplete => currencyCodePoint != 0;
-
-  factory User.empty() => User(
-        displayName: '',
-        email: '',
-        photoUrl: '',
-        currencyCodePoint: 0,
-      );
-
-  User copyWith(
-      {String? email,
-      String? photoUrl,
-      String? name,
-      int? currency,
-      String? backUpOption}) {
-    return User(
-      displayName: name ?? displayName,
-      email: email ?? this.email,
-      photoUrl: photoUrl ?? this.photoUrl,
-      currencyCodePoint: currency ?? currencyCodePoint,
-      backUpOption: backUpOption ?? this.backUpOption,
-    );
-  }
-
-  static User fromGoogleAccount(GoogleSignInAccount account,
-          {int currency = 0}) =>
-      User(
-        displayName: account.displayName!,
-        email: account.email,
-        photoUrl: account.photoUrl ?? kDefaultPhotoUrl,
-        currencyCodePoint: currency,
-      );
-
-  static User fromFacebookProfile(Map<String, dynamic> account,
-          {int currency = 0}) =>
-      User(
-        displayName: account['name'],
-        email: account['email'],
-        photoUrl: account['picture']['data']['url'] ?? kDefaultPhotoUrl,
-        currencyCodePoint: currency,
-      );
-
-  static User fromDatabase(Map<String, dynamic> json) {
-    log(json['currency']);
-    return User(
-      displayName: json['display_name'] ?? '',
-      email: json['email'],
-      photoUrl: json['photo_url'] ?? '',
-      currencyCodePoint: int.parse(json['currency'] ?? 0),
-      backUpOption: json['backUpOption'] ?? BackUpOptions.daily,
-    );
-  }
-
-  @override
-  String toString() {
-    return 'User(email: $email, displayName: $displayName, photoUrl: $photoUrl, currency: $currencyCodePoint, backUpOption: $backUpOption)';
-  }
 }

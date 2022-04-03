@@ -20,13 +20,11 @@ class _$OnBoardingSupplementsTearOff {
   _OnBoardingSupplements call(
       {required String password,
       required Map<String, String> errors,
-      required Map<int, String> otp,
       required User user,
       required int currency}) {
     return _OnBoardingSupplements(
       password: password,
       errors: errors,
-      otp: otp,
       user: user,
       currency: currency,
     );
@@ -40,7 +38,6 @@ const $OnBoardingSupplements = _$OnBoardingSupplementsTearOff();
 mixin _$OnBoardingSupplements {
   String get password => throw _privateConstructorUsedError;
   Map<String, String> get errors => throw _privateConstructorUsedError;
-  Map<int, String> get otp => throw _privateConstructorUsedError;
   User get user => throw _privateConstructorUsedError;
   int get currency => throw _privateConstructorUsedError;
 
@@ -55,11 +52,9 @@ abstract class $OnBoardingSupplementsCopyWith<$Res> {
           $Res Function(OnBoardingSupplements) then) =
       _$OnBoardingSupplementsCopyWithImpl<$Res>;
   $Res call(
-      {String password,
-      Map<String, String> errors,
-      Map<int, String> otp,
-      User user,
-      int currency});
+      {String password, Map<String, String> errors, User user, int currency});
+
+  $UserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -75,7 +70,6 @@ class _$OnBoardingSupplementsCopyWithImpl<$Res>
   $Res call({
     Object? password = freezed,
     Object? errors = freezed,
-    Object? otp = freezed,
     Object? user = freezed,
     Object? currency = freezed,
   }) {
@@ -88,10 +82,6 @@ class _$OnBoardingSupplementsCopyWithImpl<$Res>
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
-      otp: otp == freezed
-          ? _value.otp
-          : otp // ignore: cast_nullable_to_non_nullable
-              as Map<int, String>,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -101,6 +91,13 @@ class _$OnBoardingSupplementsCopyWithImpl<$Res>
           : currency // ignore: cast_nullable_to_non_nullable
               as int,
     ));
+  }
+
+  @override
+  $UserCopyWith<$Res> get user {
+    return $UserCopyWith<$Res>(_value.user, (value) {
+      return _then(_value.copyWith(user: value));
+    });
   }
 }
 
@@ -112,11 +109,10 @@ abstract class _$OnBoardingSupplementsCopyWith<$Res>
       __$OnBoardingSupplementsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String password,
-      Map<String, String> errors,
-      Map<int, String> otp,
-      User user,
-      int currency});
+      {String password, Map<String, String> errors, User user, int currency});
+
+  @override
+  $UserCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -134,7 +130,6 @@ class __$OnBoardingSupplementsCopyWithImpl<$Res>
   $Res call({
     Object? password = freezed,
     Object? errors = freezed,
-    Object? otp = freezed,
     Object? user = freezed,
     Object? currency = freezed,
   }) {
@@ -147,10 +142,6 @@ class __$OnBoardingSupplementsCopyWithImpl<$Res>
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
-      otp: otp == freezed
-          ? _value.otp
-          : otp // ignore: cast_nullable_to_non_nullable
-              as Map<int, String>,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
@@ -169,7 +160,6 @@ class _$_OnBoardingSupplements implements _OnBoardingSupplements {
   const _$_OnBoardingSupplements(
       {required this.password,
       required this.errors,
-      required this.otp,
       required this.user,
       required this.currency});
 
@@ -178,15 +168,13 @@ class _$_OnBoardingSupplements implements _OnBoardingSupplements {
   @override
   final Map<String, String> errors;
   @override
-  final Map<int, String> otp;
-  @override
   final User user;
   @override
   final int currency;
 
   @override
   String toString() {
-    return 'OnBoardingSupplements(password: $password, errors: $errors, otp: $otp, user: $user, currency: $currency)';
+    return 'OnBoardingSupplements(password: $password, errors: $errors, user: $user, currency: $currency)';
   }
 
   @override
@@ -196,7 +184,6 @@ class _$_OnBoardingSupplements implements _OnBoardingSupplements {
             other is _OnBoardingSupplements &&
             const DeepCollectionEquality().equals(other.password, password) &&
             const DeepCollectionEquality().equals(other.errors, errors) &&
-            const DeepCollectionEquality().equals(other.otp, otp) &&
             const DeepCollectionEquality().equals(other.user, user) &&
             const DeepCollectionEquality().equals(other.currency, currency));
   }
@@ -206,7 +193,6 @@ class _$_OnBoardingSupplements implements _OnBoardingSupplements {
       runtimeType,
       const DeepCollectionEquality().hash(password),
       const DeepCollectionEquality().hash(errors),
-      const DeepCollectionEquality().hash(otp),
       const DeepCollectionEquality().hash(user),
       const DeepCollectionEquality().hash(currency));
 
@@ -221,7 +207,6 @@ abstract class _OnBoardingSupplements implements OnBoardingSupplements {
   const factory _OnBoardingSupplements(
       {required String password,
       required Map<String, String> errors,
-      required Map<int, String> otp,
       required User user,
       required int currency}) = _$_OnBoardingSupplements;
 
@@ -229,8 +214,6 @@ abstract class _OnBoardingSupplements implements OnBoardingSupplements {
   String get password;
   @override
   Map<String, String> get errors;
-  @override
-  Map<int, String> get otp;
   @override
   User get user;
   @override

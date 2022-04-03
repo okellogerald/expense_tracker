@@ -168,7 +168,7 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               Expanded(
                 child: AppTextButton(
-                  onPressed: bloc.signupWithGoogle,
+                  onPressed: () {},
                   text: 'Google',
                   buttonColor: AppColors.secondary,
                   isBolded: true,
@@ -179,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(width: 25.dw),
               Expanded(
                 child: AppTextButton(
-                  onPressed: bloc.signupWithFacebook,
+                  onPressed: () {},
                   text: 'Facebook',
                   buttonColor: AppColors.secondary,
                   isBolded: true,

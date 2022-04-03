@@ -147,26 +147,7 @@ class _VerificationPageState extends State<VerificationPage> {
       padding: EdgeInsets.only(top: 60.dh),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          VerificationTextField(
-            id: 1,
-            onChanged: bloc.updateOtp,
-          ),
-          VerificationTextField(
-            id: 2,
-            onChanged: bloc.updateOtp,
-          ),
-          VerificationTextField(
-            id: 3,
-            onChanged: bloc.updateOtp,
-          ),
-          VerificationTextField(
-            id: 4,
-            onChanged: bloc.updateOtp,
-          ),
-          VerificationTextField(
-              id: 5, onChanged: bloc.updateOtp, hasNextFocus: false),
-        ],
+        children: [],
       ),
     );
   }

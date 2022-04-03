@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
-import 'package:supabase/supabase.dart' hide Provider;
+
 import '../source.dart';
 import 'app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   final directory = await path_provider.getApplicationDocumentsDirectory();
 
   Hive
@@ -14,8 +17,7 @@ void main() async {
     ..registerAdapter(RecordAdapter())
     ..registerAdapter(BudgetAdapter())
     ..registerAdapter(GrossAmountAdapter())
-    ..registerAdapter(TotalRecordsAdapter())
-    ..registerAdapter(UserAdapter());
+    ..registerAdapter(TotalRecordsAdapter());
 
   await Hive.openBox(kCategories);
   await Hive.openBox(kPreferences);
@@ -29,8 +31,8 @@ void main() async {
 
   PreferencesService.initPrefs();
 
-  final client = SupabaseClient(kSupabaseEndpoint, kSupabaseSecret);
-  final userService = UserService(client);
+  final firebaseAuth = FirebaseAuth.instance;
+  final userService = UserService(firebaseAuth);
 
   final myApp = MultiProvider(
     providers: [
@@ -39,7 +41,7 @@ void main() async {
       Provider<RecordsService>(create: (_) => RecordsService()),
       Provider<BudgetsService>(create: (_) => BudgetsService()),
       Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
-      Provider<UserService>(create: (_) => UserService(client)),
+      Provider<UserService>(create: (_) => UserService(firebaseAuth)),
       Provider<OnBoardingPageBloc>(
           create: (_) => OnBoardingPageBloc(userService))
     ],

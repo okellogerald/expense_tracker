@@ -180,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Expanded(
                 child: AppTextButton(
-                  onPressed: bloc.loginWithGoogle,
+                  onPressed: () {},
                   text: 'Google',
                   buttonColor: AppColors.secondary,
                   isBolded: true,
@@ -191,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(width: 25.dw),
               Expanded(
                 child: AppTextButton(
-                  onPressed: bloc.loginWithFacebook,
+                  onPressed: () {},
                   text: 'Facebook',
                   buttonColor: AppColors.secondary,
                   isBolded: true,
