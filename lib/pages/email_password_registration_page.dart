@@ -1,20 +1,22 @@
-import '../source.dart';
-import 'email_password_registration_page.dart';
+import 'package:budgetting_app/utils/global_functions.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+import '../source.dart';
+
+class EmailPasswordAuthPage extends StatefulWidget {
+  const EmailPasswordAuthPage({Key? key}) : super(key: key);
 
   @override
-  _SignUpPageState createState() => _SignUpPageState();
+  _EmailPasswordAuthPageState createState() => _EmailPasswordAuthPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _EmailPasswordAuthPageState extends State<EmailPasswordAuthPage> {
   late final OnBoardingPageBloc bloc;
 
   @override
   void initState() {
     final userService = Provider.of<UserService>(context, listen: false);
     bloc = OnBoardingPageBloc(userService);
+    bloc.init(page: Pages.email_password_registration_page);
     super.initState();
   }
 
@@ -25,7 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
         listener: (_, state) {
           final isSuccess =
               state.maybeWhen(success: (_) => true, orElse: () => false);
-          if (isSuccess) _navigateToAdditionalInfoPage();
+          if (isSuccess) push(VerificationPage(state.supplements.user.email));
 
           final hasFailed =
               state.maybeWhen(failed: (_, __) => true, orElse: () => false);
@@ -50,12 +52,13 @@ class _SignUpPageState extends State<SignUpPage> {
         backgroundColor: AppColors.error,
         padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dh),
         content: Material(
-          color: AppColors.error,
-          child: AppText(message,
+            color: AppColors.error,
+            child: AppText(
+              message,
               size: 14.dw,
               color: AppColors.onError,
-              alignment: TextAlign.start),
-        )));
+              alignment: TextAlign.start,
+            ))));
   }
 
   Widget _buildLoading(OnBoardingSupplements supp) {
@@ -68,8 +71,13 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildContent(OnBoardingSupplements supp) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [_buildTitle(), _buildSignUpChoices()],
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: ScreenSizeConfig.getFullHeight,
+          child: Column(
+            children: [_buildTitle(), _buildBody(supp)],
+          ),
+        ),
       ),
     );
   }
@@ -85,43 +93,43 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Image.network(kRegisterImageurl,
                   height: 80.dh, fit: BoxFit.contain)),
           SizedBox(height: 120.dh),
-          AppText('Sign-up Options', size: 28.dw, family: kFontFam2),
+          AppText('Email & Password Registration',
+              size: 24.dw, family: kFontFam2),
           SizedBox(height: 10.dh),
-          AppText('Choose your preferred method for signing up.',
+          AppText('Please provide a valid email to continue',
               size: 16.dw, color: AppColors.onBackground2),
         ],
       ),
     );
   }
 
-  _buildSignUpChoices() {
-    return Expanded(
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        _buildTextButton('EMAIL & PASSWORD'),
-        _buildTextButton('GOOGLE', SigningUpOptions.google),
-        _buildTextButton('FACEBOOK', SigningUpOptions.facebook)
-      ]),
+  _buildBody(OnBoardingSupplements supp) {
+    final noEmailEntered = supp.user.email.isEmpty;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.dw),
+      child: Column(
+        children: [
+          SizedBox(height: 60.dh),
+          AppTextField(
+              errors: supp.errors,
+              text: supp.user.email,
+              onChanged: (email) => bloc.updateUserDetails(email: email),
+              hintText: 'Email',
+              suffixIcon: Icons.mail_outlined,
+              keyboardType: TextInputType.emailAddress,
+              textCapitalization: TextCapitalization.none,
+              errorName: 'email'),
+          noEmailEntered
+              ? Container()
+              : AppTextButton(
+                  onPressed: bloc.sendEmailForVerification,
+                  height: 50.dh,
+                  margin: EdgeInsets.only(top: 65.dh),
+                  buttonColor: AppColors.onBackground,
+                  text: 'CONTINUE')
+        ],
+      ),
     );
   }
-
-  Widget _buildTextButton(String text, [String? signingUpOption]) {
-    return AppTextButton(
-        onPressed: () {
-          signingUpOption == null
-              ? _goToEmailPasswordAuthPage()
-              : bloc.initSocialOption(signingUpOption);
-        },
-        text: text,
-        buttonColor: AppColors.secondary,
-        height: 45.dh,
-        margin: EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 20.dh),
-        borderRadius: 20.dw,
-        fontSize: 16.dw);
-  }
-
-  _goToEmailPasswordAuthPage() => Navigator.push(context,
-      MaterialPageRoute(builder: (_) => const EmailPasswordAuthPage()));
-
-  _navigateToAdditionalInfoPage() => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (_) => const AdditionalInfoPage()));
 }

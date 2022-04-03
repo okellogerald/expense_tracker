@@ -18,15 +18,15 @@ class _$OnBoardingSupplementsTearOff {
   const _$OnBoardingSupplementsTearOff();
 
   _OnBoardingSupplements call(
-      {required String password,
-      required Map<String, String> errors,
-      required User user,
-      required int currency}) {
+      {String password = '',
+      Map<String, String?> errors = const {},
+      int currencyCodePoint = 0,
+      required User user}) {
     return _OnBoardingSupplements(
       password: password,
       errors: errors,
+      currencyCodePoint: currencyCodePoint,
       user: user,
-      currency: currency,
     );
   }
 }
@@ -37,9 +37,9 @@ const $OnBoardingSupplements = _$OnBoardingSupplementsTearOff();
 /// @nodoc
 mixin _$OnBoardingSupplements {
   String get password => throw _privateConstructorUsedError;
-  Map<String, String> get errors => throw _privateConstructorUsedError;
+  Map<String, String?> get errors => throw _privateConstructorUsedError;
+  int get currencyCodePoint => throw _privateConstructorUsedError;
   User get user => throw _privateConstructorUsedError;
-  int get currency => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $OnBoardingSupplementsCopyWith<OnBoardingSupplements> get copyWith =>
@@ -52,7 +52,10 @@ abstract class $OnBoardingSupplementsCopyWith<$Res> {
           $Res Function(OnBoardingSupplements) then) =
       _$OnBoardingSupplementsCopyWithImpl<$Res>;
   $Res call(
-      {String password, Map<String, String> errors, User user, int currency});
+      {String password,
+      Map<String, String?> errors,
+      int currencyCodePoint,
+      User user});
 
   $UserCopyWith<$Res> get user;
 }
@@ -70,8 +73,8 @@ class _$OnBoardingSupplementsCopyWithImpl<$Res>
   $Res call({
     Object? password = freezed,
     Object? errors = freezed,
+    Object? currencyCodePoint = freezed,
     Object? user = freezed,
-    Object? currency = freezed,
   }) {
     return _then(_value.copyWith(
       password: password == freezed
@@ -81,15 +84,15 @@ class _$OnBoardingSupplementsCopyWithImpl<$Res>
       errors: errors == freezed
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as Map<String, String?>,
+      currencyCodePoint: currencyCodePoint == freezed
+          ? _value.currencyCodePoint
+          : currencyCodePoint // ignore: cast_nullable_to_non_nullable
+              as int,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
-      currency: currency == freezed
-          ? _value.currency
-          : currency // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 
@@ -109,7 +112,10 @@ abstract class _$OnBoardingSupplementsCopyWith<$Res>
       __$OnBoardingSupplementsCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String password, Map<String, String> errors, User user, int currency});
+      {String password,
+      Map<String, String?> errors,
+      int currencyCodePoint,
+      User user});
 
   @override
   $UserCopyWith<$Res> get user;
@@ -130,8 +136,8 @@ class __$OnBoardingSupplementsCopyWithImpl<$Res>
   $Res call({
     Object? password = freezed,
     Object? errors = freezed,
+    Object? currencyCodePoint = freezed,
     Object? user = freezed,
-    Object? currency = freezed,
   }) {
     return _then(_OnBoardingSupplements(
       password: password == freezed
@@ -141,40 +147,44 @@ class __$OnBoardingSupplementsCopyWithImpl<$Res>
       errors: errors == freezed
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
+              as Map<String, String?>,
+      currencyCodePoint: currencyCodePoint == freezed
+          ? _value.currencyCodePoint
+          : currencyCodePoint // ignore: cast_nullable_to_non_nullable
+              as int,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
-      currency: currency == freezed
-          ? _value.currency
-          : currency // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_OnBoardingSupplements implements _OnBoardingSupplements {
+class _$_OnBoardingSupplements extends _OnBoardingSupplements {
   const _$_OnBoardingSupplements(
-      {required this.password,
-      required this.errors,
-      required this.user,
-      required this.currency});
+      {this.password = '',
+      this.errors = const {},
+      this.currencyCodePoint = 0,
+      required this.user})
+      : super._();
 
+  @JsonKey()
   @override
   final String password;
+  @JsonKey()
   @override
-  final Map<String, String> errors;
+  final Map<String, String?> errors;
+  @JsonKey()
+  @override
+  final int currencyCodePoint;
   @override
   final User user;
-  @override
-  final int currency;
 
   @override
   String toString() {
-    return 'OnBoardingSupplements(password: $password, errors: $errors, user: $user, currency: $currency)';
+    return 'OnBoardingSupplements(password: $password, errors: $errors, currencyCodePoint: $currencyCodePoint, user: $user)';
   }
 
   @override
@@ -184,8 +194,9 @@ class _$_OnBoardingSupplements implements _OnBoardingSupplements {
             other is _OnBoardingSupplements &&
             const DeepCollectionEquality().equals(other.password, password) &&
             const DeepCollectionEquality().equals(other.errors, errors) &&
-            const DeepCollectionEquality().equals(other.user, user) &&
-            const DeepCollectionEquality().equals(other.currency, currency));
+            const DeepCollectionEquality()
+                .equals(other.currencyCodePoint, currencyCodePoint) &&
+            const DeepCollectionEquality().equals(other.user, user));
   }
 
   @override
@@ -193,8 +204,8 @@ class _$_OnBoardingSupplements implements _OnBoardingSupplements {
       runtimeType,
       const DeepCollectionEquality().hash(password),
       const DeepCollectionEquality().hash(errors),
-      const DeepCollectionEquality().hash(user),
-      const DeepCollectionEquality().hash(currency));
+      const DeepCollectionEquality().hash(currencyCodePoint),
+      const DeepCollectionEquality().hash(user));
 
   @JsonKey(ignore: true)
   @override
@@ -203,21 +214,22 @@ class _$_OnBoardingSupplements implements _OnBoardingSupplements {
           this, _$identity);
 }
 
-abstract class _OnBoardingSupplements implements OnBoardingSupplements {
+abstract class _OnBoardingSupplements extends OnBoardingSupplements {
   const factory _OnBoardingSupplements(
-      {required String password,
-      required Map<String, String> errors,
-      required User user,
-      required int currency}) = _$_OnBoardingSupplements;
+      {String password,
+      Map<String, String?> errors,
+      int currencyCodePoint,
+      required User user}) = _$_OnBoardingSupplements;
+  const _OnBoardingSupplements._() : super._();
 
   @override
   String get password;
   @override
-  Map<String, String> get errors;
+  Map<String, String?> get errors;
+  @override
+  int get currencyCodePoint;
   @override
   User get user;
-  @override
-  int get currency;
   @override
   @JsonKey(ignore: true)
   _$OnBoardingSupplementsCopyWith<_OnBoardingSupplements> get copyWith =>

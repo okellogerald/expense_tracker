@@ -13,6 +13,12 @@ class ApiError {
   factory ApiError.unknown() =>
       ApiError('Unknown error happened, please try again.');
 
+  factory ApiError.failedToCheckEmailVerificationStatus() => ApiError(
+      'Sorry, an unknown error happened. We recommend you re-enter your email address and get it verified');
+
+  factory ApiError.emailNotVerified(String email) =>
+      ApiError('Email $email is not yet verified');
+
   ///Unknown error. Not anticipated by the pre-determined possible errors.
   factory ApiError.postgrestError() => ApiError(
       'An error happened when communicating with the database. Please try again later.');

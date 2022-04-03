@@ -1,7 +1,10 @@
 import '../source.dart';
+import '../utils/global_functions.dart';
 
 class VerificationPage extends StatefulWidget {
-  const VerificationPage({Key? key}) : super(key: key);
+  const VerificationPage(this.email, {Key? key}) : super(key: key);
+
+  final String email;
 
   @override
   _VerificationPageState createState() => _VerificationPageState();
@@ -13,7 +16,9 @@ class _VerificationPageState extends State<VerificationPage> {
 
   @override
   void initState() {
-    bloc = Provider.of<OnBoardingPageBloc>(context, listen: false);
+    final userService = Provider.of<UserService>(context, listen: false);
+    bloc = OnBoardingPageBloc(userService);
+    bloc.init(page: Pages.verification_page, email: widget.email);
     super.initState();
   }
 
@@ -25,20 +30,16 @@ class _VerificationPageState extends State<VerificationPage> {
         return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
             bloc: bloc,
             listener: (_, state) {
-              final hasSucceded =
+              final hasSucceeded =
                   state.maybeWhen(success: (_) => true, orElse: () => false);
+              if (hasSucceeded) push(const AdditionalInfoPage());
 
               final hasFailed =
                   state.maybeWhen(failed: (_, __) => true, orElse: () => false);
-
-              if (hasSucceded) {
-                AdditionalInfoPage.navigateTo(context);
-              }
-
               if (hasFailed) {
                 final message =
                     state.maybeWhen(failed: (_, m) => m, orElse: () => null);
-                _showSnackBar(parentScaffoldContext, message!);
+                showSnackBar(message!, context: parentScaffoldContext);
               }
             },
             builder: (_, state) {
@@ -53,44 +54,20 @@ class _VerificationPageState extends State<VerificationPage> {
     );
   }
 
-  _showSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: AppColors.error,
-        padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dh),
-        content: Material(
-          color: AppColors.error,
-          child: AppText(
-            message,
-            size: 14.dw,
-            color: AppColors.onError,
-            alignment: TextAlign.start,
-          ),
-        )));
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-  }
-
-  Widget _buildLoading(OnBoardingSupplements supp) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.dw),
-      width: ScreenSizeConfig.getFullWidth,
-      alignment: Alignment.center,
-      child: const CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(AppColors.primary)),
-    );
-  }
+  Widget _buildLoading(OnBoardingSupplements supp) =>
+      const AppLoadingIndicator.withScaffold();
 
   Widget _buildContent(OnBoardingSupplements supp) {
     return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 20.dh),
-        children: [
-          _buildTitle(),
-          _buildEmailDetails(),
-          _buildTextFields(),
-        ],
-      ),
-      bottomNavigationBar: _buildVerifyButton(),
-    );
+        appBar: AppBar(),
+        body: Padding(
+          padding: EdgeInsets.only(left: 15.dw, right: 15.dw),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [_buildTitle(), _buildEmailDetails()],
+          ),
+        ),
+        bottomNavigationBar: _buildVerifyButton());
   }
 
   _buildTitle() {
@@ -101,21 +78,15 @@ class _VerificationPageState extends State<VerificationPage> {
         children: [
           SizedBox(height: 60.dh),
           Center(
-            child: Image.network(kVerifyImage3Url,
-                height: 80.dh, fit: BoxFit.contain),
-          ),
+              child: Image.network(kVerifyImage3Url,
+                  height: 80.dh, fit: BoxFit.contain)),
           SizedBox(height: 120.dh),
-          AppText(
-            'Verification page',
-            size: 28.dw,
-            family: kFontFam2,
-          ),
+          AppText('Verification page', size: 28.dw, family: kFontFam2),
           SizedBox(height: 10.dh),
           AppText(
-            'We sent a mail containing OTP code.',
-            size: 16.dw,
-            color: AppColors.onBackground2,
-          ),
+              'We sent a verification link to your email address. Click it to verify your account',
+              size: 16.dw,
+              color: AppColors.onBackground2)
         ],
       ),
     );
@@ -125,40 +96,31 @@ class _VerificationPageState extends State<VerificationPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 60.dh),
+        SizedBox(height: 50.dh),
         AppText('Email address used:',
             size: 16.dw, color: AppColors.onBackground2),
-        SizedBox(height: 5.dh),
+        SizedBox(height: 10.dh),
         AppText('okellogerald126@gmail.com',
             size: 15.dw, color: AppColors.onBackground3),
         AppTextButton(
           onPressed: () => Navigator.pop(context),
           text: 'Change Email',
           margin: EdgeInsets.only(top: 10.dh),
+          padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 8.dh),
           textColor: AppColors.primary,
-          width: 100.dw,
+          buttonColor: Colors.white.withOpacity(.15),
+          width: 130.dw,
         )
       ],
     );
   }
 
-  _buildTextFields() {
-    return Padding(
-      padding: EdgeInsets.only(top: 60.dh),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [],
-      ),
-    );
-  }
-
   _buildVerifyButton() {
     return AppTextButton(
-      onPressed: bloc.verify,
-      text: 'Verify',
-      buttonColor: AppColors.primary,
-      margin: EdgeInsets.only(bottom: 15.dh, left: 15.dw, right: 15.dw),
-      height: 40.dh,
-    );
+        onPressed: bloc.checkEmailVerificationStatus,
+        text: 'I am already verified',
+        buttonColor: AppColors.onBackground,
+        margin: EdgeInsets.only(bottom: 20.dh, left: 15.dw, right: 15.dw),
+        height: 50.dh);
   }
 }

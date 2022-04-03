@@ -1,5 +1,8 @@
 import 'package:budgetting_app/source.dart';
 
+import 'theme/app_theme.dart';
+import 'utils/global_functions.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -7,28 +10,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenSizeInit(
-      designSize: const Size(411.4, 866.3),
-      child: MaterialApp(
-          title: 'Flutter Demo',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            fontFamily: kFontFam,
-            scaffoldBackgroundColor: AppColors.background,
-          ),
-          home:  const MainPage()),
-    );
+        designSize: const Size(411.4, 866.3),
+        child: MaterialApp(
+            title: 'Flutter Demo',
+            navigatorKey: navigatorKey,
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.theme,
+            home: _returnFirstPage(context)));
   }
 
- /*  _returnFirstpage() {
-    final user = Hive.box(kUser).get(kUser) as User?;
-
-    if (user == null) {
-      return const LoginPage();
-    } else if (user.isProfileComplete) {
-      return const MainPage();
-    } else if (!user.isProfileComplete) {
-      return AdditionalInfoPage(user: user);
-    }
-  } */
+  _returnFirstPage(BuildContext context) {
+    final userService = Provider.of<UserService>(context);
+    if (!userService.isUserLoggedIn) return const LoginPage();
+    return const MainPage();
+  }
 }

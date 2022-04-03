@@ -16,8 +16,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    bloc = Provider.of(context, listen: false);
-    bloc.init();
+    final userService = Provider.of<UserService>(context, listen: false);
+    bloc = OnBoardingPageBloc(userService);
     super.initState();
   }
 
@@ -160,7 +160,7 @@ class _SettingsPageState extends State<SettingsPage> {
         final isSelected = user.backUpOption == option;
 
         return AppTextButton(
-            onPressed: () => bloc.updateBackUpOption(option),
+            onPressed: () {},
             padding: EdgeInsets.only(left: 10.dw),
             text: backupOptions[index],
             textColor:

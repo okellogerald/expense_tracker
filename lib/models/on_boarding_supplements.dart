@@ -6,13 +6,14 @@ part 'on_boarding_supplements.freezed.dart';
 
 @freezed
 class OnBoardingSupplements with _$OnBoardingSupplements {
-  const factory OnBoardingSupplements({
-    required String password,
-    required Map<String, String> errors,
-    required User user,
-    required int currency,
-  }) = _OnBoardingSupplements;
+  const OnBoardingSupplements._();
 
-  factory OnBoardingSupplements.empty() => const OnBoardingSupplements(
-      password: '', user: User(), errors: {}, currency: 0);
+  const factory OnBoardingSupplements(
+      {@Default('') String password,
+      @Default({}) Map<String, String?> errors,
+      @Default(0) int currencyCodePoint,
+      required User user}) = _OnBoardingSupplements;
+
+  factory OnBoardingSupplements.empty() =>
+      const OnBoardingSupplements(user: User());
 }

@@ -90,7 +90,7 @@ class _AppTextButtonState extends State<AppTextButton>
               decoration: BoxDecoration(
                   color: animation.value,
                   borderRadius: BorderRadius.all(
-                      Radius.circular(widget.borderRadius ?? 0))),
+                      Radius.circular(widget.borderRadius ?? 20.dw))),
               child: child),
         );
       },

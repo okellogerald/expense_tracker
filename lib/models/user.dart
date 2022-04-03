@@ -6,30 +6,38 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
-@JsonSerializable()
 class User with _$User {
   const User._();
 
   const factory User(
-      {@JsonKey(name: 'display_name') @Default('') String displayName,
-      @Default('') String email,
-      @JsonKey(name: 'signup_option') @Default('') String signUpOption,
-      @JsonKey(name: 'photo_url') @Default('') String photoUrl,
-      @JsonKey(name: 'backup_option') @Default('') String backUpOption,
-      @JsonKey(name: 'currency') @Default(0) int currencyCodePoint}) = _User;
-
-  bool get isProfileComplete => currencyCodePoint != 0;
+      {@JsonKey(name: 'display_name')
+      @Default('')
+          String displayName,
+      @Default('')
+          String email,
+      @JsonKey(name: 'signup_option')
+      @Default(SigningUpOptions.email_password)
+          String signUpOption,
+      @JsonKey(name: 'photo_url')
+      @Default('')
+          String photoUrl,
+      @JsonKey(name: 'backup_option')
+      @Default(BackUpOptions.on_button_tap)
+          String backUpOption,
+      @JsonKey(name: 'currency')
+      @Default(0)
+          int currencyCodePoint}) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserToJson(this);
-
   factory User.fromGoogleAccount(GoogleSignInAccount account) => User(
+      signUpOption: SigningUpOptions.google,
       displayName: account.displayName!,
       email: account.email,
       photoUrl: account.photoUrl ?? '');
 
   factory User.fromFacebookProfile(Map<String, dynamic> account) => User(
+      signUpOption: SigningUpOptions.facebook,
       displayName: account['name'],
       email: account['email'],
       photoUrl: account['picture']['data']['url'] ?? '');

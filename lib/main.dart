@@ -32,7 +32,6 @@ void main() async {
   PreferencesService.initPrefs();
 
   final firebaseAuth = FirebaseAuth.instance;
-  final userService = UserService(firebaseAuth);
 
   final myApp = MultiProvider(
     providers: [
@@ -42,8 +41,6 @@ void main() async {
       Provider<BudgetsService>(create: (_) => BudgetsService()),
       Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
       Provider<UserService>(create: (_) => UserService(firebaseAuth)),
-      Provider<OnBoardingPageBloc>(
-          create: (_) => OnBoardingPageBloc(userService))
     ],
     child: const MyApp(),
   );

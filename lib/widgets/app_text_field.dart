@@ -10,9 +10,11 @@ class AppTextField extends StatefulWidget {
       required this.keyboardType,
       this.textCapitalization = TextCapitalization.sentences,
       required this.errorName,
+      this.suffixIcon,
       this.letterSpacing,
+      this.textColor,
       this.isPassword = false,
-      this.isLoginPasswrd = false,
+      this.isLoginPassword = false,
       Key? key})
       : super(key: key);
 
@@ -24,8 +26,10 @@ class AppTextField extends StatefulWidget {
   final double? letterSpacing;
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
+  final IconData? suffixIcon;
   final bool isPassword;
-  final bool isLoginPasswrd;
+  final bool isLoginPassword;
+  final Color? textColor;
 
   @override
   _AppTextFieldState createState() => _AppTextFieldState();
@@ -50,7 +54,7 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final hasError = widget.errors.containsKey(widget.errorName);
+    final hasError = widget.errors[widget.errorName] != null;
     final border = hasError ? errorBorder : _inputBorder;
     final hasNoText = controller.text.isEmpty;
     final emptyContainer = Container(width: 0.01);
@@ -59,7 +63,7 @@ class _AppTextFieldState extends State<AppTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 40.dh,
+          height: 50.dh,
           child: ValueListenableBuilder<bool>(
               valueListenable: isVisibleNotifier,
               builder: (context, isVisible, snapshot) {
@@ -71,48 +75,51 @@ class _AppTextFieldState extends State<AppTextField> {
                     keyboardType: widget.keyboardType,
                     textCapitalization: widget.textCapitalization,
                     style: TextStyle(
-                      color: AppColors.onBackground,
-                      letterSpacing: widget.letterSpacing,
-                      fontSize: 16.dw,
-                    ),
+                        color: widget.textColor ?? AppColors.primary,
+                        letterSpacing: widget.letterSpacing,
+                        fontSize: 16.dw),
                     cursorColor: AppColors.primary,
-                    obscureText: widget.isLoginPasswrd
+                    obscureText: widget.isLoginPassword
                         ? true
                         : widget.isPassword && !isVisible,
-                    obscuringCharacter: '*',
+                    //  obscuringCharacter: '*',
                     decoration: InputDecoration(
                         hintText: widget.hintText,
                         hintStyle: TextStyle(
-                          color: AppColors.onBackground2,
-                          fontSize: 14.dw,
-                        ),
+                            color: AppColors.onBackground2, fontSize: 14.dw),
                         fillColor: AppColors.surface,
-                        suffixIcon: hasNoText
-                            ? emptyContainer
-                            : widget.isPassword
-                                ? GestureDetector(
-                                    onTap: () =>
-                                        isVisibleNotifier.value = !isVisible,
-                                    child: Icon(
-                                        !isVisible
-                                            ? Icons.visibility
-                                            : Icons.visibility_off,
-                                        size: 16.dw,
-                                        color: AppColors.accent),
-                                  )
-                                : emptyContainer,
+                        suffixIcon: widget.suffixIcon != null
+                            ? Icon(widget.suffixIcon,
+                                color: AppColors.primary, size: 20.dw)
+                            : hasNoText
+                                ? emptyContainer
+                                : widget.isPassword
+                                    ? GestureDetector(
+                                        onTap: () => isVisibleNotifier.value =
+                                            !isVisible,
+                                        child: Icon(
+                                            !isVisible
+                                                ? Icons.visibility
+                                                : Icons.visibility_off,
+                                            size: 16.dw,
+                                            color: AppColors.accent),
+                                      )
+                                    : emptyContainer,
                         filled: true,
                         isDense: true,
                         border: border,
                         focusedBorder: border,
                         enabledBorder: border,
                         contentPadding: EdgeInsets.only(
-                            left: 10.dw, top: 12.dw, bottom: 8.dw)));
+                            right: 8.dw,
+                            left: 15.dw,
+                            top: 14.dw,
+                            bottom: 8.dw)));
               }),
         ),
         hasError
             ? Padding(
-                padding: EdgeInsets.only(top: 8.dw),
+                padding: EdgeInsets.only(top: 10.dh, left: 15.dw),
                 child: AppText(
                   widget.errors[widget.errorName]!,
                   color: AppColors.error,
@@ -124,11 +131,12 @@ class _AppTextFieldState extends State<AppTextField> {
     );
   }
 
-  final _inputBorder = const UnderlineInputBorder(
-      borderSide: BorderSide(width: 0.0, color: Colors.transparent),
-      borderRadius: BorderRadius.zero);
+  final _inputBorder = UnderlineInputBorder(
+    borderSide: const BorderSide(width: 0.0, color: Colors.transparent),
+    borderRadius: BorderRadius.all(Radius.circular(20.dw)),
+  );
 
-  final errorBorder = const OutlineInputBorder(
-      borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(width: 1.2, color: Colors.white70));
+  final errorBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.all(Radius.circular(20.dw)),
+      borderSide: const BorderSide(width: 1.2, color: Colors.white70));
 }

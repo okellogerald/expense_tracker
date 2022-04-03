@@ -13,17 +13,26 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+User _$UserFromJson(Map<String, dynamic> json) {
+  return _User.fromJson(json);
+}
+
 /// @nodoc
 class _$UserTearOff {
   const _$UserTearOff();
 
   _User call(
-      {@JsonKey(name: 'display_name') String displayName = '',
+      {@JsonKey(name: 'display_name')
+          String displayName = '',
       String email = '',
-      @JsonKey(name: 'signup_option') String signUpOption = '',
-      @JsonKey(name: 'photo_url') String photoUrl = '',
-      @JsonKey(name: 'backup_option') String backUpOption = '',
-      @JsonKey(name: 'currency') int currencyCodePoint = 0}) {
+      @JsonKey(name: 'signup_option')
+          String signUpOption = SigningUpOptions.email_password,
+      @JsonKey(name: 'photo_url')
+          String photoUrl = '',
+      @JsonKey(name: 'backup_option')
+          String backUpOption = BackUpOptions.on_button_tap,
+      @JsonKey(name: 'currency')
+          int currencyCodePoint = 0}) {
     return _User(
       displayName: displayName,
       email: email,
@@ -32,6 +41,10 @@ class _$UserTearOff {
       backUpOption: backUpOption,
       currencyCodePoint: currencyCodePoint,
     );
+  }
+
+  User fromJson(Map<String, Object?> json) {
+    return User.fromJson(json);
   }
 }
 
@@ -52,6 +65,7 @@ mixin _$User {
   @JsonKey(name: 'currency')
   int get currencyCodePoint => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }
@@ -177,16 +191,23 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_User extends _User {
   const _$_User(
-      {@JsonKey(name: 'display_name') this.displayName = '',
+      {@JsonKey(name: 'display_name')
+          this.displayName = '',
       this.email = '',
-      @JsonKey(name: 'signup_option') this.signUpOption = '',
-      @JsonKey(name: 'photo_url') this.photoUrl = '',
-      @JsonKey(name: 'backup_option') this.backUpOption = '',
-      @JsonKey(name: 'currency') this.currencyCodePoint = 0})
+      @JsonKey(name: 'signup_option')
+          this.signUpOption = SigningUpOptions.email_password,
+      @JsonKey(name: 'photo_url')
+          this.photoUrl = '',
+      @JsonKey(name: 'backup_option')
+          this.backUpOption = BackUpOptions.on_button_tap,
+      @JsonKey(name: 'currency')
+          this.currencyCodePoint = 0})
       : super._();
+
+  factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
   @override
   @JsonKey(name: 'display_name')
@@ -243,6 +264,11 @@ class _$_User extends _User {
   @override
   _$UserCopyWith<_User> get copyWith =>
       __$UserCopyWithImpl<_User>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_UserToJson(this);
+  }
 }
 
 abstract class _User extends User {
@@ -254,6 +280,8 @@ abstract class _User extends User {
       @JsonKey(name: 'backup_option') String backUpOption,
       @JsonKey(name: 'currency') int currencyCodePoint}) = _$_User;
   const _User._() : super._();
+
+  factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
   @override
   @JsonKey(name: 'display_name')

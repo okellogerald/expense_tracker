@@ -1,15 +1,9 @@
+import 'package:budgetting_app/utils/global_functions.dart';
+
 import '../source.dart';
 
 class AdditionalInfoPage extends StatefulWidget {
-  const AdditionalInfoPage({Key? key, this.user}) : super(key: key);
-
-  final User? user;
-
-  static void navigateTo(BuildContext context, {User? user}) =>
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (_) => AdditionalInfoPage(user: user)),
-          (route) => false);
+  const AdditionalInfoPage({Key? key}) : super(key: key);
 
   @override
   _AdditionalInfoPageState createState() => _AdditionalInfoPageState();
@@ -20,86 +14,55 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
 
   @override
   void initState() {
-    bloc = Provider.of<OnBoardingPageBloc>(context, listen: false);
-    bloc.init(user: widget.user);
+    final userService = Provider.of<UserService>(context, listen: false);
+    bloc = OnBoardingPageBloc(userService);
+    bloc.init(page: Pages.additional_info_page);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Builder(builder: (parentScaffoldContext) {
-        return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
-            bloc: bloc,
-            listener: (_, state) {
-              final hasSucceded =
-                  state.maybeWhen(success: (_) => true, orElse: () => false);
+    return Builder(builder: (parentScaffoldContext) {
+      return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
+          bloc: bloc,
+          listener: (_, state) {
+            final hasSucceeded =
+                state.maybeWhen(success: (_) => true, orElse: () => false);
+            if (hasSucceeded) pushAndRemoveUntil(const MainPage());
 
-              final hasFailed =
-                  state.maybeWhen(failed: (_, __) => true, orElse: () => false);
-
-              if (hasSucceded) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (_) => const MainPage()),
-                    (route) => false);
-              }
-
-              if (hasFailed) {
-                final message =
-                    state.maybeWhen(failed: (_, m) => m, orElse: () => null);
-                _showSnackBar(parentScaffoldContext, message!);
-              }
-            },
-            builder: (_, state) {
-              return state.when(
+            final hasFailed =
+                state.maybeWhen(failed: (_, __) => true, orElse: () => false);
+            if (hasFailed) {
+              final message =
+                  state.maybeWhen(failed: (_, m) => m, orElse: () => null);
+              showSnackBar(message!, context: parentScaffoldContext);
+            }
+          },
+          builder: (_, state) {
+            return state.when(
                 laoding: _buildLoading,
                 content: _buildContent,
                 success: _buildContent,
-                failed: (supp, _) => _buildContent(supp),
-              );
-            });
-      }),
-    );
+                failed: (supp, _) => _buildContent(supp));
+          });
+    });
   }
 
-  _showSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: AppColors.error,
-        padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dh),
-        content: Material(
-          color: AppColors.error,
-          child: AppText(
-            message,
-            size: 14.dw,
-            color: AppColors.onError,
-            alignment: TextAlign.start,
-          ),
-        )));
-  }
-
-  Widget _buildLoading(OnBoardingSupplements supp) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.dw),
-      width: ScreenSizeConfig.getFullWidth,
-      alignment: Alignment.center,
-      child: const CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(AppColors.primary)),
-    );
-  }
+  Widget _buildLoading(OnBoardingSupplements supp) =>
+      const AppLoadingIndicator.withScaffold();
 
   Widget _buildContent(OnBoardingSupplements supp) {
     return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
-        children: [
-          _buildTitle(),
-          _buildNameTextfield(supp),
-          _buildCurrencyIcons(supp),
-        ],
-      ),
-      bottomNavigationBar: _buildDoneButton(),
-    );
+        appBar: AppBar(),
+        body: ListView(
+          padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
+          children: [
+            _buildTitle(),
+            _buildTextFields(supp),
+            _buildCurrencyIcons(supp)
+          ],
+        ),
+        bottomNavigationBar: _buildDoneButton());
   }
 
   _buildTitle() {
@@ -110,39 +73,41 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
         children: [
           SizedBox(height: 60.dh),
           Center(
-            child: Image.network(kCompleteImageUrl,
-                height: 80.dh, fit: BoxFit.contain),
-          ),
+              child: Image.network(kCompleteImageUrl,
+                  height: 80.dh, fit: BoxFit.contain)),
           SizedBox(height: 120.dh),
-          AppText(
-            'One final step',
-            size: 28.dw,
-            family: kFontFam2,
-          ),
+          AppText('One final step', size: 28.dw, family: kFontFam2),
           SizedBox(height: 10.dh),
           AppText(
-            'Complete the onboarding process by filling the details below.',
-            size: 16.dw,
-            color: AppColors.onBackground2,
-          ),
+              'Complete the on-boarding process by filling the details below.',
+              size: 16.dw,
+              color: AppColors.onBackground2)
         ],
       ),
     );
   }
 
-  _buildNameTextfield(OnBoardingSupplements supp) {
+  _buildTextFields(OnBoardingSupplements supp) {
     return Column(
       children: [
         SizedBox(height: 40.dh),
         AppTextField(
-          errors: supp.errors,
-          text: supp.user.displayName,
-          onChanged: bloc.updateName,
-          hintText: 'Username',
-          keyboardType: TextInputType.name,
-          textCapitalization: TextCapitalization.words,
-          errorName: 'username',
-        )
+            errors: supp.errors,
+            text: supp.user.displayName,
+            onChanged: (name) => bloc.updateUserDetails(displayName: name),
+            hintText: 'Username',
+            keyboardType: TextInputType.name,
+            textCapitalization: TextCapitalization.words,
+            errorName: 'username'),
+        SizedBox(height: 30.dh),
+        AppTextField(
+            errors: supp.errors,
+            text: supp.password,
+            onChanged: (password) => bloc.updateUserDetails(password: password),
+            hintText: 'Password',
+            isLoginPassword: true,
+            keyboardType: TextInputType.visiblePassword,
+            errorName: 'password')
       ],
     );
   }
@@ -155,13 +120,15 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
       children: [
         SizedBox(height: 40.dh),
         AppText(
-          'Choose your currency:',
+          'Choose your currency: [OPTIONAL]',
           size: 16.dw,
           color: AppColors.onBackground2,
         ),
         SizedBox(height: 10.dh),
         Container(
-            color: AppColors.surface,
+            decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.all(Radius.circular(20.dw))),
             height: 200.dh,
             width: ScreenSizeConfig.getFullWidth,
             child: GridView.count(
@@ -174,10 +141,10 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
                 children: codePointList.map((e) {
                   final formatted = '0xe' + e.toString();
                   final codePoint = int.parse(formatted);
-                  final isSelected = codePoint == supp.currency;
+                  final isSelected = codePoint == supp.currencyCodePoint;
 
                   return GestureDetector(
-                    onTap: () => bloc.updateCodePoint(codePoint),
+                    onTap: () => bloc.updateUserDetails(currency: codePoint),
                     child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white.withOpacity(.0),
@@ -191,26 +158,16 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
                         )),
                   );
                 }).toList())),
-        supp.errors['currency'] != null
-            ? Padding(
-                padding: EdgeInsets.only(top: 8.dh),
-                child: AppText(
-                  supp.errors['currency']!,
-                  size: 14.dw,
-                  color: AppColors.accent,
-                ),
-              )
-            : Container(),
       ],
     );
   }
 
   _buildDoneButton() {
     return AppTextButton(
-      onPressed: bloc.updateUser,
+      onPressed: bloc.signUp,
       buttonColor: AppColors.primary,
       text: 'Done',
-      height: 40.dh,
+      height: 50.dh,
       margin: EdgeInsets.only(bottom: 15.dh, left: 15.dw, right: 15.dw),
     );
   }
