@@ -40,7 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             builder: (_, state) {
               return state.when(
-                laoding: _buildLoading,
+                loading: _buildLoading,
                 content: _buildContent,
                 success: _buildContent,
                 failed: (supp, message) => _buildContent(supp),

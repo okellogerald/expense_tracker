@@ -1,7 +1,7 @@
 import 'package:budgetting_app/source.dart';
 
 import 'theme/app_theme.dart';
-import 'utils/global_functions.dart';
+import 'utils/navigation_logic.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$OnBoardingPageStateTearOff {
   const _$OnBoardingPageStateTearOff();
 
-  _Loading laoding(OnBoardingSupplements supplements) {
+  _Loading loading(OnBoardingSupplements supplements) {
     return _Loading(
       supplements,
     );
@@ -35,10 +35,10 @@ class _$OnBoardingPageStateTearOff {
     );
   }
 
-  _Failed failed(OnBoardingSupplements supplements, String message) {
+  _Failed failed(OnBoardingSupplements supplements, {String? message}) {
     return _Failed(
       supplements,
-      message,
+      message: message,
     );
   }
 }
@@ -52,33 +52,36 @@ mixin _$OnBoardingPageState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(OnBoardingSupplements supplements) laoding,
+    required TResult Function(OnBoardingSupplements supplements) loading,
     required TResult Function(OnBoardingSupplements supplements) content,
     required TResult Function(OnBoardingSupplements supplements) success,
-    required TResult Function(OnBoardingSupplements supplements, String message)
+    required TResult Function(
+            OnBoardingSupplements supplements, String? message)
         failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(OnBoardingSupplements supplements)? laoding,
+    TResult Function(OnBoardingSupplements supplements)? loading,
     TResult Function(OnBoardingSupplements supplements)? content,
     TResult Function(OnBoardingSupplements supplements)? success,
-    TResult Function(OnBoardingSupplements supplements, String message)? failed,
+    TResult Function(OnBoardingSupplements supplements, String? message)?
+        failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OnBoardingSupplements supplements)? laoding,
+    TResult Function(OnBoardingSupplements supplements)? loading,
     TResult Function(OnBoardingSupplements supplements)? content,
     TResult Function(OnBoardingSupplements supplements)? success,
-    TResult Function(OnBoardingSupplements supplements, String message)? failed,
+    TResult Function(OnBoardingSupplements supplements, String? message)?
+        failed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) laoding,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -86,7 +89,7 @@ mixin _$OnBoardingPageState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? laoding,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -94,7 +97,7 @@ mixin _$OnBoardingPageState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? laoding,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -191,7 +194,7 @@ class _$_Loading implements _Loading {
 
   @override
   String toString() {
-    return 'OnBoardingPageState.laoding(supplements: $supplements)';
+    return 'OnBoardingPageState.loading(supplements: $supplements)';
   }
 
   @override
@@ -215,37 +218,40 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(OnBoardingSupplements supplements) laoding,
+    required TResult Function(OnBoardingSupplements supplements) loading,
     required TResult Function(OnBoardingSupplements supplements) content,
     required TResult Function(OnBoardingSupplements supplements) success,
-    required TResult Function(OnBoardingSupplements supplements, String message)
+    required TResult Function(
+            OnBoardingSupplements supplements, String? message)
         failed,
   }) {
-    return laoding(supplements);
+    return loading(supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(OnBoardingSupplements supplements)? laoding,
+    TResult Function(OnBoardingSupplements supplements)? loading,
     TResult Function(OnBoardingSupplements supplements)? content,
     TResult Function(OnBoardingSupplements supplements)? success,
-    TResult Function(OnBoardingSupplements supplements, String message)? failed,
+    TResult Function(OnBoardingSupplements supplements, String? message)?
+        failed,
   }) {
-    return laoding?.call(supplements);
+    return loading?.call(supplements);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OnBoardingSupplements supplements)? laoding,
+    TResult Function(OnBoardingSupplements supplements)? loading,
     TResult Function(OnBoardingSupplements supplements)? content,
     TResult Function(OnBoardingSupplements supplements)? success,
-    TResult Function(OnBoardingSupplements supplements, String message)? failed,
+    TResult Function(OnBoardingSupplements supplements, String? message)?
+        failed,
     required TResult orElse(),
   }) {
-    if (laoding != null) {
-      return laoding(supplements);
+    if (loading != null) {
+      return loading(supplements);
     }
     return orElse();
   }
@@ -253,36 +259,36 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) laoding,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
   }) {
-    return laoding(this);
+    return loading(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? laoding,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
   }) {
-    return laoding?.call(this);
+    return loading?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? laoding,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
     required TResult orElse(),
   }) {
-    if (laoding != null) {
-      return laoding(this);
+    if (loading != null) {
+      return loading(this);
     }
     return orElse();
   }
@@ -368,10 +374,11 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(OnBoardingSupplements supplements) laoding,
+    required TResult Function(OnBoardingSupplements supplements) loading,
     required TResult Function(OnBoardingSupplements supplements) content,
     required TResult Function(OnBoardingSupplements supplements) success,
-    required TResult Function(OnBoardingSupplements supplements, String message)
+    required TResult Function(
+            OnBoardingSupplements supplements, String? message)
         failed,
   }) {
     return content(supplements);
@@ -380,10 +387,11 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(OnBoardingSupplements supplements)? laoding,
+    TResult Function(OnBoardingSupplements supplements)? loading,
     TResult Function(OnBoardingSupplements supplements)? content,
     TResult Function(OnBoardingSupplements supplements)? success,
-    TResult Function(OnBoardingSupplements supplements, String message)? failed,
+    TResult Function(OnBoardingSupplements supplements, String? message)?
+        failed,
   }) {
     return content?.call(supplements);
   }
@@ -391,10 +399,11 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OnBoardingSupplements supplements)? laoding,
+    TResult Function(OnBoardingSupplements supplements)? loading,
     TResult Function(OnBoardingSupplements supplements)? content,
     TResult Function(OnBoardingSupplements supplements)? success,
-    TResult Function(OnBoardingSupplements supplements, String message)? failed,
+    TResult Function(OnBoardingSupplements supplements, String? message)?
+        failed,
     required TResult orElse(),
   }) {
     if (content != null) {
@@ -406,7 +415,7 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) laoding,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -417,7 +426,7 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? laoding,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -428,7 +437,7 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? laoding,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -521,10 +530,11 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(OnBoardingSupplements supplements) laoding,
+    required TResult Function(OnBoardingSupplements supplements) loading,
     required TResult Function(OnBoardingSupplements supplements) content,
     required TResult Function(OnBoardingSupplements supplements) success,
-    required TResult Function(OnBoardingSupplements supplements, String message)
+    required TResult Function(
+            OnBoardingSupplements supplements, String? message)
         failed,
   }) {
     return success(supplements);
@@ -533,10 +543,11 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(OnBoardingSupplements supplements)? laoding,
+    TResult Function(OnBoardingSupplements supplements)? loading,
     TResult Function(OnBoardingSupplements supplements)? content,
     TResult Function(OnBoardingSupplements supplements)? success,
-    TResult Function(OnBoardingSupplements supplements, String message)? failed,
+    TResult Function(OnBoardingSupplements supplements, String? message)?
+        failed,
   }) {
     return success?.call(supplements);
   }
@@ -544,10 +555,11 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OnBoardingSupplements supplements)? laoding,
+    TResult Function(OnBoardingSupplements supplements)? loading,
     TResult Function(OnBoardingSupplements supplements)? content,
     TResult Function(OnBoardingSupplements supplements)? success,
-    TResult Function(OnBoardingSupplements supplements, String message)? failed,
+    TResult Function(OnBoardingSupplements supplements, String? message)?
+        failed,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -559,7 +571,7 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) laoding,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -570,7 +582,7 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? laoding,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -581,7 +593,7 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? laoding,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -611,7 +623,7 @@ abstract class _$FailedCopyWith<$Res>
   factory _$FailedCopyWith(_Failed value, $Res Function(_Failed) then) =
       __$FailedCopyWithImpl<$Res>;
   @override
-  $Res call({OnBoardingSupplements supplements, String message});
+  $Res call({OnBoardingSupplements supplements, String? message});
 
   @override
   $OnBoardingSupplementsCopyWith<$Res> get supplements;
@@ -637,10 +649,10 @@ class __$FailedCopyWithImpl<$Res>
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
               as OnBoardingSupplements,
-      message == freezed
+      message: message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -648,12 +660,12 @@ class __$FailedCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Failed implements _Failed {
-  const _$_Failed(this.supplements, this.message);
+  const _$_Failed(this.supplements, {this.message});
 
   @override
   final OnBoardingSupplements supplements;
   @override
-  final String message;
+  final String? message;
 
   @override
   String toString() {
@@ -684,10 +696,11 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(OnBoardingSupplements supplements) laoding,
+    required TResult Function(OnBoardingSupplements supplements) loading,
     required TResult Function(OnBoardingSupplements supplements) content,
     required TResult Function(OnBoardingSupplements supplements) success,
-    required TResult Function(OnBoardingSupplements supplements, String message)
+    required TResult Function(
+            OnBoardingSupplements supplements, String? message)
         failed,
   }) {
     return failed(supplements, message);
@@ -696,10 +709,11 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(OnBoardingSupplements supplements)? laoding,
+    TResult Function(OnBoardingSupplements supplements)? loading,
     TResult Function(OnBoardingSupplements supplements)? content,
     TResult Function(OnBoardingSupplements supplements)? success,
-    TResult Function(OnBoardingSupplements supplements, String message)? failed,
+    TResult Function(OnBoardingSupplements supplements, String? message)?
+        failed,
   }) {
     return failed?.call(supplements, message);
   }
@@ -707,10 +721,11 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OnBoardingSupplements supplements)? laoding,
+    TResult Function(OnBoardingSupplements supplements)? loading,
     TResult Function(OnBoardingSupplements supplements)? content,
     TResult Function(OnBoardingSupplements supplements)? success,
-    TResult Function(OnBoardingSupplements supplements, String message)? failed,
+    TResult Function(OnBoardingSupplements supplements, String? message)?
+        failed,
     required TResult orElse(),
   }) {
     if (failed != null) {
@@ -722,7 +737,7 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) laoding,
+    required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
@@ -733,7 +748,7 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? laoding,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -744,7 +759,7 @@ class _$_Failed implements _Failed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? laoding,
+    TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
@@ -758,12 +773,12 @@ class _$_Failed implements _Failed {
 }
 
 abstract class _Failed implements OnBoardingPageState {
-  const factory _Failed(OnBoardingSupplements supplements, String message) =
+  const factory _Failed(OnBoardingSupplements supplements, {String? message}) =
       _$_Failed;
 
   @override
   OnBoardingSupplements get supplements;
-  String get message;
+  String? get message;
   @override
   @JsonKey(ignore: true)
   _$FailedCopyWith<_Failed> get copyWith => throw _privateConstructorUsedError;

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:budgetting_app/source.dart';
-import 'package:budgetting_app/widgets/screen_size_config.dart';
+import 'package:budgetting_app/utils/screen_size_config.dart';
 
 extension SizeExtension on num {
   // ignore: unused_element

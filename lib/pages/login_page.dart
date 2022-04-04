@@ -1,4 +1,4 @@
-import 'package:budgetting_app/utils/global_functions.dart';
+import 'package:budgetting_app/utils/navigation_logic.dart';
 
 import '../source.dart';
 
@@ -11,80 +11,58 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   late final OnBoardingPageBloc bloc;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     final userService = Provider.of<UserService>(context, listen: false);
     bloc = OnBoardingPageBloc(userService);
-    bloc.init(page: Pages.login_page);
+    bloc.init(Pages.login_page);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
-            bloc: bloc,
-            listener: (_, state) {
-              final hasSucceeded =
-                  state.maybeWhen(success: (_) => true, orElse: () => false);
-              if (hasSucceeded) pushAndRemoveUntil(const MainPage());
+    return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
+        bloc: bloc,
+        listener: (_, state) {
+          final hasSucceeded =
+              state.maybeWhen(success: (_) => true, orElse: () => false);
+          if (hasSucceeded) pushAndRemoveUntil(const MainPage());
 
-              final hasFailed =
-                  state.maybeWhen(failed: (_, __) => true, orElse: () => false);
-              if (hasFailed) {
-                final message =
-                    state.maybeWhen(failed: (_, m) => m, orElse: () => null);
-                _showSnackBar(message!);
-              }
-            },
-            builder: (_, state) {
-              return state.when(
-                laoding: _buildLoading,
-                content: _buildContent,
-                success: _buildContent,
-                failed: (supp, _) => _buildContent(supp),
-              );
-            }));
+          final error =
+              state.maybeWhen(failed: (_, error) => error, orElse: () => null);
+          if (error != null) showSnackBar(error, scaffoldKey: scaffoldKey);
+        },
+        builder: (_, state) {
+          return state.when(
+            loading: _buildLoading,
+            content: _buildContent,
+            success: _buildContent,
+            failed: (supp, _) => _buildContent(supp),
+          );
+        });
   }
 
-  _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: AppColors.error,
-        padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dh),
-        content: Material(
-            color: AppColors.error,
-            child: AppText(
-              message,
-              size: 14.dw,
-              color: AppColors.onError,
-              alignment: TextAlign.start,
-            ))));
-  }
-
-  Widget _buildLoading(OnBoardingSupplements supp) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.dw),
-      width: ScreenSizeConfig.getFullWidth,
-      alignment: Alignment.center,
-      child: const CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation(AppColors.primary)),
-    );
-  }
+  Widget _buildLoading(OnBoardingSupplements supp) =>
+      const AppLoadingIndicator.withScaffold();
 
   Widget _buildContent(OnBoardingSupplements supp) {
-    return SingleChildScrollView(
-      child: Container(
-        height: ScreenSizeConfig.getFullHeight,
-        padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 10.dh),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildTitle(),
-            _buildPhoneTextField(supp),
-            _buildNeedHelp(),
-            _buildNewUser(),
-          ],
+    return Scaffold(
+      key: scaffoldKey,
+      body: SingleChildScrollView(
+        child: Container(
+          height: ScreenSizeConfig.getFullHeight,
+          padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 10.dh),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTitle(),
+              _buildPhoneTextField(supp),
+              _buildNeedHelp(),
+              _buildNewUser()
+            ],
+          ),
         ),
       ),
     );
@@ -127,17 +105,13 @@ class _LoginPageState extends State<LoginPage> {
               textCapitalization: TextCapitalization.none,
               errorName: 'email'),
           SizedBox(height: 15.dh),
-          AppTextField(
+          PasswordTextField(
               errors: supp.errors,
               text: supp.password,
               onChanged: (password) =>
                   bloc.updateUserDetails(password: password),
               suffixIcon: Icons.password_outlined,
-              hintText: 'Password',
-              keyboardType: TextInputType.visiblePassword,
-              textCapitalization: TextCapitalization.none,
-              isLoginPassword: true,
-              errorName: 'password'),
+              isLoginPassword: true),
           AppTextButton(
               onPressed: () {},
               text: 'LOG IN',

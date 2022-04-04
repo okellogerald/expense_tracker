@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../services/database_response.dart';
+import 'api_errors.dart';
 
 const headers = {
   "Content-Type": "application/json",
@@ -48,5 +48,5 @@ Future<void> delete(String url, String itemId) async {
 
 void _handleStatusCodes(int statusCode) {
   if (statusCode == 200) return;
-  throw ApiError.unknown();
+  throw ApiErrors.unknown();
 }

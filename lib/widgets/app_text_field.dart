@@ -13,8 +13,6 @@ class AppTextField extends StatefulWidget {
       this.suffixIcon,
       this.letterSpacing,
       this.textColor,
-      this.isPassword = false,
-      this.isLoginPassword = false,
       Key? key})
       : super(key: key);
 
@@ -27,8 +25,6 @@ class AppTextField extends StatefulWidget {
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
   final IconData? suffixIcon;
-  final bool isPassword;
-  final bool isLoginPassword;
   final Color? textColor;
 
   @override
@@ -54,80 +50,57 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final hasError = widget.errors[widget.errorName] != null;
-    final border = hasError ? errorBorder : _inputBorder;
-    final hasNoText = controller.text.isEmpty;
+    final error = widget.errors[widget.errorName];
+    final border = error != null ? errorBorder : _inputBorder;
     final emptyContainer = Container(width: 0.01);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 50.dh,
-          child: ValueListenableBuilder<bool>(
-              valueListenable: isVisibleNotifier,
-              builder: (context, isVisible, snapshot) {
-                return TextField(
-                    controller: controller,
-                    onChanged: widget.onChanged,
-                    maxLines: widget.maxLines,
-                    minLines: 1,
-                    keyboardType: widget.keyboardType,
-                    textCapitalization: widget.textCapitalization,
-                    style: TextStyle(
-                        color: widget.textColor ?? AppColors.primary,
-                        letterSpacing: widget.letterSpacing,
-                        fontSize: 16.dw),
-                    cursorColor: AppColors.primary,
-                    obscureText: widget.isLoginPassword
-                        ? true
-                        : widget.isPassword && !isVisible,
-                    //  obscuringCharacter: '*',
-                    decoration: InputDecoration(
-                        hintText: widget.hintText,
-                        hintStyle: TextStyle(
-                            color: AppColors.onBackground2, fontSize: 14.dw),
-                        fillColor: AppColors.surface,
-                        suffixIcon: widget.suffixIcon != null
-                            ? Icon(widget.suffixIcon,
-                                color: AppColors.primary, size: 20.dw)
-                            : hasNoText
-                                ? emptyContainer
-                                : widget.isPassword
-                                    ? GestureDetector(
-                                        onTap: () => isVisibleNotifier.value =
-                                            !isVisible,
-                                        child: Icon(
-                                            !isVisible
-                                                ? Icons.visibility
-                                                : Icons.visibility_off,
-                                            size: 16.dw,
-                                            color: AppColors.accent),
-                                      )
-                                    : emptyContainer,
-                        filled: true,
-                        isDense: true,
-                        border: border,
-                        focusedBorder: border,
-                        enabledBorder: border,
-                        contentPadding: EdgeInsets.only(
-                            right: 8.dw,
-                            left: 15.dw,
-                            top: 14.dw,
-                            bottom: 8.dw)));
-              }),
-        ),
-        hasError
-            ? Padding(
-                padding: EdgeInsets.only(top: 10.dh, left: 15.dw),
-                child: AppText(
-                  widget.errors[widget.errorName]!,
-                  color: AppColors.error,
-                  size: 14.dw,
-                ),
-              )
-            : Container()
+            height: 50.dh,
+            child: TextField(
+                controller: controller,
+                onChanged: widget.onChanged,
+                maxLines: widget.maxLines,
+                minLines: 1,
+                keyboardType: widget.keyboardType,
+                textCapitalization: widget.textCapitalization,
+                style: TextStyle(
+                    color: widget.textColor ?? AppColors.primary,
+                    letterSpacing: widget.letterSpacing,
+                    fontSize: 16.dw),
+                cursorColor: AppColors.primary,
+                decoration: InputDecoration(
+                    hintText: widget.hintText,
+                    hintStyle: TextStyle(
+                        color: AppColors.onBackground2, fontSize: 14.dw),
+                    fillColor: AppColors.surface,
+                    suffixIcon: widget.suffixIcon != null
+                        ? Icon(widget.suffixIcon,
+                            color: AppColors.primary, size: 20.dw)
+                        : emptyContainer,
+                    filled: true,
+                    isDense: true,
+                    border: border,
+                    focusedBorder: border,
+                    enabledBorder: border,
+                    contentPadding: EdgeInsets.only(
+                        right: 8.dw, left: 15.dw, top: 18.dw, bottom: 5.dw)))),
+        _buildError(error)
       ],
+    );
+  }
+
+  _buildError(String? error) {
+    if (error == null) return Container();
+    return Padding(
+      padding: EdgeInsets.only(top: 10.dh, left: 15.dw),
+      child: AppText(
+        widget.errors[widget.errorName]!,
+        color: AppColors.error,
+        size: 14.dw,
+      ),
     );
   }
 

@@ -25,11 +25,6 @@ void showSnackBar(String message,
   }
 }
 
-String getErrorMessage(var error) {
-  if (error is ApiError) return error.message;
-  return ApiError.unknown().message;
-}
-
 void _showSnackBarCallback(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       elevation: 0,

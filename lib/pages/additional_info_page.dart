@@ -1,4 +1,4 @@
-import 'package:budgetting_app/utils/global_functions.dart';
+import 'package:budgetting_app/utils/navigation_logic.dart';
 
 import '../source.dart';
 
@@ -11,41 +11,36 @@ class AdditionalInfoPage extends StatefulWidget {
 
 class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
   late final OnBoardingPageBloc bloc;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     final userService = Provider.of<UserService>(context, listen: false);
     bloc = OnBoardingPageBloc(userService);
-    bloc.init(page: Pages.additional_info_page);
+    bloc.init(Pages.additional_info_page);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (parentScaffoldContext) {
-      return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
-          bloc: bloc,
-          listener: (_, state) {
-            final hasSucceeded =
-                state.maybeWhen(success: (_) => true, orElse: () => false);
-            if (hasSucceeded) pushAndRemoveUntil(const MainPage());
+    return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
+        bloc: bloc,
+        listener: (_, state) {
+          final hasSucceeded =
+              state.maybeWhen(success: (_) => true, orElse: () => false);
+          if (hasSucceeded) pushAndRemoveUntil(const MainPage());
 
-            final hasFailed =
-                state.maybeWhen(failed: (_, __) => true, orElse: () => false);
-            if (hasFailed) {
-              final message =
-                  state.maybeWhen(failed: (_, m) => m, orElse: () => null);
-              showSnackBar(message!, context: parentScaffoldContext);
-            }
-          },
-          builder: (_, state) {
-            return state.when(
-                laoding: _buildLoading,
-                content: _buildContent,
-                success: _buildContent,
-                failed: (supp, _) => _buildContent(supp));
-          });
-    });
+          final error =
+              state.maybeWhen(failed: (_, error) => error, orElse: () => null);
+          if (error != null) showSnackBar(error, scaffoldKey: scaffoldKey);
+        },
+        builder: (_, state) {
+          return state.when(
+              loading: _buildLoading,
+              content: _buildContent,
+              success: _buildContent,
+              failed: (supp, _) => _buildContent(supp));
+        });
   }
 
   Widget _buildLoading(OnBoardingSupplements supp) =>
@@ -53,16 +48,16 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
 
   Widget _buildContent(OnBoardingSupplements supp) {
     return Scaffold(
+        key: scaffoldKey,
         appBar: AppBar(),
         body: ListView(
-          padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
-          children: [
-            _buildTitle(),
-            _buildTextFields(supp),
-            _buildCurrencyIcons(supp)
-          ],
-        ),
-        bottomNavigationBar: _buildDoneButton());
+            padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
+            children: [
+              _buildTitle(),
+              _buildTextFields(supp),
+              _buildCurrencyIcons(supp),
+              _buildDoneButton()
+            ]));
   }
 
   _buildTitle() {
@@ -100,14 +95,10 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
             textCapitalization: TextCapitalization.words,
             errorName: 'username'),
         SizedBox(height: 30.dh),
-        AppTextField(
+        PasswordTextField(
             errors: supp.errors,
             text: supp.password,
-            onChanged: (password) => bloc.updateUserDetails(password: password),
-            hintText: 'Password',
-            isLoginPassword: true,
-            keyboardType: TextInputType.visiblePassword,
-            errorName: 'password')
+            onChanged: (password) => bloc.updateUserDetails(password: password))
       ],
     );
   }
@@ -141,13 +132,15 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
                 children: codePointList.map((e) {
                   final formatted = '0xe' + e.toString();
                   final codePoint = int.parse(formatted);
-                  final isSelected = codePoint == supp.currencyCodePoint;
+                  final isSelected = codePoint == supp.user.currencyCodePoint;
 
                   return GestureDetector(
                     onTap: () => bloc.updateUserDetails(currency: codePoint),
                     child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white.withOpacity(.0),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.dw)),
                             border: Border.all(
                                 color: isSelected
                                     ? AppColors.accent
@@ -164,11 +157,10 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
 
   _buildDoneButton() {
     return AppTextButton(
-      onPressed: bloc.signUp,
-      buttonColor: AppColors.primary,
-      text: 'Done',
-      height: 50.dh,
-      margin: EdgeInsets.only(bottom: 15.dh, left: 15.dw, right: 15.dw),
-    );
+        onPressed: bloc.signUp,
+        buttonColor: AppColors.onBackground,
+        text: 'DONE',
+        height: 50.dh,
+        margin: EdgeInsets.only(top: 30.dh));
   }
 }

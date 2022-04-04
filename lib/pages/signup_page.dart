@@ -1,4 +1,5 @@
 import '../source.dart';
+import '../utils/navigation_logic.dart';
 import 'email_password_registration_page.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -10,6 +11,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   late final OnBoardingPageBloc bloc;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -27,17 +29,13 @@ class _SignUpPageState extends State<SignUpPage> {
               state.maybeWhen(success: (_) => true, orElse: () => false);
           if (isSuccess) _navigateToAdditionalInfoPage();
 
-          final hasFailed =
-              state.maybeWhen(failed: (_, __) => true, orElse: () => false);
-          if (hasFailed) {
-            final message =
-                state.maybeWhen(failed: (_, m) => m, orElse: () => null);
-            _showSnackBar(message!);
-          }
+          final error =
+              state.maybeWhen(failed: (_, error) => error, orElse: () => null);
+          if (error != null) showSnackBar(error, scaffoldKey: scaffoldKey);
         },
         builder: (_, state) {
           return state.when(
-            laoding: _buildLoading,
+            loading: _buildLoading,
             content: _buildContent,
             success: _buildContent,
             failed: (supp, _) => _buildContent(supp),
@@ -45,33 +43,14 @@ class _SignUpPageState extends State<SignUpPage> {
         });
   }
 
-  _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: AppColors.error,
-        padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dh),
-        content: Material(
-          color: AppColors.error,
-          child: AppText(message,
-              size: 14.dw,
-              color: AppColors.onError,
-              alignment: TextAlign.start),
-        )));
-  }
-
-  Widget _buildLoading(OnBoardingSupplements supp) {
-    return const Scaffold(
-        body: Center(
-            child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(AppColors.primary))));
-  }
+  Widget _buildLoading(OnBoardingSupplements supp) =>
+      const AppLoadingIndicator.withScaffold();
 
   Widget _buildContent(OnBoardingSupplements supp) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [_buildTitle(), _buildSignUpChoices()],
-      ),
-    );
+        key: scaffoldKey,
+        appBar: AppBar(),
+        body: Column(children: [_buildTitle(), _buildSignUpChoices()]));
   }
 
   _buildTitle() {

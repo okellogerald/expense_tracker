@@ -1,4 +1,4 @@
-import 'package:budgetting_app/utils/global_functions.dart';
+import 'package:budgetting_app/utils/navigation_logic.dart';
 
 import '../source.dart';
 
@@ -11,12 +11,13 @@ class EmailPasswordAuthPage extends StatefulWidget {
 
 class _EmailPasswordAuthPageState extends State<EmailPasswordAuthPage> {
   late final OnBoardingPageBloc bloc;
+  final _key = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     final userService = Provider.of<UserService>(context, listen: false);
     bloc = OnBoardingPageBloc(userService);
-    bloc.init(page: Pages.email_password_registration_page);
+    bloc.init(Pages.email_password_registration_page);
     super.initState();
   }
 
@@ -29,17 +30,13 @@ class _EmailPasswordAuthPageState extends State<EmailPasswordAuthPage> {
               state.maybeWhen(success: (_) => true, orElse: () => false);
           if (isSuccess) push(VerificationPage(state.supplements.user.email));
 
-          final hasFailed =
-              state.maybeWhen(failed: (_, __) => true, orElse: () => false);
-          if (hasFailed) {
-            final message =
-                state.maybeWhen(failed: (_, m) => m, orElse: () => null);
-            _showSnackBar(message!);
-          }
+          final error =
+              state.maybeWhen(failed: (_, error) => error, orElse: () => null);
+          if (error != null) showSnackBar(error, scaffoldKey: _key);
         },
         builder: (_, state) {
           return state.when(
-            laoding: _buildLoading,
+            loading: _buildLoading,
             content: _buildContent,
             success: _buildContent,
             failed: (supp, _) => _buildContent(supp),
@@ -47,29 +44,12 @@ class _EmailPasswordAuthPageState extends State<EmailPasswordAuthPage> {
         });
   }
 
-  _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        backgroundColor: AppColors.error,
-        padding: EdgeInsets.symmetric(horizontal: 10.dw, vertical: 5.dh),
-        content: Material(
-            color: AppColors.error,
-            child: AppText(
-              message,
-              size: 14.dw,
-              color: AppColors.onError,
-              alignment: TextAlign.start,
-            ))));
-  }
-
-  Widget _buildLoading(OnBoardingSupplements supp) {
-    return const Scaffold(
-        body: Center(
-            child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation(AppColors.primary))));
-  }
+  Widget _buildLoading(OnBoardingSupplements supp) =>
+      const AppLoadingIndicator.withScaffold();
 
   Widget _buildContent(OnBoardingSupplements supp) {
     return Scaffold(
+      key: _key,
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: SizedBox(

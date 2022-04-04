@@ -28,6 +28,11 @@ class User with _$User {
       @Default(0)
           int currencyCodePoint}) = _User;
 
+  bool get isAlreadyVerified => email.trim().isNotEmpty;
+
+  bool get isSignedUpWithEmailAndPassword =>
+      signUpOption == SigningUpOptions.email_password;
+
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   factory User.fromGoogleAccount(GoogleSignInAccount account) => User(
@@ -44,7 +49,7 @@ class User with _$User {
 }
 
 class SigningUpOptions {
-  static const email_password = 'Email & Password';
+  static const email_password = 'Email_Password';
   static const google = 'Google';
   static const facebook = 'Facebook';
 }

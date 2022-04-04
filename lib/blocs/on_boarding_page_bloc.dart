@@ -1,5 +1,5 @@
 import '../source.dart';
-import '../utils/input_validation.dart';
+import '../utils/validation_logic.dart';
 
 class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
   OnBoardingPageBloc(this.service) : super(OnBoardingPageState.initial());
@@ -8,31 +8,28 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
   Pages? _page;
 
-  void init({Pages? page, String? email}) {
+  void init(Pages page, {String? email}) {
     _page = page;
-    if (email != null) {
-      if (page != Pages.verification_page) return;
-      var supp = state.supplements;
-      emit(OnBoardingPageState.laoding(state.supplements));
-      final user = supp.user;
-      supp = supp.copyWith(user: user.copyWith(email: email));
-      emit(OnBoardingPageState.content(supp));
-    }
-    if (page != Pages.additional_info_page) return;
-    var supp = state.supplements;
-    emit(OnBoardingPageState.laoding(state.supplements));
-    supp = supp.copyWith(user: service.getUser);
-    emit(OnBoardingPageState.content(supp));
+    _initVerificationPage(page, email);
+    _initAdditionalInfoPage(page);
   }
 
   void updateUserDetails(
       {String? displayName, String? email, String? password, int? currency}) {
     var supp = state.supplements;
-    emit(OnBoardingPageState.laoding(supp));
+    emit(OnBoardingPageState.loading(supp));
+    var userCurrency = supp.user.currencyCodePoint;
+    if (currency != null) {
+      if (userCurrency == currency) {
+        userCurrency = 0;
+      } else {
+        userCurrency = currency;
+      }
+    }
     final user = supp.user.copyWith(
-        email: email ?? supp.user.email,
-        displayName: displayName ?? supp.user.displayName,
-        currencyCodePoint: currency ?? supp.user.currencyCodePoint);
+        email: email?.trim() ?? supp.user.email,
+        displayName: displayName?.trim() ?? supp.user.displayName,
+        currencyCodePoint: userCurrency);
     supp = supp.copyWith(user: user, password: password ?? supp.password);
     emit(OnBoardingPageState.content(supp));
   }
@@ -41,32 +38,32 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     _validate();
 
     var supp = state.supplements;
-    final hasErrors = InputValidation.checkErrors(supp.errors);
+    final hasErrors = checkErrors(supp.errors);
     if (hasErrors) return;
 
-    emit(OnBoardingPageState.laoding(supp));
+    emit(OnBoardingPageState.loading(supp));
     try {
       await service.sendEmailVerificationEmail(supp.user.email);
       emit(OnBoardingPageState.success(supp));
-    } on ApiError catch (e) {
-      emit(OnBoardingPageState.failed(supp, e.message));
+    } on ApiErrors catch (e) {
+      emit(OnBoardingPageState.failed(supp, message: e.message));
     }
   }
 
   void checkEmailVerificationStatus() async {
     var supp = state.supplements;
-    emit(OnBoardingPageState.laoding(supp));
+    emit(OnBoardingPageState.loading(supp));
     try {
       await service.checkIfEmailIsVerified(supp.user.email);
       emit(OnBoardingPageState.success(supp));
-    } on ApiError catch (e) {
-      emit(OnBoardingPageState.failed(supp, e.message));
+    } on ApiErrors catch (e) {
+      emit(OnBoardingPageState.failed(supp, message: e.message));
     }
   }
 
   void initSocialOption(String option) async {
     var supp = state.supplements;
-    emit(OnBoardingPageState.laoding(supp));
+    emit(OnBoardingPageState.loading(supp));
     try {
       final isSuccessful = option == SigningUpOptions.facebook
           ? await service.getUserFacebookDetails()
@@ -76,43 +73,56 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
         return;
       }
       emit(OnBoardingPageState.success(supp));
-    } on ApiError catch (e) {
-      emit(OnBoardingPageState.failed(supp, e.message));
+    } on ApiErrors catch (e) {
+      emit(OnBoardingPageState.failed(supp, message: e.message));
     }
   }
 
   void signUp() async {
+    _validate();
+
     var supp = state.supplements;
-    emit(OnBoardingPageState.laoding(supp));
-    await service.signUp(supp.user, supp.password);
-    emit(OnBoardingPageState.success(supp));
+    final hasErrors = checkErrors(supp.errors);
+    if (hasErrors) return;
+
+    emit(OnBoardingPageState.loading(supp));
+    try {
+      await service.signUp(supp.user, supp.password);
+      emit(OnBoardingPageState.success(supp));
+    } on ApiErrors catch (e) {
+      emit(OnBoardingPageState.failed(supp, message: e.message));
+    }
   }
 
   void signOut() async {
     var supp = state.supplements;
-    emit(OnBoardingPageState.laoding(supp));
-    await service.signOut();
-    supp = OnBoardingSupplements.empty();
-    emit(OnBoardingPageState.success(supp));
+    emit(OnBoardingPageState.loading(supp));
+
+    try {
+      await service.signOut();
+      supp = OnBoardingSupplements.empty();
+      emit(OnBoardingPageState.success(supp));
+    } on ApiErrors catch (e) {
+      emit(OnBoardingPageState.failed(supp, message: e.message));
+    }
   }
 
   void _validate() {
     var supp = state.supplements;
     final errors = <String, String?>{};
 
-    emit(OnBoardingPageState.laoding(supp));
+    emit(OnBoardingPageState.loading(supp));
     switch (_page) {
       case Pages.email_password_registration_page:
-        errors['email'] = InputValidation.validateEmail(supp.user.email);
+        errors['email'] = validateEmail(supp.user.email);
         break;
       case Pages.additional_info_page:
-        errors['password'] = InputValidation.validateEmail(supp.password);
-        errors['username'] =
-            InputValidation.validateEmail(supp.user.displayName);
+        errors['password'] = validatePassword(supp.password);
+        errors['username'] = validateText(supp.user.displayName, 'Username');
         break;
       case Pages.login_page:
-        errors['email'] = InputValidation.validateEmail(supp.user.email);
-        errors['password'] = InputValidation.validateEmail(supp.password);
+        errors['email'] = validateEmail(supp.user.email);
+        errors['password'] = validatePassword(supp.password);
         break;
       case Pages.verification_page:
       case null:
@@ -120,6 +130,23 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     }
 
     supp = supp.copyWith(errors: errors);
+    emit(OnBoardingPageState.content(supp));
+  }
+
+  _initAdditionalInfoPage(Pages page) {
+    if (page != Pages.additional_info_page) return;
+    var supp = state.supplements;
+    emit(OnBoardingPageState.loading(state.supplements));
+    supp = supp.copyWith(user: service.getUser);
+    emit(OnBoardingPageState.content(supp));
+  }
+
+  _initVerificationPage(Pages page, String? email) {
+    if (page != Pages.verification_page) return;
+    var supp = state.supplements;
+    emit(OnBoardingPageState.loading(state.supplements));
+    final user = supp.user;
+    supp = supp.copyWith(user: user.copyWith(email: email!));
     emit(OnBoardingPageState.content(supp));
   }
 }

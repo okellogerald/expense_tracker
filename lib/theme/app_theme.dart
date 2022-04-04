@@ -5,5 +5,7 @@ class AppTheme {
       fontFamily: kFontFam,
       scaffoldBackgroundColor: AppColors.background,
       appBarTheme: const AppBarTheme(
-          backgroundColor: AppColors.background, elevation: 0));
+          backgroundColor: AppColors.background, elevation: 0),
+      progressIndicatorTheme:
+          const ProgressIndicatorThemeData(color: AppColors.primary));
 }

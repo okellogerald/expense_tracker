@@ -10,7 +10,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 const timeLimit = Duration(seconds: 10);
-const root = 'https://yy3fnm-ip-197-186-5-193.expose.sh';
+const root = 'https://kkssl6-ip-197-186-1-105.expose.sh';
 const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 const facebookRoot =
     'https://graph.facebook.com/v2.12/me?fields=name,picture.height(200),email';
@@ -28,22 +28,13 @@ class UserService {
   final _google = GoogleSignIn();
   final _facebook = FacebookAuth.instance;
 
+  //userPassword is stored here to be used for deleteAccount purposes.
+  //Assigned to this variable after successful sign-up or sign-in processes only.
+  var _userPassword = '';
+  var _isFirebasePasswordAlreadyChanged = false;
+
   User get getUser => _user;
   bool get isUserLoggedIn => _box.get(kUser) != null;
-
-  _handleCheckingEmailVerificationErrors(var error) async {
-    if (error is FirebaseAuthException) {
-      final code = error.code;
-      if (code == 'invalid-email' ||
-          code == 'user-disabled' ||
-          code == 'user-not-found') {
-        throw ApiError.failedToCheckEmailVerificationStatus();
-      }
-    } else {
-      _handleError(error);
-    }
-    return null;
-  }
 
   ///for users signing up with email & password
   Future<void> sendEmailVerificationEmail(String email) async {
@@ -59,7 +50,7 @@ class UserService {
       if (e.code == 'email-already-in-use') {
         await _auth.currentUser!
             .sendEmailVerification()
-            .catchError(_handleError);
+            .catchError((e) => _handleError(e));
         _user = _user.copyWith(email: email);
       }
     } catch (e) {
@@ -74,49 +65,58 @@ class UserService {
     //the prev sign-in or sign-up but doesn't react to user state changes
     try {
       final userCredential = await _auth.signInWithEmailAndPassword(
-          email: _user.email, password: 'default_password@expense_tracker');
+          email: email, password: 'default_password@expense_tracker');
       final user = userCredential.user;
       //if user is still null
-      if (user == null) throw ApiError.failedToCheckEmailVerificationStatus();
+      if (user == null) throw ApiErrors.failedToCheckEmailVerificationStatus();
       //else
       if (user.emailVerified) _user = _user.copyWith(email: email);
-      if (!user.emailVerified) throw ApiError.emailNotVerified(email);
+      if (!user.emailVerified) throw ApiErrors.emailNotVerified(email);
     } catch (e) {
-      _handleCheckingEmailVerificationErrors(e);
+      _handleError(e, true);
     }
   }
 
+  ///takes a complete user from the bloc and a password
   Future<void> signUp(User user, String password) async {
     try {
-      if (user.signUpOption == SigningUpOptions.email_password) {
+      if (user.isSignedUpWithEmailAndPassword &&
+          !_isFirebasePasswordAlreadyChanged) {
+        //signing in with the default password won't work because after being
+        //verified it is changed. This is necessary to check because this
+        //first operation may be successful and the second may not
         final userCredential = await _auth.signInWithEmailAndPassword(
-            email: _user.email, password: 'default_password@expense_tracker');
-        final user = userCredential.user;
-        await user!.updatePassword(password).timeout(timeLimit);
+            email: user.email, password: 'default_password@expense_tracker');
+        final firebaseUser = userCredential.user;
+        await firebaseUser!.updatePassword(password).timeout(timeLimit);
+        _isFirebasePasswordAlreadyChanged = true;
       }
-      final data = Map.from(user.toJson())..addAll({"password": password});
-      print(data);
+      final body = Map.from(user.toJson())..addAll({"password": password});
+      //to be converted to x-www-url-encoded, the body is supposed to be in type
+      //Map<String,String> only.
+      body['currency'] = (body['currency'] as int).toString();
       final response = await http
-          .post(Uri.parse('$root/user/create'),
-              body: json.encode(data), headers: headers)
+          .post(Uri.parse('$root/user/create'), body: body, headers: headers)
           .timeout(timeLimit);
-      final body = json.decode(response.body);
-      print(body);
-      if (response.statusCode != 200 || response.statusCode != 201) {
-        throw ApiError(body['error']);
-      }
+      _handleStatusCode(response);
+      _user = user;
+      _userPassword = password;
     } catch (e) {
       _handleError(e);
     }
   }
 
   Future<void> logIn({required String email, required String password}) async {
-    final data = {"password": password};
+    final body = {"password": password};
     try {
-      await http
+      final response = await http
           .post(Uri.parse('$root/user?email=$email'),
-              body: json.encode(data), headers: headers)
+              body: body, headers: headers)
           .timeout(timeLimit);
+      _handleStatusCode(response);
+      final jsonUser = json.decode(response.body)['user'];
+      _user = User.fromJson(jsonUser);
+      _userPassword = password;
     } catch (e) {
       _handleError(e);
     }
@@ -142,7 +142,7 @@ class UserService {
   ///returns [true] after successful operation
   Future<bool> getUserGoogleDetails() async {
     await _google.disconnect().catchError((_) {});
-    final account = await _google.signIn().catchError(_handleError);
+    final account = await _google.signIn().catchError((e) => _handleError(e));
     if (account != null) {
       _user = User.fromGoogleAccount(account);
       return true;
@@ -150,17 +150,51 @@ class UserService {
     return false;
   }
 
-  _handleError(dynamic error) {
+  _handleError(dynamic error, [bool isVerifyingEmail = false]) {
     if (error is SocketException || error is TimeoutException) {
-      throw ApiError.internet();
-    } else if (error is ApiError) {
+      throw ApiErrors.internet();
+    } else if (error is ApiErrors) {
       throw error;
     } else if (error is FirebaseAuthException) {
-      throw ApiError(error.message ?? error.code);
+      //when verifying if the user has verified the email address, we sign-in
+      //to his account.
+      final code = error.code;
+      if ((code == 'invalid-email' ||
+              code == 'user-disabled' ||
+              code == 'user-not-found') &&
+          isVerifyingEmail) {
+        throw ApiErrors.failedToCheckEmailVerificationStatus();
+      }
+      throw ApiErrors(error.message ?? error.code);
     } else {
-      throw ApiError.unknown();
+      throw ApiErrors.unknown();
     }
   }
 
-  Future<void> signOut() async => await _box.delete(kUser);
+  _handleStatusCode(http.Response response) {
+    final responseBody = json.decode(response.body);
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw ApiErrors(responseBody['error']);
+    }
+  }
+
+  Future<void> signOut() async {
+    final user = _box.get(kUser) as String?;
+    if (user == null) return;
+    await _box.delete(kUser);
+  }
+
+  Future<void> deleteAccount() async {
+    try {
+      final userCredential = await _auth.signInWithEmailAndPassword(
+          email: _user.email, password: _userPassword);
+      await userCredential.user!.delete();
+      await http
+          .delete(Uri.parse('$root/user/?email=${_user.email}'),
+              headers: headers)
+          .timeout(timeLimit);
+    } catch (e) {
+      _handleError(e);
+    }
+  }
 }
