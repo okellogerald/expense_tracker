@@ -1,5 +1,4 @@
 import '../../source.dart';
-import '../theme/app_ui_constant_styles.dart';
 import '../utils/navigation_logic.dart';
 
 class RecordsPage extends StatefulWidget {
@@ -174,7 +173,8 @@ class _RecordsPageState extends State<RecordsPage> {
 
   _buildDayTotals(RecordsPageSupplements supp, int day) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 5.dh),
+        padding:
+            EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 5.dh),
         decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(color: AppColors.divider, width: 2.dw))),

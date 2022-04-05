@@ -34,11 +34,10 @@ class _RecordTileState extends State<RecordTile> {
         padding: EdgeInsets.symmetric(vertical: 7.5.dh, horizontal: 15.dw),
         width: ScreenSizeConfig.getFullWidth,
         decoration: BoxDecoration(
-            color: Colors.white.withOpacity(.0),
             border: Border(
-              top: widget.isSelected ? _selectedBorder : _unSelectedBorder,
-              bottom: widget.isSelected ? _selectedBorder : _unSelectedBorder,
-            )),
+          top: widget.isSelected ? selectedBorder : unSelectedBorder,
+          bottom: widget.isSelected ? selectedBorder : unSelectedBorder,
+        )),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -53,7 +52,7 @@ class _RecordTileState extends State<RecordTile> {
                         alignment: Alignment.centerLeft,
                         margin: EdgeInsets.only(right: 15.dw),
                         child: AppText(category.title,
-                            size: 15.dw,
+                            size: 14.dw,
                             color: AppColors.onBackground2,
                             maxLines: 2)))
               ])),
@@ -163,9 +162,4 @@ class _RecordTileState extends State<RecordTile> {
     isShowingMore = !isShowingMore;
     setState(() {});
   }
-
-  static const _selectedBorder =
-      BorderSide(width: .5, color: AppColors.divider);
-  static const _unSelectedBorder =
-      BorderSide(width: 0.0, color: Colors.transparent);
 }

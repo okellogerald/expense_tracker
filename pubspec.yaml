@@ -53,7 +53,7 @@ flutter:
 
     - family: Circular
       fonts:
-        - asset: assets/fonts/circular-book.ttf
+        - asset: assets/fonts/circular-semibold.ttf
 
     - family: Euclid
       fonts:

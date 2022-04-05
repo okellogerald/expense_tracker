@@ -66,26 +66,25 @@ class _AppTextFieldState extends State<AppTextField> {
                 keyboardType: widget.keyboardType,
                 textCapitalization: widget.textCapitalization,
                 style: TextStyle(
-                    color: widget.textColor ?? AppColors.primary,
+                    color: widget.textColor ?? AppColors.onBackground,
                     letterSpacing: widget.letterSpacing,
                     fontSize: 16.dw),
-                cursorColor: AppColors.primary,
+                cursorColor: AppColors.onBackground,
                 decoration: InputDecoration(
                     hintText: widget.hintText,
                     hintStyle: TextStyle(
                         color: AppColors.onBackground2, fontSize: 14.dw),
-                    fillColor: AppColors.surface,
+                    fillColor: AppColors.textField,
                     prefixIcon: widget.suffixIcon != null
                         ? Icon(widget.suffixIcon,
-                            color: AppColors.primary, size: 20.dw)
+                            color: AppColors.onBackground2, size: 20.dw)
                         : emptyContainer,
                     filled: true,
                     isDense: true,
                     border: border,
                     focusedBorder: border,
                     enabledBorder: border,
-                    contentPadding: EdgeInsets.only(
-                        right: 8.dw, left: 15.dw, top: 18.dw, bottom: 5.dw)))),
+                    contentPadding: EdgeInsets.only(left: 20.dw, top: 14.dw)))),
         _buildError(error)
       ],
     );

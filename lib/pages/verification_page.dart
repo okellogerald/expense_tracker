@@ -87,7 +87,7 @@ class _VerificationPageState extends State<VerificationPage> {
       AppText('Email address used:',
           size: 16.dw, color: AppColors.onBackground2),
       SizedBox(height: 10.dh),
-      AppText(widget.email, size: 15.dw, color: AppColors.onBackground3),
+      AppText(widget.email, size: 15.dw, color: AppColors.onBackground2),
       AppTextButton(
         onPressed: () => Navigator.pop(context),
         text: 'Change Email',

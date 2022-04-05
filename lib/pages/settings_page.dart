@@ -164,7 +164,7 @@ class _SettingsPageState extends State<SettingsPage> {
             padding: EdgeInsets.only(left: 10.dw),
             text: backupOptions[index],
             textColor:
-                isSelected ? AppColors.onBackground : AppColors.onBackground3,
+                isSelected ? AppColors.onBackground : AppColors.onBackground2,
             height: 40.dh,
             buttonColor: isSelected ? AppColors.accent : AppColors.background,
             alignment: Alignment.centerLeft);

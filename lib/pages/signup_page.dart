@@ -91,8 +91,9 @@ class _SignUpPageState extends State<SignUpPage> {
               : bloc.initSocialOption(signingUpOption);
         },
         text: text,
-        buttonColor: AppColors.secondary,
         height: 45.dh,
+        textColor: AppColors.onBackground2,
+        borderColor: AppColors.primary,
         margin: EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 20.dh),
         borderRadius: 20.dw,
         fontSize: 16.dw);

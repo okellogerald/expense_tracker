@@ -33,42 +33,35 @@ class _CategoryTileState extends State<CategoryTile> {
           decoration: BoxDecoration(
               color: Colors.white.withOpacity(.0),
               border: Border(
-                top: isSelected ? _selectedBorder : _unSelectedBorder,
-                bottom: isSelected ? _selectedBorder : _unSelectedBorder,
+                top: isSelected ? selectedBorder : unSelectedBorder,
+                bottom: isSelected ? selectedBorder : unSelectedBorder,
               )),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Icon(
-                      widget.category.codePoint == -1
-                          ? Icons.tag
-                          : widget.category.getIcon,
-                      size: 20.dw,
-                      color: AppColors.onBackground),
-                  SizedBox(width: 20.dw),
-                  Expanded(
+              Row(children: [
+                Icon(
+                    widget.category.codePoint == -1
+                        ? Icons.tag
+                        : widget.category.getIcon,
+                    size: 20.dw,
+                    color: AppColors.onBackground),
+                SizedBox(width: 20.dw),
+                Expanded(
                     child: Container(
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.only(right: 15.dw),
-                      child: AppText(
-                        widget.category.title,
-                        size: 16.dw,
-                        color: AppColors.onBackground2,
-                        maxLines: 2,
-                      ),
-                    ),
-                  ),
-                  !isSelected
-                      ? AppIconButton(
-                          onPressed: _onTap,
-                          icon: Icons.more_horiz,
-                          iconColor: AppColors.onBackground,
-                          spreadRadius: 25.dw,
-                        )
-                      : Container(),
-                ],
-              ),
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(right: 15.dw),
+                        child: AppText(widget.category.title,
+                            size: bodyTextSize,
+                            color: AppColors.onBackground2,
+                            maxLines: 2))),
+                !isSelected
+                    ? AppIconButton(
+                        onPressed: _onTap,
+                        icon: Icons.more_horiz,
+                        iconColor: AppColors.onBackground,
+                        spreadRadius: 25.dw)
+                    : Container(),
+              ]),
               _buildActionButtons(),
             ],
           )),
@@ -105,9 +98,4 @@ class _CategoryTileState extends State<CategoryTile> {
   _onTap() {
     widget.changeSelectedIdCallback(widget.category.id);
   }
-
-  static const _selectedBorder =
-      BorderSide(width: 1.0, color: AppColors.divider);
-  static const _unSelectedBorder =
-      BorderSide(width: 0.0, color: Colors.transparent);
 }

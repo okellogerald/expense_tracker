@@ -67,20 +67,17 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                     keyboardType: TextInputType.visiblePassword,
                     textCapitalization: TextCapitalization.none,
                     style: TextStyle(
-                        fontFamily: isVisible ? kFontFam : kFontFam2,
-                        color: widget.textColor ?? AppColors.primary,
+                        color: widget.textColor ?? AppColors.onBackground,
                         letterSpacing: widget.letterSpacing,
-                        fontSize: isVisible ? 14.dw : 20.dw),
-                    cursorColor: AppColors.primary,
+                        fontSize: 14.dw),
+                    cursorColor: AppColors.onBackground,
                     obscureText: widget.isLoginPassword ? true : !isVisible,
-                    obscuringCharacter: '*',
+                   // obscuringCharacter: '*',
                     decoration: InputDecoration(
                         hintText: widget.hintText,
                         hintStyle: TextStyle(
-                            fontFamily: kFontFam,
-                            color: AppColors.onBackground2,
-                            fontSize: 14.dw),
-                        fillColor: AppColors.surface,
+                            color: AppColors.onBackground2, fontSize: 14.dw),
+                        fillColor: AppColors.textField,
                         prefixIcon: widget.suffixIcon != null
                             ? Icon(widget.suffixIcon,
                                 color: AppColors.onBackground2, size: 20.dw)
@@ -101,11 +98,8 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                         border: border,
                         focusedBorder: border,
                         enabledBorder: border,
-                        contentPadding: EdgeInsets.only(
-                            right: 8.dw,
-                            left: 15.dw,
-                            top: 14.dw,
-                            bottom: 8.dw)));
+                        contentPadding:
+                            EdgeInsets.only(left: 20.dw, top: 14.dw)));
               }),
         ),
         _buildError(error)

@@ -1,3 +1,4 @@
+import 'package:budgetting_app/theme/app_ui_constant_styles.dart';
 import 'package:budgetting_app/utils/navigation_logic.dart';
 
 import '../source.dart';
@@ -91,10 +92,8 @@ class _LoginPageState extends State<LoginPage> {
 
   _buildPhoneTextField(OnBoardingSupplements supp) {
     return Padding(
-      padding: EdgeInsets.only(top: 80.dh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        padding: EdgeInsets.only(top: 80.dh),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           SizedBox(height: 5.dh),
           AppTextField(
               errors: supp.errors,
@@ -111,29 +110,29 @@ class _LoginPageState extends State<LoginPage> {
               text: supp.password,
               onChanged: (password) =>
                   bloc.updateUserDetails(password: password),
-              suffixIcon: Icons.password_outlined,
+              suffixIcon: Icons.lock_outlined,
               isLoginPassword: true),
           AppTextButton(
               onPressed: bloc.logIn,
               text: 'LOG IN',
-              buttonColor: AppColors.onBackground,
+              textColor: AppColors.onPrimary,
+              buttonColor: AppColors.primary,
               isBolded: true,
               height: 50.dh,
               fontSize: 16.dw,
               margin: EdgeInsets.only(top: 25.dh, bottom: 10.dh))
-        ],
-      ),
-    );
+        ]));
   }
 
   _buildNewUser() {
     return Padding(
-      padding: EdgeInsets.only(top: 30.dh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppText("Don't have an account ?",
-              size: 15.dw, color: AppColors.onBackground2),
+        padding: EdgeInsets.only(top: 30.dh),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+            padding: EdgeInsets.only(left: 15.dw),
+            child: AppText("Don't have an account ?",
+                size: 15.dw, color: AppColors.onBackground2),
+          ),
           AppTextButton(
               onPressed: _onPressed,
               text: 'Register',
@@ -143,27 +142,14 @@ class _LoginPageState extends State<LoginPage> {
               buttonColor: Colors.white.withOpacity(.15),
               isBolded: true,
               fontSize: 16.dw)
-        ],
-      ),
-    );
+        ]));
   }
 
   _buildNeedHelp() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        AppCheckBox(onChanged: (_) {}),
-        AppTextButton(
-            onPressed: () {},
-            text: 'Need Help ?',
-            width: 100.dw,
-            alignment: Alignment.centerLeft,
-            textColor: AppColors.onBackground,
-            margin: EdgeInsets.only(top: 15.dh),
-            isBolded: true,
-            fontSize: 14.dw),
-      ],
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      AppCheckBox(onChanged: (_) {}),
+      AppText('NEED HELP ?', size: bodyTextSize, color: AppColors.primary)
+    ]);
   }
 
   _onPressed() => Navigator.push(

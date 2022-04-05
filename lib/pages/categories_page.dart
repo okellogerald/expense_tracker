@@ -83,22 +83,26 @@ class _CategoriesPageState extends State<CategoriesPage> {
             family: kFontFam2,
           ),
         ),
-        Container(
-            color: AppColors.surface,
-            child: Column(
-                children: categoryList
-                    .where((e) => e.type == kIncome)
-                    .map((e) => CategoryTile(
-                          category: e,
-                          editCallback: () => _navigateToEditPage(category: e),
-                          isSelected: e.id == form.id,
-                          isUndeletable:
-                              form.undeletableCategories.contains(e.id),
-                          cancelCallback: bloc.cancel,
-                          changeSelectedIdCallback: bloc.updateId,
-                          deleteCallback: bloc.deleteCategory,
-                        ))
-                    .toList()))
+        ClipRRect(
+          borderRadius: borderRadius2,
+          child: Container(
+              color: AppColors.surface,
+              child: Column(
+                  children: categoryList
+                      .where((e) => e.type == kIncome)
+                      .map((e) => CategoryTile(
+                            category: e,
+                            editCallback: () =>
+                                _navigateToEditPage(category: e),
+                            isSelected: e.id == form.id,
+                            isUndeletable:
+                                form.undeletableCategories.contains(e.id),
+                            cancelCallback: bloc.cancel,
+                            changeSelectedIdCallback: bloc.updateId,
+                            deleteCallback: bloc.deleteCategory,
+                          ))
+                      .toList())),
+        )
       ],
     );
   }
@@ -116,22 +120,26 @@ class _CategoriesPageState extends State<CategoriesPage> {
             family: kFontFam2,
           ),
         ),
-        Container(
-            color: AppColors.surface,
-            child: Column(
-                children: categoryList
-                    .where((e) => e.type == kExpense)
-                    .map((e) => CategoryTile(
-                          category: e,
-                          cancelCallback: bloc.cancel,
-                          editCallback: () => _navigateToEditPage(category: e),
-                          isSelected: e.id == form.id,
-                          isUndeletable:
-                              form.undeletableCategories.contains(e.id),
-                          changeSelectedIdCallback: bloc.updateId,
-                          deleteCallback: bloc.deleteCategory,
-                        ))
-                    .toList()))
+        ClipRRect(
+          borderRadius: borderRadius2,
+          child: Container(
+              color: AppColors.surface,
+              child: Column(
+                  children: categoryList
+                      .where((e) => e.type == kExpense)
+                      .map((e) => CategoryTile(
+                            category: e,
+                            cancelCallback: bloc.cancel,
+                            editCallback: () =>
+                                _navigateToEditPage(category: e),
+                            isSelected: e.id == form.id,
+                            isUndeletable:
+                                form.undeletableCategories.contains(e.id),
+                            changeSelectedIdCallback: bloc.updateId,
+                            deleteCallback: bloc.deleteCategory,
+                          ))
+                      .toList())),
+        )
       ],
     );
   }

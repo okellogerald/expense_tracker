@@ -32,7 +32,7 @@ const kDefaultPhotoUrl =
     'https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-128.png';
 
 const kFontFam = "Stratos";
-const kFontFam2 = 'AndroidEuclid';
+const kFontFam2 = 'Circular';
 const kFontFam3 = 'SpaceMono';
 
 const kAddCategoryPosition = 'add_category_position';

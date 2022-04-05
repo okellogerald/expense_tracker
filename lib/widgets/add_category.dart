@@ -26,7 +26,8 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
     final isAtTheTop = widget.position == AddCategoryWidgetPosition.top;
 
     return Container(
-      color: Colors.grey.withOpacity(.1),
+      decoration:
+          BoxDecoration(color: AppColors.surface, borderRadius: borderRadius2),
       margin: EdgeInsets.only(
           bottom: isAtTheTop ? 40.dh : 10.dh, top: isAtTheTop ? 10.dh : 40.dh),
       padding: EdgeInsets.only(left: 17.dw),
@@ -35,7 +36,7 @@ class _AddCategoryWidgetState extends State<AddCategoryWidget> {
         children: [
           SizedBox(height: 20.dh),
           AppText('You can always add your custom category',
-              size: 16.dw, color: AppColors.onBackground),
+              size: bodyTextSize, color: AppColors.onBackground),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

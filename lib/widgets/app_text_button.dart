@@ -1,4 +1,5 @@
 import '../source.dart';
+import '../theme/app_ui_constant_styles.dart';
 
 class AppTextButton extends StatefulWidget {
   const AppTextButton(
@@ -89,8 +90,9 @@ class _AppTextButtonState extends State<AppTextButton>
               alignment: widget.alignment ?? Alignment.center,
               decoration: BoxDecoration(
                   color: animation.value,
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(widget.borderRadius ?? 20.dw))),
+                  border: Border.all(
+                      color: widget.borderColor ?? Colors.transparent),
+                  borderRadius: borderRadius),
               child: child),
         );
       },
@@ -116,8 +118,8 @@ class _AppTextButtonState extends State<AppTextButton>
   _text() {
     return AppText(widget.text ?? 'Click Me',
         size: widget.fontSize ?? 15.dw,
-        isBolded: widget.isBolded,
         family: kFontFam2,
+        isBolded: widget.isBolded,
         color: widget.textColor ?? AppColors.onPrimary);
   }
 
