@@ -81,9 +81,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                             color: AppColors.onBackground2,
                             fontSize: 14.dw),
                         fillColor: AppColors.surface,
-                        suffixIcon: widget.suffixIcon != null
+                        prefixIcon: widget.suffixIcon != null
                             ? Icon(widget.suffixIcon,
-                                color: AppColors.primary, size: 20.dw)
+                                color: AppColors.onBackground2, size: 20.dw)
                             : hasNoText
                                 ? emptyContainer
                                 : GestureDetector(

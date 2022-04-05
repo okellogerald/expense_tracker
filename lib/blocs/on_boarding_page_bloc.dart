@@ -122,6 +122,7 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
       case Pages.additional_info_page:
         errors['password'] = validatePassword(supp.password);
         errors['username'] = validateText(supp.user.displayName, 'Username');
+        errors['currency'] = validateText(supp.user.currency, 'currency');
         break;
       case Pages.login_page:
         errors['email'] = validateEmail(supp.user.email);

@@ -28,17 +28,14 @@ void main() async {
 
   PreferencesService.initPrefs();
 
-  final myApp = MultiProvider(
-    providers: [
-      Provider<CategoriesService>(create: (_) => CategoriesService()),
-      Provider<PreferencesService>(create: (_) => PreferencesService()),
-      Provider<RecordsService>(create: (_) => RecordsService()),
-      Provider<BudgetsService>(create: (_) => BudgetsService()),
-      Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
-      Provider<UserService>(create: (_) => UserService()),
-    ],
-    child: const MyApp(),
-  );
+  final myApp = MultiProvider(providers: [
+    Provider<CategoriesService>(create: (_) => CategoriesService()),
+    Provider<PreferencesService>(create: (_) => PreferencesService()),
+    Provider<RecordsService>(create: (_) => RecordsService()),
+    Provider<BudgetsService>(create: (_) => BudgetsService()),
+    Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
+    Provider<UserService>(create: (_) => UserService()),
+  ], child: const MyApp());
 
   runApp(myApp);
 }

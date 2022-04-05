@@ -31,8 +31,9 @@ const kVerifyImage3Url =
 const kDefaultPhotoUrl =
     'https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-128.png';
 
+const kFontFam = "Stratos";
 const kFontFam2 = 'AndroidEuclid';
-const kFontFam = "LondonTube";
+const kFontFam3 = 'SpaceMono';
 
 const kAddCategoryPosition = 'add_category_position';
 const kWithTotalsList = 'with_totals_list';
@@ -77,5 +78,5 @@ final kDefaultCategoriesList = <Category>[
       codePoint: AppIcons.groceries.codePoint,
       title: 'Groceries',
       id: 'Lgby3i7P8F',
-      type: kExpense),
+      type: kExpense)
 ];

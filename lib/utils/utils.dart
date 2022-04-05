@@ -113,7 +113,7 @@ class Utils {
     pieces.add(stringVersion);
 
     if (pieces.length == 1) {
-      return (isNegative ? '- ' : '') + pieces.first.toString() + '.00';
+      return '${isNegative ? '- ' : ''}${pieces.first}.00';
     }
 
     final reversedList = pieces.reversed.toList();
@@ -123,9 +123,7 @@ class Utils {
       money = i == reversedList.length - 1 ? money + v : money + v + ',';
     }
 
-    return (isNegative ? '-' : '') +
-        money +
-        (decimals.length == 2 ? '${decimals}0' : decimals);
+    return '${isNegative ? '- ' : ''}$money${decimals.length == 2 ? '${decimals}0' : decimals}';
   }
 
   static String generateOTP() {

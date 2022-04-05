@@ -56,6 +56,7 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
             children: [
               _buildTitle(),
               _buildTextFields(supp),
+              SizedBox(height: 20.dh),
               CurrencySelector(
                   onCurrencySelected: (currency) =>
                       bloc.updateUserDetails(currency: currency)),

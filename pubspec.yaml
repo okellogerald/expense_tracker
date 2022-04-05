@@ -41,16 +41,28 @@ flutter:
   fonts:
     - family: LondonTube
       fonts:
-        - asset: assets/fonts/LondonTube.ttf
+        - asset: assets/fonts/london-tube.ttf
 
     - family: AndroidEuclid
       fonts:
-        - asset: assets/fonts/AndroidEuclid-Medium.otf
+        - asset: assets/fonts/android-euclid.otf
 
     - family: AppIcons
       fonts:
-        - asset: assets/fonts/AppIcons.ttf
+        - asset: assets/fonts/app-icons.ttf
 
-    - family: CurrencyIcons
+    - family: Circular
       fonts:
-        - asset: assets/fonts/CurrencyIcons.ttf
+        - asset: assets/fonts/circular-book.ttf
+
+    - family: Euclid
+      fonts:
+        - asset: assets/fonts/euclid-regular.ttf
+
+    - family: SpaceMono
+      fonts:
+        - asset: assets/fonts/spacemono.ttf
+
+    - family: Stratos
+      fonts:
+        - asset: assets/fonts/stratos-regular.ttf

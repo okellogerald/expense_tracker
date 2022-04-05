@@ -35,7 +35,7 @@ class _AppTextState extends State<AppText> {
           textAlign: widget.alignment,
           maxLines: widget.maxLines ?? 10,
           style: TextStyle(
-              fontWeight: widget.isBolded ? FontWeight.w600 : FontWeight.w400,
+              fontWeight: widget.isBolded ? FontWeight.w600 : FontWeight.w300,
               fontSize: widget.size ?? 20.dw,
               color: widget.color ?? AppColors.onBackground,
               fontFamily: widget.family,

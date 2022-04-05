@@ -10,7 +10,7 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 const timeLimit = Duration(seconds: 10);
-const root = 'https://ywntrs-ip-197-186-1-86.expose.sh';
+const root = 'https://ltje0n-ip-197-186-1-86.expose.sh';
 const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 const facebookRoot =
     'https://graph.facebook.com/v2.12/me?fields=name,picture.height(200),email';
@@ -91,9 +91,6 @@ class UserService {
         _isFirebasePasswordAlreadyChanged = true;
       }
       final body = Map.from(user.toJson())..addAll({"password": password});
-      //to be converted to x-www-url-encoded, the body is supposed to be in type
-      //Map<String,String> only.
-      body['currency'] = (body['currency'] as int).toString();
       final response = await http
           .post(Uri.parse('$root/user/create'), body: body, headers: headers)
           .timeout(timeLimit);

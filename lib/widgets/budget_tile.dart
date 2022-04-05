@@ -145,42 +145,19 @@ class _BudgetTileState extends State<BudgetTile> {
       {String balancePercent = ''}) {
     final isBalance = balancePercent.trim().isNotEmpty;
     return Padding(
-      padding: EdgeInsets.only(top: 4.dh),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        padding: EdgeInsets.only(top: 4.dh),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           SizedBox(
-            width: 200.dw,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppText(
-                  title,
-                  size: 15.dw,
-                  color: AppColors.onBackground2,
-                ),
-                AppText(
-                  isBalance ? '$balancePercent %' : '',
-                  size: 16.dw,
-                  color: color,
-                  family: kFontFam2,
-                ),
-              ],
-            ),
-          ),
-          Row(
-            children: [
-              Currency(color: color),
-              AppText(
-                amount,
-                size: 16.dw,
-                color: color,
-                family: kFontFam2,
-              ),
-            ],
-          )
-        ],
-      ),
-    );
+              width: 200.dw,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    AppText(title, size: 15.dw, color: AppColors.onBackground2),
+                    AppText(isBalance ? '$balancePercent %' : '',
+                        size: 16.dw, color: color, family: kFontFam2)
+                  ])),
+          AppText(amount, size: 16.dw, color: color, family: kFontFam2)
+        ]));
   }
 }

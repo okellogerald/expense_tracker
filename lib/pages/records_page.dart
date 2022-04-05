@@ -1,4 +1,6 @@
 import '../../source.dart';
+import '../theme/app_ui_constant_styles.dart';
+import '../utils/navigation_logic.dart';
 
 class RecordsPage extends StatefulWidget {
   const RecordsPage({Key? key}) : super(key: key);
@@ -126,48 +128,41 @@ class _RecordsPageState extends State<RecordsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    DayText(
-                      '$day$ordinal, $weekDay',
-                      day: day,
-                      cancelCallback: bloc.updateDay,
-                      isSelected: isSelected,
-                      hasTotals: hasTotals,
-                      showTotalsCallback: !hasTotals
-                          ? bloc.showWithDayTotals
-                          : bloc.removeFromWithDayTotals,
-                    ),
-                    !isSelected
-                        ? Padding(
-                            padding:
-                                EdgeInsets.only(right: 15.dw, bottom: 5.dh),
-                            child: AppIconButton(
-                              onPressed: () => bloc.updateDay(day),
-                              icon: Icons.more_horiz,
-                              iconColor: AppColors.onBackground,
-                              spreadRadius: 25.dw,
-                            ),
-                          )
-                        : Container()
-                  ],
-                ),
-                Container(
-                  color: AppColors.surface,
-                  child: Column(
-                    children: recordList
-                        .map((e) => RecordTile(
-                              e,
-                              cancelCallback: bloc.updateId,
-                              editCallback: () => RecordsEditPage.navigateTo(
-                                  context,
-                                  record: e),
-                              deleteCallback: bloc.delete,
-                              isSelected: e.id == supplements.id,
-                              onTap: bloc.updateId,
-                            ))
-                        .toList(),
-                  ),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      DayText('$day$ordinal, $weekDay',
+                          day: day,
+                          cancelCallback: bloc.updateDay,
+                          isSelected: isSelected,
+                          hasTotals: hasTotals,
+                          showTotalsCallback: !hasTotals
+                              ? bloc.showWithDayTotals
+                              : bloc.removeFromWithDayTotals),
+                      !isSelected
+                          ? Padding(
+                              padding:
+                                  EdgeInsets.only(right: 15.dw, bottom: 5.dh),
+                              child: AppIconButton(
+                                  onPressed: () => bloc.updateDay(day),
+                                  icon: Icons.more_horiz,
+                                  iconColor: AppColors.onBackground,
+                                  spreadRadius: 25.dw))
+                          : Container()
+                    ]),
+                ClipRRect(
+                  borderRadius: borderRadius2,
+                  child: Container(
+                      color: AppColors.surface,
+                      child: Column(
+                          children: recordList
+                              .map((e) => RecordTile(e,
+                                  cancelCallback: bloc.updateId,
+                                  editCallback: () =>
+                                      push(RecordsEditPage(record: e)),
+                                  deleteCallback: bloc.delete,
+                                  isSelected: e.id == supplements.id,
+                                  onTap: bloc.updateId))
+                              .toList())),
                 ),
                 supplements.withTotalsDays.contains(day)
                     ? _buildDayTotals(supplements, day)
@@ -179,30 +174,24 @@ class _RecordsPageState extends State<RecordsPage> {
 
   _buildDayTotals(RecordsPageSupplements supp, int day) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 5.dh),
-      decoration: BoxDecoration(
-          border: Border(
-              bottom: BorderSide(color: AppColors.divider, width: 2.dw))),
-      child: Column(
-        children: [
+        padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 5.dh),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(color: AppColors.divider, width: 2.dw))),
+        child: Column(children: [
           _buildTotals('Total Income', supp.getIncomeTotal(day), true),
-          _buildTotals('Total Expenses', supp.getExpensesTotal(day), false),
-        ],
-      ),
-    );
+          _buildTotals('Total Expenses', supp.getExpensesTotal(day), false)
+        ]));
   }
 
   _buildTotals(String title, String amount, bool isIncome) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       AppText(title, size: 14.dw, isBolded: true),
-      Row(children: [
-        Currency(color: isIncome ? AppColors.positive : AppColors.negative),
-        AppText(amount,
-            size: 14.dw,
-            color: AppColors.positive,
-            family: kFontFam2,
-            isBolded: true)
-      ])
+      AppText(amount,
+          size: 14.dw,
+          color: AppColors.positive,
+          family: kFontFam2,
+          isBolded: true)
     ]);
   }
 
@@ -215,27 +204,17 @@ class _RecordsPageState extends State<RecordsPage> {
         padding: EdgeInsets.symmetric(vertical: 6.dh),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: AppColors.tertiary,
-            borderRadius: BorderRadius.all(Radius.circular(10.dw))),
+            color: AppColors.tertiary, borderRadius: borderRadius2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AppText(text.toUpperCase(),
-                size: 15.dw, color: AppColors.onBackground2),
+            AppText(text, size: 14.dw, color: AppColors.onBackground2),
             SizedBox(height: 5.dh),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Currency(
-                    color: isOutflow ? AppColors.negative : AppColors.positive),
-                AppText(formattedAmount,
-                    size: 13.dw,
-                    isBolded: true,
-                    family: kFontFam2,
-                    color:
-                        !isOutflow ? AppColors.positive : AppColors.negative),
-              ],
-            )
+            AppText(formattedAmount,
+                size: 13.dw,
+                isBolded: true,
+                family: kFontFam3,
+                color: !isOutflow ? AppColors.positive : AppColors.negative)
           ],
         ),
       ),
@@ -244,7 +223,7 @@ class _RecordsPageState extends State<RecordsPage> {
 
   _buildFloatingActionButton() {
     return AppIconButton(
-        onPressed: () => RecordsEditPage.navigateTo(context),
+        onPressed: () => push(const RecordsEditPage()),
         buttonColor: AppColors.primary,
         icon: Icons.add,
         iconColor: AppColors.onPrimary,

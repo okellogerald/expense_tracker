@@ -1,6 +1,7 @@
 import 'package:budgetting_app/utils/navigation_logic.dart';
 
 import '../source.dart';
+import '../widgets/app_check_box.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -148,15 +149,21 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _buildNeedHelp() {
-    return AppTextButton(
-        onPressed: () {},
-        text: 'Need Help ?',
-        width: 100.dw,
-        alignment: Alignment.centerLeft,
-        textColor: AppColors.onBackground,
-        margin: EdgeInsets.only(top: 15.dh),
-        isBolded: true,
-        fontSize: 14.dw);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        AppCheckBox(onChanged: (_) {}),
+        AppTextButton(
+            onPressed: () {},
+            text: 'Need Help ?',
+            width: 100.dw,
+            alignment: Alignment.centerLeft,
+            textColor: AppColors.onBackground,
+            margin: EdgeInsets.only(top: 15.dh),
+            isBolded: true,
+            fontSize: 14.dw),
+      ],
+    );
   }
 
   _onPressed() => Navigator.push(

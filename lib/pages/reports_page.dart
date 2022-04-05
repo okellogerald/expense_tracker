@@ -145,7 +145,6 @@ class _ReportsPageState extends State<ReportsPage> {
                           ),
                         ),
                       ),
-                      const Currency(color: AppColors.onBackground),
                       AppText(e.getAmount, size: 14.dw, family: kFontFam2)
                     ]),
               ))

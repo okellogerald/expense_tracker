@@ -64,51 +64,33 @@ class PieChart extends StatelessWidget {
 
   _intepretation(String title, String value, String percent, Color color) {
     return SizedBox(
-      width: 360.dw,
-      height: 25.dh,
-      child: Row(
-        children: [
+        width: 360.dw,
+        height: 25.dh,
+        child: Row(children: [
           Expanded(
               child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildKeyTitle(title, color),
-              AppText(
-                percent + ' % ',
-                size: 15.dw,
-                color: AppColors.onBackground,
-              )
-            ],
-          )),
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                _buildKeyTitle(title, color),
+                AppText(percent + ' % ',
+                    size: 15.dw, color: AppColors.onBackground)
+              ])),
           Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Currency(color: AppColors.onBackground),
-                Container(
-                    alignment: Alignment.centerRight,
-                    child: AppText(
-                      value,
-                      size: 15.dw,
-                      color: AppColors.onBackground,
-                    )),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+              child: Container(
+                  alignment: Alignment.centerRight,
+                  child: AppText(value,
+                      size: 15.dw, color: AppColors.onBackground)))
+        ]));
   }
 
   Widget _buildKeyTitle(String title, Color keyColor) {
     return Row(children: [
       Container(
-        height: 15.dw,
-        width: 15.dw,
-        color: keyColor,
-        margin: EdgeInsets.only(right: 10.dw),
-      ),
-      AppText(title, size: 16.dw, color: AppColors.onBackground),
+          height: 15.dw,
+          width: 15.dw,
+          color: keyColor,
+          margin: EdgeInsets.only(right: 10.dw)),
+      AppText(title, size: 16.dw, color: AppColors.onBackground)
     ]);
   }
 }

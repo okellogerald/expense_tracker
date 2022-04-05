@@ -9,7 +9,6 @@ export 'app_text_field.dart';
 export 'bar_chart.dart';
 export 'budget_tile.dart';
 export 'category_tile.dart';
-export 'currency.dart';
 export 'day_text.dart';
 export 'option_circle.dart';
 export 'pie_chart.dart';

@@ -1,5 +1,3 @@
-import 'package:hive/hive.dart';
-
 import '../source.dart';
 
 class RecordTile extends StatefulWidget {
@@ -24,15 +22,6 @@ class RecordTile extends StatefulWidget {
 
 class _RecordTileState extends State<RecordTile> {
   bool isShowingMore = false;
-  late int currency;
-
-  @override
-  void initState() {
-    /*  final user = Hive.box(kUser).get(kUser) as User;
-    currency = user.currencyCodePoint; */
-    currency = CurrencyIcons.dollar.codePoint;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,51 +42,32 @@ class _RecordTileState extends State<RecordTile> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Expanded(
+                  child: Row(children: [
+                Icon(record.category.getIcon,
+                    color: AppColors.onBackground, size: 18.dw),
+                SizedBox(width: 20.dw),
                 Expanded(
-                  child: Row(
-                    children: [
-                      Icon(record.category.getIcon,
-                          color: AppColors.onBackground, size: 18.dw),
-                      SizedBox(width: 20.dw),
-                      Expanded(
-                        child: Container(
-                            alignment: Alignment.centerLeft,
-                            margin: EdgeInsets.only(right: 15.dw),
-                            child: AppText(
-                              category.title,
-                              size: 15.dw,
-                              color: AppColors.onBackground2,
-                              maxLines: 2,
-                            )),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  children: [
-                    Currency(
-                        color: category.type == kIncome
-                            ? AppColors.positive
-                            : AppColors.negative),
-                    AppText(
-                      record.getAmount,
-                      size: 15.dw,
-                      isBolded: true,
-                      family: kFontFam2,
-                      color: category.type == kIncome
-                          ? AppColors.positive
-                          : AppColors.negative,
-                    ),
-                  ],
-                )
-              ],
-            ),
+                    child: Container(
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(right: 15.dw),
+                        child: AppText(category.title,
+                            size: 15.dw,
+                            color: AppColors.onBackground2,
+                            maxLines: 2)))
+              ])),
+              AppText(record.getAmount,
+                  size: 14.dw,
+                  isBolded: true,
+                  family: kFontFam2,
+                  color: category.type == kIncome
+                      ? AppColors.positive
+                      : AppColors.negative)
+            ]),
             _buildNotes(),
             _buildDate(),
-            _buildActionButtons(),
+            _buildActionButtons()
           ],
         ),
       ),
@@ -135,12 +105,8 @@ class _RecordTileState extends State<RecordTile> {
     return isShowingMore && widget.isSelected
         ? Padding(
             padding: EdgeInsets.only(top: hasNoNotes ? 10.dh : 5.dh),
-            child: AppText(
-              'Created at $strHour : $strMinutes $time.',
-              color: AppColors.onBackground3,
-              size: 14.dw,
-            ),
-          )
+            child: AppText('Created at $strHour : $strMinutes $time.',
+                color: AppColors.onBackground3, size: 14.dw))
         : Container();
   }
 
@@ -188,20 +154,18 @@ class _RecordTileState extends State<RecordTile> {
   }
 
   _onTap() {
-    setState(() {
-      isShowingMore = false;
-    });
+    isShowingMore = false;
+    setState(() {});
     widget.onTap(widget.record.id);
   }
 
   void _changeNotesVisibility() {
-    setState(() {
-      isShowingMore = !isShowingMore;
-    });
+    isShowingMore = !isShowingMore;
+    setState(() {});
   }
 
   static const _selectedBorder =
-      BorderSide(width: 1.0, color: AppColors.divider);
+      BorderSide(width: .5, color: AppColors.divider);
   static const _unSelectedBorder =
       BorderSide(width: 0.0, color: Colors.transparent);
 }

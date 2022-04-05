@@ -1,4 +1,5 @@
 import '../source.dart';
+import '../utils/icon_code_point_generator.dart';
 
 class CategoryEditPage extends StatefulWidget {
   const CategoryEditPage(this.category, {Key? key}) : super(key: key);
@@ -15,27 +16,13 @@ class CategoryEditPage extends StatefulWidget {
 
 class _CategoryEditPageState extends State<CategoryEditPage> {
   final controller = TextEditingController();
-  late final CategoriesService categoryService;
-  late final PreferencesService prefsService;
-  late final GrossAmountsService grossAmountsService;
-  late final BudgetsService budgetsService;
-  late final RecordsService recordsService;
-  late final CategoriesPageBloc bloc;
   final scrollController = ScrollController();
+  late final CategoriesPageBloc bloc;
 
   @override
   void initState() {
-    categoryService = Provider.of<CategoriesService>(context, listen: false);
-    prefsService = Provider.of<PreferencesService>(context, listen: false);
-    recordsService = Provider.of<RecordsService>(context, listen: false);
-    budgetsService = Provider.of<BudgetsService>(context, listen: false);
-    bloc = CategoriesPageBloc(
-      categoryService,
-      prefsService,
-      recordsService,
-      budgetsService,
-    );
-    bloc.init(category: widget.category);
+    IconCodePointGenerator.generate();
+    _initBloc();
     super.initState();
   }
 
@@ -81,54 +68,38 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   _buildPageTitle() {
     final isEditing = widget.category != null;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        AppText(
-          '${isEditing ? 'Edit' : 'New'} Category',
-          size: 24.dw,
-          color: AppColors.onBackground,
-          family: kFontFam2,
-        ),
-        AppIconButton(
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      AppText('${isEditing ? 'Edit' : 'New'} Category',
+          size: 24.dw, color: AppColors.onBackground, family: kFontFam2),
+      AppIconButton(
           onPressed: () => Navigator.pop(context),
           icon: Icons.close,
-          iconColor: AppColors.onBackground,
-        )
-      ],
-    );
+          iconColor: AppColors.onBackground)
+    ]);
   }
 
   _buildSectionTitle(String text, {double? topOffset}) {
     return Padding(
-      padding: EdgeInsets.only(top: topOffset ?? 40.dh, bottom: 10.dh),
-      child: AppText(
-        text,
-        size: 18.dw,
-        color: AppColors.onBackground2,
-      ),
-    );
+        padding: EdgeInsets.only(top: topOffset ?? 40.dh, bottom: 10.dh),
+        child: AppText(text, size: 18.dw, color: AppColors.onBackground2));
   }
 
   _buildTextField(CategoryForm form) {
     return AppTextField(
-      errors: form.errors,
-      text: form.title,
-      onChanged: bloc.updateTitle,
-      hintText: 'Type category title here',
-      keyboardType: TextInputType.name,
-      errorName: '',
-    );
+        errors: form.errors,
+        text: form.title,
+        onChanged: bloc.updateTitle,
+        hintText: 'Type category title here',
+        keyboardType: TextInputType.name,
+        errorName: '');
   }
 
   _buildOptions(CategoryForm form) {
-    return Row(
-      children: [
-        _buildOption('Income', kIncome, form.type),
-        SizedBox(width: 20.dw),
-        _buildOption('Expense', kExpense, form.type),
-      ],
-    );
+    return Row(children: [
+      _buildOption('Income', kIncome, form.type),
+      SizedBox(width: 20.dw),
+      _buildOption('Expense', kExpense, form.type)
+    ]);
   }
 
   _buildOption(String text, String type, String currentType) {
@@ -145,31 +116,38 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
     final isEditing = widget.category != null;
 
     return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          AppTextButton(
-            onPressed: () {
-              isEditing ? bloc.editCategory() : bloc.addCategory();
-            },
-            buttonColor: AppColors.primary,
-            margin: EdgeInsets.only(bottom: 10.dh),
-            text: isEditing ? 'Edit' : 'Add',
-            isBolded: true,
-            height: 45.dh,
-          ),
-          if (isEditing) _buildDisclaimer(),
-          SizedBox(height: 20.dh)
-        ],
+        child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+      AppTextButton(
+        onPressed: () {
+          isEditing ? bloc.editCategory() : bloc.addCategory();
+        },
+        buttonColor: AppColors.primary,
+        margin: EdgeInsets.only(bottom: 10.dh),
+        text: isEditing ? 'Edit' : 'Add',
+        isBolded: true,
+        height: 45.dh,
       ),
-    );
+      if (isEditing) _buildDisclaimer(),
+      SizedBox(height: 20.dh)
+    ]));
   }
 
   _buildDisclaimer() {
     return AppText(
-      '**Editing the category changes the respective entries of this category in the records and budgets pages.',
-      size: 15.dw,
-      color: AppColors.accent,
-    );
+        '**Editing the category changes the respective entries of this category in the records and budgets pages.',
+        size: 15.dw,
+        color: AppColors.accent);
+  }
+
+  _initBloc() {
+    final categoryService =
+        Provider.of<CategoriesService>(context, listen: false);
+    final prefsService =
+        Provider.of<PreferencesService>(context, listen: false);
+    final recordsService = Provider.of<RecordsService>(context, listen: false);
+    final budgetsService = Provider.of<BudgetsService>(context, listen: false);
+    bloc = CategoriesPageBloc(
+        categoryService, prefsService, recordsService, budgetsService);
+    bloc.init(category: widget.category);
   }
 }

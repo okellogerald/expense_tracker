@@ -1,15 +1,11 @@
 import 'package:budgetting_app/blocs/record_edit_page_bloc.dart';
 
 import '../source.dart';
+import '../theme/app_ui_constant_styles.dart';
 
 class RecordsEditPage extends StatefulWidget {
-  const RecordsEditPage(this.record, {Key? key}) : super(key: key);
-
   final Record? record;
-
-  static void navigateTo(BuildContext context, {Record? record}) =>
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => RecordsEditPage(record)));
+  const RecordsEditPage({this.record, Key? key}) : super(key: key);
 
   @override
   _RecordsEditPageState createState() => _RecordsEditPageState();
@@ -17,20 +13,11 @@ class RecordsEditPage extends StatefulWidget {
 
 class _RecordsEditPageState extends State<RecordsEditPage> {
   late final RecordEditPageBloc bloc;
-  late final RecordsService recordsService;
-  late final CategoriesService categoriesService;
-  late final GrossAmountsService grossAmountsService;
   final controller = TextEditingController();
 
   @override
   void initState() {
-    recordsService = Provider.of<RecordsService>(context, listen: false);
-    categoriesService = Provider.of<CategoriesService>(context, listen: false);
-    grossAmountsService =
-        Provider.of<GrossAmountsService>(context, listen: false);
-    bloc = RecordEditPageBloc(
-        recordsService, categoriesService, grossAmountsService);
-    bloc.init(record: widget.record);
+    _initBloc();
     super.initState();
   }
 
@@ -45,52 +32,43 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
         },
         builder: (_, state) {
           return state.when(
-            loading: _buildLoading,
-            content: _buildContent,
-            success: _buildContent,
-          );
+              loading: _buildLoading,
+              content: _buildContent,
+              success: _buildContent);
         });
   }
 
-  Widget _buildLoading(
-      List<Category> categoryList, Category category, RecordEditPageForm form) {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
+  Widget _buildLoading(List<Category> categoryList, Category category,
+          RecordEditPageForm form) =>
+      const AppLoadingIndicator();
 
   Widget _buildContent(
       List<Category> categoryList, Category category, RecordEditPageForm form) {
     final isEditing = widget.record != null;
     return Scaffold(
-      //  resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.only(top: 40.dw, left: 15.dw, right: 15.dw),
-          height: ScreenSizeConfig.getFullHeight,
-          width: ScreenSizeConfig.getFullWidth,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildPageTitle(),
-              _buildSectionTitle(
-                  isEditing
-                      ? 'Selected Category ( Unmodifiable )'
-                      : 'Choose Category',
-                  topOffset: 20.dh,
-                  withButton: !isEditing),
-              _buildOptions(category),
-              _buildCategoriesList(categoryList, category, form),
-              _buildSectionTitle('Amount', topOffset: 20.dh),
-              _buildAmountTextField(form),
-              _buildSectionTitle('Notes'),
-              _buildNotesTextField(form.notes),
-              _buildButton()
-            ],
-          ),
-        ),
-      ),
-    );
+        body: SingleChildScrollView(
+            child: Container(
+                padding: EdgeInsets.only(top: 40.dw, left: 15.dw, right: 15.dw),
+                height: ScreenSizeConfig.getFullHeight,
+                width: ScreenSizeConfig.getFullWidth,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildPageTitle(),
+                      _buildSectionTitle(
+                          isEditing
+                              ? 'Selected Category ( Unmodifiable )'
+                              : 'Choose Category',
+                          topOffset: 20.dh,
+                          withButton: !isEditing),
+                      _buildOptions(category),
+                      _buildCategoriesList(categoryList, category, form),
+                      _buildSectionTitle('Amount', topOffset: 20.dh),
+                      _buildAmountTextField(form),
+                      _buildSectionTitle('Notes'),
+                      _buildNotesTextField(form.notes),
+                      _buildButton()
+                    ]))));
   }
 
   _buildPageTitle() {
@@ -161,8 +139,9 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
         Container(
           height: 170.dh,
           width: ScreenSizeConfig.getFullWidth,
+          decoration: BoxDecoration(
+              color: AppColors.surface, borderRadius: borderRadius),
           margin: EdgeInsets.only(top: 20.dh, bottom: hasErrors ? 0 : 40.dh),
-          color: AppColors.surface,
           child: GridView.count(
               crossAxisCount: 2,
               shrinkWrap: true,
@@ -194,76 +173,66 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
     final isEditing = widget.record != null;
 
     return GestureDetector(
-      onTap: isEditing ? () {} : () => bloc.updateCategory(category),
-      child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.0),
-              border: Border.all(
-                  width: isSelected ? 1.5 : 0,
-                  color: isSelected ? AppColors.accent : Colors.transparent)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+        onTap: isEditing ? () {} : () => bloc.updateCategory(category),
+        child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white.withOpacity(.0),
+                borderRadius: borderRadius,
+                border: Border.all(
+                    width: isSelected ? 1 : 0,
+                    color: isSelected ? AppColors.accent : Colors.transparent)),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Icon(category.codePoint == -1 ? Icons.tag : category.getIcon,
                   color: isSelected
                       ? AppColors.onBackground
                       : AppColors.onBackground2),
               SizedBox(height: 10.dh),
-              AppText(
-                category.title,
-                color: isSelected
-                    ? AppColors.onBackground
-                    : AppColors.onBackground2,
-                size: 14.dw,
-                maxLines: 2,
-                alignment: TextAlign.center,
-              )
-            ],
-          )),
-    );
+              AppText(category.title,
+                  color: isSelected
+                      ? AppColors.onBackground
+                      : AppColors.onBackground2,
+                  size: 14.dw,
+                  maxLines: 2,
+                  alignment: TextAlign.center)
+            ])));
   }
 
   _buildAmountTextField(RecordEditPageForm form) {
     return AppTextField(
-      onChanged: bloc.updateAmount,
-      text: form.amount.toString(),
-      errors: form.errors,
-      hintText: '0',
-      letterSpacing: 1.4,
-      keyboardType: TextInputType.number,
-      errorName: 'amount',
-    );
+        onChanged: bloc.updateAmount,
+        text: form.amount.toString(),
+        errors: form.errors,
+        hintText: '0',
+        letterSpacing: 1.4,
+        keyboardType: TextInputType.number,
+        errorName: 'amount');
   }
 
   _buildNotesTextField(String notes) {
     return AppTextField(
-      errors: const {},
-      text: notes,
-      onChanged: bloc.updateNotes,
-      hintText: 'Add short notes for this record here.',
-      keyboardType: TextInputType.name,
-      errorName: '',
-    );
+        errors: const {},
+        text: notes,
+        onChanged: bloc.updateNotes,
+        hintText: 'Add short notes for this record here.',
+        keyboardType: TextInputType.name,
+        errorName: '');
   }
 
   _buildButton() {
     final isAdding = widget.record == null;
 
     return Expanded(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        AppTextButton(
+        child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+      AppTextButton(
           onPressed: isAdding ? bloc.add : bloc.edit,
-          text: isAdding ? 'Add' : 'Edit',
-          padding: EdgeInsets.symmetric(vertical: 10.dw),
+          text: isAdding ? 'ADD' : 'EDIT',
+          height: buttonHeight,
           margin: EdgeInsets.only(bottom: 30.dh),
           fontSize: 15.dw,
           isBolded: true,
-          buttonColor: AppColors.primary,
-        ),
-      ],
-    ));
+          buttonColor: AppColors.onBackground)
+    ]));
   }
 
   _buildOption(String text, String currentType, String type) {
@@ -274,5 +243,16 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
         onTap: isEditing ? () {} : () => bloc.updateType(type),
         isSelected: isSelected,
         option: text);
+  }
+
+  _initBloc() {
+    final recordsService = Provider.of<RecordsService>(context, listen: false);
+    final categoriesService =
+        Provider.of<CategoriesService>(context, listen: false);
+    final grossAmountsService =
+        Provider.of<GrossAmountsService>(context, listen: false);
+    bloc = RecordEditPageBloc(
+        recordsService, categoriesService, grossAmountsService);
+    bloc.init(record: widget.record);
   }
 }

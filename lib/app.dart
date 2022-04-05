@@ -14,12 +14,12 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             title: 'Flutter Demo',
             navigatorKey: navigatorKey,
-            debugShowCheckedModeBanner: false,
             theme: AppTheme.theme,
+            debugShowCheckedModeBanner: false,
             home: _returnFirstPage(context)));
   }
 
-  _returnFirstPage(BuildContext context) {
+  Widget _returnFirstPage(BuildContext context) {
     final userService = Provider.of<UserService>(context);
     if (!userService.isUserLoggedIn) return const LoginPage();
     return const MainPage();

@@ -23,20 +23,12 @@ class _DayTextState extends State<DayText> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 15.dw, bottom: 5.dh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppText(
-            widget.text,
-            color: AppColors.onBackground2,
-            size: 18.dw,
-            family: kFontFam2,
-          ),
-          _buildActionButtons(),
-        ],
-      ),
-    );
+        padding: EdgeInsets.only(left: 15.dw, bottom: 5.dh),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          AppText(widget.text.toUpperCase(),
+              color: AppColors.onBackground2, size: 16.dw, family: kFontFam2),
+          _buildActionButtons()
+        ]));
   }
 
   _buildActionButtons() {
@@ -44,15 +36,11 @@ class _DayTextState extends State<DayText> {
         ? Container(
             margin: EdgeInsets.only(top: 8.dw),
             width: ScreenSizeConfig.getFullWidth - 30.dw,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                _buildTextButton('${widget.hasTotals ? 'Hide' : 'Show'} totals',
-                    isShowingTotals: true),
-                _buildTextButton('Close')
-              ],
-            ),
-          )
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              _buildTextButton('${widget.hasTotals ? 'Hide' : 'Show'} totals',
+                  isShowingTotals: true),
+              _buildTextButton('Close')
+            ]))
         : Container();
   }
 

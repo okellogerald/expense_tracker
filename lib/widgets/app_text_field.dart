@@ -33,7 +33,6 @@ class AppTextField extends StatefulWidget {
 
 class _AppTextFieldState extends State<AppTextField> {
   final controller = TextEditingController();
-  final isVisibleNotifier = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -76,7 +75,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     hintStyle: TextStyle(
                         color: AppColors.onBackground2, fontSize: 14.dw),
                     fillColor: AppColors.surface,
-                    suffixIcon: widget.suffixIcon != null
+                    prefixIcon: widget.suffixIcon != null
                         ? Icon(widget.suffixIcon,
                             color: AppColors.primary, size: 20.dw)
                         : emptyContainer,
