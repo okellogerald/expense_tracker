@@ -31,7 +31,6 @@ void main() async {
 
   PreferencesService.initPrefs();
 
-  final firebaseAuth = FirebaseAuth.instance;
 
   final myApp = MultiProvider(
     providers: [
@@ -40,7 +39,7 @@ void main() async {
       Provider<RecordsService>(create: (_) => RecordsService()),
       Provider<BudgetsService>(create: (_) => BudgetsService()),
       Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
-      Provider<UserService>(create: (_) => UserService(firebaseAuth)),
+      Provider<UserService>(create: (_) => UserService()),
     ],
     child: const MyApp(),
   );

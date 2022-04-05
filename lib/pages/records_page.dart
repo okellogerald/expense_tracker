@@ -9,15 +9,12 @@ class RecordsPage extends StatefulWidget {
 
 class _RecordsPageState extends State<RecordsPage> {
   late final RecordsPageBloc bloc;
-  late final RecordsService recordsService;
-  late final PreferencesService prefsService;
-  late final GrossAmountsService grossAmountsService;
 
   @override
   void initState() {
-    recordsService = Provider.of<RecordsService>(context, listen: false);
-    prefsService = Provider.of<PreferencesService>(context, listen: false);
-    grossAmountsService =
+    var recordsService = Provider.of<RecordsService>(context, listen: false);
+    var prefsService = Provider.of<PreferencesService>(context, listen: false);
+    var grossAmountsService =
         Provider.of<GrossAmountsService>(context, listen: false);
     bloc = RecordsPageBloc(recordsService, prefsService, grossAmountsService);
     bloc.init();
@@ -27,9 +24,7 @@ class _RecordsPageState extends State<RecordsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildBody(),
-      floatingActionButton: _buildFloatingActionButton(),
-    );
+        body: _buildBody(), floatingActionButton: _buildFloatingActionButton());
   }
 
   _buildBody() {
@@ -37,95 +32,80 @@ class _RecordsPageState extends State<RecordsPage> {
         bloc: bloc,
         builder: (_, state) {
           return state.when(
-            loading: _buildLoading,
-            content: _buildContent,
-            success: _buildContent,
-          );
+              loading: _buildLoading,
+              content: _buildContent,
+              success: _buildContent);
         });
   }
 
   Widget _buildLoading(
-      List<Record> recordsList, RecordsPageSupplements supplements) {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
+          List<Record> recordsList, RecordsPageSupplements supplements) =>
+      const AppLoadingIndicator();
 
   Widget _buildContent(
       List<Record> recordsList, RecordsPageSupplements supplements) {
     return AppListView(
       backgroundColor: AppColors.background,
-      appBarDisapperingWidget: (value) => _buildTitle1(value, supplements),
-      appBarRemainingWidget: () => _buildTitle2(supplements),
+      appBarDisapperingWidget: (value) =>
+          _buildDateSettingsTitle(value, supplements),
+      appBarRemainingWidget: () => _buildBalances(supplements),
       listWidget: recordsList.isEmpty
           ? _buildEmptyList()
           : _buildRecords(recordsList, supplements),
     );
   }
 
-  Widget _buildTitle1(double value, RecordsPageSupplements supp) {
+  Widget _buildDateSettingsTitle(double value, RecordsPageSupplements supp) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Center(
-          child: AppText(
-            '${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
-            color: AppColors.onBackground,
-            size: value,
-            family: kFontFam2,
-          ),
-        ),
+            child: AppText(
+                '${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
+                color: AppColors.onBackground,
+                size: value,
+                family: kFontFam2)),
         AppIconButton(
-          icon: Icons.settings,
-          iconSize: value,
-          iconColor: AppColors.primary,
-          onPressed: /* () => SettingsPage.navigateTo(context) */ () {},
-        ),
+            icon: Icons.settings,
+            iconSize: value,
+            iconColor: AppColors.primary,
+            onPressed: /* () => SettingsPage.navigateTo(context) */ () {}),
       ],
     );
   }
 
-  Widget _buildTitle2(RecordsPageSupplements supplements) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _buildBudgetAmount('Income', supplements.totalRecords.getIncome),
-        _buildBudgetAmount('Expenses', supplements.totalRecords.getExpenses),
-        _buildBudgetAmount('Balance', supplements.totalRecords.getBalance),
-      ],
-    );
+  Widget _buildBalances(RecordsPageSupplements supplements) {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      _buildBalance('Income', supplements.totalRecords.totalIncome),
+      SizedBox(width: 10.dw),
+      _buildBalance('Expenses', supplements.totalRecords.totalExpenses),
+      SizedBox(width: 10.dw),
+      _buildBalance('Balance', supplements.totalRecords.balance)
+    ]);
   }
 
   _buildEmptyList() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.dw),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/records.png',
-            height: 80.dh,
-            fit: BoxFit.contain,
-          ),
+        padding: EdgeInsets.symmetric(horizontal: 15.dw),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Image.asset('assets/images/records.png',
+              height: 80.dh, fit: BoxFit.contain),
           SizedBox(height: 20.dh),
           AppText('Records you add will be viewed from this page.',
               color: AppColors.onBackground2, size: 15.dw)
-        ],
-      ),
-    );
+        ]));
   }
 
   _buildRecords(List<Record> recordsList, RecordsPageSupplements supplements) {
     return ListView.builder(
-      padding: EdgeInsets.only(bottom: 90.dh, top: 150.dh),
-      itemBuilder: (context, i) {
-        final index = Utils.getDaysInMonth() - i + 1;
-        final recordList =
-            recordsList.where((e) => e.date.day == index).toList();
-        return _buildDayRecords(recordList, index, supplements);
-      },
-      itemCount: Utils.getDaysInMonth(),
-    );
+        padding: EdgeInsets.only(bottom: 90.dh, top: 150.dh),
+        itemBuilder: (context, i) {
+          final index = Utils.getDaysInMonth() - i + 1;
+          final recordList =
+              recordsList.where((e) => e.date.day == index).toList();
+          return _buildDayRecords(recordList, index, supplements);
+        },
+        itemCount: Utils.getDaysInMonth());
   }
 
   Widget _buildDayRecords(
@@ -213,71 +193,64 @@ class _RecordsPageState extends State<RecordsPage> {
   }
 
   _buildTotals(String title, String amount, bool isIncome) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        AppText(
-          title,
-          size: 14.dw,
-          isBolded: true,
-        ),
-        Row(
-          children: [
-            Currency(color: isIncome ? AppColors.positive : AppColors.negative),
-            AppText(
-              amount,
-              size: 14.dw,
-              color: AppColors.positive,
-              family: kFontFam2,
-              isBolded: true,
-            ),
-          ],
-        ),
-      ],
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      AppText(title, size: 14.dw, isBolded: true),
+      Row(children: [
+        Currency(color: isIncome ? AppColors.positive : AppColors.negative),
+        AppText(amount,
+            size: 14.dw,
+            color: AppColors.positive,
+            family: kFontFam2,
+            isBolded: true)
+      ])
+    ]);
   }
 
-  _buildBudgetAmount(String text, String amount) {
-    final isExpense = text == 'Expenses';
+  _buildBalance(String text, double amount) {
+    final isOutflow = text == 'Expenses' || amount.isNegative;
+    final formattedAmount = Utils.convertToMoneyFormat(amount);
 
-    return Container(
-      width: 125.dw,
-      padding: EdgeInsets.symmetric(vertical: 5.dh),
-      alignment: Alignment.center,
-      color: AppColors.tertiary,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AppText(text.toUpperCase(),
-              size: 15.dw, color: AppColors.onBackground2),
-          SizedBox(height: 5.dh),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Currency(
-                  color: isExpense ? AppColors.negative : AppColors.positive),
-              AppText(amount,
-                  size: 13.dw,
-                  isBolded: true,
-                  family: kFontFam2,
-                  color: !isExpense ? AppColors.positive : AppColors.negative),
-            ],
-          )
-        ],
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 6.dh),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            color: AppColors.tertiary,
+            borderRadius: BorderRadius.all(Radius.circular(10.dw))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AppText(text.toUpperCase(),
+                size: 15.dw, color: AppColors.onBackground2),
+            SizedBox(height: 5.dh),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Currency(
+                    color: isOutflow ? AppColors.negative : AppColors.positive),
+                AppText(formattedAmount,
+                    size: 13.dw,
+                    isBolded: true,
+                    family: kFontFam2,
+                    color:
+                        !isOutflow ? AppColors.positive : AppColors.negative),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
 
   _buildFloatingActionButton() {
     return AppIconButton(
-      onPressed: () => RecordsEditPage.navigateTo(context),
-      buttonColor: AppColors.primary,
-      icon: Icons.add,
-      iconColor: AppColors.onPrimary,
-      height: 55.dw,
-      width: 55.dw,
-      spreadRadius: 30.dw,
-      iconSize: 30.dw,
-    );
+        onPressed: () => RecordsEditPage.navigateTo(context),
+        buttonColor: AppColors.primary,
+        icon: Icons.add,
+        iconColor: AppColors.onPrimary,
+        height: 55.dw,
+        width: 55.dw,
+        spreadRadius: 30.dw,
+        iconSize: 30.dw);
   }
 }

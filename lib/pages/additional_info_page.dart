@@ -26,9 +26,9 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
     return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
         bloc: bloc,
         listener: (_, state) {
-          final hasSucceeded =
+          final isSuccess =
               state.maybeWhen(success: (_) => true, orElse: () => false);
-          if (hasSucceeded) pushAndRemoveUntil(const MainPage());
+          if (isSuccess) pushAndRemoveUntil(const MainPage());
 
           final error =
               state.maybeWhen(failed: (_, error) => error, orElse: () => null);

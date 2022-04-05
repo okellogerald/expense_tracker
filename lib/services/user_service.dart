@@ -10,23 +10,23 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 const timeLimit = Duration(seconds: 10);
-const root = 'https://kkssl6-ip-197-186-1-105.expose.sh';
+const root = 'https://ywntrs-ip-197-186-1-86.expose.sh';
 const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 const facebookRoot =
     'https://graph.facebook.com/v2.12/me?fields=name,picture.height(200),email';
 
 class UserService {
-  UserService(this._auth) {
+  UserService() {
     final jsonUser = _box.get(kUser) as String?;
     if (jsonUser == null) return;
     _user = User.fromJson(json.decode(jsonUser));
   }
 
   var _user = const User();
-  final FirebaseAuth _auth;
   final _box = Hive.box(kUser);
-  final _google = GoogleSignIn();
-  final _facebook = FacebookAuth.instance;
+  final _googleSignIn = GoogleSignIn();
+  final _facebookAuth = FacebookAuth.instance;
+  final _firebaseAuth = FirebaseAuth.instance;
 
   //userPassword is stored here to be used for deleteAccount purposes.
   //Assigned to this variable after successful sign-up or sign-in processes only.
@@ -39,19 +39,18 @@ class UserService {
   ///for users signing up with email & password
   Future<void> sendEmailVerificationEmail(String email) async {
     try {
-      final credential = await _auth.createUserWithEmailAndPassword(
+      final credential = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: 'default_password@expense_tracker');
       if (credential.user != null) {
         await credential.user!.sendEmailVerification();
       }
     } on FirebaseAuthException catch (e) {
-      //if user had already provided email and wanted to verify it but did not
-      //finish the process, hence was not verified.
+      //if sendingEmailVerification was somehow not successful but creating user
+      //operation was.
       if (e.code == 'email-already-in-use') {
-        await _auth.currentUser!
+        await _firebaseAuth.currentUser!
             .sendEmailVerification()
             .catchError((e) => _handleError(e));
-        _user = _user.copyWith(email: email);
       }
     } catch (e) {
       _handleError(e);
@@ -64,7 +63,7 @@ class UserService {
     //have to re-sign-in because auth.currentUser just gives a snapshot based on
     //the prev sign-in or sign-up but doesn't react to user state changes
     try {
-      final userCredential = await _auth.signInWithEmailAndPassword(
+      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: 'default_password@expense_tracker');
       final user = userCredential.user;
       //if user is still null
@@ -85,7 +84,7 @@ class UserService {
         //signing in with the default password won't work because after being
         //verified it is changed. This is necessary to check because this
         //first operation may be successful and the second may not
-        final userCredential = await _auth.signInWithEmailAndPassword(
+        final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
             email: user.email, password: 'default_password@expense_tracker');
         final firebaseUser = userCredential.user;
         await firebaseUser!.updatePassword(password).timeout(timeLimit);
@@ -106,7 +105,7 @@ class UserService {
     }
   }
 
-  Future<void> logIn({required String email, required String password}) async {
+  Future<void> logIn(String email, String password) async {
     final body = {"password": password};
     try {
       final response = await http
@@ -125,7 +124,7 @@ class UserService {
   ///returns [true] after successful operation
   Future<bool> getUserFacebookDetails() async {
     try {
-      final result = await _facebook.login();
+      final result = await _facebookAuth.login();
       if (result.accessToken != null) {
         final url = '$facebookRoot&access_token=${result.accessToken!.token}';
         var response = await http.get(Uri.parse(url));
@@ -141,13 +140,34 @@ class UserService {
 
   ///returns [true] after successful operation
   Future<bool> getUserGoogleDetails() async {
-    await _google.disconnect().catchError((_) {});
-    final account = await _google.signIn().catchError((e) => _handleError(e));
+    await _googleSignIn.disconnect().catchError((_) {});
+    final account =
+        await _googleSignIn.signIn().catchError((e) => _handleError(e));
     if (account != null) {
       _user = User.fromGoogleAccount(account);
       return true;
     }
     return false;
+  }
+
+  Future<void> signOut() async {
+    final user = _box.get(kUser) as String?;
+    if (user == null) return;
+    await _box.delete(kUser);
+  }
+
+  Future<void> deleteAccount() async {
+    try {
+      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+          email: _user.email, password: _userPassword);
+      await userCredential.user!.delete();
+      await http
+          .delete(Uri.parse('$root/user/?email=${_user.email}'),
+              headers: headers)
+          .timeout(timeLimit);
+    } catch (e) {
+      _handleError(e);
+    }
   }
 
   _handleError(dynamic error, [bool isVerifyingEmail = false]) {
@@ -175,26 +195,6 @@ class UserService {
     final responseBody = json.decode(response.body);
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw ApiErrors(responseBody['error']);
-    }
-  }
-
-  Future<void> signOut() async {
-    final user = _box.get(kUser) as String?;
-    if (user == null) return;
-    await _box.delete(kUser);
-  }
-
-  Future<void> deleteAccount() async {
-    try {
-      final userCredential = await _auth.signInWithEmailAndPassword(
-          email: _user.email, password: _userPassword);
-      await userCredential.user!.delete();
-      await http
-          .delete(Uri.parse('$root/user/?email=${_user.email}'),
-              headers: headers)
-          .timeout(timeLimit);
-    } catch (e) {
-      _handleError(e);
     }
   }
 }

@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
               suffixIcon: Icons.password_outlined,
               isLoginPassword: true),
           AppTextButton(
-              onPressed: () {},
+              onPressed: bloc.logIn,
               text: 'LOG IN',
               buttonColor: AppColors.onBackground,
               isBolded: true,

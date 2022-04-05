@@ -28,22 +28,24 @@ class User with _$User {
       @Default(0)
           int currencyCodePoint}) = _User;
 
-  bool get isAlreadyVerified => email.trim().isNotEmpty;
-
   bool get isSignedUpWithEmailAndPassword =>
       signUpOption == SigningUpOptions.email_password;
+
+  bool get isSignedUpWithGoogle => signUpOption == SigningUpOptions.google;
+
+  bool get isSignedUpWithFacebook => signUpOption == SigningUpOptions.facebook;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   factory User.fromGoogleAccount(GoogleSignInAccount account) => User(
       signUpOption: SigningUpOptions.google,
-      displayName: account.displayName!,
+      displayName: account.displayName ?? '',
       email: account.email,
       photoUrl: account.photoUrl ?? '');
 
   factory User.fromFacebookProfile(Map<String, dynamic> account) => User(
       signUpOption: SigningUpOptions.facebook,
-      displayName: account['name'],
+      displayName: account['name'] ?? '',
       email: account['email'],
       photoUrl: account['picture']['data']['url'] ?? '');
 }

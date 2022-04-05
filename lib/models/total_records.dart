@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import '../source.dart';
 
 part 'total_records.g.dart';
 
@@ -28,9 +27,8 @@ class TotalRecords extends HiveObject {
         totalIncome: totalIncome ?? this.totalIncome,
       );
 
-  String get getIncome => Utils.convertToMoneyFormat(totalIncome);
+/*  String get getIncome => Utils.convertToMoneyFormat(totalIncome);
   String get getExpenses => Utils.convertToMoneyFormat(totalExpenses);
-  String get getBudget => Utils.convertToMoneyFormat(budget);
-  String get getBalance =>
-      Utils.convertToMoneyFormat(totalIncome - totalExpenses);
+  String get getBudget => Utils.convertToMoneyFormat(budget);*/
+  double get balance => totalIncome - totalExpenses;
 }

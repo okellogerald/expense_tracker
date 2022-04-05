@@ -78,7 +78,11 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     }
   }
 
-  void signUp() async {
+  void signUp() => _onBoard(true);
+
+  void logIn() => _onBoard();
+
+  void _onBoard([bool isSigningUp = false]) async {
     _validate();
 
     var supp = state.supplements;
@@ -87,7 +91,11 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
 
     emit(OnBoardingPageState.loading(supp));
     try {
-      await service.signUp(supp.user, supp.password);
+      if (isSigningUp) {
+        await service.signUp(supp.user, supp.password);
+      } else {
+        await service.logIn(supp.user.email, supp.password);
+      }
       emit(OnBoardingPageState.success(supp));
     } on ApiErrors catch (e) {
       emit(OnBoardingPageState.failed(supp, message: e.message));
