@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'gross_amount.g.dart';
+part 'g_models/gross_amount.g.dart';
 
 @HiveType(typeId: 5)
 class GrossAmount extends HiveObject {

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -27,10 +26,7 @@ void main() async {
   await Hive.openBox(kGrossAmounts);
   await Hive.openBox(kUser);
 
-  IconCodePointGenerator.generate();
-
   PreferencesService.initPrefs();
-
 
   final myApp = MultiProvider(
     providers: [

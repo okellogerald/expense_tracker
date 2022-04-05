@@ -62,25 +62,20 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
     final isEditing = widget.category != null;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(10.dw, 40.dw, 10.dw, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildPageTitle(),
-            _buildSectionTitle('Title', topOffset: 20.dh),
-            _buildTextField(form),
-            _buildSectionTitle(
-                isEditing ? 'Selected Type ( Unmodifiable )' : 'Type'),
-            _buildOptions(form),
-            _buildSectionTitle('Icon'),
-            _buildCategoryIcons(form),
-            _buildButton(),
-          ],
-        ),
-      ),
-    );
+        resizeToAvoidBottomInset: false,
+        body: Padding(
+            padding: EdgeInsets.fromLTRB(10.dw, 40.dw, 10.dw, 0),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              _buildPageTitle(),
+              _buildSectionTitle('Title', topOffset: 20.dh),
+              _buildTextField(form),
+              _buildSectionTitle(
+                  isEditing ? 'Selected Type ( Unmodifiable )' : 'Type'),
+              _buildOptions(form),
+              _buildSectionTitle('Icon'),
+              _buildButton()
+            ])));
   }
 
   _buildPageTitle() {
@@ -144,45 +139,6 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
         onTap: isEditing ? () {} : () => bloc.updateType(type.toLowerCase()),
         option: text,
         isSelected: isSelected);
-  }
-
-  _buildCategoryIcons(CategoryForm form) {
-    final codePointList = IconCodePointGenerator.categoryIconscodePointList;
-
-    return Container(
-        color: AppColors.surface,
-        height: 290.dh,
-        child: GridView.count(
-            crossAxisCount: 6,
-            childAspectRatio: .75.dw,
-            shrinkWrap: true,
-            controller: scrollController,
-            scrollDirection: Axis.horizontal,
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.all(10.dw),
-            children: codePointList.map((e) {
-              final formatted = '0xe' + e.toString();
-              final codePoint = int.parse(formatted);
-              final isSelected = form.codePoint == codePoint;
-
-              return GestureDetector(
-                onTap: () => bloc.updatecodePoint(codePoint),
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.0),
-                        border: Border.all(
-                            width: isSelected ? 1.5 : 0,
-                            color: isSelected
-                                ? AppColors.accent
-                                : Colors.transparent)),
-                    child: Icon(
-                      AppIcons.getIcon(codePoint),
-                      color: isSelected
-                          ? AppColors.onBackground
-                          : AppColors.onBackground2,
-                    )),
-              );
-            }).toList()));
   }
 
   _buildButton() {

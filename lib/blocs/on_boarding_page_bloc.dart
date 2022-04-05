@@ -15,21 +15,16 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
   }
 
   void updateUserDetails(
-      {String? displayName, String? email, String? password, int? currency}) {
+      {String? displayName,
+      String? email,
+      String? password,
+      String? currency}) {
     var supp = state.supplements;
     emit(OnBoardingPageState.loading(supp));
-    var userCurrency = supp.user.currencyCodePoint;
-    if (currency != null) {
-      if (userCurrency == currency) {
-        userCurrency = 0;
-      } else {
-        userCurrency = currency;
-      }
-    }
     final user = supp.user.copyWith(
         email: email?.trim() ?? supp.user.email,
         displayName: displayName?.trim() ?? supp.user.displayName,
-        currencyCodePoint: userCurrency);
+        currency: currency ?? supp.user.currency);
     supp = supp.copyWith(user: user, password: password ?? supp.password);
     emit(OnBoardingPageState.content(supp));
   }

@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'user.dart';
+part of '../user.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -32,14 +32,14 @@ class _$UserTearOff {
       @JsonKey(name: 'backup_option')
           String backUpOption = BackUpOptions.on_button_tap,
       @JsonKey(name: 'currency')
-          int currencyCodePoint = 0}) {
+          String currency = ''}) {
     return _User(
       displayName: displayName,
       email: email,
       signUpOption: signUpOption,
       photoUrl: photoUrl,
       backUpOption: backUpOption,
-      currencyCodePoint: currencyCodePoint,
+      currency: currency,
     );
   }
 
@@ -63,7 +63,7 @@ mixin _$User {
   @JsonKey(name: 'backup_option')
   String get backUpOption => throw _privateConstructorUsedError;
   @JsonKey(name: 'currency')
-  int get currencyCodePoint => throw _privateConstructorUsedError;
+  String get currency => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -80,7 +80,7 @@ abstract class $UserCopyWith<$Res> {
       @JsonKey(name: 'signup_option') String signUpOption,
       @JsonKey(name: 'photo_url') String photoUrl,
       @JsonKey(name: 'backup_option') String backUpOption,
-      @JsonKey(name: 'currency') int currencyCodePoint});
+      @JsonKey(name: 'currency') String currency});
 }
 
 /// @nodoc
@@ -98,7 +98,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? signUpOption = freezed,
     Object? photoUrl = freezed,
     Object? backUpOption = freezed,
-    Object? currencyCodePoint = freezed,
+    Object? currency = freezed,
   }) {
     return _then(_value.copyWith(
       displayName: displayName == freezed
@@ -121,10 +121,10 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _value.backUpOption
           : backUpOption // ignore: cast_nullable_to_non_nullable
               as String,
-      currencyCodePoint: currencyCodePoint == freezed
-          ? _value.currencyCodePoint
-          : currencyCodePoint // ignore: cast_nullable_to_non_nullable
-              as int,
+      currency: currency == freezed
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -140,7 +140,7 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       @JsonKey(name: 'signup_option') String signUpOption,
       @JsonKey(name: 'photo_url') String photoUrl,
       @JsonKey(name: 'backup_option') String backUpOption,
-      @JsonKey(name: 'currency') int currencyCodePoint});
+      @JsonKey(name: 'currency') String currency});
 }
 
 /// @nodoc
@@ -159,7 +159,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
     Object? signUpOption = freezed,
     Object? photoUrl = freezed,
     Object? backUpOption = freezed,
-    Object? currencyCodePoint = freezed,
+    Object? currency = freezed,
   }) {
     return _then(_User(
       displayName: displayName == freezed
@@ -182,10 +182,10 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
           ? _value.backUpOption
           : backUpOption // ignore: cast_nullable_to_non_nullable
               as String,
-      currencyCodePoint: currencyCodePoint == freezed
-          ? _value.currencyCodePoint
-          : currencyCodePoint // ignore: cast_nullable_to_non_nullable
-              as int,
+      currency: currency == freezed
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -204,7 +204,7 @@ class _$_User extends _User {
       @JsonKey(name: 'backup_option')
           this.backUpOption = BackUpOptions.on_button_tap,
       @JsonKey(name: 'currency')
-          this.currencyCodePoint = 0})
+          this.currency = ''})
       : super._();
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
@@ -226,11 +226,11 @@ class _$_User extends _User {
   final String backUpOption;
   @override
   @JsonKey(name: 'currency')
-  final int currencyCodePoint;
+  final String currency;
 
   @override
   String toString() {
-    return 'User(displayName: $displayName, email: $email, signUpOption: $signUpOption, photoUrl: $photoUrl, backUpOption: $backUpOption, currencyCodePoint: $currencyCodePoint)';
+    return 'User(displayName: $displayName, email: $email, signUpOption: $signUpOption, photoUrl: $photoUrl, backUpOption: $backUpOption, currency: $currency)';
   }
 
   @override
@@ -246,8 +246,7 @@ class _$_User extends _User {
             const DeepCollectionEquality().equals(other.photoUrl, photoUrl) &&
             const DeepCollectionEquality()
                 .equals(other.backUpOption, backUpOption) &&
-            const DeepCollectionEquality()
-                .equals(other.currencyCodePoint, currencyCodePoint));
+            const DeepCollectionEquality().equals(other.currency, currency));
   }
 
   @override
@@ -258,7 +257,7 @@ class _$_User extends _User {
       const DeepCollectionEquality().hash(signUpOption),
       const DeepCollectionEquality().hash(photoUrl),
       const DeepCollectionEquality().hash(backUpOption),
-      const DeepCollectionEquality().hash(currencyCodePoint));
+      const DeepCollectionEquality().hash(currency));
 
   @JsonKey(ignore: true)
   @override
@@ -278,7 +277,7 @@ abstract class _User extends User {
       @JsonKey(name: 'signup_option') String signUpOption,
       @JsonKey(name: 'photo_url') String photoUrl,
       @JsonKey(name: 'backup_option') String backUpOption,
-      @JsonKey(name: 'currency') int currencyCodePoint}) = _$_User;
+      @JsonKey(name: 'currency') String currency}) = _$_User;
   const _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
@@ -299,7 +298,7 @@ abstract class _User extends User {
   String get backUpOption;
   @override
   @JsonKey(name: 'currency')
-  int get currencyCodePoint;
+  String get currency;
   @override
   @JsonKey(ignore: true)
   _$UserCopyWith<_User> get copyWith => throw _privateConstructorUsedError;

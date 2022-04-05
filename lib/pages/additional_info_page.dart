@@ -1,6 +1,7 @@
 import 'package:budgetting_app/utils/navigation_logic.dart';
 
 import '../source.dart';
+import '../widgets/type_selector.dart';
 
 class AdditionalInfoPage extends StatefulWidget {
   const AdditionalInfoPage({Key? key}) : super(key: key);
@@ -55,7 +56,9 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
             children: [
               _buildTitle(),
               _buildTextFields(supp),
-              _buildCurrencyIcons(supp),
+              CurrencySelector(
+                  onCurrencySelected: (currency) =>
+                      bloc.updateUserDetails(currency: currency)),
               _buildDoneButton()
             ]));
   }
@@ -99,58 +102,6 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
             errors: supp.errors,
             text: supp.password,
             onChanged: (password) => bloc.updateUserDetails(password: password))
-      ],
-    );
-  }
-
-  _buildCurrencyIcons(OnBoardingSupplements supp) {
-    final codePointList = IconCodePointGenerator.currencyIconscodePointList;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 40.dh),
-        AppText(
-          'Choose your currency: [OPTIONAL]',
-          size: 16.dw,
-          color: AppColors.onBackground2,
-        ),
-        SizedBox(height: 10.dh),
-        Container(
-            decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.all(Radius.circular(20.dw))),
-            height: 200.dh,
-            width: ScreenSizeConfig.getFullWidth,
-            child: GridView.count(
-                crossAxisCount: 3,
-                shrinkWrap: true,
-                childAspectRatio: .9.dw,
-                scrollDirection: Axis.horizontal,
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.all(10.dw),
-                children: codePointList.map((e) {
-                  final formatted = '0xe' + e.toString();
-                  final codePoint = int.parse(formatted);
-                  final isSelected = codePoint == supp.user.currencyCodePoint;
-
-                  return GestureDetector(
-                    onTap: () => bloc.updateUserDetails(currency: codePoint),
-                    child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(.0),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.dw)),
-                            border: Border.all(
-                                color: isSelected
-                                    ? AppColors.accent
-                                    : Colors.transparent)),
-                        child: Icon(
-                          CurrencyIcons.getIcon(codePoint),
-                          color: AppColors.onBackground2,
-                        )),
-                  );
-                }).toList())),
       ],
     );
   }

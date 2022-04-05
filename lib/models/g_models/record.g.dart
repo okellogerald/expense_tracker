@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'record.dart';
+part of '../record.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

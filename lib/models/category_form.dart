@@ -1,7 +1,7 @@
 import 'package:budgetting_app/source.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'category_form.freezed.dart';
+part 'freezed_models/category_form.freezed.dart';
 
 @freezed
 class CategoryForm with _$CategoryForm {

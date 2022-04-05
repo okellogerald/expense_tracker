@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'budget.dart';
+part of '../budget.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
