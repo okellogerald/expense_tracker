@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../source.dart';
 
-part 'budget_edit_page_state.freezed.dart';
+part 'generated/budget_edit_page_state.freezed.dart';
 
 @freezed
 class BudgetEditPageState with _$BudgetEditPageState {
