@@ -40,7 +40,7 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     try {
       await service.sendEmailVerificationEmail(supp.user.email);
       emit(OnBoardingPageState.success(supp));
-    } on ApiErrors catch (e) {
+    } on UserException catch (e) {
       emit(OnBoardingPageState.failed(supp, message: e.message));
     }
   }
@@ -51,7 +51,7 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
     try {
       await service.checkIfEmailIsVerified(supp.user.email);
       emit(OnBoardingPageState.success(supp));
-    } on ApiErrors catch (e) {
+    } on UserException catch (e) {
       emit(OnBoardingPageState.failed(supp, message: e.message));
     }
   }
@@ -68,7 +68,7 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
         return;
       }
       emit(OnBoardingPageState.success(supp));
-    } on ApiErrors catch (e) {
+    } on UserException catch (e) {
       emit(OnBoardingPageState.failed(supp, message: e.message));
     }
   }
@@ -92,7 +92,7 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
         await service.logIn(supp.user.email, supp.password);
       }
       emit(OnBoardingPageState.success(supp));
-    } on ApiErrors catch (e) {
+    } on UserException catch (e) {
       emit(OnBoardingPageState.failed(supp, message: e.message));
     }
   }
@@ -105,7 +105,7 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
       await service.signOut();
       supp = OnBoardingSupplements.empty();
       emit(OnBoardingPageState.success(supp));
-    } on ApiErrors catch (e) {
+    } on UserException catch (e) {
       emit(OnBoardingPageState.failed(supp, message: e.message));
     }
   }

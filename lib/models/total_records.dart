@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'g_models/total_records.g.dart';
+part 'total_records.g.dart';
 
 @HiveType(typeId: 3)
 class TotalRecords extends HiveObject {

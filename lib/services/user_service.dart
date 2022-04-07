@@ -67,10 +67,10 @@ class UserService {
           email: email, password: 'default_password@expense_tracker');
       final user = userCredential.user;
       //if user is still null
-      if (user == null) throw ApiErrors.failedToCheckEmailVerificationStatus();
+      if (user == null) throw UserException.failedToCheckEmailVerificationStatus();
       //else
       if (user.emailVerified) _user = _user.copyWith(email: email);
-      if (!user.emailVerified) throw ApiErrors.emailNotVerified(email);
+      if (!user.emailVerified) throw UserException.emailNotVerified(email);
     } catch (e) {
       _handleError(e, true);
     }
@@ -169,8 +169,8 @@ class UserService {
 
   _handleError(dynamic error, [bool isVerifyingEmail = false]) {
     if (error is SocketException || error is TimeoutException) {
-      throw ApiErrors.internet();
-    } else if (error is ApiErrors) {
+      throw UserException.internet();
+    } else if (error is UserException) {
       throw error;
     } else if (error is FirebaseAuthException) {
       //when verifying if the user has verified the email address, we sign-in
@@ -180,18 +180,18 @@ class UserService {
               code == 'user-disabled' ||
               code == 'user-not-found') &&
           isVerifyingEmail) {
-        throw ApiErrors.failedToCheckEmailVerificationStatus();
+        throw UserException.failedToCheckEmailVerificationStatus();
       }
-      throw ApiErrors(error.message ?? error.code);
+      throw UserException(error.message ?? error.code);
     } else {
-      throw ApiErrors.unknown();
+      throw UserException.unknown();
     }
   }
 
   _handleStatusCode(http.Response response) {
     final responseBody = json.decode(response.body);
     if (response.statusCode != 200 && response.statusCode != 201) {
-      throw ApiErrors(responseBody['error']);
+      throw UserException(responseBody['error']);
     }
   }
 }

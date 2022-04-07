@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import '../source.dart';
 
-part 'g_models/record.g.dart';
+part 'record.g.dart';
 
 @HiveType(typeId: 2)
 class Record extends HiveObject {

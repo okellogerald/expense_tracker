@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../source.dart';
 
-part 'generated/record_edit_page_state.freezed.dart';
+part 'record_edit_page_state.freezed.dart';
 
 @freezed
 class RecordEditPageState with _$RecordEditPageState {

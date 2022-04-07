@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of '../budget_edit_page_state.dart';
+part of 'record_edit_page_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,82 +14,82 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-class _$BudgetEditPageStateTearOff {
-  const _$BudgetEditPageStateTearOff();
+class _$RecordEditPageStateTearOff {
+  const _$RecordEditPageStateTearOff();
 
   _Loading loading(
-      List<Category> categoryList, List<String> idList, BudgetForm form) {
+      List<Category> categoryList, Category category, RecordEditPageForm form) {
     return _Loading(
       categoryList,
-      idList,
+      category,
       form,
     );
   }
 
   _Content content(
-      List<Category> categoryList, List<String> idList, BudgetForm form) {
+      List<Category> categoryList, Category category, RecordEditPageForm form) {
     return _Content(
       categoryList,
-      idList,
+      category,
       form,
     );
   }
 
   _Success success(
-      List<Category> categoryList, List<String> idList, BudgetForm form) {
+      List<Category> categoryList, Category category, RecordEditPageForm form) {
     return _Success(
       categoryList,
-      idList,
+      category,
       form,
     );
   }
 }
 
 /// @nodoc
-const $BudgetEditPageState = _$BudgetEditPageStateTearOff();
+const $RecordEditPageState = _$RecordEditPageStateTearOff();
 
 /// @nodoc
-mixin _$BudgetEditPageState {
+mixin _$RecordEditPageState {
   List<Category> get categoryList => throw _privateConstructorUsedError;
-  List<String> get idList => throw _privateConstructorUsedError;
-  BudgetForm get form => throw _privateConstructorUsedError;
+  Category get category => throw _privateConstructorUsedError;
+  RecordEditPageForm get form => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         loading,
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         content,
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         loading,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         content,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         loading,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         content,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         success,
     required TResult orElse(),
   }) =>
@@ -118,34 +118,36 @@ mixin _$BudgetEditPageState {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $BudgetEditPageStateCopyWith<BudgetEditPageState> get copyWith =>
+  $RecordEditPageStateCopyWith<RecordEditPageState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $BudgetEditPageStateCopyWith<$Res> {
-  factory $BudgetEditPageStateCopyWith(
-          BudgetEditPageState value, $Res Function(BudgetEditPageState) then) =
-      _$BudgetEditPageStateCopyWithImpl<$Res>;
+abstract class $RecordEditPageStateCopyWith<$Res> {
+  factory $RecordEditPageStateCopyWith(
+          RecordEditPageState value, $Res Function(RecordEditPageState) then) =
+      _$RecordEditPageStateCopyWithImpl<$Res>;
   $Res call(
-      {List<Category> categoryList, List<String> idList, BudgetForm form});
+      {List<Category> categoryList,
+      Category category,
+      RecordEditPageForm form});
 
-  $BudgetFormCopyWith<$Res> get form;
+  $RecordEditPageFormCopyWith<$Res> get form;
 }
 
 /// @nodoc
-class _$BudgetEditPageStateCopyWithImpl<$Res>
-    implements $BudgetEditPageStateCopyWith<$Res> {
-  _$BudgetEditPageStateCopyWithImpl(this._value, this._then);
+class _$RecordEditPageStateCopyWithImpl<$Res>
+    implements $RecordEditPageStateCopyWith<$Res> {
+  _$RecordEditPageStateCopyWithImpl(this._value, this._then);
 
-  final BudgetEditPageState _value;
+  final RecordEditPageState _value;
   // ignore: unused_field
-  final $Res Function(BudgetEditPageState) _then;
+  final $Res Function(RecordEditPageState) _then;
 
   @override
   $Res call({
     Object? categoryList = freezed,
-    Object? idList = freezed,
+    Object? category = freezed,
     Object? form = freezed,
   }) {
     return _then(_value.copyWith(
@@ -153,20 +155,20 @@ class _$BudgetEditPageStateCopyWithImpl<$Res>
           ? _value.categoryList
           : categoryList // ignore: cast_nullable_to_non_nullable
               as List<Category>,
-      idList: idList == freezed
-          ? _value.idList
-          : idList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      category: category == freezed
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category,
       form: form == freezed
           ? _value.form
           : form // ignore: cast_nullable_to_non_nullable
-              as BudgetForm,
+              as RecordEditPageForm,
     ));
   }
 
   @override
-  $BudgetFormCopyWith<$Res> get form {
-    return $BudgetFormCopyWith<$Res>(_value.form, (value) {
+  $RecordEditPageFormCopyWith<$Res> get form {
+    return $RecordEditPageFormCopyWith<$Res>(_value.form, (value) {
       return _then(_value.copyWith(form: value));
     });
   }
@@ -174,20 +176,22 @@ class _$BudgetEditPageStateCopyWithImpl<$Res>
 
 /// @nodoc
 abstract class _$LoadingCopyWith<$Res>
-    implements $BudgetEditPageStateCopyWith<$Res> {
+    implements $RecordEditPageStateCopyWith<$Res> {
   factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
       __$LoadingCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<Category> categoryList, List<String> idList, BudgetForm form});
+      {List<Category> categoryList,
+      Category category,
+      RecordEditPageForm form});
 
   @override
-  $BudgetFormCopyWith<$Res> get form;
+  $RecordEditPageFormCopyWith<$Res> get form;
 }
 
 /// @nodoc
 class __$LoadingCopyWithImpl<$Res>
-    extends _$BudgetEditPageStateCopyWithImpl<$Res>
+    extends _$RecordEditPageStateCopyWithImpl<$Res>
     implements _$LoadingCopyWith<$Res> {
   __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
       : super(_value, (v) => _then(v as _Loading));
@@ -198,7 +202,7 @@ class __$LoadingCopyWithImpl<$Res>
   @override
   $Res call({
     Object? categoryList = freezed,
-    Object? idList = freezed,
+    Object? category = freezed,
     Object? form = freezed,
   }) {
     return _then(_Loading(
@@ -206,14 +210,14 @@ class __$LoadingCopyWithImpl<$Res>
           ? _value.categoryList
           : categoryList // ignore: cast_nullable_to_non_nullable
               as List<Category>,
-      idList == freezed
-          ? _value.idList
-          : idList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      category == freezed
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category,
       form == freezed
           ? _value.form
           : form // ignore: cast_nullable_to_non_nullable
-              as BudgetForm,
+              as RecordEditPageForm,
     ));
   }
 }
@@ -221,18 +225,18 @@ class __$LoadingCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Loading implements _Loading {
-  const _$_Loading(this.categoryList, this.idList, this.form);
+  const _$_Loading(this.categoryList, this.category, this.form);
 
   @override
   final List<Category> categoryList;
   @override
-  final List<String> idList;
+  final Category category;
   @override
-  final BudgetForm form;
+  final RecordEditPageForm form;
 
   @override
   String toString() {
-    return 'BudgetEditPageState.loading(categoryList: $categoryList, idList: $idList, form: $form)';
+    return 'RecordEditPageState.loading(categoryList: $categoryList, category: $category, form: $form)';
   }
 
   @override
@@ -242,7 +246,7 @@ class _$_Loading implements _Loading {
             other is _Loading &&
             const DeepCollectionEquality()
                 .equals(other.categoryList, categoryList) &&
-            const DeepCollectionEquality().equals(other.idList, idList) &&
+            const DeepCollectionEquality().equals(other.category, category) &&
             const DeepCollectionEquality().equals(other.form, form));
   }
 
@@ -250,7 +254,7 @@ class _$_Loading implements _Loading {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(categoryList),
-      const DeepCollectionEquality().hash(idList),
+      const DeepCollectionEquality().hash(category),
       const DeepCollectionEquality().hash(form));
 
   @JsonKey(ignore: true)
@@ -261,51 +265,51 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         loading,
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         content,
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         success,
   }) {
-    return loading(categoryList, idList, form);
+    return loading(categoryList, category, form);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         loading,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         content,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         success,
   }) {
-    return loading?.call(categoryList, idList, form);
+    return loading?.call(categoryList, category, form);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         loading,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         content,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         success,
     required TResult orElse(),
   }) {
     if (loading != null) {
-      return loading(categoryList, idList, form);
+      return loading(categoryList, category, form);
     }
     return orElse();
   }
@@ -345,17 +349,16 @@ class _$_Loading implements _Loading {
   }
 }
 
-abstract class _Loading implements BudgetEditPageState {
-  const factory _Loading(
-          List<Category> categoryList, List<String> idList, BudgetForm form) =
-      _$_Loading;
+abstract class _Loading implements RecordEditPageState {
+  const factory _Loading(List<Category> categoryList, Category category,
+      RecordEditPageForm form) = _$_Loading;
 
   @override
   List<Category> get categoryList;
   @override
-  List<String> get idList;
+  Category get category;
   @override
-  BudgetForm get form;
+  RecordEditPageForm get form;
   @override
   @JsonKey(ignore: true)
   _$LoadingCopyWith<_Loading> get copyWith =>
@@ -364,20 +367,22 @@ abstract class _Loading implements BudgetEditPageState {
 
 /// @nodoc
 abstract class _$ContentCopyWith<$Res>
-    implements $BudgetEditPageStateCopyWith<$Res> {
+    implements $RecordEditPageStateCopyWith<$Res> {
   factory _$ContentCopyWith(_Content value, $Res Function(_Content) then) =
       __$ContentCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<Category> categoryList, List<String> idList, BudgetForm form});
+      {List<Category> categoryList,
+      Category category,
+      RecordEditPageForm form});
 
   @override
-  $BudgetFormCopyWith<$Res> get form;
+  $RecordEditPageFormCopyWith<$Res> get form;
 }
 
 /// @nodoc
 class __$ContentCopyWithImpl<$Res>
-    extends _$BudgetEditPageStateCopyWithImpl<$Res>
+    extends _$RecordEditPageStateCopyWithImpl<$Res>
     implements _$ContentCopyWith<$Res> {
   __$ContentCopyWithImpl(_Content _value, $Res Function(_Content) _then)
       : super(_value, (v) => _then(v as _Content));
@@ -388,7 +393,7 @@ class __$ContentCopyWithImpl<$Res>
   @override
   $Res call({
     Object? categoryList = freezed,
-    Object? idList = freezed,
+    Object? category = freezed,
     Object? form = freezed,
   }) {
     return _then(_Content(
@@ -396,14 +401,14 @@ class __$ContentCopyWithImpl<$Res>
           ? _value.categoryList
           : categoryList // ignore: cast_nullable_to_non_nullable
               as List<Category>,
-      idList == freezed
-          ? _value.idList
-          : idList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      category == freezed
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category,
       form == freezed
           ? _value.form
           : form // ignore: cast_nullable_to_non_nullable
-              as BudgetForm,
+              as RecordEditPageForm,
     ));
   }
 }
@@ -411,18 +416,18 @@ class __$ContentCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Content implements _Content {
-  const _$_Content(this.categoryList, this.idList, this.form);
+  const _$_Content(this.categoryList, this.category, this.form);
 
   @override
   final List<Category> categoryList;
   @override
-  final List<String> idList;
+  final Category category;
   @override
-  final BudgetForm form;
+  final RecordEditPageForm form;
 
   @override
   String toString() {
-    return 'BudgetEditPageState.content(categoryList: $categoryList, idList: $idList, form: $form)';
+    return 'RecordEditPageState.content(categoryList: $categoryList, category: $category, form: $form)';
   }
 
   @override
@@ -432,7 +437,7 @@ class _$_Content implements _Content {
             other is _Content &&
             const DeepCollectionEquality()
                 .equals(other.categoryList, categoryList) &&
-            const DeepCollectionEquality().equals(other.idList, idList) &&
+            const DeepCollectionEquality().equals(other.category, category) &&
             const DeepCollectionEquality().equals(other.form, form));
   }
 
@@ -440,7 +445,7 @@ class _$_Content implements _Content {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(categoryList),
-      const DeepCollectionEquality().hash(idList),
+      const DeepCollectionEquality().hash(category),
       const DeepCollectionEquality().hash(form));
 
   @JsonKey(ignore: true)
@@ -451,51 +456,51 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         loading,
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         content,
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         success,
   }) {
-    return content(categoryList, idList, form);
+    return content(categoryList, category, form);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         loading,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         content,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         success,
   }) {
-    return content?.call(categoryList, idList, form);
+    return content?.call(categoryList, category, form);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         loading,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         content,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         success,
     required TResult orElse(),
   }) {
     if (content != null) {
-      return content(categoryList, idList, form);
+      return content(categoryList, category, form);
     }
     return orElse();
   }
@@ -535,17 +540,16 @@ class _$_Content implements _Content {
   }
 }
 
-abstract class _Content implements BudgetEditPageState {
-  const factory _Content(
-          List<Category> categoryList, List<String> idList, BudgetForm form) =
-      _$_Content;
+abstract class _Content implements RecordEditPageState {
+  const factory _Content(List<Category> categoryList, Category category,
+      RecordEditPageForm form) = _$_Content;
 
   @override
   List<Category> get categoryList;
   @override
-  List<String> get idList;
+  Category get category;
   @override
-  BudgetForm get form;
+  RecordEditPageForm get form;
   @override
   @JsonKey(ignore: true)
   _$ContentCopyWith<_Content> get copyWith =>
@@ -554,20 +558,22 @@ abstract class _Content implements BudgetEditPageState {
 
 /// @nodoc
 abstract class _$SuccessCopyWith<$Res>
-    implements $BudgetEditPageStateCopyWith<$Res> {
+    implements $RecordEditPageStateCopyWith<$Res> {
   factory _$SuccessCopyWith(_Success value, $Res Function(_Success) then) =
       __$SuccessCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<Category> categoryList, List<String> idList, BudgetForm form});
+      {List<Category> categoryList,
+      Category category,
+      RecordEditPageForm form});
 
   @override
-  $BudgetFormCopyWith<$Res> get form;
+  $RecordEditPageFormCopyWith<$Res> get form;
 }
 
 /// @nodoc
 class __$SuccessCopyWithImpl<$Res>
-    extends _$BudgetEditPageStateCopyWithImpl<$Res>
+    extends _$RecordEditPageStateCopyWithImpl<$Res>
     implements _$SuccessCopyWith<$Res> {
   __$SuccessCopyWithImpl(_Success _value, $Res Function(_Success) _then)
       : super(_value, (v) => _then(v as _Success));
@@ -578,7 +584,7 @@ class __$SuccessCopyWithImpl<$Res>
   @override
   $Res call({
     Object? categoryList = freezed,
-    Object? idList = freezed,
+    Object? category = freezed,
     Object? form = freezed,
   }) {
     return _then(_Success(
@@ -586,14 +592,14 @@ class __$SuccessCopyWithImpl<$Res>
           ? _value.categoryList
           : categoryList // ignore: cast_nullable_to_non_nullable
               as List<Category>,
-      idList == freezed
-          ? _value.idList
-          : idList // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+      category == freezed
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as Category,
       form == freezed
           ? _value.form
           : form // ignore: cast_nullable_to_non_nullable
-              as BudgetForm,
+              as RecordEditPageForm,
     ));
   }
 }
@@ -601,18 +607,18 @@ class __$SuccessCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Success implements _Success {
-  const _$_Success(this.categoryList, this.idList, this.form);
+  const _$_Success(this.categoryList, this.category, this.form);
 
   @override
   final List<Category> categoryList;
   @override
-  final List<String> idList;
+  final Category category;
   @override
-  final BudgetForm form;
+  final RecordEditPageForm form;
 
   @override
   String toString() {
-    return 'BudgetEditPageState.success(categoryList: $categoryList, idList: $idList, form: $form)';
+    return 'RecordEditPageState.success(categoryList: $categoryList, category: $category, form: $form)';
   }
 
   @override
@@ -622,7 +628,7 @@ class _$_Success implements _Success {
             other is _Success &&
             const DeepCollectionEquality()
                 .equals(other.categoryList, categoryList) &&
-            const DeepCollectionEquality().equals(other.idList, idList) &&
+            const DeepCollectionEquality().equals(other.category, category) &&
             const DeepCollectionEquality().equals(other.form, form));
   }
 
@@ -630,7 +636,7 @@ class _$_Success implements _Success {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(categoryList),
-      const DeepCollectionEquality().hash(idList),
+      const DeepCollectionEquality().hash(category),
       const DeepCollectionEquality().hash(form));
 
   @JsonKey(ignore: true)
@@ -641,51 +647,51 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         loading,
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         content,
-    required TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)
+    required TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)
         success,
   }) {
-    return success(categoryList, idList, form);
+    return success(categoryList, category, form);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         loading,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         content,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         success,
   }) {
-    return success?.call(categoryList, idList, form);
+    return success?.call(categoryList, category, form);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         loading,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         content,
-    TResult Function(
-            List<Category> categoryList, List<String> idList, BudgetForm form)?
+    TResult Function(List<Category> categoryList, Category category,
+            RecordEditPageForm form)?
         success,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(categoryList, idList, form);
+      return success(categoryList, category, form);
     }
     return orElse();
   }
@@ -725,17 +731,16 @@ class _$_Success implements _Success {
   }
 }
 
-abstract class _Success implements BudgetEditPageState {
-  const factory _Success(
-          List<Category> categoryList, List<String> idList, BudgetForm form) =
-      _$_Success;
+abstract class _Success implements RecordEditPageState {
+  const factory _Success(List<Category> categoryList, Category category,
+      RecordEditPageForm form) = _$_Success;
 
   @override
   List<Category> get categoryList;
   @override
-  List<String> get idList;
+  Category get category;
   @override
-  BudgetForm get form;
+  RecordEditPageForm get form;
   @override
   @JsonKey(ignore: true)
   _$SuccessCopyWith<_Success> get copyWith =>

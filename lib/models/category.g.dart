@@ -1,41 +1,41 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../gross_amount.dart';
+part of 'category.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class GrossAmountAdapter extends TypeAdapter<GrossAmount> {
+class CategoryAdapter extends TypeAdapter<Category> {
   @override
-  final int typeId = 5;
+  final int typeId = 0;
 
   @override
-  GrossAmount read(BinaryReader reader) {
+  Category read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return GrossAmount(
+    return Category(
+      codePoint: fields[2] as int,
       id: fields[0] as String,
-      amount: fields[1] as double,
-      lastDate: fields[2] as DateTime,
-      title: fields[3] as String,
+      title: fields[1] as String,
+      type: fields[3] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, GrossAmount obj) {
+  void write(BinaryWriter writer, Category obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.amount)
+      ..write(obj.title)
       ..writeByte(2)
-      ..write(obj.lastDate)
+      ..write(obj.codePoint)
       ..writeByte(3)
-      ..write(obj.title);
+      ..write(obj.type);
   }
 
   @override
@@ -44,7 +44,7 @@ class GrossAmountAdapter extends TypeAdapter<GrossAmount> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is GrossAmountAdapter &&
+      other is CategoryAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

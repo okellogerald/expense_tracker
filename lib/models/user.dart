@@ -2,8 +2,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-part 'freezed_models/user.freezed.dart';
-part 'g_models/user.g.dart';
+part 'user.freezed.dart';
+part 'user.g.dart';
 
 @freezed
 class User with _$User {

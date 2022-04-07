@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../source.dart';
 
-part 'generated/categories_page_state.freezed.dart';
+part 'categories_page_state.freezed.dart';
 
 @freezed
 class CategoriesPageState with _$CategoriesPageState {

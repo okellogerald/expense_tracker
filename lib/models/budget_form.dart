@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'freezed_models/budget_form.freezed.dart';
+part 'budget_form.freezed.dart';
 
 @freezed
 class BudgetForm with _$BudgetForm {

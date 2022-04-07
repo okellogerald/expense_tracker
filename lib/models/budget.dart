@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import '../source.dart';
 
-part 'g_models/budget.g.dart';
+part 'budget.g.dart';
 
 @HiveType(typeId: 1)
 class Budget extends HiveObject {

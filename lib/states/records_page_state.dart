@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../source.dart';
 
-part 'generated/records_page_state.freezed.dart';
+part 'records_page_state.freezed.dart';
 
 @freezed
 class RecordsPageState with _$RecordsPageState {
