@@ -1,4 +1,3 @@
-import 'package:budgetting_app/theme/app_ui_constant_styles.dart';
 import 'package:budgetting_app/utils/navigation_logic.dart';
 
 import '../source.dart';
