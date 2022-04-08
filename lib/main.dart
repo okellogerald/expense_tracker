@@ -1,9 +1,17 @@
+import 'package:budgetting_app/services/budgets_service.dart';
+import 'package:budgetting_app/services/gross_amounts_service.dart';
+import 'package:budgetting_app/services/preferences_service.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:provider/provider.dart';
 
-import '../source.dart';
 import 'app.dart';
+import 'constants.dart';
+import 'models/models_source.dart';
+import 'services/categories_service.dart';
+import 'services/records_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +42,6 @@ void main() async {
     Provider<RecordsService>(create: (_) => RecordsService()),
     Provider<BudgetsService>(create: (_) => BudgetsService()),
     Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
-    Provider<UserService>(create: (_) => UserService()),
   ], child: const MyApp());
 
   runApp(myApp);

@@ -1,61 +1,45 @@
 import 'package:budgetting_app/utils/navigation_logic.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/user_details_provider.dart';
+import '../providers/user_notifier.dart';
 import '../source.dart';
+import '../states/user_state.dart';
 
-class EmailPasswordAuthPage extends StatefulWidget {
+class EmailPasswordAuthPage extends ConsumerStatefulWidget {
   const EmailPasswordAuthPage({Key? key}) : super(key: key);
 
   @override
   _EmailPasswordAuthPageState createState() => _EmailPasswordAuthPageState();
 }
 
-class _EmailPasswordAuthPageState extends State<EmailPasswordAuthPage> {
-  late final OnBoardingPageBloc bloc;
-  final _key = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    final userService = Provider.of<UserService>(context, listen: false);
-    bloc = OnBoardingPageBloc(userService);
-    bloc.init(Pages.email_password_registration_page);
-    super.initState();
-  }
+class _EmailPasswordAuthPageState extends ConsumerState<EmailPasswordAuthPage> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
-        bloc: bloc,
-        listener: (_, state) {
-          final isSuccess =
-              state.maybeWhen(success: (_) => true, orElse: () => false);
-          if (isSuccess) push(VerificationPage(state.supplements.user.email));
+    final userState = ref.watch(userNotifierProvider);
 
-          final error =
-              state.maybeWhen(failed: (_, error) => error, orElse: () => null);
-          if (error != null) showSnackBar(error, scaffoldKey: _key);
-        },
-        builder: (_, state) {
-          return state.when(
-            loading: _buildLoading,
-            content: _buildContent,
-            success: _buildContent,
-            failed: (supp, _) => _buildContent(supp),
-          );
-        });
+    ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
+      next!.maybeWhen(
+          done: () => push(const MainPage()),
+          failed: (message) => showSnackBar(message!),
+          orElse: () {});
+    });
+
+    return userState.maybeWhen(loading: _buildLoading, orElse: _buildContent);
   }
 
-  Widget _buildLoading(OnBoardingSupplements supp) =>
-      const AppLoadingIndicator.withScaffold();
+  Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
-  Widget _buildContent(OnBoardingSupplements supp) {
+  Widget _buildContent() {
     return Scaffold(
-      key: _key,
+      key: scaffoldKey,
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: SizedBox(
           height: ScreenSizeConfig.getFullHeight,
           child: Column(
-            children: [_buildTitle(), _buildBody(supp)],
+            children: [_buildTitle(), _buildBody()],
           ),
         ),
       ),
@@ -83,8 +67,10 @@ class _EmailPasswordAuthPageState extends State<EmailPasswordAuthPage> {
     );
   }
 
-  _buildBody(OnBoardingSupplements supp) {
-    final noEmailEntered = supp.user.email.isEmpty;
+  _buildBody() {
+    final errors =
+        ref.watch(userDetailsValidationErrorsProvider(Pages.login_page));
+    final user = ref.watch(userDetailsProvider);
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.dw),
@@ -92,18 +78,22 @@ class _EmailPasswordAuthPageState extends State<EmailPasswordAuthPage> {
         children: [
           SizedBox(height: 60.dh),
           AppTextField(
-              errors: supp.errors,
-              text: supp.user.email,
-              onChanged: (email) => bloc.updateUserDetails(email: email),
+              errors: errors,
+              text: user.email,
+              onChanged: (email) => ref
+                  .read(userNotifierProvider.notifier)
+                  .updateUserDetails(email: email),
               hintText: 'Email',
               suffixIcon: Icons.mail_outlined,
               keyboardType: TextInputType.emailAddress,
               textCapitalization: TextCapitalization.none,
               errorName: 'email'),
-          noEmailEntered
+          user.email.isEmpty
               ? Container()
               : AppTextButton(
-                  onPressed: bloc.sendEmailForVerification,
+                  onPressed: ref
+                      .read(userNotifierProvider.notifier)
+                      .sendEmailVerificationLink,
                   height: 50.dh,
                   margin: EdgeInsets.only(top: 65.dh),
                   buttonColor: AppColors.onBackground,

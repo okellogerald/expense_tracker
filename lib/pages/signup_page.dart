@@ -1,52 +1,37 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/user_notifier.dart';
 import '../source.dart';
+import '../states/user_state.dart';
 import '../utils/navigation_logic.dart';
 import 'email_password_registration_page.dart';
 
-class SignUpPage extends StatefulWidget {
+class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
-  late final OnBoardingPageBloc bloc;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    final userService = Provider.of<UserService>(context, listen: false);
-    bloc = OnBoardingPageBloc(userService);
-    super.initState();
-  }
+class _SignUpPageState extends ConsumerState<SignUpPage> {
+  static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
-        bloc: bloc,
-        listener: (_, state) {
-          final isSuccess =
-              state.maybeWhen(success: (_) => true, orElse: () => false);
-          if (isSuccess) _navigateToAdditionalInfoPage();
+    final userState = ref.watch(userNotifierProvider);
 
-          final error =
-              state.maybeWhen(failed: (_, error) => error, orElse: () => null);
-          if (error != null) showSnackBar(error, scaffoldKey: scaffoldKey);
-        },
-        builder: (_, state) {
-          return state.when(
-            loading: _buildLoading,
-            content: _buildContent,
-            success: _buildContent,
-            failed: (supp, _) => _buildContent(supp),
-          );
-        });
+    ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
+      next!.maybeWhen(
+          done: () => push(const MainPage()),
+          failed: (message) => showSnackBar(message!, scaffoldKey: scaffoldKey),
+          orElse: () {});
+    });
+
+    return userState.maybeWhen(loading: _buildLoading, orElse: _buildContent);
   }
 
-  Widget _buildLoading(OnBoardingSupplements supp) =>
-      const AppLoadingIndicator.withScaffold();
+  Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
-  Widget _buildContent(OnBoardingSupplements supp) {
+  Widget _buildContent() {
     return Scaffold(
         key: scaffoldKey,
         appBar: AppBar(),
@@ -83,12 +68,13 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildTextButton(String text, [String? signingUpOption]) {
+  Widget _buildTextButton(String text, [String? signUpOption]) {
     return AppTextButton(
         onPressed: () {
-          signingUpOption == null
-              ? _goToEmailPasswordAuthPage()
-              : bloc.initSocialOption(signingUpOption);
+          final userNotifier = ref.read(userNotifierProvider.notifier);
+          signUpOption == null
+              ? push(const EmailPasswordAuthPage())
+              : userNotifier.getUserSocialAccountDetails(signUpOption);
         },
         text: text,
         height: 45.dh,
@@ -98,10 +84,4 @@ class _SignUpPageState extends State<SignUpPage> {
         borderRadius: 20.dw,
         fontSize: 16.dw);
   }
-
-  _goToEmailPasswordAuthPage() => Navigator.push(context,
-      MaterialPageRoute(builder: (_) => const EmailPasswordAuthPage()));
-
-  _navigateToAdditionalInfoPage() => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (_) => const AdditionalInfoPage()));
 }

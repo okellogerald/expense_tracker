@@ -1,73 +1,50 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/user_details_provider.dart';
+import '../providers/user_notifier.dart';
 import '../source.dart';
+import '../states/user_state.dart';
+import '../utils/navigation_logic.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
-
-  static void navigateTo(BuildContext context) => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (_) => const SettingsPage()));
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
-  late final OnBoardingPageBloc bloc;
+class _SettingsPageState extends ConsumerState<SettingsPage> {
   final isSelectingBackupOptionNotifier = ValueNotifier<bool>(false);
 
   @override
-  void initState() {
-    final userService = Provider.of<UserService>(context, listen: false);
-    bloc = OnBoardingPageBloc(userService);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: _buildAppBar(),
-        body: BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
-            bloc: bloc,
-            listener: (_, state) {
-              final isSignedOut =
-                  state.maybeWhen(orElse: () => false, success: (_) => true);
+    final userState = ref.watch(userNotifierProvider);
 
-              if (isSignedOut) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (_) => const LoginPage()),
-                    (route) => false);
-              }
-            },
-            builder: (_, state) {
-              return state.when(
-                loading: _buildLoading,
-                content: _buildContent,
-                success: _buildContent,
-                failed: (supp, message) => _buildContent(supp),
-              );
-            }));
+    ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
+      next!.maybeWhen(
+          done: () => push(const MainPage()),
+          failed: (message) => showSnackBar(message!, context: context),
+          orElse: () {});
+    });
+
+    return userState.maybeWhen(
+        loading: () => const AppLoadingIndicator(),
+        orElse: () {
+          return Padding(
+            padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
+            child: Column(
+              children: [
+                _buildUserAccount(),
+                _buildBackupOptions(),
+                _buildSignOutButton(),
+              ],
+            ),
+          );
+        });
   }
 
-  Widget _buildLoading(OnBoardingSupplements supp) {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
+  _buildUserAccount() {
+    final user = ref.watch(userDetailsProvider);
 
-  Widget _buildContent(OnBoardingSupplements supp) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
-      child: Column(
-        children: [
-          _buildUserAccount(supp.user),
-          _buildBackupOptions(supp.user),
-          _buildSignOutButton(),
-        ],
-      ),
-    );
-  }
-
-  _buildUserAccount(User user) {
     return Container(
       color: AppColors.surface,
       padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 10.dh),
@@ -105,7 +82,9 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  _buildBackupOptions(User user) {
+  _buildBackupOptions() {
+    final user = ref.watch(userDetailsProvider);
+
     return ValueListenableBuilder<bool>(
         valueListenable: isSelectingBackupOptionNotifier,
         builder: (context, isSelectingBackupOption, snapshot) {
@@ -191,7 +170,7 @@ class _SettingsPageState extends State<SettingsPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           AppTextButton(
-            onPressed: bloc.signOut,
+            onPressed: ref.read(userNotifierProvider.notifier).signOut,
             text: 'Sign out',
             icon: Icons.logout,
             withIcon: true,

@@ -1,53 +1,38 @@
 import 'package:budgetting_app/utils/navigation_logic.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/user_details_provider.dart';
+import '../providers/user_notifier.dart';
 import '../source.dart';
+import '../states/user_state.dart';
 import '../widgets/type_selector.dart';
 
-class AdditionalInfoPage extends StatefulWidget {
+class AdditionalInfoPage extends ConsumerStatefulWidget {
   const AdditionalInfoPage({Key? key}) : super(key: key);
 
   @override
   _AdditionalInfoPageState createState() => _AdditionalInfoPageState();
 }
 
-class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
-  late final OnBoardingPageBloc bloc;
+class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  void initState() {
-    final userService = Provider.of<UserService>(context, listen: false);
-    bloc = OnBoardingPageBloc(userService);
-    bloc.init(Pages.additional_info_page);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
-        bloc: bloc,
-        listener: (_, state) {
-          final isSuccess =
-              state.maybeWhen(success: (_) => true, orElse: () => false);
-          if (isSuccess) pushAndRemoveUntil(const MainPage());
+    final userState = ref.watch(userNotifierProvider);
 
-          final error =
-              state.maybeWhen(failed: (_, error) => error, orElse: () => null);
-          if (error != null) showSnackBar(error, scaffoldKey: scaffoldKey);
-        },
-        builder: (_, state) {
-          return state.when(
-              loading: _buildLoading,
-              content: _buildContent,
-              success: _buildContent,
-              failed: (supp, _) => _buildContent(supp));
-        });
+    ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
+      next!.maybeWhen(
+          done: () => push(const MainPage()),
+          failed: (message) => showSnackBar(message!),
+          orElse: () {});
+    });
+
+    return userState.maybeWhen(loading: _buildLoading, orElse: _buildContent);
   }
 
-  Widget _buildLoading(OnBoardingSupplements supp) =>
-      const AppLoadingIndicator.withScaffold();
+  Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
-  Widget _buildContent(OnBoardingSupplements supp) {
+  Widget _buildContent() {
     return Scaffold(
         key: scaffoldKey,
         appBar: AppBar(),
@@ -55,11 +40,12 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
             padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
             children: [
               _buildTitle(),
-              _buildTextFields(supp),
+              _buildTextFields(),
               SizedBox(height: 20.dh),
               CurrencySelector(
-                  onCurrencySelected: (currency) =>
-                      bloc.updateUserDetails(currency: currency)),
+                  onCurrencySelected: (currency) => ref
+                      .read(userNotifierProvider.notifier)
+                      .updateUserDetails(currency: currency)),
               _buildDoneButton()
             ]));
   }
@@ -86,30 +72,38 @@ class _AdditionalInfoPageState extends State<AdditionalInfoPage> {
     );
   }
 
-  _buildTextFields(OnBoardingSupplements supp) {
+  _buildTextFields() {
+    final errors =
+        ref.watch(userDetailsValidationErrorsProvider(Pages.login_page));
+    final user = ref.watch(userDetailsProvider);
+    final password = ref.watch(passwordProvider);
+
     return Column(
       children: [
         SizedBox(height: 40.dh),
         AppTextField(
-            errors: supp.errors,
-            text: supp.user.displayName,
-            onChanged: (name) => bloc.updateUserDetails(displayName: name),
+            errors: errors,
+            text: user.displayName,
+            onChanged: (name) => ref
+                .read(userNotifierProvider.notifier)
+                .updateUserDetails(displayName: name),
             hintText: 'Username',
             keyboardType: TextInputType.name,
             textCapitalization: TextCapitalization.words,
             errorName: 'username'),
         SizedBox(height: 30.dh),
         PasswordTextField(
-            errors: supp.errors,
-            text: supp.password,
-            onChanged: (password) => bloc.updateUserDetails(password: password))
+            errors: errors,
+            text: password,
+            onChanged: (password) =>
+                ref.read(passwordProvider.state).state = password),
       ],
     );
   }
 
   _buildDoneButton() {
     return AppTextButton(
-        onPressed: bloc.signUp,
+        onPressed: ref.read(userNotifierProvider.notifier).signUp,
         buttonColor: AppColors.onBackground,
         text: 'DONE',
         height: 50.dh,

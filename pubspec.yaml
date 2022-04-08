@@ -54,7 +54,7 @@ flutter:
 
     - family: Circular
       fonts:
-        - asset: assets/fonts/circular-semibold.ttf
+        - asset: assets/fonts/circular-medium.ttf
 
     - family: GT-Flexa
       fonts:

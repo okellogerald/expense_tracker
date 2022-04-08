@@ -13,6 +13,8 @@ void pop() => navigatorKey.currentState?.pop();
 
 void showSnackBar(String message,
     {BuildContext? context, GlobalKey<ScaffoldState>? scaffoldKey}) {
+  assert((context == null && scaffoldKey == null),
+      "Either context or scaffold Key should be provided");
   if (context != null) _showSnackBarCallback(context, message);
   if (scaffoldKey != null) {
     if (scaffoldKey.currentState == null) {

@@ -1,55 +1,39 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/user_details_provider.dart';
+import '../providers/user_notifier.dart';
 import '../source.dart';
+import '../states/user_state.dart';
 import '../utils/navigation_logic.dart';
 
-class VerificationPage extends StatefulWidget {
-  const VerificationPage(this.email, {Key? key}) : super(key: key);
-
-  final String email;
+class VerificationPage extends ConsumerStatefulWidget {
+  const VerificationPage({Key? key}) : super(key: key);
 
   @override
   _VerificationPageState createState() => _VerificationPageState();
 }
 
-class _VerificationPageState extends State<VerificationPage> {
-  late final OnBoardingPageBloc bloc;
-
-  @override
-  void initState() {
-    final userService = Provider.of<UserService>(context, listen: false);
-    bloc = OnBoardingPageBloc(userService);
-    bloc.init(Pages.verification_page, email: widget.email);
-    super.initState();
-  }
+class _VerificationPageState extends ConsumerState<VerificationPage> {
+  static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Builder(builder: (scaffoldContext) {
-      return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
-          bloc: bloc,
-          listener: (_, state) {
-            final hasSucceeded =
-                state.maybeWhen(success: (_) => true, orElse: () => false);
-            if (hasSucceeded) push(const AdditionalInfoPage());
+    final userState = ref.watch(userNotifierProvider);
 
-            final error = state.maybeWhen(
-                failed: (_, error) => error, orElse: () => null);
-            if (error != null) showSnackBar(error, context: scaffoldContext);
-          },
-          builder: (_, state) {
-            return state.when(
-                loading: _buildLoading,
-                content: _buildContent,
-                success: _buildContent,
-                failed: (supp, _) => _buildContent(supp));
-          });
-    }));
+    ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
+      next!.maybeWhen(
+          done: () => push(const MainPage()),
+          failed: (message) => showSnackBar(message!, scaffoldKey: scaffoldKey),
+          orElse: () {});
+    });
+
+    return userState.maybeWhen(loading: _buildLoading, orElse: _buildContent);
   }
 
-  Widget _buildLoading(OnBoardingSupplements supp) =>
-      const AppLoadingIndicator.withScaffold();
+  Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
-  Widget _buildContent(OnBoardingSupplements supp) {
+  Widget _buildContent() {
     return Scaffold(
+        key: scaffoldKey,
         appBar: AppBar(),
         body: Padding(
             padding: EdgeInsets.only(left: 15.dw, right: 15.dw),
@@ -82,12 +66,14 @@ class _VerificationPageState extends State<VerificationPage> {
   }
 
   _buildEmailDetails() {
+    final user = ref.watch(userDetailsProvider);
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       SizedBox(height: 50.dh),
       AppText('Email address used:',
           size: 16.dw, color: AppColors.onBackground2),
       SizedBox(height: 10.dh),
-      AppText(widget.email, size: 15.dw, color: AppColors.onBackground2),
+      AppText(user.email, size: 15.dw, color: AppColors.onBackground2),
       AppTextButton(
         onPressed: () => Navigator.pop(context),
         text: 'Change Email',
@@ -102,7 +88,8 @@ class _VerificationPageState extends State<VerificationPage> {
 
   _buildVerifyButton() {
     return AppTextButton(
-        onPressed: bloc.checkEmailVerificationStatus,
+        onPressed:
+            ref.read(userNotifierProvider.notifier).checkIfEmailIsVerified,
         text: 'I AM ALREADY VERIFIED',
         buttonColor: AppColors.onBackground,
         margin: EdgeInsets.only(bottom: 20.dh, left: 15.dw, right: 15.dw),

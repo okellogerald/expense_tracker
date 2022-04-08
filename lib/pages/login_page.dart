@@ -1,54 +1,39 @@
+import 'package:budgetting_app/providers/user_details_provider.dart';
+import 'package:budgetting_app/providers/user_notifier.dart';
 import 'package:budgetting_app/utils/navigation_logic.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../source.dart';
+import '../states/user_state.dart';
 import '../widgets/app_check_box.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  late final OnBoardingPageBloc bloc;
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    final userService = Provider.of<UserService>(context, listen: false);
-    bloc = OnBoardingPageBloc(userService);
-    bloc.init(Pages.login_page);
-    super.initState();
-  }
+class _LoginPageState extends ConsumerState<LoginPage> {
+  static final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<OnBoardingPageBloc, OnBoardingPageState>(
-        bloc: bloc,
-        listener: (_, state) {
-          final hasSucceeded =
-              state.maybeWhen(success: (_) => true, orElse: () => false);
-          if (hasSucceeded) pushAndRemoveUntil(const MainPage());
+    final userState = ref.watch(userNotifierProvider);
 
-          final error =
-              state.maybeWhen(failed: (_, error) => error, orElse: () => null);
-          if (error != null) showSnackBar(error, scaffoldKey: scaffoldKey);
-        },
-        builder: (_, state) {
-          return state.when(
-            loading: _buildLoading,
-            content: _buildContent,
-            success: _buildContent,
-            failed: (supp, _) => _buildContent(supp),
-          );
-        });
+    ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
+      next!.maybeWhen(
+          done: () => push(const MainPage()),
+          failed: (message) => showSnackBar(message!, scaffoldKey: scaffoldKey),
+          orElse: () {});
+    });
+
+    return userState.maybeWhen(loading: _buildLoading, orElse: _buildContent);
   }
 
-  Widget _buildLoading(OnBoardingSupplements supp) =>
-      const AppLoadingIndicator.withScaffold();
+  Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
-  Widget _buildContent(OnBoardingSupplements supp) {
+  Widget _buildContent() {
     return Scaffold(
       key: scaffoldKey,
       body: SingleChildScrollView(
@@ -59,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildTitle(),
-              _buildPhoneTextField(supp),
+              _buildPhoneTextField(),
               _buildNeedHelp(),
               _buildNewUser()
             ],
@@ -89,15 +74,22 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _buildPhoneTextField(OnBoardingSupplements supp) {
+  _buildPhoneTextField() {
+    final errors =
+        ref.watch(userDetailsValidationErrorsProvider(Pages.login_page));
+    final user = ref.watch(userDetailsProvider);
+    final password = ref.watch(passwordProvider);
+
     return Padding(
         padding: EdgeInsets.only(top: 80.dh),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           SizedBox(height: 5.dh),
           AppTextField(
-              errors: supp.errors,
-              text: supp.user.email,
-              onChanged: (email) => bloc.updateUserDetails(email: email),
+              errors: errors,
+              text: user.email,
+              onChanged: (email) => ref
+                  .read(userNotifierProvider.notifier)
+                  .updateUserDetails(email: email),
               hintText: 'Email',
               suffixIcon: Icons.mail_outlined,
               keyboardType: TextInputType.emailAddress,
@@ -105,14 +97,14 @@ class _LoginPageState extends State<LoginPage> {
               errorName: 'email'),
           SizedBox(height: 15.dh),
           PasswordTextField(
-              errors: supp.errors,
-              text: supp.password,
+              errors: errors,
+              text: password,
               onChanged: (password) =>
-                  bloc.updateUserDetails(password: password),
+                  ref.read(passwordProvider.state).state = password,
               suffixIcon: Icons.lock_outlined,
               isLoginPassword: true),
           AppTextButton(
-              onPressed: bloc.logIn,
+              onPressed: ref.read(userNotifierProvider.notifier).logIn,
               text: 'LOG IN',
               textColor: AppColors.onPrimary,
               buttonColor: AppColors.primary,
@@ -133,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                 size: 15.dw, color: AppColors.onBackground2),
           ),
           AppTextButton(
-              onPressed: _onPressed,
+              onPressed: () => push(const SignUpPage()),
               text: 'Register',
               margin: EdgeInsets.only(top: 10.dh),
               height: 50.dh,
@@ -150,7 +142,4 @@ class _LoginPageState extends State<LoginPage> {
       AppText('NEED HELP ?', size: bodyTextSize, color: AppColors.primary)
     ]);
   }
-
-  _onPressed() => Navigator.push(
-      context, MaterialPageRoute(builder: (_) => const SignUpPage()));
 }

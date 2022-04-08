@@ -1,12 +1,12 @@
 import 'package:budgetting_app/providers/user_details_provider.dart';
 import 'package:budgetting_app/providers/user_repository_impl.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
-
 import '../constants.dart';
 import '../errors/exception_handler.dart';
 import '../errors/user_exception.dart';
+import '../models/user.dart';
+import '../pages/pages_source.dart';
 import '../states/user_state.dart';
 
 final userNotifierProvider = StateNotifierProvider<UserNotifier, UserState>(
@@ -14,11 +14,17 @@ final userNotifierProvider = StateNotifierProvider<UserNotifier, UserState>(
 
 class UserNotifier extends StateNotifier<UserState> {
   final Reader read;
-  UserNotifier(this.read) : super(const UserState.initial());
+  UserNotifier(this.read) : super(UserState.initial());
 
   Future<void> sendEmailVerificationLink() async {
     final user = read(userDetailsProvider);
     final password = read(passwordProvider);
+
+    //checks validation errors
+    final errors = read(userDetailsValidationErrorsProvider(
+        Pages.email_password_registration_page));
+    if (errors.isNotEmpty) return;
+
     state = const UserState.loading();
     try {
       await read(userRepositoryProvider)
@@ -28,7 +34,7 @@ class UserNotifier extends StateNotifier<UserState> {
       state = const UserState.done();
     } on FirebaseAuthException catch (e) {
       //if sendingEmailVerification was somehow not successful but creating user
-      //operation was. Creating a user second time will show this error.
+      //operation was, calling this function second time will show this error.
       if (e.code == 'email-already-in-use') {
         await read(userRepositoryProvider)
             .sendVerificationLink(user.email, password)
@@ -40,35 +46,49 @@ class UserNotifier extends StateNotifier<UserState> {
     }
   }
 
-  ///used only when signing up to check whether a user has verified the email.
-  ///throws an error if operation is not successful.
   Future<void> checkIfEmailIsVerified() async {
+    state = const UserState.loading();
     final user = read(userDetailsProvider);
     final password = read(passwordProvider);
-    state = const UserState.loading();
-
-    //have to re-sign-in because auth.currentUser just gives a snapshot based on
-    //the prev sign-in or sign-up but doesn't react to user state changes
     try {
       final userCredential = await read(userRepositoryProvider)
           .signInFirebaseUser(user.email, password);
       final firebaseUser = userCredential.user;
-      //if user is still null
       if (firebaseUser == null) {
         throw UserException.failedToCheckEmailVerificationStatus();
       }
-      //else
-      if (firebaseUser.emailVerified) {
-        state = const UserState.done();
-      } else {
+      if (!firebaseUser.emailVerified) {
         throw UserException.emailNotVerified(user.email);
+      } else {
+        state = const UserState.done();
       }
     } catch (error) {
       _handleError(error);
     }
   }
 
+  Future<void> getUserSocialAccountDetails(String signupOption) async {
+    assert((signupOption != 'Google' || signupOption != 'Facebook'));
+    state = const UserState.loading();
+    User? user;
+    if (signupOption == SigningUpOptions.google) {
+      user = await read(userRepositoryProvider).getUserGoogleAccountDetails();
+    } else if (signupOption == SigningUpOptions.facebook) {
+      user = await read(userRepositoryProvider).getUserFacebookAccountDetails();
+    }
+    if (user == null) {
+      state = const UserState.content();
+    } else {
+      read(userDetailsProvider.state).state = user;
+    }
+  }
+
   Future<void> signUp() async {
+    //checks validation errors
+    final errors = read(userDetailsValidationErrorsProvider(
+        Pages.email_password_registration_page));
+    if (errors.isNotEmpty) return;
+
     state = const UserState.loading();
     final user = read(userDetailsProvider);
     final password = read(passwordProvider);
@@ -93,9 +113,13 @@ class UserNotifier extends StateNotifier<UserState> {
   }
 
   Future<void> logIn() async {
+    //checks validation errors
+    final errors = read(userDetailsValidationErrorsProvider(Pages.login_page));
+    if (errors.isNotEmpty) return;
+
+    state = const UserState.loading();
     final user = read(userDetailsProvider);
     final password = read(passwordProvider);
-    state = const UserState.loading();
     final userData = await read(userRepositoryProvider)
         .signInUserInDatabase(user.email, password)
         .catchError(_handleError);
@@ -118,6 +142,25 @@ class UserNotifier extends StateNotifier<UserState> {
         .deleteUser(user.email, password)
         .catchError((error) => _handleError(error));
     state = const UserState.done();
+  }
+
+  ///stores user details
+  void updateUserDetails(
+      {String? email,
+      String? currency,
+      String? displayName,
+      String? photoUrl,
+      String? signupOption}) {
+    state = const UserState.loading();
+    final user = read(userDetailsProvider);
+    final updatedUser = user.copyWith(
+        email: email ?? user.email,
+        currency: currency ?? user.currency,
+        displayName: displayName ?? user.displayName,
+        photoUrl: photoUrl ?? user.photoUrl,
+        signUpOption: signupOption ?? user.signUpOption);
+    read(userDetailsProvider.state).state = updatedUser;
+    state = const UserState.content();
   }
 
   _handleError(var error) {
