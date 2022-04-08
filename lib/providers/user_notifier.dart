@@ -117,6 +117,7 @@ class UserNotifier extends StateNotifier<UserState> {
     await read(userRepositoryProvider)
         .deleteUser(user.email, password)
         .catchError((error) => _handleError(error));
+    state = const UserState.done();
   }
 
   _handleError(var error) {
