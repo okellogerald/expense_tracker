@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import 'errors/user_exception.dart';
-
 const headers = {
   "Content-Type": "application/json",
   "Accept": "application/json"
@@ -48,5 +46,5 @@ Future<void> delete(String url, String itemId) async {
 
 void _handleStatusCodes(int statusCode) {
   if (statusCode == 200) return;
-  throw UserException.unknown();
+  // throw UserException.unknown();
 }

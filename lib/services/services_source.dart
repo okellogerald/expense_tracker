@@ -1,6 +1,5 @@
-export 'package:provider/provider.dart';
+export 'package:riverpod/riverpod.dart';
 
-export '../utils/errors/user_exception.dart';
 export 'budgets_service.dart';
 export 'categories_service.dart';
 export 'gross_amounts_service.dart';

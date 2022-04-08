@@ -92,7 +92,7 @@ class OnBoardingPageBloc extends Cubit<OnBoardingPageState> {
         await service.logIn(supp.user.email, supp.password);
       }
       emit(OnBoardingPageState.success(supp));
-    } on UserException catch (e) {
+    } on Exception catch (e) {
       emit(OnBoardingPageState.failed(supp, message: e.message));
     }
   }
