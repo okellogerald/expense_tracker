@@ -8,7 +8,7 @@ class UserState with _$UserState {
   const factory UserState.content([@Default({}) Map<String, String?> errors]) =
       _Content;
   const factory UserState.done() = _Done;
-  const factory UserState.failed({String? message}) = _Error;
+  const factory UserState.failed(String message) = _Failed;
 
   factory UserState.initial() => const UserState.content();
 }

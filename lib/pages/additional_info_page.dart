@@ -33,11 +33,9 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
 
     ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
       if (ref.read(pagesProvider) != currentPage) return;
-      print('listened from the additional-info-page');
-
       next!.maybeWhen(
-          done: () => push(const MainPage()),
-          failed: (message) => showSnackBar(message!),
+          done: () => pushAndRemoveUntil(const MainPage()),
+          failed: (message) => showSnackBar(message),
           orElse: () {});
     });
 

@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:budgetting_app/errors/exception_handler.dart';
 import 'package:budgetting_app/providers/user_details_provider.dart';
 import 'package:budgetting_app/providers/user_repository_impl.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
-
 import '../constants.dart';
 import '../errors/user_exception.dart';
 import '../models/user.dart';
@@ -32,16 +30,14 @@ class UserNotifier extends StateNotifier<UserState> {
           .createFirebaseUser(user.email, kDefaultPassword);
       await callback();
       state = const UserState.done();
-    } on FirebaseAuthException catch (e) {
+    } catch (error) {
       //if sendingEmailVerification was somehow not successful but creating user
       //operation was, calling this function second time will show this error.
-      if (e.code == 'email-already-in-use') {
-        await callback().catchError((e) => _handleError(e));
-        state = const UserState.done();
+      if (error is FirebaseAuthException &&
+          error.code == 'email-already-in-use') {
+        _handleError(UserException.emailInUse());
         return;
       }
-      _handleError(e);
-    } catch (error) {
       _handleError(error);
     }
   }
@@ -109,15 +105,14 @@ class UserNotifier extends StateNotifier<UserState> {
         await firebaseUser!.updatePassword(password).timeout(timeLimit);
       }
       await callback();
-    } on FirebaseAuthException catch (error) {
-      if (error.code == 'wrong-password') {
-        //means the password was already changed, because signing-in with the
-        //default password gives this error
-        await callback().catchError((e) => _handleError(e));
-      } else {
-        _handleError(error);
-      }
     } catch (error) {
+      //checks if password changing operation was successful, b'se if it was
+      //successful and the method below it is not, running this second time it
+      //will show this error
+      if (error is FirebaseAuthException && error.code == 'wrong-password') {
+        await callback().catchError((e) => _handleError(e));
+        return;
+      }
       _handleError(error);
     }
   }
@@ -154,7 +149,7 @@ class UserNotifier extends StateNotifier<UserState> {
   }
 
   _handleError(var error) {
-    if (error != String) error = getErrorMessage(error);
-    state = UserState.failed(message: error);
+    final message = getErrorMessage(error);
+    state = UserState.failed(message);
   }
 }

@@ -33,11 +33,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
       if (ref.read(pagesProvider) != currentPage) return;
-      print('listened from the log-in-page');
-
       next!.maybeWhen(
-          done: () => push(const MainPage()),
-          failed: (message) => showSnackBar(message!, scaffoldKey: scaffoldKey),
+          done: () => pushAndRemoveUntil(const MainPage()),
+          failed: (message) => showSnackBar(message, scaffoldKey: scaffoldKey),
           orElse: () {});
     });
 

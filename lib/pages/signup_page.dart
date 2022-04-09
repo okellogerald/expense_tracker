@@ -1,3 +1,4 @@
+import 'package:budgetting_app/widgets/on_boarding_pages_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/pages_provider.dart';
@@ -30,11 +31,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
     ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
       if (ref.read(pagesProvider) != currentPage) return;
-      print('listened from the sign-up page');
-
       next!.maybeWhen(
-          done: () => push(const AdditionalInfoPage()),
-          failed: (message) => showSnackBar(message!, scaffoldKey: scaffoldKey),
+          done: () => pushAndRemoveUntil(const AdditionalInfoPage()),
+          failed: (message) => showSnackBar(message, scaffoldKey: scaffoldKey),
           orElse: () {});
     });
 
@@ -47,27 +46,17 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     return Scaffold(
         key: scaffoldKey,
         appBar: AppBar(),
-        body: Column(children: [_buildTitle(), _buildSignUpChoices()]));
-  }
-
-  _buildTitle() {
-    return Container(
-      padding: EdgeInsets.only(top: 60.dh, left: 15.dw, right: 15.dw),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 60.dh),
-          Center(
-              child: Image.network(kRegisterImageurl,
-                  height: 80.dh, fit: BoxFit.contain)),
-          SizedBox(height: 120.dh),
-          AppText('Sign-up Options', size: 28.dw, family: kFontFam2),
-          SizedBox(height: 10.dh),
-          AppText('Choose your preferred method for signing up.',
-              size: 16.dw, color: AppColors.onBackground2),
-        ],
-      ),
-    );
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.dw),
+          child: Column(children: [
+            const OnBoardingPagesTitle(
+              image: kRegisterImageurl,
+              title: 'Sign-up Options',
+              subtitle: 'Choose your preferred method for signing up.',
+            ),
+            _buildSignUpChoices()
+          ]),
+        ));
   }
 
   _buildSignUpChoices() {
@@ -92,7 +81,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
         height: 45.dh,
         textColor: AppColors.onBackground2,
         borderColor: AppColors.primary,
-        margin: EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 20.dh),
+        margin: EdgeInsets.only(bottom: 20.dh),
         borderRadius: 20.dw,
         fontSize: 16.dw);
   }

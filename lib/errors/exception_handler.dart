@@ -8,7 +8,6 @@ import 'common_exception.dart';
 import 'user_exception.dart';
 
 String getErrorMessage(var error) {
-  print(error);
   if (error is SocketException) return CommonExceptionKeys.noInternet;
   if (error is TimeoutException) return CommonExceptionKeys.timeout;
   if (error is ApiError) return error.message;

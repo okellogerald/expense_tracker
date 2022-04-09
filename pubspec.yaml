@@ -52,13 +52,13 @@ flutter:
       fonts:
         - asset: assets/fonts/app-icons.ttf
 
-    - family: Circular
+    - family: Andala
       fonts:
-        - asset: assets/fonts/circular-medium.ttf
+        - asset: assets/fonts/Andala.ttf
 
-    - family: GT-Flexa
+    - family: Avenir
       fonts:
-        - asset: assets/fonts/GT-Flexa-Mono.ttf
+        - asset: assets/fonts/avenir.otf
 
     - family: SpaceMono
       fonts:
@@ -67,7 +67,7 @@ flutter:
     - family: Stratos
       fonts:
         - asset: assets/fonts/stratos-regular.ttf
-        
+
     - family: StratosLight
       fonts:
         - asset: assets/fonts/stratos-light.ttf

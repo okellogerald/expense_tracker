@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../providers/pages_provider.dart';
 import '../providers/user_action_handler.dart';
 import '../providers/user_details_provider.dart';
@@ -32,8 +31,8 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
     ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
       if (ref.read(pagesProvider) != currentPage) return;
       next!.maybeWhen(
-          done: () => push(const AdditionalInfoPage()),
-          failed: (message) => showSnackBar(message!, scaffoldKey: scaffoldKey),
+          done: () => pushAndRemoveUntil(const AdditionalInfoPage()),
+          failed: (message) => showSnackBar(message, scaffoldKey: scaffoldKey),
           orElse: () {});
     });
 
@@ -103,7 +102,7 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
     return AppTextButton(
         onPressed: () => handleUserAction(ref, UserAction.verifyEmail),
         text: 'I AM ALREADY VERIFIED',
-        buttonColor: AppColors.onBackground,
+        buttonColor: AppColors.primary,
         margin: EdgeInsets.only(bottom: 20.dh, left: 15.dw, right: 15.dw),
         height: 50.dh);
   }

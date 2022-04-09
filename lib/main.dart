@@ -13,6 +13,9 @@ import 'models/models_source.dart';
 import 'services/categories_service.dart';
 import 'services/records_service.dart';
 
+
+//todo: Handle on pop, refresh the values and the pages
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

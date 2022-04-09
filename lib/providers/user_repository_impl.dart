@@ -7,11 +7,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
 import '../errors/api_error.dart';
-import '../errors/exception_handler.dart';
 import '../models/user.dart';
 import '../secrets.dart';
 
-const timeLimit = Duration(seconds: 10);
+const timeLimit = Duration(seconds: 15);
 const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 const facebookRoot =
     'https://graph.facebook.com/v2.12/me?fields=name,picture.height(200),email';
@@ -61,7 +60,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
           .timeout(timeLimit);
       return credential;
     } catch (error) {
-      throw getErrorMessage(error);
+      rethrow;
     }
   }
 
@@ -75,7 +74,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
       final jsonUser = json.decode(response.body)['user'];
       return User.fromJson(jsonUser);
     } catch (error) {
-      throw getErrorMessage(error);
+      rethrow;
     }
   }
 
@@ -98,7 +97,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
           email: email, password: password);
       await userCredential.user!.delete();
     } catch (error) {
-      throw getErrorMessage(error);
+      rethrow;
     }
   }
 
@@ -112,7 +111,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
       }
       await user.sendEmailVerification();
     } catch (error) {
-      throw getErrorMessage(error);
+      rethrow;
     }
   }
 
@@ -124,7 +123,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
           .signInWithEmailAndPassword(email: email, password: password)
           .timeout(timeLimit);
     } catch (error) {
-      throw getErrorMessage(error);
+      rethrow;
     }
   }
 
@@ -140,7 +139,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
       final jsonUser = json.decode(response.body)['user'];
       return User.fromJson(jsonUser);
     } catch (error) {
-      throw getErrorMessage(error);
+      rethrow;
     }
   }
 
@@ -156,7 +155,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
       }
       return null;
     } catch (error) {
-      throw getErrorMessage(error);
+      rethrow;
     }
   }
 
@@ -168,7 +167,7 @@ class UserRepositoryImpl implements UserRepositoryInterface {
       if (account != null) return User.fromGoogleAccount(account);
       return null;
     } catch (error) {
-      throw getErrorMessage(error);
+      rethrow;
     }
   }
 

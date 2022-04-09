@@ -31,9 +31,9 @@ class _$UserStateTearOff {
     return const _Done();
   }
 
-  _Error failed({String? message}) {
-    return _Error(
-      message: message,
+  _Failed failed(String message) {
+    return _Failed(
+      message,
     );
   }
 }
@@ -48,7 +48,7 @@ mixin _$UserState {
     required TResult Function() loading,
     required TResult Function(Map<String, String?> errors) content,
     required TResult Function() done,
-    required TResult Function(String? message) failed,
+    required TResult Function(String message) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -56,7 +56,7 @@ mixin _$UserState {
     TResult Function()? loading,
     TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
-    TResult Function(String? message)? failed,
+    TResult Function(String message)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,7 +64,7 @@ mixin _$UserState {
     TResult Function()? loading,
     TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
-    TResult Function(String? message)? failed,
+    TResult Function(String message)? failed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -73,7 +73,7 @@ mixin _$UserState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
     required TResult Function(_Done value) done,
-    required TResult Function(_Error value) failed,
+    required TResult Function(_Failed value) failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -81,7 +81,7 @@ mixin _$UserState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Done value)? done,
-    TResult Function(_Error value)? failed,
+    TResult Function(_Failed value)? failed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -89,7 +89,7 @@ mixin _$UserState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Done value)? done,
-    TResult Function(_Error value)? failed,
+    TResult Function(_Failed value)? failed,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -151,7 +151,7 @@ class _$_Loading implements _Loading {
     required TResult Function() loading,
     required TResult Function(Map<String, String?> errors) content,
     required TResult Function() done,
-    required TResult Function(String? message) failed,
+    required TResult Function(String message) failed,
   }) {
     return loading();
   }
@@ -162,7 +162,7 @@ class _$_Loading implements _Loading {
     TResult Function()? loading,
     TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
-    TResult Function(String? message)? failed,
+    TResult Function(String message)? failed,
   }) {
     return loading?.call();
   }
@@ -173,7 +173,7 @@ class _$_Loading implements _Loading {
     TResult Function()? loading,
     TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
-    TResult Function(String? message)? failed,
+    TResult Function(String message)? failed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -188,7 +188,7 @@ class _$_Loading implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
     required TResult Function(_Done value) done,
-    required TResult Function(_Error value) failed,
+    required TResult Function(_Failed value) failed,
   }) {
     return loading(this);
   }
@@ -199,7 +199,7 @@ class _$_Loading implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Done value)? done,
-    TResult Function(_Error value)? failed,
+    TResult Function(_Failed value)? failed,
   }) {
     return loading?.call(this);
   }
@@ -210,7 +210,7 @@ class _$_Loading implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Done value)? done,
-    TResult Function(_Error value)? failed,
+    TResult Function(_Failed value)? failed,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -290,7 +290,7 @@ class _$_Content implements _Content {
     required TResult Function() loading,
     required TResult Function(Map<String, String?> errors) content,
     required TResult Function() done,
-    required TResult Function(String? message) failed,
+    required TResult Function(String message) failed,
   }) {
     return content(errors);
   }
@@ -301,7 +301,7 @@ class _$_Content implements _Content {
     TResult Function()? loading,
     TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
-    TResult Function(String? message)? failed,
+    TResult Function(String message)? failed,
   }) {
     return content?.call(errors);
   }
@@ -312,7 +312,7 @@ class _$_Content implements _Content {
     TResult Function()? loading,
     TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
-    TResult Function(String? message)? failed,
+    TResult Function(String message)? failed,
     required TResult orElse(),
   }) {
     if (content != null) {
@@ -327,7 +327,7 @@ class _$_Content implements _Content {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
     required TResult Function(_Done value) done,
-    required TResult Function(_Error value) failed,
+    required TResult Function(_Failed value) failed,
   }) {
     return content(this);
   }
@@ -338,7 +338,7 @@ class _$_Content implements _Content {
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Done value)? done,
-    TResult Function(_Error value)? failed,
+    TResult Function(_Failed value)? failed,
   }) {
     return content?.call(this);
   }
@@ -349,7 +349,7 @@ class _$_Content implements _Content {
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Done value)? done,
-    TResult Function(_Error value)? failed,
+    TResult Function(_Failed value)? failed,
     required TResult orElse(),
   }) {
     if (content != null) {
@@ -409,7 +409,7 @@ class _$_Done implements _Done {
     required TResult Function() loading,
     required TResult Function(Map<String, String?> errors) content,
     required TResult Function() done,
-    required TResult Function(String? message) failed,
+    required TResult Function(String message) failed,
   }) {
     return done();
   }
@@ -420,7 +420,7 @@ class _$_Done implements _Done {
     TResult Function()? loading,
     TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
-    TResult Function(String? message)? failed,
+    TResult Function(String message)? failed,
   }) {
     return done?.call();
   }
@@ -431,7 +431,7 @@ class _$_Done implements _Done {
     TResult Function()? loading,
     TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
-    TResult Function(String? message)? failed,
+    TResult Function(String message)? failed,
     required TResult orElse(),
   }) {
     if (done != null) {
@@ -446,7 +446,7 @@ class _$_Done implements _Done {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
     required TResult Function(_Done value) done,
-    required TResult Function(_Error value) failed,
+    required TResult Function(_Failed value) failed,
   }) {
     return done(this);
   }
@@ -457,7 +457,7 @@ class _$_Done implements _Done {
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Done value)? done,
-    TResult Function(_Error value)? failed,
+    TResult Function(_Failed value)? failed,
   }) {
     return done?.call(this);
   }
@@ -468,7 +468,7 @@ class _$_Done implements _Done {
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Done value)? done,
-    TResult Function(_Error value)? failed,
+    TResult Function(_Failed value)? failed,
     required TResult orElse(),
   }) {
     if (done != null) {
@@ -483,41 +483,41 @@ abstract class _Done implements UserState {
 }
 
 /// @nodoc
-abstract class _$ErrorCopyWith<$Res> {
-  factory _$ErrorCopyWith(_Error value, $Res Function(_Error) then) =
-      __$ErrorCopyWithImpl<$Res>;
-  $Res call({String? message});
+abstract class _$FailedCopyWith<$Res> {
+  factory _$FailedCopyWith(_Failed value, $Res Function(_Failed) then) =
+      __$FailedCopyWithImpl<$Res>;
+  $Res call({String message});
 }
 
 /// @nodoc
-class __$ErrorCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
-    implements _$ErrorCopyWith<$Res> {
-  __$ErrorCopyWithImpl(_Error _value, $Res Function(_Error) _then)
-      : super(_value, (v) => _then(v as _Error));
+class __$FailedCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
+    implements _$FailedCopyWith<$Res> {
+  __$FailedCopyWithImpl(_Failed _value, $Res Function(_Failed) _then)
+      : super(_value, (v) => _then(v as _Failed));
 
   @override
-  _Error get _value => super._value as _Error;
+  _Failed get _value => super._value as _Failed;
 
   @override
   $Res call({
     Object? message = freezed,
   }) {
-    return _then(_Error(
-      message: message == freezed
+    return _then(_Failed(
+      message == freezed
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_Error implements _Error {
-  const _$_Error({this.message});
+class _$_Failed implements _Failed {
+  const _$_Failed(this.message);
 
   @override
-  final String? message;
+  final String message;
 
   @override
   String toString() {
@@ -528,7 +528,7 @@ class _$_Error implements _Error {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Error &&
+            other is _Failed &&
             const DeepCollectionEquality().equals(other.message, message));
   }
 
@@ -538,8 +538,8 @@ class _$_Error implements _Error {
 
   @JsonKey(ignore: true)
   @override
-  _$ErrorCopyWith<_Error> get copyWith =>
-      __$ErrorCopyWithImpl<_Error>(this, _$identity);
+  _$FailedCopyWith<_Failed> get copyWith =>
+      __$FailedCopyWithImpl<_Failed>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -547,7 +547,7 @@ class _$_Error implements _Error {
     required TResult Function() loading,
     required TResult Function(Map<String, String?> errors) content,
     required TResult Function() done,
-    required TResult Function(String? message) failed,
+    required TResult Function(String message) failed,
   }) {
     return failed(message);
   }
@@ -558,7 +558,7 @@ class _$_Error implements _Error {
     TResult Function()? loading,
     TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
-    TResult Function(String? message)? failed,
+    TResult Function(String message)? failed,
   }) {
     return failed?.call(message);
   }
@@ -569,7 +569,7 @@ class _$_Error implements _Error {
     TResult Function()? loading,
     TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
-    TResult Function(String? message)? failed,
+    TResult Function(String message)? failed,
     required TResult orElse(),
   }) {
     if (failed != null) {
@@ -584,7 +584,7 @@ class _$_Error implements _Error {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Content value) content,
     required TResult Function(_Done value) done,
-    required TResult Function(_Error value) failed,
+    required TResult Function(_Failed value) failed,
   }) {
     return failed(this);
   }
@@ -595,7 +595,7 @@ class _$_Error implements _Error {
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Done value)? done,
-    TResult Function(_Error value)? failed,
+    TResult Function(_Failed value)? failed,
   }) {
     return failed?.call(this);
   }
@@ -606,7 +606,7 @@ class _$_Error implements _Error {
     TResult Function(_Loading value)? loading,
     TResult Function(_Content value)? content,
     TResult Function(_Done value)? done,
-    TResult Function(_Error value)? failed,
+    TResult Function(_Failed value)? failed,
     required TResult orElse(),
   }) {
     if (failed != null) {
@@ -616,10 +616,10 @@ class _$_Error implements _Error {
   }
 }
 
-abstract class _Error implements UserState {
-  const factory _Error({String? message}) = _$_Error;
+abstract class _Failed implements UserState {
+  const factory _Failed(String message) = _$_Failed;
 
-  String? get message;
+  String get message;
   @JsonKey(ignore: true)
-  _$ErrorCopyWith<_Error> get copyWith => throw _privateConstructorUsedError;
+  _$FailedCopyWith<_Failed> get copyWith => throw _privateConstructorUsedError;
 }

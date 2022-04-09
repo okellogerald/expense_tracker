@@ -31,5 +31,8 @@ void _showSnackBarCallback(BuildContext context, String message) {
       dismissDirection: DismissDirection.none,
       backgroundColor: AppColors.error,
       content: AppText(message,
-          color: AppColors.onError, size: 14.dw, family: kFontFam2)));
+          alignment: TextAlign.start,
+          color: AppColors.onError,
+          size: 14.dw,
+          family: kFontFam2)));
 }

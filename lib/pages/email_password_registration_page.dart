@@ -32,11 +32,9 @@ class _EmailPasswordAuthPageState extends ConsumerState<EmailPasswordAuthPage> {
 
     ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
       if (ref.read(pagesProvider) != currentPage) return;
-
-      print('listened from the email-verification-page');
       next!.maybeWhen(
           done: () => push(const VerificationPage()),
-          failed: (message) => showSnackBar(message!),
+          failed: (message) => showSnackBar(message, scaffoldKey: scaffoldKey),
           orElse: () {});
     });
 
@@ -46,20 +44,23 @@ class _EmailPasswordAuthPageState extends ConsumerState<EmailPasswordAuthPage> {
   Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
   Widget _buildContent() {
-    return Scaffold(
-        key: scaffoldKey,
-        appBar: AppBar(),
-        body: SingleChildScrollView(
-            child: Container(
-                height: ScreenSizeConfig.getFullHeight,
-                padding: EdgeInsets.symmetric(horizontal: 15.dw),
-                child: Column(children: [
-                  const OnBoardingPagesTitle(
-                      title: 'Email & Password Registration',
-                      subtitle: 'Please provide a valid email to continue.',
-                      image: kRegisterImageurl),
-                  _buildBody()
-                ]))));
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+          key: scaffoldKey,
+          appBar: AppBar(),
+          body: SingleChildScrollView(
+              child: Container(
+                  height: ScreenSizeConfig.getFullHeight,
+                  padding: EdgeInsets.symmetric(horizontal: 15.dw),
+                  child: Column(children: [
+                    const OnBoardingPagesTitle(
+                        title: 'Email & Password Registration',
+                        subtitle: 'Please provide a valid email to continue.',
+                        image: kRegisterImageurl),
+                    _buildBody()
+                  ])))),
+    );
   }
 
   _buildBody() {
@@ -95,5 +96,11 @@ class _EmailPasswordAuthPageState extends ConsumerState<EmailPasswordAuthPage> {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       ref.read(pagesProvider.state).state = currentPage;
     });
+  }
+
+  Future<bool> _onWillPop() async {
+    ref.refresh(userDetailsProvider);
+    ref.read(pagesProvider.state).state = Pages.signup_page;
+    return true;
   }
 }

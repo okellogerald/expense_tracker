@@ -22,7 +22,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
       next!.maybeWhen(
           done: () => push(const MainPage()),
-          failed: (message) => showSnackBar(message!, context: context),
+          failed: (message) => showSnackBar(message, context: context),
           orElse: () {});
     });
 
