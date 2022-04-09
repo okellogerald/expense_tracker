@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 export 'additional_info_page.dart';
 export 'budget_edit_page.dart';
 export 'budget_page.dart';
@@ -11,10 +13,3 @@ export 'reports_page.dart';
 export 'settings_page.dart';
 export 'signup_page.dart';
 export 'verification_page.dart';
-
-enum Pages {
-  login_page,
-  email_password_registration_page,
-  additional_info_page,
-  verification_page
-}

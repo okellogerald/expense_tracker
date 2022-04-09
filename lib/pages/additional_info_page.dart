@@ -1,9 +1,13 @@
+import 'package:budgetting_app/providers/pages_provider.dart';
 import 'package:budgetting_app/utils/navigation_logic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/user_action_handler.dart';
 import '../providers/user_details_provider.dart';
 import '../providers/user_notifier.dart';
 import '../source.dart';
 import '../states/user_state.dart';
+import '../widgets/on_boarding_pages_title.dart';
 import '../widgets/type_selector.dart';
 
 class AdditionalInfoPage extends ConsumerStatefulWidget {
@@ -15,12 +19,22 @@ class AdditionalInfoPage extends ConsumerStatefulWidget {
 
 class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  static const currentPage = Pages.additional_info_page;
+
+  @override
+  void initState() {
+    _init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userNotifierProvider);
 
     ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
+      if (ref.read(pagesProvider) != currentPage) return;
+      print('listened from the additional-info-page');
+
       next!.maybeWhen(
           done: () => push(const MainPage()),
           failed: (message) => showSnackBar(message!),
@@ -39,42 +53,22 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
         body: ListView(
             padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 20.dh),
             children: [
-              _buildTitle(),
+              const OnBoardingPagesTitle(
+                  title: 'One final step',
+                  subtitle:
+                      'Complete the on-boarding process by filling the details below.',
+                  image: kCompleteImageUrl),
               _buildTextFields(),
               SizedBox(height: 20.dh),
               CurrencySelector(
-                  onCurrencySelected: (currency) => ref
-                      .read(userNotifierProvider.notifier)
-                      .updateUserDetails(currency: currency)),
+                  onCurrencySelected: (currency) =>
+                      updateUserDetails(ref, currency: currency)),
               _buildDoneButton()
             ]));
   }
 
-  _buildTitle() {
-    return Container(
-      padding: EdgeInsets.only(top: 60.dh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 60.dh),
-          Center(
-              child: Image.network(kCompleteImageUrl,
-                  height: 80.dh, fit: BoxFit.contain)),
-          SizedBox(height: 120.dh),
-          AppText('One final step', size: 28.dw, family: kFontFam2),
-          SizedBox(height: 10.dh),
-          AppText(
-              'Complete the on-boarding process by filling the details below.',
-              size: 16.dw,
-              color: AppColors.onBackground2)
-        ],
-      ),
-    );
-  }
-
   _buildTextFields() {
-    final errors =
-        ref.watch(userDetailsValidationErrorsProvider(Pages.login_page));
+    final errors = ref.watch(userValidationErrorsProvider);
     final user = ref.watch(userDetailsProvider);
     final password = ref.watch(passwordProvider);
 
@@ -84,9 +78,7 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
         AppTextField(
             errors: errors,
             text: user.displayName,
-            onChanged: (name) => ref
-                .read(userNotifierProvider.notifier)
-                .updateUserDetails(displayName: name),
+            onChanged: (name) => updateUserDetails(ref, displayName: name),
             hintText: 'Username',
             keyboardType: TextInputType.name,
             textCapitalization: TextCapitalization.words,
@@ -103,10 +95,16 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
 
   _buildDoneButton() {
     return AppTextButton(
-        onPressed: ref.read(userNotifierProvider.notifier).signUp,
+        onPressed: () => handleUserAction(ref, UserAction.signUp),
         buttonColor: AppColors.onBackground,
         text: 'DONE',
         height: 50.dh,
         margin: EdgeInsets.only(top: 30.dh));
+  }
+
+  _init() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      ref.read(pagesProvider.state).state = currentPage;
+    });
   }
 }

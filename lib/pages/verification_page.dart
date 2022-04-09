@@ -1,4 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/pages_provider.dart';
+import '../providers/user_action_handler.dart';
 import '../providers/user_details_provider.dart';
 import '../providers/user_notifier.dart';
 import '../source.dart';
@@ -14,14 +17,22 @@ class VerificationPage extends ConsumerStatefulWidget {
 
 class _VerificationPageState extends ConsumerState<VerificationPage> {
   static final scaffoldKey = GlobalKey<ScaffoldState>();
+  static const currentPage = Pages.verification_page;
+
+  @override
+  void initState() {
+    _init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userNotifierProvider);
 
     ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
+      if (ref.read(pagesProvider) != currentPage) return;
       next!.maybeWhen(
-          done: () => push(const MainPage()),
+          done: () => push(const AdditionalInfoPage()),
           failed: (message) => showSnackBar(message!, scaffoldKey: scaffoldKey),
           orElse: () {});
     });
@@ -33,14 +44,16 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
 
   Widget _buildContent() {
     return Scaffold(
-        key: scaffoldKey,
-        appBar: AppBar(),
-        body: Padding(
-            padding: EdgeInsets.only(left: 15.dw, right: 15.dw),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [_buildTitle(), _buildEmailDetails()])),
-        bottomNavigationBar: _buildVerifyButton());
+      key: scaffoldKey,
+      body: Scaffold(
+          appBar: AppBar(),
+          body: Padding(
+              padding: EdgeInsets.only(left: 15.dw, right: 15.dw),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [_buildTitle(), _buildEmailDetails()])),
+          bottomNavigationBar: _buildVerifyButton()),
+    );
   }
 
   _buildTitle() {
@@ -88,11 +101,16 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
 
   _buildVerifyButton() {
     return AppTextButton(
-        onPressed:
-            ref.read(userNotifierProvider.notifier).checkIfEmailIsVerified,
+        onPressed: () => handleUserAction(ref, UserAction.verifyEmail),
         text: 'I AM ALREADY VERIFIED',
         buttonColor: AppColors.onBackground,
         margin: EdgeInsets.only(bottom: 20.dh, left: 15.dw, right: 15.dw),
         height: 50.dh);
+  }
+
+  _init() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      ref.read(pagesProvider.state).state = currentPage;
+    });
   }
 }

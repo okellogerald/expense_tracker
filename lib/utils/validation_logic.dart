@@ -35,6 +35,7 @@ String? validatePassword(String password) {
   return null;
 }
 
+///returns true if their is no errors.
 bool checkErrors(Map<String, String?> errors) {
   final errorsList = errors.values.toList();
   errorsList.removeWhere((e) => e == null);

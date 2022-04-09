@@ -1,8 +1,11 @@
 import 'package:budgetting_app/providers/user_details_provider.dart';
 import 'package:budgetting_app/providers/user_notifier.dart';
 import 'package:budgetting_app/utils/navigation_logic.dart';
+import 'package:budgetting_app/widgets/on_boarding_pages_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/pages_provider.dart';
+import '../providers/user_action_handler.dart';
 import '../source.dart';
 import '../states/user_state.dart';
 import '../widgets/app_check_box.dart';
@@ -16,12 +19,22 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   static final scaffoldKey = GlobalKey<ScaffoldState>();
+  static const currentPage = Pages.login_page;
+
+  @override
+  void initState() {
+    _init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userNotifierProvider);
 
     ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
+      if (ref.read(pagesProvider) != currentPage) return;
+      print('listened from the log-in-page');
+
       next!.maybeWhen(
           done: () => push(const MainPage()),
           failed: (message) => showSnackBar(message!, scaffoldKey: scaffoldKey),
@@ -33,50 +46,29 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
-  Widget _buildContent() {
+  Widget _buildContent([Map<String, String?> errors = const {}]) {
     return Scaffold(
-      key: scaffoldKey,
-      body: SingleChildScrollView(
-        child: Container(
-          height: ScreenSizeConfig.getFullHeight,
-          padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 10.dh),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildTitle(),
-              _buildPhoneTextField(),
-              _buildNeedHelp(),
-              _buildNewUser()
-            ],
-          ),
-        ),
-      ),
-    );
+        key: scaffoldKey,
+        body: SingleChildScrollView(
+            child: Container(
+                height: ScreenSizeConfig.getFullHeight,
+                padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 10.dh),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const OnBoardingPagesTitle(
+                          title: 'Welcome !',
+                          subtitle: 'Please log in to continue',
+                          hasNetworkImage: false,
+                          image: 'assets/images/logo.png'),
+                      _buildEmailTextField(),
+                      _buildNeedHelp(),
+                      _buildNewUser()
+                    ]))));
   }
 
-  _buildTitle() {
-    return Container(
-      padding: EdgeInsets.only(top: 60.dh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 60.dh),
-          Center(
-              child: Image.asset('assets/images/logo.png',
-                  height: 60.dh, fit: BoxFit.contain)),
-          SizedBox(height: 100.dh),
-          AppText('Welcome !', size: 32.dw, family: kFontFam2),
-          SizedBox(height: 10.dh),
-          AppText('Please log in to continue',
-              size: 16.dw, color: AppColors.onBackground2)
-        ],
-      ),
-    );
-  }
-
-  _buildPhoneTextField() {
-    final errors =
-        ref.watch(userDetailsValidationErrorsProvider(Pages.login_page));
+  _buildEmailTextField() {
+    final errors = ref.watch(userValidationErrorsProvider);
     final user = ref.watch(userDetailsProvider);
     final password = ref.watch(passwordProvider);
 
@@ -87,9 +79,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           AppTextField(
               errors: errors,
               text: user.email,
-              onChanged: (email) => ref
-                  .read(userNotifierProvider.notifier)
-                  .updateUserDetails(email: email),
+              onChanged: (email) => updateUserDetails(ref, email: email),
               hintText: 'Email',
               suffixIcon: Icons.mail_outlined,
               keyboardType: TextInputType.emailAddress,
@@ -104,7 +94,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               suffixIcon: Icons.lock_outlined,
               isLoginPassword: true),
           AppTextButton(
-              onPressed: ref.read(userNotifierProvider.notifier).logIn,
+              onPressed: () => handleUserAction(ref, UserAction.logIn),
               text: 'LOG IN',
               textColor: AppColors.onPrimary,
               buttonColor: AppColors.primary,
@@ -141,5 +131,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       AppCheckBox(onChanged: (_) {}),
       AppText('NEED HELP ?', size: bodyTextSize, color: AppColors.primary)
     ]);
+  }
+
+  _init() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      ref.read(pagesProvider.state).state = currentPage;
+    });
   }
 }

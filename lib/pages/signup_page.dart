@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/pages_provider.dart';
 import '../providers/user_notifier.dart';
 import '../source.dart';
 import '../states/user_state.dart';
@@ -14,14 +16,24 @@ class SignUpPage extends ConsumerStatefulWidget {
 
 class _SignUpPageState extends ConsumerState<SignUpPage> {
   static final scaffoldKey = GlobalKey<ScaffoldState>();
+  static const currentPage = Pages.signup_page;
+
+  @override
+  void initState() {
+    _init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userNotifierProvider);
 
     ref.listen(userNotifierProvider, (UserState? previous, UserState? next) {
+      if (ref.read(pagesProvider) != currentPage) return;
+      print('listened from the sign-up page');
+
       next!.maybeWhen(
-          done: () => push(const MainPage()),
+          done: () => push(const AdditionalInfoPage()),
           failed: (message) => showSnackBar(message!, scaffoldKey: scaffoldKey),
           orElse: () {});
     });
@@ -83,5 +95,11 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
         margin: EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 20.dh),
         borderRadius: 20.dw,
         fontSize: 16.dw);
+  }
+
+  _init() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      ref.read(pagesProvider.state).state = currentPage;
+    });
   }
 }

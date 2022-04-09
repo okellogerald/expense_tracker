@@ -21,8 +21,10 @@ class _$UserStateTearOff {
     return const _Loading();
   }
 
-  _Content content() {
-    return const _Content();
+  _Content content([Map<String, String?> errors = const {}]) {
+    return _Content(
+      errors,
+    );
   }
 
   _Done done() {
@@ -44,7 +46,7 @@ mixin _$UserState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function() content,
+    required TResult Function(Map<String, String?> errors) content,
     required TResult Function() done,
     required TResult Function(String? message) failed,
   }) =>
@@ -52,7 +54,7 @@ mixin _$UserState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? content,
+    TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
     TResult Function(String? message)? failed,
   }) =>
@@ -60,7 +62,7 @@ mixin _$UserState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? content,
+    TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
     TResult Function(String? message)? failed,
     required TResult orElse(),
@@ -147,7 +149,7 @@ class _$_Loading implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function() content,
+    required TResult Function(Map<String, String?> errors) content,
     required TResult Function() done,
     required TResult Function(String? message) failed,
   }) {
@@ -158,7 +160,7 @@ class _$_Loading implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? content,
+    TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
     TResult Function(String? message)? failed,
   }) {
@@ -169,7 +171,7 @@ class _$_Loading implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? content,
+    TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
     TResult Function(String? message)? failed,
     required TResult orElse(),
@@ -226,6 +228,7 @@ abstract class _Loading implements UserState {
 abstract class _$ContentCopyWith<$Res> {
   factory _$ContentCopyWith(_Content value, $Res Function(_Content) then) =
       __$ContentCopyWithImpl<$Res>;
+  $Res call({Map<String, String?> errors});
 }
 
 /// @nodoc
@@ -236,60 +239,84 @@ class __$ContentCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
 
   @override
   _Content get _value => super._value as _Content;
+
+  @override
+  $Res call({
+    Object? errors = freezed,
+  }) {
+    return _then(_Content(
+      errors == freezed
+          ? _value.errors
+          : errors // ignore: cast_nullable_to_non_nullable
+              as Map<String, String?>,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$_Content implements _Content {
-  const _$_Content();
+  const _$_Content([this.errors = const {}]);
+
+  @JsonKey()
+  @override
+  final Map<String, String?> errors;
 
   @override
   String toString() {
-    return 'UserState.content()';
+    return 'UserState.content(errors: $errors)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Content);
+        (other.runtimeType == runtimeType &&
+            other is _Content &&
+            const DeepCollectionEquality().equals(other.errors, errors));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(errors));
+
+  @JsonKey(ignore: true)
+  @override
+  _$ContentCopyWith<_Content> get copyWith =>
+      __$ContentCopyWithImpl<_Content>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function() content,
+    required TResult Function(Map<String, String?> errors) content,
     required TResult Function() done,
     required TResult Function(String? message) failed,
   }) {
-    return content();
+    return content(errors);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? content,
+    TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
     TResult Function(String? message)? failed,
   }) {
-    return content?.call();
+    return content?.call(errors);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? content,
+    TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
     TResult Function(String? message)? failed,
     required TResult orElse(),
   }) {
     if (content != null) {
-      return content();
+      return content(errors);
     }
     return orElse();
   }
@@ -333,7 +360,12 @@ class _$_Content implements _Content {
 }
 
 abstract class _Content implements UserState {
-  const factory _Content() = _$_Content;
+  const factory _Content([Map<String, String?> errors]) = _$_Content;
+
+  Map<String, String?> get errors;
+  @JsonKey(ignore: true)
+  _$ContentCopyWith<_Content> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -375,7 +407,7 @@ class _$_Done implements _Done {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function() content,
+    required TResult Function(Map<String, String?> errors) content,
     required TResult Function() done,
     required TResult Function(String? message) failed,
   }) {
@@ -386,7 +418,7 @@ class _$_Done implements _Done {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? content,
+    TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
     TResult Function(String? message)? failed,
   }) {
@@ -397,7 +429,7 @@ class _$_Done implements _Done {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? content,
+    TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
     TResult Function(String? message)? failed,
     required TResult orElse(),
@@ -513,7 +545,7 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
-    required TResult Function() content,
+    required TResult Function(Map<String, String?> errors) content,
     required TResult Function() done,
     required TResult Function(String? message) failed,
   }) {
@@ -524,7 +556,7 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? content,
+    TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
     TResult Function(String? message)? failed,
   }) {
@@ -535,7 +567,7 @@ class _$_Error implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
-    TResult Function()? content,
+    TResult Function(Map<String, String?> errors)? content,
     TResult Function()? done,
     TResult Function(String? message)? failed,
     required TResult orElse(),

@@ -1,5 +1,4 @@
 import '../source.dart';
-import '../theme/app_ui_constant_styles.dart';
 
 class AppTextButton extends StatefulWidget {
   const AppTextButton(
@@ -119,7 +118,7 @@ class _AppTextButtonState extends State<AppTextButton>
     return AppText(widget.text ?? 'Click Me',
         size: widget.fontSize ?? 15.dw,
         family: kFontFam2,
-        isBolded: widget.isBolded,
+        isBolded: true,
         color: widget.textColor ?? AppColors.onPrimary);
   }
 

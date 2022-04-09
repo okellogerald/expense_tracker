@@ -67,3 +67,7 @@ flutter:
     - family: Stratos
       fonts:
         - asset: assets/fonts/stratos-regular.ttf
+        
+    - family: StratosLight
+      fonts:
+        - asset: assets/fonts/stratos-light.ttf

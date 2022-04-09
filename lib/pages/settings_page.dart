@@ -26,20 +26,23 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           orElse: () {});
     });
 
-    return userState.maybeWhen(
-        loading: () => const AppLoadingIndicator(),
-        orElse: () {
-          return Padding(
-            padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
-            child: Column(
-              children: [
-                _buildUserAccount(),
-                _buildBackupOptions(),
-                _buildSignOutButton(),
-              ],
-            ),
-          );
-        });
+    return Scaffold(
+      appBar: _buildAppBar(),
+      body: userState.maybeWhen(
+          loading: () => const AppLoadingIndicator(),
+          orElse: () {
+            return Padding(
+              padding: EdgeInsets.fromLTRB(15.dw, 10.dw, 15.dw, 0),
+              child: Column(
+                children: [
+                  _buildUserAccount(),
+                  _buildBackupOptions(),
+                  _buildSignOutButton(),
+                ],
+              ),
+            );
+          }),
+    );
   }
 
   _buildUserAccount() {

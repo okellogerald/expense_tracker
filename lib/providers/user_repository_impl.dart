@@ -1,16 +1,17 @@
 import 'dart:convert';
-export 'package:riverpod/riverpod.dart';
+
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 
+import '../errors/api_error.dart';
 import '../errors/exception_handler.dart';
 import '../models/user.dart';
+import '../secrets.dart';
 
 const timeLimit = Duration(seconds: 10);
-const root = 'https://ltje0n-ip-197-186-1-86.expose.sh';
 const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 const facebookRoot =
     'https://graph.facebook.com/v2.12/me?fields=name,picture.height(200),email';
@@ -25,10 +26,10 @@ abstract class UserRepositoryInterface {
   ///uses [firebase_auth] to send email verification link
   Future<void> sendVerificationLink(String email, String password);
 
-  ///uses [firebase_auth] to signs in a user using email/password combination
+  ///uses [firebase_auth] to sign in a user using email/password combination
   Future<void> signInFirebaseUser(String email, String password);
 
-  ///creates a new user in my database
+  ///creates a new user in the database
   Future<User> createUserInDatabase(Map<String, String> user);
 
   ///checks if user is in the database.
@@ -54,92 +55,127 @@ class UserRepositoryImpl implements UserRepositoryInterface {
   @override
   Future<UserCredential> createFirebaseUser(
       String email, String password) async {
-    return await _firebaseAuth
-        .createUserWithEmailAndPassword(
-            email: email, password: 'default_password@expense_tracker')
-        .timeout(timeLimit);
+    try {
+      final credential = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .timeout(timeLimit);
+      return credential;
+    } catch (error) {
+      throw getErrorMessage(error);
+    }
   }
 
   @override
   Future<User> createUserInDatabase(Map<String, String> userMap) async {
-    final response = await http
-        .post(Uri.parse('$root/user/create'), body: userMap, headers: headers)
-        .timeout(timeLimit);
-    _handleStatusCode(response);
-    final jsonUser = json.decode(response.body)['user'];
-    return User.fromJson(jsonUser);
+    try {
+      final response = await http
+          .post(Uri.parse('$root/user/create'), body: userMap, headers: headers)
+          .timeout(timeLimit);
+      _handleResponseErrors(response);
+      final jsonUser = json.decode(response.body)['user'];
+      return User.fromJson(jsonUser);
+    } catch (error) {
+      throw getErrorMessage(error);
+    }
   }
 
   @override
   Future<void> deleteUser(String email, String password) async {
-    //deleting from the database
-    //If deleting from database is successful and not from firebase. Calling
-    //this function again will bring an error.
-    if (!_isAlreadyDeletedFromDatabase) {
-      await http
-          .delete(Uri.parse('$root/user/?email=$email'), headers: headers)
-          .timeout(timeLimit);
-      _isAlreadyDeletedFromDatabase = true;
-    }
+    try {
+      //deleting from the database
+      //If deleting from database is successful and not from firebase. Calling
+      //this function again will bring an error.
+      if (!_isAlreadyDeletedFromDatabase) {
+        final response = await http
+            .delete(Uri.parse('$root/user/?email=$email'), headers: headers)
+            .timeout(timeLimit);
+        _handleResponseErrors(response);
+        _isAlreadyDeletedFromDatabase = true;
+      }
 
-    //deleting from firebase
-    final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-        email: email, password: password);
-    await userCredential.user!.delete();
+      //deleting from firebase
+      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      await userCredential.user!.delete();
+    } catch (error) {
+      throw getErrorMessage(error);
+    }
   }
 
   @override
   Future<void> sendVerificationLink(String email, String password) async {
-    var user = _firebaseAuth.currentUser;
-    user ??= await signInFirebaseUser(email, password)
-        .then((credential) => user = credential.user!);
-    await user!.sendEmailVerification();
+    try {
+      var user = _firebaseAuth.currentUser;
+      if (user == null) {
+        final credential = await signInFirebaseUser(email, password);
+        user = credential.user!;
+      }
+      await user.sendEmailVerification();
+    } catch (error) {
+      throw getErrorMessage(error);
+    }
   }
 
   @override
   Future<UserCredential> signInFirebaseUser(
       String email, String password) async {
-    return await _firebaseAuth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .timeout(timeLimit);
+    try {
+      return await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .timeout(timeLimit);
+    } catch (error) {
+      throw getErrorMessage(error);
+    }
   }
 
   @override
   Future<User> signInUserInDatabase(String email, String password) async {
     final body = {"password": password};
-    final response = await http
-        .post(Uri.parse('$root/user?email=$email'),
-            body: body, headers: headers)
-        .timeout(timeLimit);
-    _handleStatusCode(response);
-    final jsonUser = json.decode(response.body)['user'];
-    return User.fromJson(jsonUser);
+    try {
+      final response = await http
+          .post(Uri.parse('$root/user?email=$email'),
+              body: body, headers: headers)
+          .timeout(timeLimit);
+      _handleResponseErrors(response);
+      final jsonUser = json.decode(response.body)['user'];
+      return User.fromJson(jsonUser);
+    } catch (error) {
+      throw getErrorMessage(error);
+    }
   }
 
   @override
   Future<User?> getUserFacebookAccountDetails() async {
-    final result = await _facebookAuth.login();
-    if (result.accessToken != null) {
-      final url = '$facebookRoot&access_token=${result.accessToken!.token}';
-      var response = await http.get(Uri.parse(url));
-      var profile = json.decode(response.body);
-      return User.fromFacebookProfile(profile);
+    try {
+      final result = await _facebookAuth.login();
+      if (result.accessToken != null) {
+        final url = '$facebookRoot&access_token=${result.accessToken!.token}';
+        var response = await http.get(Uri.parse(url));
+        var profile = json.decode(response.body);
+        return User.fromFacebookProfile(profile);
+      }
+      return null;
+    } catch (error) {
+      throw getErrorMessage(error);
     }
-    return null;
   }
 
   @override
   Future<User?> getUserGoogleAccountDetails() async {
-    await _googleSignIn.disconnect().catchError((_) {});
-    final account = await _googleSignIn.signIn();
-    if (account != null) return User.fromGoogleAccount(account);
-    return null;
+    try {
+      await _googleSignIn.disconnect().catchError((_) {});
+      final account = await _googleSignIn.signIn();
+      if (account != null) return User.fromGoogleAccount(account);
+      return null;
+    } catch (error) {
+      throw getErrorMessage(error);
+    }
   }
 
-  _handleStatusCode(http.Response response) {
+  ///checks to see if response has errors
+  _handleResponseErrors(http.Response response) {
     final responseBody = json.decode(response.body);
-    if (response.statusCode != 200 && response.statusCode != 201) {
-      throw AppError(responseBody['error']);
-    }
+    final error = Map<String, String>.from(responseBody['error']);
+    if (error.isNotEmpty) throw ApiError.fromJson(error);
   }
 }

@@ -1,5 +1,7 @@
 import 'source.dart';
 
+const kDefaultPassword = 'default_password@expense_tracker';
+
 const kCategories = 'categories_box';
 const kPreferences = 'preferences_box';
 const kPrefs = 'preferences';
@@ -31,8 +33,8 @@ const kVerifyImage3Url =
 const kDefaultPhotoUrl =
     'https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-128.png';
 
-const kFontFam = "Stratos";
-const kFontFam2 = 'Circular';
+const kFontFam = "AndroidEuclid";
+const kFontFam2 = 'AndroidEuclid';
 const kFontFam3 = 'SpaceMono';
 
 const kAddCategoryPosition = 'add_category_position';
