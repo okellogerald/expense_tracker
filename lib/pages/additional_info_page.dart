@@ -35,7 +35,7 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
       if (ref.read(pagesProvider) != currentPage) return;
       next!.maybeWhen(
           done: () => pushAndRemoveUntil(const MainPage()),
-          failed: (message) => showSnackBar(message),
+          failed: (message) => showSnackBar(message, scaffoldKey: scaffoldKey),
           orElse: () {});
     });
 
@@ -97,7 +97,7 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
   _buildDoneButton() {
     return AppTextButton(
         onPressed: () => handleUserAction(ref, UserAction.signUp),
-        buttonColor: AppColors.onBackground,
+        buttonColor: AppColors.primary,
         text: 'DONE',
         height: 50.dh,
         margin: EdgeInsets.only(top: 30.dh));

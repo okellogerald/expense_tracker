@@ -11,8 +11,9 @@ import '../errors/user_exception.dart';
 import '../models/user.dart';
 import '../states/user_state.dart';
 
-final userNotifierProvider = StateNotifierProvider<UserNotifier, UserState>(
-    (ref) => UserNotifier(ref.read));
+final userNotifierProvider =
+    StateNotifierProvider.autoDispose<UserNotifier, UserState>(
+        (ref) => UserNotifier(ref.read));
 
 class UserNotifier extends StateNotifier<UserState> {
   final Reader read;

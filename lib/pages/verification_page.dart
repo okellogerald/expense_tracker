@@ -1,5 +1,7 @@
+import 'package:budgetting_app/widgets/app_divider.dart';
 import 'package:budgetting_app/widgets/on_boarding_pages_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../providers/pages_provider.dart';
 import '../providers/user_action_handler.dart';
 import '../providers/user_details_provider.dart';
@@ -75,7 +77,9 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
       AppText('Email address used:',
           size: 16.dw, color: AppColors.onBackground2),
       SizedBox(height: 10.dh),
-      AppText(user.email, size: 15.dw, color: AppColors.onBackground2),
+      AppText(user.email,
+          size: 15.dw, color: AppColors.onBackground, family: kFontFam2),
+      AppDivider(width: 300.dw),
       AppTextButton(
         onPressed: () => Navigator.pop(context),
         text: 'Change Email',

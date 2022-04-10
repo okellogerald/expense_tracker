@@ -1,4 +1,5 @@
 import 'package:budgetting_app/blocs/record_edit_page_bloc.dart';
+import 'package:budgetting_app/widgets/amount_text_field.dart';
 import '../source.dart';
 
 class RecordsEditPage extends StatefulWidget {
@@ -197,13 +198,10 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   }
 
   _buildAmountTextField(RecordEditPageForm form) {
-    return AppTextField(
+    return AmountTextField(
         onChanged: bloc.updateAmount,
         text: form.amount.toString(),
         errors: form.errors,
-        hintText: '0',
-        letterSpacing: 1.4,
-        keyboardType: TextInputType.number,
         errorName: 'amount');
   }
 
@@ -229,7 +227,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
           margin: EdgeInsets.only(bottom: 30.dh),
           fontSize: 15.dw,
           isBolded: true,
-          buttonColor: AppColors.onBackground)
+          buttonColor: AppColors.primary)
     ]));
   }
 

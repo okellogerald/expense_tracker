@@ -8,10 +8,10 @@ final _box = Hive.box(kUser);
 
 final userDetailsProvider = StateProvider<User>((ref) => const User());
 
-final passwordProvider = StateProvider<String>((ref) => '');
+final passwordProvider = StateProvider.autoDispose<String>((ref) => '');
 
 final userValidationErrorsProvider =
-    StateProvider<Map<String, String?>>((ref) => {});
+    StateProvider.autoDispose<Map<String, String?>>((ref) => {});
 
 final signedInUserProvider = Provider<User?>((ref) {
   final jsonUser = _box.get(kUser) as String?;

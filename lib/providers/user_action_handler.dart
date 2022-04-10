@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../utils/validation_logic.dart';
 import 'pages_provider.dart';
 import 'user_details_provider.dart';
@@ -59,10 +60,9 @@ void handleUserAction(WidgetRef ref, UserAction userAction) async {
   if (userAction.isVerifyingEmail) await userNotifier.checkIfEmailIsVerified();
 }
 
-///updates the current page to the pages provider
+///updating the page so that ref listening works properly i.e does not call
+///other pages for an action done on another page.
 Future<bool> handleStateOnPop(WidgetRef ref, Pages toPage) async {
-  //updating the page so that ref listening works properly i.e does not call
-  //other pages for an action done on another page.
   ref.read(pagesProvider.state).state = toPage;
   return true;
 }
@@ -71,8 +71,5 @@ Future<bool> handleStateOnPop(WidgetRef ref, Pages toPage) async {
 void handleStateOnInit(WidgetRef ref, Pages currentPage) {
   WidgetsBinding.instance!.addPostFrameCallback((_) {
     ref.read(pagesProvider.state).state = currentPage;
-    ref.refresh(userDetailsProvider);
-    ref.refresh(passwordProvider);
-    ref.refresh(userValidationErrorsProvider);
   });
 }

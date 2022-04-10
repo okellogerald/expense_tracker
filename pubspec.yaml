@@ -52,9 +52,9 @@ flutter:
       fonts:
         - asset: assets/fonts/app-icons.ttf
 
-    - family: Andala
+    - family: Mabry
       fonts:
-        - asset: assets/fonts/Andala.ttf
+        - asset: assets/fonts/Mabry-Pro-Medium.ttf
 
     - family: Avenir
       fonts:
@@ -68,6 +68,6 @@ flutter:
       fonts:
         - asset: assets/fonts/stratos-regular.ttf
 
-    - family: StratosLight
+    - family: Brutalista
       fonts:
-        - asset: assets/fonts/stratos-light.ttf
+        - asset: assets/fonts/Brutalista Regular.ttf

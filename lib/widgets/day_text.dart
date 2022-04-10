@@ -28,7 +28,7 @@ class _DayTextState extends State<DayText> {
           AppText(widget.text.toUpperCase(),
               color: AppColors.onBackground2,
               size: bodyMediumTextSize,
-              family: kFontFam),
+              family: kFontFam2),
           _buildActionButtons()
         ]));
   }

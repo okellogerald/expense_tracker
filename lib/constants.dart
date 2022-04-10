@@ -34,7 +34,7 @@ const kDefaultPhotoUrl =
     'https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-128.png';
 
 const kFontFam = "Avenir";
-const kFontFam2 = 'Stratos';
+const kFontFam2 = 'Mabry';
 const kFontFam3 = 'SpaceMono';
 
 const kAddCategoryPosition = 'add_category_position';

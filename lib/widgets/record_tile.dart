@@ -58,7 +58,7 @@ class _RecordTileState extends State<RecordTile> {
               ])),
               AppText(record.getAmount,
                   size: 14.dw,
-                  isBolded: true,
+                  family: kFontFam2,
                   color: category.type == kIncome
                       ? AppColors.positive
                       : AppColors.negative)

@@ -1,37 +1,26 @@
-import '../source.dart';
+import 'package:budgetting_app/providers/user_details_provider.dart';
+import 'package:budgetting_app/source.dart' hide Consumer;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AppTextField extends StatefulWidget {
-  const AppTextField(
-      {required this.errors,
+class AmountTextField extends StatefulWidget {
+  const AmountTextField(
+      {Key? key,
+      this.errors = const {},
       required this.text,
       required this.onChanged,
-      this.maxLines = 1,
-      required this.hintText,
-      required this.keyboardType,
-      this.textCapitalization = TextCapitalization.sentences,
-      required this.errorName,
-      this.suffixIcon,
-      this.letterSpacing,
-      this.textColor,
-      Key? key})
+      required this.errorName})
       : super(key: key);
 
   final Map<String, dynamic> errors;
   final String? text;
   final ValueChanged<String> onChanged;
-  final int maxLines;
-  final String hintText, errorName;
-  final double? letterSpacing;
-  final TextInputType keyboardType;
-  final TextCapitalization textCapitalization;
-  final IconData? suffixIcon;
-  final Color? textColor;
+  final String errorName;
 
   @override
-  State createState() => _AppTextFieldState();
+  State<AmountTextField> createState() => _AmountTextFieldState();
 }
 
-class _AppTextFieldState extends State<AppTextField> {
+class _AmountTextFieldState extends State<AmountTextField> {
   final controller = TextEditingController();
 
   @override
@@ -51,7 +40,6 @@ class _AppTextFieldState extends State<AppTextField> {
   Widget build(BuildContext context) {
     final error = widget.errors[widget.errorName];
     final border = error != null ? errorBorder : _inputBorder;
-    final emptyContainer = Container(width: 0.01);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,35 +49,55 @@ class _AppTextFieldState extends State<AppTextField> {
             child: TextField(
                 controller: controller,
                 onChanged: widget.onChanged,
-                maxLines: widget.maxLines,
+                maxLines: 1,
                 minLines: 1,
-                keyboardType: widget.keyboardType,
-                textCapitalization: widget.textCapitalization,
+                keyboardType: TextInputType.number,
                 style: TextStyle(
-                    color: widget.textColor ?? AppColors.onBackground,
-                    letterSpacing: widget.letterSpacing,
-                    fontSize: 16.dw),
+                    color: AppColors.onBackground,
+                    fontSize: 16.dw,
+                    fontFamily: kFontFam2),
                 cursorColor: AppColors.onBackground,
                 decoration: InputDecoration(
-                    hintText: widget.hintText,
+                    hintText: '0',
                     hintStyle: TextStyle(
-                        color: AppColors.onBackground2, fontSize: 14.dw),
+                        color: AppColors.onBackground2,
+                        fontFamily: kFontFam2,
+                        fontSize: 14.dw),
                     fillColor: AppColors.textField,
-                    prefixIcon: widget.suffixIcon != null
-                        ? Icon(widget.suffixIcon,
-                            color: AppColors.onBackground2, size: 20.dw)
-                        : emptyContainer,
                     filled: true,
                     isDense: true,
                     border: border,
                     focusedBorder: border,
                     enabledBorder: border,
                     contentPadding: EdgeInsets.only(
-                        left: widget.suffixIcon == null ? 10.dw : 20.dw,
-                        top: 14.dw)))),
+                        left: 20.dw, top: 14.dh, bottom: 14.dh)))),
+        _buildFormattedAmount(),
         _buildError(error)
       ],
     );
+  }
+
+  _buildFormattedAmount() {
+    final amount = double.tryParse(widget.text ?? '0');
+    if (amount != null) {
+      final formattedAmount = Utils.convertToMoneyFormat(amount);
+      return Padding(
+        padding: EdgeInsets.only(top: 10.dh, right: 12.dw),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Consumer(
+              builder: (context, ref, child) {
+                final currency = ref.watch(userDetailsProvider).currency;
+                return AppText('$currency $formattedAmount',
+                    color: AppColors.accent, size: 15.dw, family: kFontFam2);
+              },
+            ),
+          ],
+        ),
+      );
+    }
+    return Container();
   }
 
   _buildError(String? error) {
