@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:budgetting_app/errors/exception_handler.dart';
 import 'package:budgetting_app/providers/user_details_provider.dart';
 import 'package:budgetting_app/providers/user_repository_impl.dart';
@@ -24,7 +25,7 @@ class UserNotifier extends StateNotifier<UserState> {
           .sendVerificationLink(user.email, kDefaultPassword);
     }
 
-    state = const UserState.loading();
+    state = const UserState.loading('Sending email verification link ...');
     try {
       await read(userRepositoryProvider)
           .createFirebaseUser(user.email, kDefaultPassword);
@@ -43,7 +44,7 @@ class UserNotifier extends StateNotifier<UserState> {
   }
 
   Future<void> checkIfEmailIsVerified() async {
-    state = const UserState.loading();
+    state = const UserState.loading('Checking if email is verified ...');
     final user = read(userDetailsProvider);
     try {
       final userCredential = await read(userRepositoryProvider)
@@ -84,7 +85,7 @@ class UserNotifier extends StateNotifier<UserState> {
   }
 
   Future<void> signUp() async {
-    state = const UserState.loading();
+    state = const UserState.loading('Creating your account ...');
     final user = read(userDetailsProvider);
     final password = read(passwordProvider);
     Future<void> callback() async {
@@ -118,7 +119,7 @@ class UserNotifier extends StateNotifier<UserState> {
   }
 
   Future<void> logIn() async {
-    state = const UserState.loading();
+    state = const UserState.loading('Getting your credentials ...');
     final user = read(userDetailsProvider);
     final password = read(passwordProvider);
     try {
@@ -150,6 +151,8 @@ class UserNotifier extends StateNotifier<UserState> {
 
   _handleError(var error) {
     final message = getErrorMessage(error);
+    log(error.toString());
+    log(message);
     state = UserState.failed(message);
   }
 }

@@ -3,7 +3,6 @@ import 'package:budgetting_app/providers/user_notifier.dart';
 import 'package:budgetting_app/utils/navigation_logic.dart';
 import 'package:budgetting_app/widgets/on_boarding_pages_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../providers/pages_provider.dart';
 import '../providers/user_action_handler.dart';
 import '../source.dart';
@@ -23,7 +22,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   void initState() {
-    _init();
+    handleStateOnInit(ref, currentPage);
     super.initState();
   }
 
@@ -39,10 +38,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           orElse: () {});
     });
 
-    return userState.maybeWhen(loading: _buildLoading, orElse: _buildContent);
+    return WillPopScope(
+      onWillPop: () => showExitAppDialog(context),
+      child: userState.maybeWhen(
+          loading: (message) => AppLoadingIndicator.withScaffold(message),
+          orElse: _buildContent),
+    );
   }
-
-  Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
   Widget _buildContent([Map<String, String?> errors = const {}]) {
     return Scaffold(
@@ -66,9 +68,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   _buildEmailTextField() {
+    final password = ref.watch(passwordProvider);
     final errors = ref.watch(userValidationErrorsProvider);
     final user = ref.watch(userDetailsProvider);
-    final password = ref.watch(passwordProvider);
 
     return Padding(
         padding: EdgeInsets.only(top: 80.dh),
@@ -129,11 +131,5 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       AppCheckBox(onChanged: (_) {}),
       AppText('NEED HELP ?', size: bodyTextSize, color: AppColors.primary)
     ]);
-  }
-
-  _init() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      ref.read(pagesProvider.state).state = currentPage;
-    });
   }
 }

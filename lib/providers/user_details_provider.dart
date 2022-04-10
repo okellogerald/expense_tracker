@@ -35,3 +35,4 @@ void updateUserDetails(WidgetRef ref,
       signUpOption: signupOption ?? user.signUpOption);
   ref.read(userDetailsProvider.state).state = updatedUser;
 }
+

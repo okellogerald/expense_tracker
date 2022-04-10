@@ -1,4 +1,5 @@
 import '../source.dart';
+import '../utils/navigation_logic.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -12,9 +13,12 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: _getCurrentPage(),
-        bottomNavigationBar: _buildBottomNavigationBar());
+    return WillPopScope(
+      onWillPop: () => showExitAppDialog(context),
+      child: Scaffold(
+          body: _getCurrentPage(),
+          bottomNavigationBar: _buildBottomNavigationBar()),
+    );
   }
 
   Widget _getCurrentPage() {

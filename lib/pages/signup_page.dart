@@ -2,6 +2,8 @@ import 'package:budgetting_app/widgets/on_boarding_pages_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/pages_provider.dart';
+import '../providers/user_action_handler.dart';
+import '../providers/user_details_provider.dart';
 import '../providers/user_notifier.dart';
 import '../source.dart';
 import '../states/user_state.dart';
@@ -21,7 +23,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
 
   @override
   void initState() {
-    _init();
+    handleStateOnInit(ref, currentPage);
     super.initState();
   }
 
@@ -37,10 +39,13 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
           orElse: () {});
     });
 
-    return userState.maybeWhen(loading: _buildLoading, orElse: _buildContent);
+    return WillPopScope(
+        onWillPop: () => handleStateOnPop(ref, Pages.login_page),
+        child: userState.maybeWhen(
+          loading: (message) => AppLoadingIndicator.withScaffold(message),
+          orElse: _buildContent,
+        ));
   }
-
-  Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
   Widget _buildContent() {
     return Scaffold(
@@ -84,11 +89,5 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
         margin: EdgeInsets.only(bottom: 20.dh),
         borderRadius: 20.dw,
         fontSize: 16.dw);
-  }
-
-  _init() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      ref.read(pagesProvider.state).state = currentPage;
-    });
   }
 }

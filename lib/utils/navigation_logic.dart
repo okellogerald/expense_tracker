@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import '../source.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -35,4 +37,43 @@ void _showSnackBarCallback(BuildContext context, String message) {
           color: AppColors.onError,
           size: 14.dw,
           family: kFontFam2)));
+}
+
+Future<bool> showExitAppDialog(BuildContext context) async {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: AppColors.onBackground,
+          title: AppText(
+            'Are you sure to close the application ?',
+            size: 16.dw,
+            family: kFontFam2,
+            color: AppColors.onPrimary,
+          ),
+          contentPadding: EdgeInsets.fromLTRB(15.dw, 25.dh, 15.dw, 15.dh),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: AppTextButton(
+                    onPressed: SystemNavigator.pop,
+                    text: 'Exit',
+                    height: 40.dh,
+                    buttonColor: AppColors.disabled),
+              ),
+              SizedBox(height: 15.dw),
+              Expanded(
+                child: AppTextButton(
+                    onPressed: () => Navigator.pop(context),
+                    text: 'Cancel',
+                    height: 40.dh,
+                    buttonColor: AppColors.primary),
+              )
+            ],
+          ),
+        );
+      });
+
+  return true;
 }

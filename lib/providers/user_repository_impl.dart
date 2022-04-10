@@ -1,14 +1,12 @@
 import 'dart:convert';
 
+import 'package:budgetting_app/source.dart' hide Provider;
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-
 import '../errors/api_error.dart';
-import '../models/user.dart';
-import '../secrets.dart';
 
 const timeLimit = Duration(seconds: 15);
 const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
@@ -174,7 +172,8 @@ class UserRepositoryImpl implements UserRepositoryInterface {
   ///checks to see if response has errors
   _handleResponseErrors(http.Response response) {
     final responseBody = json.decode(response.body);
-    final error = Map<String, String>.from(responseBody['error']);
+    final error = responseBody['error'] as Map<String, dynamic>?;
+    if (error == null) return;
     if (error.isNotEmpty) throw ApiError.fromJson(error);
   }
 }

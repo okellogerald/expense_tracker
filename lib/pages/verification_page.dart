@@ -1,3 +1,4 @@
+import 'package:budgetting_app/widgets/on_boarding_pages_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/pages_provider.dart';
 import '../providers/user_action_handler.dart';
@@ -20,7 +21,7 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
 
   @override
   void initState() {
-    _init();
+    handleStateOnInit(ref, currentPage);
     super.initState();
   }
 
@@ -36,10 +37,14 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
           orElse: () {});
     });
 
-    return userState.maybeWhen(loading: _buildLoading, orElse: _buildContent);
+    return WillPopScope(
+      onWillPop: () =>
+          handleStateOnPop(ref, Pages.email_password_registration_page),
+      child: userState.maybeWhen(
+          loading: (message) => AppLoadingIndicator.withScaffold(message),
+          orElse: _buildContent),
+    );
   }
-
-  Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
   Widget _buildContent() {
     return Scaffold(
@@ -50,30 +55,15 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
               padding: EdgeInsets.only(left: 15.dw, right: 15.dw),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [_buildTitle(), _buildEmailDetails()])),
+                  children: [
+                    const OnBoardingPagesTitle(
+                        title: 'Verification page',
+                        subtitle:
+                            'We sent a verification link to your email address. Click it to verify your account',
+                        image: kVerifyImage3Url),
+                    _buildEmailDetails()
+                  ])),
           bottomNavigationBar: _buildVerifyButton()),
-    );
-  }
-
-  _buildTitle() {
-    return Container(
-      padding: EdgeInsets.only(top: 60.dh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 60.dh),
-          Center(
-              child: Image.network(kVerifyImage3Url,
-                  height: 80.dh, fit: BoxFit.contain)),
-          SizedBox(height: 120.dh),
-          AppText('Verification page', size: 28.dw, family: kFontFam2),
-          SizedBox(height: 10.dh),
-          AppText(
-              'We sent a verification link to your email address. Click it to verify your account',
-              size: 16.dw,
-              color: AppColors.onBackground2)
-        ],
-      ),
     );
   }
 
@@ -105,11 +95,5 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
         buttonColor: AppColors.primary,
         margin: EdgeInsets.only(bottom: 20.dh, left: 15.dw, right: 15.dw),
         height: 50.dh);
-  }
-
-  _init() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      ref.read(pagesProvider.state).state = currentPage;
-    });
   }
 }

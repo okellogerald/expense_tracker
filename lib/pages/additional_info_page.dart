@@ -23,7 +23,7 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
 
   @override
   void initState() {
-    _init();
+    handleStateOnInit(ref, currentPage);
     super.initState();
   }
 
@@ -39,10 +39,13 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
           orElse: () {});
     });
 
-    return userState.maybeWhen(loading: _buildLoading, orElse: _buildContent);
+    return WillPopScope(
+      onWillPop: () => showExitAppDialog(context),
+      child: userState.maybeWhen(
+          loading: (message) => AppLoadingIndicator.withScaffold(message),
+          orElse: _buildContent),
+    );
   }
-
-  Widget _buildLoading() => const AppLoadingIndicator.withScaffold();
 
   Widget _buildContent() {
     return Scaffold(
@@ -98,11 +101,5 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
         text: 'DONE',
         height: 50.dh,
         margin: EdgeInsets.only(top: 30.dh));
-  }
-
-  _init() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      ref.read(pagesProvider.state).state = currentPage;
-    });
   }
 }

@@ -28,7 +28,7 @@ class OnBoardingPagesTitle extends StatelessWidget {
           SizedBox(height: 100.dh),
           AppText(title,
               size: 32.dw,
-              family: kFontFam,
+              family: kFontFam2,
               isBolded: true,
               alignment: TextAlign.left),
           SizedBox(height: 10.dh),

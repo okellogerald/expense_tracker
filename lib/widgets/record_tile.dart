@@ -59,7 +59,6 @@ class _RecordTileState extends State<RecordTile> {
               AppText(record.getAmount,
                   size: 14.dw,
                   isBolded: true,
-                  family: kFontFam2,
                   color: category.type == kIncome
                       ? AppColors.positive
                       : AppColors.negative)
@@ -140,6 +139,7 @@ class _RecordTileState extends State<RecordTile> {
     final record = widget.record;
     return AppTextButton(
         text: text,
+        isBolded: false,
         margin: EdgeInsets.only(left: isChangingNotesVisibility ? 0 : 20.dw),
         borderColor: Colors.transparent,
         textColor: AppColors.primary,
