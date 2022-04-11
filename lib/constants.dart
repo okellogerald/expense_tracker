@@ -33,7 +33,7 @@ const kVerifyImage3Url =
 const kDefaultPhotoUrl =
     'https://cdn3.iconfinder.com/data/icons/essential-rounded/64/Rounded-31-128.png';
 
-const kFontFam = "Avenir";
+const kFontFam = "Stratos";
 const kFontFam2 = 'Mabry';
 const kFontFam3 = 'SpaceMono';
 

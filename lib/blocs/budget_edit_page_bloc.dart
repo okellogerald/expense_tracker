@@ -27,7 +27,7 @@ class BudgetEditPageBloc extends Cubit<BudgetEditPageState> {
       return;
     }
 
-    final categoryList = categoriesService.getCategories();
+    final categoryList = categoriesService.getAll();
     _categoryList = categoryList.where((e) => e.type == kExpense).toList();
     final expensesList = _categoryList
         .where((e) => !budgetsService.isExisting(1, e.id))

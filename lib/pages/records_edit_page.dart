@@ -1,5 +1,6 @@
 import 'package:budgetting_app/blocs/record_edit_page_bloc.dart';
 import 'package:budgetting_app/widgets/amount_text_field.dart';
+import 'package:budgetting_app/widgets/app_top_bar.dart';
 import '../source.dart';
 
 class RecordsEditPage extends StatefulWidget {
@@ -44,58 +45,47 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   Widget _buildContent(
       List<Category> categoryList, Category category, RecordEditPageForm form) {
     final isEditing = widget.record != null;
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppTopBar(title: '${isEditing ? 'Edit' : 'New'} Record'),
         body: SingleChildScrollView(
-            child: Container(
-                padding: EdgeInsets.only(top: 40.dw, left: 15.dw, right: 15.dw),
-                height: ScreenSizeConfig.getFullHeight,
-                width: ScreenSizeConfig.getFullWidth,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildPageTitle(),
-                      _buildSectionTitle(
-                          isEditing
-                              ? 'Selected Category ( Unmodifiable )'
-                              : 'Choose Category',
-                          topOffset: 20.dh,
-                          withButton: !isEditing),
-                      _buildOptions(category),
-                      _buildCategoriesList(categoryList, category, form),
-                      _buildSectionTitle('Amount', topOffset: 20.dh),
-                      _buildAmountTextField(form),
-                      _buildSectionTitle('Notes'),
-                      _buildNotesTextField(form.notes),
-                      _buildButton()
-                    ]))));
-  }
-
-  _buildPageTitle() {
-    final isEditing = widget.record != null;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        AppText(
-          '${isEditing ? 'Edit' : 'New'} Record',
-          size: 24.dw,
-          color: AppColors.onBackground,
-          family: kFontFam2,
+          child: Padding(
+              padding:
+                  EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 20.dh),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildSectionTitle(
+                        isEditing
+                            ? 'Selected Category ( Unmodifiable )'
+                            : 'Choose Category',
+                        topOffset: 20.dh,
+                        withButton: !isEditing),
+                    _buildOptions(category),
+                    _buildCategoriesList(categoryList, category, form),
+                    _buildSectionTitle('Amount',
+                        topOffset: 20.dh, leftOffset: 15.dw),
+                    _buildAmountTextField(form),
+                    _buildSectionTitle('Notes', leftOffset: 15.dw),
+                    _buildNotesTextField(form.notes),
+                  ])),
         ),
-        AppIconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icons.close,
-          iconColor: AppColors.onBackground,
-        )
-      ],
+        bottomNavigationBar: _buildButton(),
+      ),
     );
   }
 
   _buildSectionTitle(String text,
-      {double? topOffset, bool withButton = false}) {
-    final _text = AppText(text, size: 18.dw, color: AppColors.onBackground2);
+      {double? topOffset, bool withButton = false, double? leftOffset}) {
+    final _text = AppText(
+      text,
+      size: 18.dw,
+      color: AppColors.onBackground2,
+      family: kFontFam2,
+    );
     return Padding(
-      padding: EdgeInsets.only(top: topOffset ?? 60.dh, bottom: 5.dh),
+      padding: EdgeInsets.only(
+          top: topOffset ?? 60.dh, bottom: 5.dh, left: leftOffset ?? 0),
       child: withButton
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,11 +145,12 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
         ),
         hasErrors
             ? Padding(
-                padding: EdgeInsets.only(bottom: 40.dh, top: 10.dh),
+                padding:
+                    EdgeInsets.only(bottom: 40.dh, top: 10.dh, left: 15.dw),
                 child: AppText(
                   form.errors['category'],
-                  family: kFontFam2,
-                  size: 16.dw,
+                  family: kFontFam,
+                  size: 15.dw,
                   color: AppColors.error,
                 ),
               )
@@ -218,17 +209,14 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
   _buildButton() {
     final isAdding = widget.record == null;
 
-    return Expanded(
-        child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-      AppTextButton(
-          onPressed: isAdding ? bloc.add : bloc.edit,
-          text: isAdding ? 'ADD' : 'EDIT',
-          height: buttonHeight,
-          margin: EdgeInsets.only(bottom: 30.dh),
-          fontSize: 15.dw,
-          isBolded: true,
-          buttonColor: AppColors.primary)
-    ]));
+    return AppTextButton(
+        onPressed: isAdding ? bloc.add : bloc.edit,
+        text: isAdding ? 'ADD' : 'EDIT',
+        height: buttonHeight,
+        margin: EdgeInsets.only(bottom: 15.dh, left: 15.dw, right: 15.dw),
+        fontSize: 15.dw,
+        isBolded: true,
+        buttonColor: AppColors.primary);
   }
 
   _buildOption(String text, String currentType, String type) {

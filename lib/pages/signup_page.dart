@@ -1,9 +1,7 @@
 import 'package:budgetting_app/widgets/on_boarding_pages_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../providers/pages_provider.dart';
 import '../providers/user_action_handler.dart';
-import '../providers/user_details_provider.dart';
 import '../providers/user_notifier.dart';
 import '../source.dart';
 import '../states/user_state.dart';

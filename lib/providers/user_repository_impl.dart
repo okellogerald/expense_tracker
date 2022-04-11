@@ -11,7 +11,7 @@ import '../errors/api_error.dart';
 const timeLimit = Duration(seconds: 15);
 const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 const facebookRoot =
-    'https://graph.facebook.com/v2.12/me?fields=name,picture.height(200),email';
+    'https://graph.facebook.com/v2.12/me&access_token=$clientId|$clientSecret?fields=name,picture.height(200),email';
 
 final userRepositoryProvider =
     Provider<UserRepositoryImpl>((ref) => UserRepositoryImpl());

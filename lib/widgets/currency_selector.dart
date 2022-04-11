@@ -1,22 +1,22 @@
+import 'package:budgetting_app/providers/user_details_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../source.dart';
 import '../utils/navigation_logic.dart';
 import 'app_divider.dart';
 
-class CurrencySelector extends StatefulWidget {
-  const CurrencySelector({Key? key, required this.onCurrencySelected})
-      : super(key: key);
-
-  final ValueChanged<String> onCurrencySelected;
+class CurrencySelector extends ConsumerStatefulWidget {
+  const CurrencySelector({Key? key}) : super(key: key);
 
   @override
-  State<CurrencySelector> createState() => _CurrencySelectorState();
+  ConsumerState<CurrencySelector> createState() => _CurrencySelectorState();
 }
 
-class _CurrencySelectorState extends State<CurrencySelector> {
-  var selectedCurrency = '';
-
+class _CurrencySelectorState extends ConsumerState<CurrencySelector> {
   @override
   Widget build(BuildContext context) {
+    var user = ref.watch(userDetailsProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -28,15 +28,16 @@ class _CurrencySelectorState extends State<CurrencySelector> {
             height: 50.dh,
             buttonColor: AppColors.surface,
             onPressed: () => _showOptionsDialog(context),
-            alignment: selectedCurrency.isEmpty
-                ? Alignment.center
-                : Alignment.centerLeft,
+            alignment:
+                user.currency.isEmpty ? Alignment.center : Alignment.centerLeft,
             padding: EdgeInsets.symmetric(horizontal: 15.dw),
             margin: EdgeInsets.only(top: 10.dh),
             child: AppText(
-                selectedCurrency.isEmpty ? 'Tap to select' : selectedCurrency,
+                user.currency.isEmpty ? 'Tap to select' : user.currency,
                 size: 15.dw,
-                color: AppColors.onBackground2)),
+                color: user.currency.isEmpty
+                    ? AppColors.onBackground2
+                    : AppColors.onBackground)),
       ],
     );
   }
@@ -75,19 +76,21 @@ class _CurrencySelectorState extends State<CurrencySelector> {
 
   _buildOptions() {
     return Expanded(
-      child: ListView.separated(
-          separatorBuilder: (_, __) =>
-              const AppDivider(margin: EdgeInsets.zero),
-          itemBuilder: (_, index) => _buildOption(index),
-          itemCount: currencies.length,
-          shrinkWrap: true),
+      child: Scrollbar(
+        child: ListView.separated(
+            separatorBuilder: (_, __) =>
+                const AppDivider(margin: EdgeInsets.zero),
+            itemBuilder: (_, index) => _buildOption(index),
+            itemCount: currencies.length,
+            shrinkWrap: true),
+      ),
     );
   }
 
   _buildOption(int index) {
     final currencyCode = currencies.keys.toList()[index];
     final currencyFullName = currencies.values.toList()[index];
-    final isSelected = currencyCode == selectedCurrency;
+    final isSelected = currencyCode == ref.watch(userDetailsProvider).currency;
     return GestureDetector(
       onTap: () {
         if (isSelected) _updateCurrency('');
@@ -107,8 +110,6 @@ class _CurrencySelectorState extends State<CurrencySelector> {
 
   _updateCurrency(String value) {
     pop();
-    selectedCurrency = value;
-    widget.onCurrencySelected(value);
-    setState(() {});
+    updateUserDetails(ref, currency: value);
   }
 }

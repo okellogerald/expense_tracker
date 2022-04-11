@@ -1,42 +1,39 @@
-import 'dart:async';
 import 'package:hive/hive.dart';
 import '../source.dart';
 
-class CategoriesService {
+class CategoriesService extends ChangeNotifier {
   static final categoriesBox = Hive.box(kCategories);
-  static var currentCategories = <Category>[];
+  static var _currentCategories = <Category>[];
 
-  static final categoryController =
-      StreamController<List<Category>>.broadcast();
-  Stream<List<Category>> get categoryStream => categoryController.stream;
+  List<Category> get getCategories => _currentCategories;
 
-  List<Category> getCategories() {
+  List<Category> getAll() {
     if (categoriesBox.isEmpty) {
       final categoryList = kDefaultCategoriesList;
       for (Category category in categoryList) {
         categoriesBox.put(category.id, category);
       }
-      currentCategories = categoryList;
+      _currentCategories = categoryList;
       return categoryList;
     }
 
-    currentCategories.clear();
+    _currentCategories.clear();
 
     for (var e in categoriesBox.values) {
-      currentCategories.add(e);
+      _currentCategories.add(e);
     }
 
-    return currentCategories;
+    return _currentCategories;
   }
 
   void edit(String id, {String? title, int? codePoint, String? type}) {
     final oldCategory = categoriesBox.get(id) as Category;
     final editedCategory =
         oldCategory.copyWith(title: title, codePoint: codePoint, type: type);
-    final index = currentCategories.indexWhere((e) => e.id == id);
-    currentCategories[index] = editedCategory;
+    final index = _currentCategories.indexWhere((e) => e.id == id);
+    _currentCategories[index] = editedCategory;
     categoriesBox.put(id, editedCategory);
-    categoryController.add(currentCategories);
+    notifyListeners();
   }
 
   void add(
@@ -47,20 +44,20 @@ class CategoriesService {
     final category =
         Category(title: title, type: type, codePoint: codePoint, id: id);
     categoriesBox.put(id, category);
-    currentCategories.add(category);
-    categoryController.add(currentCategories);
+    _currentCategories.add(category);
+    notifyListeners();
   }
 
   List<Category> delete(String id) {
-    final index = currentCategories.indexWhere((e) => e.id == id);
-    currentCategories.removeAt(index);
+    final index = _currentCategories.indexWhere((e) => e.id == id);
+    _currentCategories.removeAt(index);
     categoriesBox.delete(id);
-    return currentCategories;
+    return _currentCategories;
   }
 
   bool checkIfExists(String title) {
     bool doesExist = false;
-    for (Category category in currentCategories) {
+    for (Category category in _currentCategories) {
       if (category.title == title) {
         doesExist = true;
         break;

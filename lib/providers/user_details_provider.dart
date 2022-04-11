@@ -8,7 +8,7 @@ final _box = Hive.box(kUser);
 
 final userDetailsProvider = StateProvider<User>((ref) => const User());
 
-final passwordProvider = StateProvider.autoDispose<String>((ref) => '');
+final passwordProvider = StateProvider<String>((ref) => '');
 
 final userValidationErrorsProvider =
     StateProvider.autoDispose<Map<String, String?>>((ref) => {});
@@ -19,7 +19,7 @@ final signedInUserProvider = Provider<User?>((ref) {
   return User.fromJson(json.decode(jsonUser));
 });
 
-///stores user details
+///stores user details in the user details provider
 void updateUserDetails(WidgetRef ref,
     {String? email,
     String? currency,

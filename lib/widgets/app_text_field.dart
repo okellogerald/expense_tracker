@@ -75,7 +75,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     hintStyle: TextStyle(
                         color: AppColors.onBackground2, fontSize: 14.dw),
                     fillColor: AppColors.textField,
-                    prefixIcon: widget.suffixIcon != null
+                    suffixIcon: widget.suffixIcon != null
                         ? Icon(widget.suffixIcon,
                             color: AppColors.onBackground2, size: 20.dw)
                         : emptyContainer,
@@ -84,9 +84,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     border: border,
                     focusedBorder: border,
                     enabledBorder: border,
-                    contentPadding: EdgeInsets.only(
-                        left: widget.suffixIcon == null ? 10.dw : 20.dw,
-                        top: 14.dw)))),
+                    contentPadding: EdgeInsets.only(left: 20.dw, top: 16.dw)))),
         _buildError(error)
       ],
     );
@@ -99,7 +97,7 @@ class _AppTextFieldState extends State<AppTextField> {
       child: AppText(
         widget.errors[widget.errorName]!,
         color: AppColors.error,
-        size: 14.dw,
+        size: 15.dw,
       ),
     );
   }

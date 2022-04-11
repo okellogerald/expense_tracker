@@ -37,7 +37,7 @@ class CategoriesPageBloc extends Cubit<CategoriesPageState> {
     }
 
     emit(CategoriesPageState.loading(state.categoryList, state.form));
-    final categoryList = categoryService.getCategories();
+    final categoryList = categoryService.getAll();
     final prefs = prefsService.getPreferences();
     final isAddCategoryTop = prefs[kAddCategoryPosition];
     final form = state.form.copyWith(
@@ -153,10 +153,9 @@ class CategoriesPageBloc extends Cubit<CategoriesPageState> {
   }
 
   _handleCategoryStream() {
-    categoryService.categoryStream.listen((categories) {
-      emit(CategoriesPageState.loading(state.categoryList, state.form));
-      final supplements = state.form.copyWith(id: _dummyId);
-      emit(CategoriesPageState.content(categories, supplements));
-    });
+    emit(CategoriesPageState.loading(state.categoryList, state.form));
+    final supplements = state.form.copyWith(id: _dummyId);
+    final categories = categoryService.getCategories;
+    emit(CategoriesPageState.content(categories, supplements));
   }
 }

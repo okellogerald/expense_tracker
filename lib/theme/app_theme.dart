@@ -18,6 +18,10 @@ class AppTheme {
           cursorColor: AppColors.primary,
           selectionColor: AppColors.primary,
           selectionHandleColor: AppColors.primary),
+      scrollbarTheme: ScrollbarThemeData(
+          thickness: MaterialStateProperty.all(5),
+          thumbColor: MaterialStateProperty.all(AppColors.accent),
+          trackColor: MaterialStateProperty.all(AppColors.accent)),
       progressIndicatorTheme:
           const ProgressIndicatorThemeData(color: AppColors.primary));
 }

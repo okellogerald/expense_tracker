@@ -1,4 +1,7 @@
+import 'package:budgetting_app/widgets/amount_text_field.dart';
+
 import '../source.dart';
+import '../widgets/app_top_bar.dart';
 
 class BudgetEditPage extends StatefulWidget {
   const BudgetEditPage({this.budget, Key? key}) : super(key: key);
@@ -59,32 +62,21 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
 
   Widget _buildContent(
       List<Category> categoryList, List<String> idList, BudgetForm form) {
-    return ListView(
-      padding: EdgeInsets.fromLTRB(15.dw, 40.dw, 15.dw, 0),
-      children: [
-        _buildTitle(),
-        _buildFirstOperation(form),
-        _buildSecondOperation(categoryList, idList),
-        idList.isNotEmpty
-            ? _buildThirdOperation(categoryList, idList, form)
-            : Container(),
-        idList.isNotEmpty ? _buildUploadTextButton() : Container()
-      ],
-    );
-  }
-
-  _buildTitle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        AppText('${isEditing ? 'Edit' : 'Plan your'}  budget',
-            size: 23.dw, family: kFontFam2),
-        AppIconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icons.close,
-          iconColor: AppColors.onBackground,
-        )
-      ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppTopBar(title: '${isEditing ? 'Edit' : 'Plan your'}  budget'),
+        body: ListView(
+          padding: EdgeInsets.fromLTRB(15.dw, 0, 15.dw, 0),
+          children: [
+            _buildFirstOperation(form),
+            _buildSecondOperation(categoryList, idList),
+            idList.isNotEmpty
+                ? _buildThirdOperation(categoryList, idList, form)
+                : Container(),
+            idList.isNotEmpty ? _buildUploadTextButton() : Container()
+          ],
+        ),
+      ),
     );
   }
 
@@ -136,9 +128,12 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
   }
 
   _buildSelectedCategories(List<Category> categoryList, BudgetForm form) {
-    return Column(
-      children:
-          categoryList.map((e) => _buildSelectedCategory(e, form)).toList(),
+    return Padding(
+      padding: EdgeInsets.only(top: 10.dh),
+      child: Column(
+        children:
+            categoryList.map((e) => _buildSelectedCategory(e, form)).toList(),
+      ),
     );
   }
 
@@ -148,21 +143,20 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText(
-            category.title,
-            size: 16.dw,
-            color: AppColors.onBackground,
-            family: kFontFam2,
+          Padding(
+            padding: EdgeInsets.only(left: 15.dw, bottom: 10.dh),
+            child: AppText(
+              category.title,
+              size: 16.dw,
+              color: AppColors.onBackground2,
+              family: kFontFam2,
+            ),
           ),
-          SizedBox(height: 5.dh),
-          AppTextField(
-            errors: form.errors,
-            text: form.values[category.id]?.toString() ?? '',
-            onChanged: (value) => bloc.updateAmount(category.id, value),
-            hintText: '0',
-            keyboardType: TextInputType.number,
-            errorName: category.id,
-          )
+          AmountTextField(
+              errors: form.errors,
+              text: form.values[category.id]?.toString() ?? '',
+              onChanged: (value) => bloc.updateAmount(category.id, value),
+              errorName: category.id)
         ],
       ),
     );
@@ -170,10 +164,11 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
 
   _buildCategories(List<Category> categoryList, List<String> idList) {
     return Container(
-      color: AppColors.surface,
       height: 360.dh,
       width: ScreenSizeConfig.getFullWidth,
       margin: EdgeInsets.only(top: 10.dh),
+      decoration:
+          BoxDecoration(borderRadius: borderRadius2, color: AppColors.surface),
       child: GridView.count(
         crossAxisCount: 4,
         shrinkWrap: true,
@@ -189,58 +184,49 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
     final isSelected = idList.contains(category.id);
 
     return GestureDetector(
-      onTap: isEditing ? () {} : () => bloc.updateIdList(category.id),
-      child: Container(
-        margin: EdgeInsets.all(8.dw),
-        padding: EdgeInsets.all(8.dw),
-        decoration: BoxDecoration(
-            color: Colors.white.withOpacity(.0),
-            border: Border.all(
-              width: isSelected ? 1.5 : 0,
-              color: isSelected ? AppColors.accent : Colors.transparent,
-            )),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              AppIcons.getIcon(category.codePoint),
-              color:
-                  isSelected ? AppColors.onBackground : AppColors.onBackground2,
-            ),
-            SizedBox(height: 8.dh),
-            AppText(
-              category.title,
-              size: 15.dw,
-              color:
-                  isSelected ? AppColors.onBackground : AppColors.onBackground2,
-              maxLines: 1,
-              alignment: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
+        onTap: isEditing ? () {} : () => bloc.updateIdList(category.id),
+        child: Container(
+            margin: EdgeInsets.all(8.dw),
+            padding: EdgeInsets.all(8.dw),
+            decoration: BoxDecoration(
+                color: Colors.white.withOpacity(.0),
+                borderRadius: borderRadius2,
+                border: Border.all(
+                  width: isSelected ? 1 : 0,
+                  color: isSelected ? AppColors.accent : Colors.transparent,
+                )),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Icon(AppIcons.getIcon(category.codePoint),
+                  color: isSelected
+                      ? AppColors.onBackground
+                      : AppColors.onBackground2),
+              SizedBox(height: 8.dh),
+              AppText(
+                category.title,
+                size: 15.dw,
+                color: isSelected
+                    ? AppColors.onBackground
+                    : AppColors.onBackground2,
+                maxLines: 1,
+                alignment: TextAlign.center,
+              )
+            ])));
   }
 
   _buildDurationActions(BudgetForm form) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            _buildDurationOption(
-                'Monthly', Utils.getDaysInMonth(), form.duration),
-          ],
-        ),
-      ],
-    );
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Row(children: [
+        _buildDurationOption('Monthly', Utils.getDaysInMonth(), form.duration)
+      ])
+    ]);
   }
 
   Widget _buildUploadTextButton() {
     return AppTextButton(
       text: isEditing ? 'Done Editing' : 'Add Budgets',
       isBolded: true,
-      height: 40.dh,
+      height: 50.dh,
       margin: EdgeInsets.only(top: 30.dh, bottom: 20.dh),
       borderColor: Colors.transparent,
       buttonColor: AppColors.primary,
@@ -260,30 +246,18 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
     );
   }
 
-  _buildBudgetSection(
-    String title,
-    String description,
-  ) {
+  _buildBudgetSection(String title, String description) {
     return Padding(
-      padding: EdgeInsets.only(top: 20.dh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppText(
-            title.toUpperCase(),
-            color: AppColors.onBackground,
-            size: 17.dw,
-          ),
+        padding: EdgeInsets.only(top: 20.dh),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          AppText(title,
+              color: AppColors.onBackground, size: 17.dw, family: kFontFam2),
           SizedBox(height: 5.dh),
-          AppText(
-            description,
-            color: AppColors.onBackground2,
-            size: 15.dw,
-            alignment: TextAlign.start,
-            maxLines: 10,
-          ),
-        ],
-      ),
-    );
+          AppText(description,
+              color: AppColors.onBackground2,
+              size: 15.dw,
+              alignment: TextAlign.start,
+              maxLines: 10)
+        ]));
   }
 }

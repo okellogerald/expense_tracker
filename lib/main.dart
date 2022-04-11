@@ -41,7 +41,8 @@ void main() async {
   PreferencesService.initPrefs();
 
   final myApp = MultiProvider(providers: [
-    Provider<CategoriesService>(create: (_) => CategoriesService()),
+    ChangeNotifierProvider<CategoriesService>(
+        create: (_) => CategoriesService()),
     Provider<PreferencesService>(create: (_) => PreferencesService()),
     Provider<RecordsService>(create: (_) => RecordsService()),
     Provider<BudgetsService>(create: (_) => BudgetsService()),

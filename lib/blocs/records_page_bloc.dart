@@ -4,9 +4,8 @@ class RecordsPageBloc extends Cubit<RecordsPageState> {
   RecordsPageBloc(
       this.recordsService, this.prefsService, this.grossAmountsService)
       : super(RecordsPageState.initial()) {
-    recordsService.getRecordsStream.listen((data) {
-      _handleRecordsStream(data);
-    });
+    recordsService.getRecordsStream
+        .listen((data) => _handleRecordsStream(data));
   }
 
   final RecordsService recordsService;

@@ -8,7 +8,7 @@ import '../providers/user_notifier.dart';
 import '../source.dart';
 import '../states/user_state.dart';
 import '../widgets/on_boarding_pages_title.dart';
-import '../widgets/type_selector.dart';
+import '../widgets/currency_selector.dart';
 
 class AdditionalInfoPage extends ConsumerStatefulWidget {
   const AdditionalInfoPage({Key? key}) : super(key: key);
@@ -61,9 +61,7 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
                   image: kCompleteImageUrl),
               _buildTextFields(),
               SizedBox(height: 20.dh),
-              CurrencySelector(
-                  onCurrencySelected: (currency) =>
-                      updateUserDetails(ref, currency: currency)),
+              const CurrencySelector(),
               _buildDoneButton()
             ]));
   }

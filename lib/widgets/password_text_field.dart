@@ -69,16 +69,15 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                     style: TextStyle(
                         color: widget.textColor ?? AppColors.onBackground,
                         letterSpacing: widget.letterSpacing,
-                        fontSize: 14.dw),
+                        fontSize: 16.dw),
                     cursorColor: AppColors.onBackground,
                     obscureText: widget.isLoginPassword ? true : !isVisible,
-                   // obscuringCharacter: '*',
                     decoration: InputDecoration(
                         hintText: widget.hintText,
                         hintStyle: TextStyle(
                             color: AppColors.onBackground2, fontSize: 14.dw),
                         fillColor: AppColors.textField,
-                        prefixIcon: widget.suffixIcon != null
+                        suffixIcon: widget.suffixIcon != null
                             ? Icon(widget.suffixIcon,
                                 color: AppColors.onBackground2, size: 20.dw)
                             : hasNoText
@@ -99,7 +98,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                         focusedBorder: border,
                         enabledBorder: border,
                         contentPadding:
-                            EdgeInsets.only(left: 20.dw, top: 14.dw)));
+                            EdgeInsets.only(left: 20.dw, top: 16.dw)));
               }),
         ),
         _buildError(error)
@@ -112,7 +111,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
     return Padding(
         padding: EdgeInsets.only(top: 10.dh, left: 15.dw),
         child: AppText(widget.errors[widget.errorName]!,
-            color: AppColors.error, size: 14.dw));
+            color: AppColors.error, size: 15.dw));
   }
 
   final _inputBorder = UnderlineInputBorder(

@@ -3,7 +3,9 @@ import '../source.dart';
 class RecordEditPageBloc extends Cubit<RecordEditPageState> {
   RecordEditPageBloc(
       this.recordsService, this.categoriesService, this.grossAmountsService)
-      : super(RecordEditPageState.initial());
+      : super(RecordEditPageState.initial()) {
+    categoriesService.addListener(_handleCategoryUpdates);
+  }
 
   final RecordsService recordsService;
   final CategoriesService categoriesService;
@@ -16,7 +18,7 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
         state.categoryList, state.category, state.form));
     var category = _dummyCategory;
     var form = state.form;
-    final categoryList = categoriesService.getCategories();
+    final categoryList = categoriesService.getAll();
     if (record != null) {
       form = form.copyWith(
         amount: record.amount.toString(),
@@ -83,7 +85,7 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
     final _category = category ?? state.category;
     final form = state.form;
     final updatedForm = form.copyWith(
-        amount: amount ?? form.amount, notes: notes ?? form.notes);
+        amount: amount ?? form.amount, notes: notes ?? form.notes, errors: {});
     emit(RecordEditPageState.content(
         state.categoryList, _category, updatedForm));
   }
@@ -104,10 +106,17 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
       errors['amount'] = 'Invalid amount is entered';
     }
     if (amount == 0 || state.form.amount.trim().isEmpty) {
-      errors = {'amount': 'The amount can\'t be 0'};
+      errors['amount'] = 'Amount can\'t be 0';
     }
 
     form = state.form.copyWith(errors: errors);
     emit(RecordEditPageState.content(state.categoryList, state.category, form));
+  }
+
+  void _handleCategoryUpdates() {
+    emit(RecordEditPageState.loading(
+        state.categoryList, state.category, state.form));
+    final categories = categoriesService.getCategories;
+    emit(RecordEditPageState.content(categories, state.category, state.form));
   }
 }

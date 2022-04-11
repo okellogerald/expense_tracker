@@ -1,20 +1,13 @@
 class IconCodePointGenerator {
   static List categoryIconsCodePointList = [];
-  static List currencyIconsCodePointList = [];
 
   //generates category icons codepoints
-  static void generate() {
-    //generating category icons codepoints
-    _generate(54);
-    //generating currency icons codepoints
-    _generate(13, isGeneratingForCategories: false);
-  }
+  static void generate() => _generate(54);
 
   ///generates the code points for the icons in the generated font from either
   ///flutter-icon or code-moon websites. They have the code pattern for these
   ///code points, that's what made this possible
-  static void _generate(int numberOfIcons,
-      {bool isGeneratingForCategories = true}) {
+  static void _generate(int numberOfIcons) {
     final letters = <String>['a', 'b', 'c', 'd', 'e', 'f'];
 
     int startingCodePoint = 800;
@@ -53,20 +46,12 @@ class IconCodePointGenerator {
     }
 
     for (int j = 0; j <= withNumbers; j++) {
-      if (isGeneratingForCategories) {
-        categoryIconsCodePointList.add(startingCodePoint + j);
-      } else {
-        currencyIconsCodePointList.add(startingCodePoint + j);
-      }
+      categoryIconsCodePointList.add(startingCodePoint + j);
     }
     for (int k = 1; k <= withLetters; k++) {
       final letterIndex = k - ((startingCode - 80) * 6) - 1;
       final toBeAdded = startingCode.toString() + letters[letterIndex];
-      if (isGeneratingForCategories) {
-        categoryIconsCodePointList.add(toBeAdded);
-      } else {
-        currencyIconsCodePointList.add(toBeAdded);
-      }
+      categoryIconsCodePointList.add(toBeAdded);
       final limitIsReached = (k / 6).toString().endsWith('0');
       if (limitIsReached) {
         startingCode += 1;

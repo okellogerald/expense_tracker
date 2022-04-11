@@ -107,7 +107,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
       child: AppText(
         widget.errors[widget.errorName]!,
         color: AppColors.error,
-        size: 14.dw,
+        size: 15.dw,
       ),
     );
   }

@@ -58,7 +58,7 @@ flutter:
 
     - family: Avenir
       fonts:
-        - asset: assets/fonts/avenir.otf
+        - asset: assets/fonts/Avenir-Medium.ttf
 
     - family: SpaceMono
       fonts:

@@ -65,7 +65,6 @@ class UserNotifier extends StateNotifier<UserState> {
   }
 
   Future<void> getUserSocialAccountDetails(String signupOption) async {
-    assert((signupOption != 'Google' || signupOption != 'Facebook'));
     state = const UserState.loading();
     User? user;
     try {
@@ -79,6 +78,7 @@ class UserNotifier extends StateNotifier<UserState> {
         state = const UserState.content();
       } else {
         read(userDetailsProvider.state).state = user;
+        state = const UserState.done();
       }
     } catch (error) {
       _handleError(error);

@@ -155,9 +155,9 @@ class _BudgetTileState extends State<BudgetTile> {
                   children: [
                     AppText(title, size: 15.dw, color: AppColors.onBackground2),
                     AppText(isBalance ? '$balancePercent %' : '',
-                        size: 16.dw, color: color, family: kFontFam2)
+                        size: 14.dw, color: color, family: kFontFam2)
                   ])),
-          AppText(amount, size: 16.dw, color: color, family: kFontFam2)
+          AppText(amount, size: 14.dw, color: color, family: kFontFam2)
         ]));
   }
 }
