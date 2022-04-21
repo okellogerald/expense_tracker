@@ -24,11 +24,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
     recordsService = Provider.of<RecordsService>(context, listen: false);
     budgetsService = Provider.of<BudgetsService>(context, listen: false);
     bloc = CategoriesPageBloc(
-      categoryService,
-      prefsService,
-      recordsService,
-      budgetsService,
-    );
+        categoryService, prefsService, recordsService, budgetsService);
     bloc.init();
     super.initState();
   }

@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme/app_theme.dart';
 import 'utils/navigation_logic.dart';
 
+//todo solve facebook integration errors
+//todo change icon and on-boarding images' colors
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 

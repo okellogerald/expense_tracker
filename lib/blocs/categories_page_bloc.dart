@@ -8,7 +8,7 @@ class CategoriesPageBloc extends Cubit<CategoriesPageState> {
     this.recordsService,
     this.budgetsService,
   ) : super(CategoriesPageState.initial()) {
-    _handleCategoryStream();
+    categoryService.addListener(() => _handleCategoryUpdates());
   }
 
   final CategoriesService categoryService;
@@ -152,10 +152,12 @@ class CategoriesPageBloc extends Cubit<CategoriesPageState> {
     }
   }
 
-  _handleCategoryStream() {
+  _handleCategoryUpdates() {
     emit(CategoriesPageState.loading(state.categoryList, state.form));
     final supplements = state.form.copyWith(id: _dummyId);
     final categories = categoryService.getCategories;
+    log('updates');
+    log('${categories.length}');
     emit(CategoriesPageState.content(categories, supplements));
   }
 }

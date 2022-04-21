@@ -157,3 +157,19 @@ class UserNotifier extends StateNotifier<UserState> {
     state = UserState.failed(message);
   }
 }
+
+class SomeNotifier extends StateNotifier<AsyncValue> {
+  final Reader read;
+  SomeNotifier(this.read) : super(const AsyncValue.loading());
+
+  Future<void> logIn() async {
+    state = const AsyncValue.loading();
+    final user = read(userDetailsProvider);
+    final password = read(passwordProvider);
+    state = await AsyncValue.guard(() async {
+      final userData = await read(userRepositoryProvider)
+          .signInUserInDatabase(user.email, password);
+      read(userDetailsProvider.state).state = userData;
+    });
+  }
+}

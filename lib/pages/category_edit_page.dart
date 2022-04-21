@@ -146,6 +146,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
               borderRadius: borderRadius, color: AppColors.surface),
           child: Scrollbar(
             isAlwaysShown: true,
+            controller: scrollController,
             child: GridView.count(
                 crossAxisCount: 6,
                 childAspectRatio: .75.dw,
@@ -164,6 +165,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                     child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white.withOpacity(.0),
+                            borderRadius: BorderRadius.all(Radius.circular(15.dw)),
                             border: Border.all(
                                 width: isSelected ? 1.5 : 0,
                                 color: isSelected

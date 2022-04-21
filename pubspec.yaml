@@ -40,14 +40,6 @@ flutter:
     - assets/fonts/
 
   fonts:
-    - family: LondonTube
-      fonts:
-        - asset: assets/fonts/london-tube.ttf
-
-    - family: AndroidEuclid
-      fonts:
-        - asset: assets/fonts/AndroidEuclid-Medium.otf
-
     - family: AppIcons
       fonts:
         - asset: assets/fonts/app-icons.ttf
@@ -55,10 +47,6 @@ flutter:
     - family: Mabry
       fonts:
         - asset: assets/fonts/Mabry-Pro-Medium.ttf
-
-    - family: Avenir
-      fonts:
-        - asset: assets/fonts/Avenir-Medium.ttf
 
     - family: SpaceMono
       fonts:
@@ -68,6 +56,10 @@ flutter:
       fonts:
         - asset: assets/fonts/stratos-regular.ttf
 
-    - family: Brutalista
+    - family: Gopher
       fonts:
-        - asset: assets/fonts/Brutalista Regular.ttf
+        - asset: assets/fonts/Gopher-Regular.ttf
+
+    - family: SulSans
+      fonts:
+        - asset: assets/fonts/SulSansTest-Regular.otf
