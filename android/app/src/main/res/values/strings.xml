@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">
+		Expense Tracker
+	</string>
+	<string name="facebook_app_id">
+		676561066967370
+	</string>
+	<string name="fb_login_protocol_scheme">
+		fb676561066967370
+	</string>
+	<string name="facebook_client_token">
+		4b915149481edecfef8dbacdf70fe87a
+	</string>
+</resources>
