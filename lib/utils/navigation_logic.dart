@@ -1,6 +1,6 @@
-import 'package:flutter/services.dart';
-
 import '../source.dart';
+import '../widgets/app_snackbar.dart';
+import '../widgets/exit_app_dialog.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -13,66 +13,29 @@ void pushAndRemoveUntil(Widget page) async =>
 
 void pop() => navigatorKey.currentState?.pop();
 
+///uses either the scaffold key or the context to show the snackbar
 void showSnackBar(String message,
-    {BuildContext? context, GlobalKey<ScaffoldState>? scaffoldKey}) {
-  if (context != null) _showSnackBarCallback(context, message);
-  if (scaffoldKey != null) {
-    if (scaffoldKey.currentState == null) {
+    {BuildContext? context, GlobalKey<ScaffoldState>? key, bool isError = true}) {
+  if (context != null) _showSnackBarCallback(context, message, isError);
+  if (key != null) {
+    if (key.currentState == null) {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        _showSnackBarCallback(scaffoldKey.currentContext!, message);
+        _showSnackBarCallback(key.currentContext!, message, isError);
       });
     } else {
-      _showSnackBarCallback(scaffoldKey.currentContext!, message);
+      _showSnackBarCallback(key.currentContext!, message, isError);
     }
   }
 }
 
-void _showSnackBarCallback(BuildContext context, String message) {
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      elevation: 0,
-      dismissDirection: DismissDirection.none,
-      backgroundColor: AppColors.error,
-      content: AppText(message,
-          alignment: TextAlign.start,
-          color: AppColors.onError,
-          size: 14.dw,
-          family: kFontFam2)));
-}
+void _showSnackBarCallback(BuildContext context, String message, bool isError) =>
+    ScaffoldMessenger.of(context).showSnackBar(AppSnackBar(message, isError));
 
 Future<bool> showExitAppDialog(BuildContext context) async {
   showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          backgroundColor: AppColors.onBackground,
-          title: AppText(
-            'Are you sure to close the application ?',
-            size: 16.dw,
-            family: kFontFam2,
-            color: AppColors.onPrimary,
-          ),
-          contentPadding: EdgeInsets.fromLTRB(15.dw, 25.dh, 15.dw, 15.dh),
-          content: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: AppTextButton(
-                    onPressed: SystemNavigator.pop,
-                    text: 'Exit',
-                    height: 40.dh,
-                    buttonColor: AppColors.disabled),
-              ),
-              SizedBox(height: 15.dw),
-              Expanded(
-                child: AppTextButton(
-                    onPressed: () => Navigator.pop(context),
-                    text: 'Cancel',
-                    height: 40.dh,
-                    buttonColor: AppColors.primary),
-              )
-            ],
-          ),
-        );
+        return const ExitAppDialog();
       });
 
   return true;

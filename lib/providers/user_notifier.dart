@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 import 'package:budgetting_app/errors/exception_handler.dart';
 import 'package:budgetting_app/providers/user_details_provider.dart';
@@ -13,31 +14,33 @@ import '../states/user_state.dart';
 
 final userNotifierProvider =
     StateNotifierProvider.autoDispose<UserNotifier, UserState>(
-        (ref) => UserNotifier(ref.read));
+        (ref) => UserNotifier(ref));
 
 class UserNotifier extends StateNotifier<UserState> {
-  final Reader read;
-  UserNotifier(this.read) : super(UserState.initial());
+  final AutoDisposeStateNotifierProviderRef ref;
+  UserNotifier(this.ref) : super(UserState.initial());
 
   Future<void> sendEmailVerificationLink() async {
-    final user = read(userDetailsProvider);
+    final user = ref.read(userDetailsProvider);
     Future<void> callback() async {
-      await read(userRepositoryProvider)
+      await ref
+          .read(userRepositoryProvider)
           .sendVerificationLink(user.email, kDefaultPassword);
     }
 
     state = const UserState.loading('Sending email verification link ...');
     try {
-      await read(userRepositoryProvider)
+      await ref
+          .read(userRepositoryProvider)
           .createFirebaseUser(user.email, kDefaultPassword);
       await callback();
       state = const UserState.done();
     } catch (error) {
-      //if sendingEmailVerification was somehow not successful but creating user
-      //operation was, calling this function second time will show this error.
+      //if a user is already created, this error will show-up. It may happen if
+      //the user performs an action to send verification email to the same email
       if (error is FirebaseAuthException &&
           error.code == 'email-already-in-use') {
-        _handleError(UserException.emailInUse());
+        await callback().catchError((error) => _handleError(error));
         return;
       }
       _handleError(error);
@@ -46,9 +49,10 @@ class UserNotifier extends StateNotifier<UserState> {
 
   Future<void> checkIfEmailIsVerified() async {
     state = const UserState.loading('Checking if email is verified ...');
-    final user = read(userDetailsProvider);
+    final user = ref.read(userDetailsProvider);
     try {
-      final userCredential = await read(userRepositoryProvider)
+      final userCredential = await ref
+          .read(userRepositoryProvider)
           .signInFirebaseUser(user.email, kDefaultPassword);
       final firebaseUser = userCredential.user;
       if (firebaseUser == null) {
@@ -69,15 +73,18 @@ class UserNotifier extends StateNotifier<UserState> {
     User? user;
     try {
       if (signupOption == SigningUpOptions.google) {
-        user = await read(userRepositoryProvider).getUserGoogleAccountDetails();
+        user = await ref
+            .read(userRepositoryProvider)
+            .getUserGoogleAccountDetails();
       } else if (signupOption == SigningUpOptions.facebook) {
-        user =
-            await read(userRepositoryProvider).getUserFacebookAccountDetails();
+        user = await ref
+            .read(userRepositoryProvider)
+            .getUserFacebookAccountDetails();
       }
       if (user == null) {
         state = const UserState.content();
       } else {
-        read(userDetailsProvider.state).state = user;
+        ref.read(userDetailsProvider.state).state = user;
         state = const UserState.done();
       }
     } catch (error) {
@@ -87,13 +94,14 @@ class UserNotifier extends StateNotifier<UserState> {
 
   Future<void> signUp() async {
     state = const UserState.loading('Creating your account ...');
-    final user = read(userDetailsProvider);
-    final password = read(passwordProvider);
+    final user = ref.read(userDetailsProvider);
+    final password = ref.read(passwordProvider);
     Future<void> callback() async {
       final body = Map<String, String>.from(user.toJson())
         ..addAll({"password": password});
-      await read(userRepositoryProvider).createUserInDatabase(body);
-      read(userDetailsProvider.state).state = user;
+      await ref.read(userRepositoryProvider).createUserInDatabase(body);
+      ref.read(signedInUserProvider.state).state = user;
+      ref.refresh(userDetailsProvider);
       state = const UserState.done();
     }
 
@@ -101,7 +109,8 @@ class UserNotifier extends StateNotifier<UserState> {
       if (user.isSignedUpWithEmailAndPassword) {
         //Reaching this stage means user is verified. Hence changing the
         //user details in firebase to match the given password instead of the default
-        final userCredential = await read(userRepositoryProvider)
+        final userCredential = await ref
+            .read(userRepositoryProvider)
             .signInFirebaseUser(user.email, kDefaultPassword);
         final firebaseUser = userCredential.user;
         await firebaseUser!.updatePassword(password).timeout(timeLimit);
@@ -121,12 +130,18 @@ class UserNotifier extends StateNotifier<UserState> {
 
   Future<void> logIn() async {
     state = const UserState.loading('Getting your credentials ...');
-    final user = read(userDetailsProvider);
-    final password = read(passwordProvider);
+    final user = ref.read(userDetailsProvider);
+    final password = ref.read(passwordProvider);
     try {
-      final userData = await read(userRepositoryProvider)
+      final userData = await ref
+          .read(userRepositoryProvider)
           .signInUserInDatabase(user.email, password);
-      read(userDetailsProvider.state).state = userData;
+      ref.read(signedInUserProvider.state).state = userData;
+      ref.refresh(userDetailsProvider);
+      final shouldRemember = ref.read(rememberMeValueProvider);
+      if (shouldRemember) {
+        Hive.box(kUser).put(kUser, json.encode(userData));
+      }
       state = const UserState.done();
     } catch (error) {
       _handleError(error);
@@ -135,16 +150,18 @@ class UserNotifier extends StateNotifier<UserState> {
 
   Future<void> signOut() async {
     state = const UserState.loading();
-    final user = read(signedInUserProvider);
+    final user = ref.read(signedInUserProvider);
     if (user != null) await Hive.box(kUser).delete(kUser);
+    ref.refresh(passwordProvider);
     state = const UserState.done();
   }
 
   Future<void> deleteAccount() async {
     state = const UserState.loading();
-    final user = read(userDetailsProvider);
-    final password = read(passwordProvider);
-    await read(userRepositoryProvider)
+    final user = ref.read(userDetailsProvider);
+    final password = ref.read(passwordProvider);
+    await ref
+        .read(userRepositoryProvider)
         .deleteUser(user.email, password)
         .catchError((error) => _handleError(error));
     state = const UserState.done();
@@ -152,24 +169,6 @@ class UserNotifier extends StateNotifier<UserState> {
 
   _handleError(var error) {
     final message = getErrorMessage(error);
-    log(error.toString());
-    log(message);
     state = UserState.failed(message);
-  }
-}
-
-class SomeNotifier extends StateNotifier<AsyncValue> {
-  final Reader read;
-  SomeNotifier(this.read) : super(const AsyncValue.loading());
-
-  Future<void> logIn() async {
-    state = const AsyncValue.loading();
-    final user = read(userDetailsProvider);
-    final password = read(passwordProvider);
-    state = await AsyncValue.guard(() async {
-      final userData = await read(userRepositoryProvider)
-          .signInUserInDatabase(user.email, password);
-      read(userDetailsProvider.state).state = userData;
-    });
   }
 }

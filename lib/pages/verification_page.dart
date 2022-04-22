@@ -1,6 +1,7 @@
 import 'package:budgetting_app/widgets/app_divider.dart';
 import 'package:budgetting_app/widgets/on_boarding_pages_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../providers/pages_provider.dart';
 import '../providers/user_action_handler.dart';
@@ -35,7 +36,7 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
       if (ref.read(pagesProvider) != currentPage) return;
       next!.maybeWhen(
           done: () => pushAndRemoveUntil(const AdditionalInfoPage()),
-          failed: (message) => showSnackBar(message, scaffoldKey: scaffoldKey),
+          failed: (message) => showSnackBar(message, key: scaffoldKey),
           orElse: () {});
     });
 
@@ -62,7 +63,7 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
                         title: 'Verification page',
                         subtitle:
                             'We sent a verification link to your email address. Click it to verify your account',
-                        image: kVerifyImage3Url),
+                        icon: FontAwesomeIcons.stamp),
                     _buildEmailDetails()
                   ])),
           bottomNavigationBar: _buildVerifyButton()),
@@ -97,6 +98,7 @@ class _VerificationPageState extends ConsumerState<VerificationPage> {
         onPressed: () => handleUserAction(ref, UserAction.verifyEmail),
         text: 'I AM ALREADY VERIFIED',
         buttonColor: AppColors.primary,
+        isBolded: true,
         margin: EdgeInsets.only(bottom: 20.dh, left: 15.dw, right: 15.dw),
         height: 50.dh);
   }

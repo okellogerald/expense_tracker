@@ -1,5 +1,6 @@
 import 'package:budgetting_app/widgets/on_boarding_pages_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/pages_provider.dart';
 import '../providers/user_action_handler.dart';
 import '../providers/user_notifier.dart';
@@ -33,7 +34,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
       if (ref.read(pagesProvider) != currentPage) return;
       next!.maybeWhen(
           done: () => pushAndRemoveUntil(const AdditionalInfoPage()),
-          failed: (message) => showSnackBar(message, scaffoldKey: scaffoldKey),
+          failed: (message) => showSnackBar(message, key: scaffoldKey),
           orElse: () {});
     });
 
@@ -53,10 +54,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
           padding: EdgeInsets.symmetric(horizontal: 15.dw),
           child: Column(children: [
             const OnBoardingPagesTitle(
-              image: kRegisterImageurl,
-              title: 'Sign-up Options',
-              subtitle: 'Choose your preferred method for signing up.',
-            ),
+                icon: FontAwesomeIcons.circleUser,
+                title: 'Sign-up Options',
+                subtitle: 'Choose your preferred method for signing up.'),
             _buildSignUpChoices()
           ]),
         ));

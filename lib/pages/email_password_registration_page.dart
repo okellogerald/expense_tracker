@@ -1,5 +1,6 @@
 import 'package:budgetting_app/utils/navigation_logic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../providers/pages_provider.dart';
 import '../providers/user_action_handler.dart';
@@ -34,7 +35,7 @@ class _EmailPasswordAuthPageState extends ConsumerState<EmailPasswordAuthPage> {
       if (ref.read(pagesProvider) != currentPage) return;
       next!.maybeWhen(
           done: () => push(const VerificationPage()),
-          failed: (message) => showSnackBar(message, scaffoldKey: scaffoldKey),
+          failed: (message) => showSnackBar(message, key: scaffoldKey),
           orElse: () {});
     });
 
@@ -58,7 +59,7 @@ class _EmailPasswordAuthPageState extends ConsumerState<EmailPasswordAuthPage> {
                   const OnBoardingPagesTitle(
                       title: 'Email & Password Registration',
                       subtitle: 'Please provide a valid email to continue.',
-                      image: kRegisterImageurl),
+                      icon: FontAwesomeIcons.envelopeOpenText),
                   _buildBody()
                 ]))));
   }
@@ -82,6 +83,7 @@ class _EmailPasswordAuthPageState extends ConsumerState<EmailPasswordAuthPage> {
         user.email.isEmpty
             ? Container()
             : AppTextButton(
+                isBolded: true,
                 onPressed: () =>
                     handleUserAction(ref, UserAction.sendVerificationLink),
                 height: 50.dh,

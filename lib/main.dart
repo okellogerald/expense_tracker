@@ -6,14 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:provider/provider.dart';
-
 import 'app.dart';
 import 'constants.dart';
 import 'models/models_source.dart';
 import 'services/categories_service.dart';
 import 'services/records_service.dart';
 
-//todo: enable back-up feature
 //todo: make consistent designs in all pages.
 //todo: write tests for all functions
 

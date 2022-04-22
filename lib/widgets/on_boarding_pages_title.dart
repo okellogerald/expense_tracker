@@ -4,14 +4,14 @@ class OnBoardingPagesTitle extends StatelessWidget {
   const OnBoardingPagesTitle(
       {required this.title,
       required this.subtitle,
-      required this.image,
-      this.hasNetworkImage = true,
+      this.icon,
+      this.image,
       Key? key})
       : super(key: key);
 
-  final String title, image;
-  final String? subtitle;
-  final bool hasNetworkImage;
+  final String title;
+  final IconData? icon;
+  final String? subtitle, image;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,11 @@ class OnBoardingPagesTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 60.dh),
+          SizedBox(height: 30.dh),
           Center(
-              child: hasNetworkImage
-                  ? Image.network(image, height: 80.dh, fit: BoxFit.contain)
-                  : Image.asset(image, height: 60.dh, fit: BoxFit.contain)),
+              child: image != null
+                  ? Image.asset(image!, height: 100.dw, fit: BoxFit.contain)
+                  : Icon(icon, size: 100.dw, color: AppColors.primary)),
           SizedBox(height: 100.dh),
           AppText(title,
               size: 32.dw,

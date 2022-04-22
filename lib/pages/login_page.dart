@@ -34,7 +34,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       if (ref.read(pagesProvider) != currentPage) return;
       next!.maybeWhen(
           done: () => pushAndRemoveUntil(const MainPage()),
-          failed: (message) => showSnackBar(message, scaffoldKey: scaffoldKey),
+          failed: (message) => showSnackBar(message, key: scaffoldKey),
           orElse: () {});
     });
 
@@ -59,7 +59,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       const OnBoardingPagesTitle(
                           title: 'Welcome !',
                           subtitle: 'Please log in to continue',
-                          hasNetworkImage: false,
                           image: 'assets/images/logo.png'),
                       _buildEmailTextField(),
                       _buildNeedHelp(),
@@ -121,14 +120,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               height: 50.dh,
               textColor: AppColors.primary,
               buttonColor: Colors.white.withOpacity(.15),
-              isBolded: true,
               fontSize: 16.dw)
         ]));
   }
 
   _buildNeedHelp() {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      AppCheckBox(onChanged: (_) {}),
+      AppCheckBox(onChanged: (v) {
+        if (v != null) ref.read(rememberMeValueProvider.state).state = v;
+      }),
       AppText('NEED HELP ?', size: bodyTextSize, color: AppColors.primary)
     ]);
   }

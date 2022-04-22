@@ -12,7 +12,7 @@ repositories, in buildscript and allprojects.
 - added signingConfigs.debug in debug from buildTypes
 - in the signingConfigs in the android, you specify the debug
 configs. That is after you have created the keystore file by 
-keytool -exportcert -alias androiddebugkey -keystore "C:\Users\OKERO\.android\debug.keystore" | "C:\Users\OKERO\Documents\tools\openssl-0.9.8k_X64\bin\openssl.exe" sha1 -binary |"C:\Users\OKERO\Documents\tools\openssl-0.9.8k_X64\bin\openssl.exe" base64
+keytool -exportcert -alias androiddebugkey -keystore "C:\Users\OKERO\.android\debug.keystore" | "C:\Users\OKERO\Documents\tools\openssl\bin\openssl.exe" sha1 -binary |"C:\Users\OKERO\Documents\tools\openssl\bin\openssl.exe" base64
 which is then stored in the app directory in the android folder.
 - adding multidex support in the defaultConfig and adding in the
 implementations. The minSdkVersion has to be 16.

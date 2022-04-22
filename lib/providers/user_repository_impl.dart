@@ -10,8 +10,6 @@ import '../errors/api_error.dart';
 
 const timeLimit = Duration(seconds: 15);
 const headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-const facebookRoot =
-    'https://graph.facebook.com/v2.12/me&access_token=$clientId|$clientSecret?fields=name,picture.height(200),email';
 
 final userRepositoryProvider =
     Provider<UserRepositoryImpl>((ref) => UserRepositoryImpl());
@@ -145,10 +143,9 @@ class UserRepositoryImpl implements UserRepositoryInterface {
   Future<User?> getUserFacebookAccountDetails() async {
     try {
       final result = await _facebookAuth.login();
-      if (result.accessToken != null) {
-        final url = '$facebookRoot&access_token=${result.accessToken!.token}';
-        var response = await http.get(Uri.parse(url));
-        var profile = json.decode(response.body);
+      if (result.status == LoginStatus.success) {
+        final profile = await _facebookAuth.getUserData(
+            fields: "name,email,picture.width(200)");
         return User.fromFacebookProfile(profile);
       }
       return null;

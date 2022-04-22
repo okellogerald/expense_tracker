@@ -6,14 +6,21 @@ import '../models/user.dart';
 
 final _box = Hive.box(kUser);
 
+//used for storing user values when performing onboarding processes
 final userDetailsProvider = StateProvider<User>((ref) => const User());
 
+//should not be refreshed after the user logs-in or signs-up as it may be
+//used when deleting user firebase account, which will require re-signing in
+//the user programmatically.
 final passwordProvider = StateProvider<String>((ref) => '');
+
+final rememberMeValueProvider = StateProvider<bool>((ref) => false);
 
 final userValidationErrorsProvider =
     StateProvider.autoDispose<Map<String, String?>>((ref) => {});
 
-final signedInUserProvider = Provider<User?>((ref) {
+//used to decide the homepage, and stores only verified user credentials
+final signedInUserProvider = StateProvider<User?>((ref) {
   final jsonUser = _box.get(kUser) as String?;
   if (jsonUser == null) return null;
   return User.fromJson(json.decode(jsonUser));
@@ -35,4 +42,3 @@ void updateUserDetails(WidgetRef ref,
       signUpOption: signupOption ?? user.signUpOption);
   ref.read(userDetailsProvider.state).state = updatedUser;
 }
-

@@ -1,7 +1,7 @@
 import 'package:budgetting_app/providers/pages_provider.dart';
 import 'package:budgetting_app/utils/navigation_logic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../providers/user_action_handler.dart';
 import '../providers/user_details_provider.dart';
 import '../providers/user_notifier.dart';
@@ -35,7 +35,7 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
       if (ref.read(pagesProvider) != currentPage) return;
       next!.maybeWhen(
           done: () => pushAndRemoveUntil(const MainPage()),
-          failed: (message) => showSnackBar(message, scaffoldKey: scaffoldKey),
+          failed: (message) => showSnackBar(message, key: scaffoldKey),
           orElse: () {});
     });
 
@@ -58,7 +58,7 @@ class _AdditionalInfoPageState extends ConsumerState<AdditionalInfoPage> {
                   title: 'One final step',
                   subtitle:
                       'Complete the on-boarding process by filling the details below.',
-                  image: kCompleteImageUrl),
+                  icon: FontAwesomeIcons.clipboardCheck),
               _buildTextFields(),
               SizedBox(height: 20.dh),
               const CurrencySelector(),
