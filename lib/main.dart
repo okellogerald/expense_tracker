@@ -12,8 +12,13 @@ import 'models/models_source.dart';
 import 'services/categories_service.dart';
 import 'services/records_service.dart';
 
-//todo: make consistent designs in all pages.
-//todo: write tests for all functions
+//todo: write tests
+//todo: modify app-text-field-widget, to have its own error widget
+//*by using the formstate validate method to call the validator, and when it 
+//*does, it checks for any errors which will be added to the value notifier
+//*and hence displayed to the user. But the error style will have a text size of
+//* 0 so that it is not shown as well as doesn't take space. That space is 
+//*occupied by a custom error widget.
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
