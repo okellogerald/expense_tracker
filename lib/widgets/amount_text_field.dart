@@ -88,7 +88,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
           children: [
             Consumer(
               builder: (context, ref, child) {
-                final currency = ref.watch(userDetailsProvider).currency;
+                final currency = ref.watch(signedInUserProvider)!.currency;
                 return AppText('$currency $formattedAmount',
                     color: AppColors.accent, size: 15.dw, family: kFontFam2);
               },

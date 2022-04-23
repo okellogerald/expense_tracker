@@ -1,3 +1,6 @@
+import 'package:budgetting_app/utils/navigation_logic.dart';
+import 'package:budgetting_app/widgets/app_floating_action_button.dart';
+
 import '../source.dart';
 
 enum EditType { addingCategory, editingCategory }
@@ -47,99 +50,53 @@ class _CategoriesPageState extends State<CategoriesPage> {
   }
 
   Widget _buildContent(List<Category> categoryList, CategoryForm form) {
-    final isAtTheTop = form.position == AddCategoryWidgetPosition.top;
-
-    return ListView(padding: EdgeInsets.only(top: 30.dh), children: [
-      isAtTheTop ? _buildAddCategoryTile(form) : Container(),
-      isAtTheTop ? Container() : SizedBox(height: 20.dh),
-      _buildIncomeCategories(categoryList, form),
-      _buildExpenseCategories(categoryList, form),
-      isAtTheTop ? Container() : _buildAddCategoryTile(form),
-    ]);
+    return Scaffold(
+        body: ListView(padding: EdgeInsets.only(top: 50.dh), children: [
+          _buildCategories('Income Categories',
+              categoryList.where((e) => e.type == kIncome).toList(), form),
+          SizedBox(height: 30.dh),
+          _buildCategories('Expenses Categories',
+              categoryList.where((e) => e.type == kExpense).toList(), form),
+        ]),
+        floatingActionButton: AppFloatingActionButton(
+            onPressed: () => push(const CategoryEditPage())));
   }
 
-  _buildAddCategoryTile(CategoryForm form) {
-    return AddCategoryWidget(
-      onPressed: _navigateToEditPage,
-      whereToShowCallback: bloc.updatePosition,
-      position: form.position,
-    );
-  }
-
-  _buildIncomeCategories(List<Category> categoryList, CategoryForm form) {
+  _buildCategories(
+      String title, List<Category> categoryList, CategoryForm form) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 10.dw, bottom: 5.dh),
-          child: AppText(
-            'Income Categories',
-            size: 20.dw,
-            color: AppColors.onBackground,
-            family: kFontFam2,
-          ),
-        ),
-        ClipRRect(
-          borderRadius: borderRadius2,
-          child: Container(
-              color: AppColors.surface,
-              child: Column(
-                  children: categoryList
-                      .where((e) => e.type == kIncome)
-                      .map((e) => CategoryTile(
-                            category: e,
-                            editCallback: () =>
-                                _navigateToEditPage(category: e),
-                            isSelected: e.id == form.id,
-                            isUndeletable:
-                                form.undeletableCategories.contains(e.id),
-                            cancelCallback: bloc.cancel,
-                            changeSelectedIdCallback: bloc.updateId,
-                            deleteCallback: bloc.deleteCategory,
-                          ))
-                      .toList())),
-        )
+            padding: EdgeInsets.only(left: 10.dw, bottom: 10.dh),
+            child: AppText(title,
+                size: 20.dw, color: AppColors.onBackground, family: kFontFam2)),
+        Container(
+            padding: EdgeInsets.symmetric(vertical: 10.dh),
+            decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(15.dw)),
+            child: ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: categoryList.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (_, index) {
+                  final category = categoryList[index];
+                  return CategoryTile(
+                    category: category,
+                    cancelCallback: bloc.cancel,
+                    editCallback: () => push(CategoryEditPage(category)),
+                    isSelected: category.id == form.id,
+                    isUndeletable:
+                        form.undeletableCategories.contains(category.id),
+                    changeSelectedIdCallback: bloc.updateId,
+                    deleteCallback: bloc.deleteCategory,
+                    showTopBorder: index != 0,
+                    showBottomBorder: index != categoryList.length - 1,
+                  );
+                }))
       ],
     );
   }
-
-  _buildExpenseCategories(List<Category> categoryList, CategoryForm form) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 10.dw, bottom: 5.dh, top: 30.dh),
-          child: AppText(
-            'Expenses Categories',
-            size: 20.dw,
-            color: AppColors.onBackground,
-            family: kFontFam2,
-          ),
-        ),
-        ClipRRect(
-          borderRadius: borderRadius2,
-          child: Container(
-              color: AppColors.surface,
-              child: Column(
-                  children: categoryList
-                      .where((e) => e.type == kExpense)
-                      .map((e) => CategoryTile(
-                            category: e,
-                            cancelCallback: bloc.cancel,
-                            editCallback: () =>
-                                _navigateToEditPage(category: e),
-                            isSelected: e.id == form.id,
-                            isUndeletable:
-                                form.undeletableCategories.contains(e.id),
-                            changeSelectedIdCallback: bloc.updateId,
-                            deleteCallback: bloc.deleteCategory,
-                          ))
-                      .toList())),
-        )
-      ],
-    );
-  }
-
-  _navigateToEditPage({Category? category}) =>
-      CategoryEditPage.navigateTo(context, category: category);
 }

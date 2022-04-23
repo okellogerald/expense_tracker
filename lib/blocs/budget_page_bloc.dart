@@ -19,9 +19,6 @@ class BudgetPageBloc extends Cubit<BudgetPageState> {
     if (budgetList.isEmpty) budgetList = budgetsService.getBudgets();
     final grossAmountsMap = grossAmountsService.getAll();
 
-    log(budgetList.toString());
-
-
     for (Budget budget in budgetList) {
       final index = budgetList.indexOf(budget);
       final _updatedBudget =

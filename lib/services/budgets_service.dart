@@ -58,10 +58,11 @@ class BudgetsService {
     }
   }
 
-  bool isExisting(int duration, String id) {
-    final list = _budgetList.where((e) => e.duration == duration).toList();
-    if (list.isEmpty) return false;
-    return list.first.category.id == id;
+  ///checking if the category is already budgetted for
+  ///returns [true] if budget for this category already exists
+  bool isExisting(String categoryId) {
+    final list = _budgetList.where((e) => e.category.id == categoryId).toList();
+    return list.isNotEmpty;
   }
 
   List<String> getCategoryIds() {

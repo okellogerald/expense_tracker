@@ -1,4 +1,6 @@
-import '../../source.dart';
+import 'package:budgetting_app/widgets/app_floating_action_button.dart';
+
+import '../../source.dart' hide Consumer;
 import '../utils/navigation_logic.dart';
 
 class RecordsPage extends StatefulWidget {
@@ -25,7 +27,9 @@ class _RecordsPageState extends State<RecordsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _buildBody(), floatingActionButton: _buildFloatingActionButton());
+        body: _buildBody(),
+        floatingActionButton: AppFloatingActionButton(
+            onPressed: () => push(const RecordsEditPage())));
   }
 
   _buildBody() {
@@ -186,7 +190,7 @@ class _RecordsPageState extends State<RecordsPage> {
 
   _buildTotals(String title, String amount, bool isIncome) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      AppText(title, size: 14.dw, isBolded: true),
+      AppText(title, size: 14.dw),
       AppText(amount,
           size: 14.dw,
           color: AppColors.positive,
@@ -219,17 +223,5 @@ class _RecordsPageState extends State<RecordsPage> {
         ),
       ),
     );
-  }
-
-  _buildFloatingActionButton() {
-    return AppIconButton(
-        onPressed: () => push(const RecordsEditPage()),
-        buttonColor: AppColors.primary,
-        icon: Icons.add,
-        iconColor: AppColors.onPrimary,
-        height: 55.dw,
-        width: 55.dw,
-        spreadRadius: 30.dw,
-        iconSize: 30.dw);
   }
 }

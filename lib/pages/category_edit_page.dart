@@ -3,13 +3,9 @@ import '../utils/icon_code_point_generator.dart';
 import '../widgets/app_top_bar.dart';
 
 class CategoryEditPage extends StatefulWidget {
-  const CategoryEditPage(this.category, {Key? key}) : super(key: key);
+  const CategoryEditPage([this.category, Key? key]) : super(key: key);
 
   final Category? category;
-
-  static void navigateTo(BuildContext context, {Category? category}) =>
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => CategoryEditPage(category)));
 
   @override
   _CategoryEditPageState createState() => _CategoryEditPageState();

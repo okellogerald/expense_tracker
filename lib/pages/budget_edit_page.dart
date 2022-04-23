@@ -144,14 +144,10 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 15.dw, bottom: 10.dh),
-            child: AppText(
-              category.title,
-              size: 16.dw,
-              color: AppColors.onBackground2,
-              family: kFontFam2,
-            ),
-          ),
+              padding: EdgeInsets.only(left: 15.dw, bottom: 10.dh),
+              child: AppText(category.title.toUpperCase(),
+                  size: 14.dw,
+                  color: AppColors.onBackground2)),
           AmountTextField(
               errors: form.errors,
               text: form.values[category.id]?.toString() ?? '',
@@ -204,7 +200,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
               SizedBox(height: 8.dh),
               AppText(
                 category.title,
-                size: 15.dw,
+                size: 13.dw,
                 color: isSelected
                     ? AppColors.onBackground
                     : AppColors.onBackground2,
@@ -240,7 +236,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.only(right: 20.dw),
       child: OptionCircle(
-          onTap: isEditing ? () {} : () => bloc.updateDuration(duration),
+          onTap: (){},
           isSelected: isSelected,
           option: text),
     );
@@ -255,7 +251,7 @@ class _BudgetEditPageState extends State<BudgetEditPage> {
           SizedBox(height: 5.dh),
           AppText(description,
               color: AppColors.onBackground2,
-              size: 15.dw,
+              size: 14.dw,
               alignment: TextAlign.start,
               maxLines: 10)
         ]));

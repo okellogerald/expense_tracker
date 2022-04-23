@@ -27,11 +27,6 @@ class _BudgetTileState extends State<BudgetTile> {
     return GestureDetector(
       onTap: () => widget.updateIdCallback(widget.budget.id),
       child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white.withOpacity(.0),
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.5, color: AppColors.divider.withOpacity(.5)))),
         padding:
             EdgeInsets.only(left: 15.dw, bottom: 5.dh, right: 15.dw, top: 5.dh),
         width: ScreenSizeConfig.getFullWidth,
@@ -40,7 +35,7 @@ class _BudgetTileState extends State<BudgetTile> {
           children: [
             _buildTitle(),
             _buildBudgetAmounts(
-                'Budget', budget.getAmount, AppColors.onBackground),
+                'Budget', budget.getAmount, AppColors.onBackground2),
             _buildBudgetAmounts('Used', budget.getUsed, AppColors.negative),
             _buildBudgetAmounts(
               'Balance',
@@ -64,33 +59,17 @@ class _BudgetTileState extends State<BudgetTile> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 5.dw),
-                child: Icon(
-                  AppIcons.getIcon(category.codePoint),
-                  color: AppColors.onBackground,
-                  size: 20.dw,
-                ),
-              ),
-              SizedBox(width: 15.dw),
-              Expanded(
-                child: Container(
+            child: Row(children: [
+          Icon(AppIcons.getIcon(category.codePoint),
+              color: AppColors.onBackground, size: 18.dw),
+          SizedBox(width: 15.dw),
+          Expanded(
+              child: Container(
                   alignment: Alignment.centerLeft,
                   margin: EdgeInsets.only(right: 15.dw),
-                  child: AppText(
-                    widget.budget.category.title.toUpperCase(),
-                    size: 15.dw,
-                    color: AppColors.onBackground2,
-                    isBolded: true,
-                    maxLines: 2,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+                  child: AppText(widget.budget.category.title.toUpperCase(),
+                      size: 14.dw, color: AppColors.onBackground, maxLines: 2)))
+        ])),
         isSelected
             ? Container()
             : AppIconButton(
@@ -149,15 +128,15 @@ class _BudgetTileState extends State<BudgetTile> {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           SizedBox(
-              width: 200.dw,
+              width: 220.dw,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AppText(title, size: 15.dw, color: AppColors.onBackground2),
+                    AppText(title, size: 14.dw, color: AppColors.onBackground2),
                     AppText(isBalance ? '$balancePercent %' : '',
-                        size: 14.dw, color: color, family: kFontFam2)
+                        size: 13.dw, color: color, family: kFontFam2)
                   ])),
-          AppText(amount, size: 14.dw, color: color, family: kFontFam2)
+          AppText(amount, size: 13.dw, color: color, family: kFontFam2)
         ]));
   }
 }

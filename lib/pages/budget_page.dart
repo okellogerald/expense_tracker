@@ -1,4 +1,8 @@
+import 'package:budgetting_app/widgets/app_divider.dart';
+
 import '../source.dart';
+import '../utils/navigation_logic.dart';
+import '../widgets/app_floating_action_button.dart';
 
 class BudgetPage extends StatefulWidget {
   const BudgetPage({Key? key}) : super(key: key);
@@ -27,13 +31,13 @@ class _BudgetPageState extends State<BudgetPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<BudgetPageBloc, BudgetPageState>(
-          bloc: bloc,
-          builder: (_, state) {
-            return state.when(loading: _buildLoading, content: _buildContent);
-          }),
-      floatingActionButton: _buildFloatingActionButton(),
-    );
+        body: BlocBuilder<BudgetPageBloc, BudgetPageState>(
+            bloc: bloc,
+            builder: (_, state) {
+              return state.when(loading: _buildLoading, content: _buildContent);
+            }),
+        floatingActionButton: AppFloatingActionButton(
+            onPressed: () => push(const BudgetEditPage())));
   }
 
   Widget _buildLoading(BudgetPageSupplements supp) {
@@ -46,11 +50,10 @@ class _BudgetPageState extends State<BudgetPage> {
     if (supp.budgetList.isEmpty) return _buildEmptyState();
 
     return ListView(
-      padding: EdgeInsets.only(top: 50.dh),
+      padding: EdgeInsets.only(top: 50.dh, bottom: 70.dh),
       children: [
-        _buildMonthlyBudgets(supp.budgetList, 'Monthly Budgets',
-            Utils.getDaysInMonth(), supp.id),
-        SizedBox(height: 70.dh)
+        _buildMonthlyBudgets(
+            supp.budgetList, 'Monthly Budgets', Utils.getDaysInMonth(), supp.id)
       ],
     );
   }
@@ -62,37 +65,38 @@ class _BudgetPageState extends State<BudgetPage> {
 
     if (list.isEmpty) return Container();
     return Padding(
-      padding: EdgeInsets.only(bottom: 25.dh),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        padding: EdgeInsets.only(bottom: 25.dh),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
-            padding: EdgeInsets.only(left: 15.dw, bottom: 10.dh),
-            child: AppText(
-              title,
-              size: 22.dw,
-              family: kFontFam2,
-            ),
-          ),
+              padding: EdgeInsets.only(left: 15.dw, bottom: 10.dh),
+              child: AppText(title, size: 22.dw, family: kFontFam2)),
           Container(
-            color: AppColors.surface,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: list
-                  .map((e) => BudgetTile(
-                        budget: e,
-                        selectedId: id,
-                        editCallback: (budget) =>
-                            BudgetEditPage.navigateTo(context, budget: budget),
-                        deleteCallback: bloc.delete,
-                        updateIdCallback: bloc.updateId,
-                      ))
-                  .toList(),
-            ),
-          )
-        ],
-      ),
-    );
+              padding: EdgeInsets.symmetric(vertical: 10.dh),
+              decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(15.dw)),
+              child: ListView.separated(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: budgetList.length,
+                separatorBuilder: (_, __) => AppDivider(
+                    color: AppColors.divider.withOpacity(.5),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 5.dw, vertical: 5.dh)),
+                itemBuilder: (_, index) {
+                  final budget = budgetList[index];
+                  return BudgetTile(
+                    budget: budget,
+                    selectedId: id,
+                    editCallback: (budget) =>
+                        BudgetEditPage.navigateTo(context, budget: budget),
+                    deleteCallback: bloc.delete,
+                    updateIdCallback: bloc.updateId,
+                  );
+                },
+              ))
+        ]));
   }
 
   _buildEmptyState() {
@@ -115,19 +119,6 @@ class _BudgetPageState extends State<BudgetPage> {
           )
         ],
       ),
-    );
-  }
-
-  _buildFloatingActionButton() {
-    return AppIconButton(
-      onPressed: () => BudgetEditPage.navigateTo(context),
-      buttonColor: AppColors.primary,
-      icon: Icons.add,
-      iconColor: AppColors.onPrimary,
-      height: 55.dw,
-      width: 55.dw,
-      spreadRadius: 30.dw,
-      iconSize: 30.dw,
     );
   }
 }

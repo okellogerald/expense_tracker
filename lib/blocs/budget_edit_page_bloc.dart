@@ -28,33 +28,12 @@ class BudgetEditPageBloc extends Cubit<BudgetEditPageState> {
     }
 
     final categoryList = categoriesService.getAll();
-    _categoryList = categoryList.where((e) => e.type == kExpense).toList();
-    final expensesList = _categoryList
-        .where((e) => !budgetsService.isExisting(1, e.id))
+    _categoryList = categoryList
+        .where((e) => e.type == kExpense && !budgetsService.isExisting(e.id))
         .toList();
+
     final form = state.form.copyWith(duration: Utils.getDaysInMonth());
-    emit(BudgetEditPageState.content(expensesList, state.idList, form));
-  }
-
-  void updateDuration(int duration) {
-    emit(BudgetEditPageState.loading(
-        state.categoryList, state.idList, state.form));
-    final form = state.form.copyWith(duration: duration);
-    final categoryList = _categoryList
-        .where((e) => !budgetsService.isExisting(duration, e.id))
-        .toList();
-    emit(BudgetEditPageState.content(categoryList, state.idList, form));
-  }
-
-  void updateCustomDuration(String duration) {
-    emit(BudgetEditPageState.loading(
-        state.categoryList, state.idList, state.form));
-    final _duration = int.parse(duration);
-    final form = state.form.copyWith(duration: _duration);
-    final categoryList = _categoryList
-        .where((e) => !budgetsService.isExisting(_duration, e.id))
-        .toList();
-    emit(BudgetEditPageState.content(categoryList, state.idList, form));
+    emit(BudgetEditPageState.content(_categoryList, state.idList, form));
   }
 
   void updateIdList(String id) {
@@ -81,16 +60,20 @@ class BudgetEditPageBloc extends Cubit<BudgetEditPageState> {
 
   void edit() {
     _validate();
-
     final form = state.form;
-    final amount = double.parse(form.values[state.idList.first]!);
+    final hasErrors = form.errors.isNotEmpty;
+    if (hasErrors) return;
 
+    final amount = double.parse(form.values[state.idList.first]!);
     budgetsService.edit(form.id, amount);
     emit(BudgetEditPageState.success(state.categoryList, state.idList, form));
   }
 
   void add() {
     _validate();
+    var form = state.form;
+    final hasErrors = form.errors.isNotEmpty;
+    if (hasErrors) return;
 
     final selectedList =
         state.categoryList.where((e) => _idList.contains(e.id)).toList();
@@ -103,8 +86,7 @@ class BudgetEditPageBloc extends Cubit<BudgetEditPageState> {
       _values.remove(category.id);
     }
 
-    final form = state.form.copyWith(values: _values);
-
+    form = form.copyWith(values: _values);
     emit(BudgetEditPageState.success(state.categoryList, _idList, form));
   }
 
@@ -127,14 +109,13 @@ class BudgetEditPageBloc extends Cubit<BudgetEditPageState> {
       }
     }
 
-    final form = state.form.copyWith(errors: errors);
+    late BudgetForm form;
 
     if (errors.isNotEmpty) {
-      emit(BudgetEditPageState.content(state.categoryList, state.idList, form));
-      return;
+      form = state.form.copyWith(errors: errors);
     } else {
-      final form = state.form.copyWith(errors: {});
-      emit(BudgetEditPageState.content(state.categoryList, state.idList, form));
+      form = state.form.copyWith(errors: {});
     }
+    emit(BudgetEditPageState.content(state.categoryList, state.idList, form));
   }
 }

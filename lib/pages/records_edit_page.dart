@@ -1,4 +1,5 @@
 import 'package:budgetting_app/blocs/record_edit_page_bloc.dart';
+import 'package:budgetting_app/utils/navigation_logic.dart';
 import 'package:budgetting_app/widgets/amount_text_field.dart';
 import 'package:budgetting_app/widgets/app_top_bar.dart';
 import '../source.dart';
@@ -87,23 +88,19 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
       padding: EdgeInsets.only(
           top: topOffset ?? 60.dh, bottom: 5.dh, left: leftOffset ?? 0),
       child: withButton
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _text,
-                AppTextButton(
-                    text: 'Add Category',
-                    textColor: AppColors.primary,
-                    onPressed: () => CategoryEditPage.navigateTo(context))
-              ],
-            )
+          ? Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              _text,
+              AppTextButton(
+                  text: 'Add Category',
+                  textColor: AppColors.primary,
+                  onPressed: () => push(const CategoryEditPage()))
+            ])
           : _text,
     );
   }
 
   _buildOptions(Category category) {
     final type = category.type;
-
     return Padding(
       padding: EdgeInsets.only(top: 10.dh),
       child: Row(
