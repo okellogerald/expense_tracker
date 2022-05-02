@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'package:budgetting_app/errors/exception_handler.dart';
 import 'package:budgetting_app/providers/user_details_provider.dart';
 import 'package:budgetting_app/providers/user_repository_impl.dart';
@@ -164,6 +163,7 @@ class UserNotifier extends StateNotifier<UserState> {
         .read(userRepositoryProvider)
         .deleteUser(user.email, password)
         .catchError((error) => _handleError(error));
+    ref.refresh(passwordProvider);
     state = const UserState.done();
   }
 

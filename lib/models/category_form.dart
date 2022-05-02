@@ -11,7 +11,6 @@ class CategoryForm with _$CategoryForm {
     @Default(false) bool isEditing,
     @Default(kIncome) String type,
     @Default(-1) int codePoint,
-    @Default(AddCategoryWidgetPosition.top) AddCategoryWidgetPosition position,
     @Default({}) Map<String, dynamic> errors,
     @Default([]) List<String> undeletableCategories,
   }) = _CategoryForm;

@@ -6,7 +6,6 @@ class PreferencesService {
 
   static void initPrefs() {
     if (box.isEmpty) {
-      box.put(kAddCategoryPosition, true);
       box.put(kWithTotalsList, <int>[]);
     }
   }
@@ -23,14 +22,5 @@ class PreferencesService {
 
   List removeFromWithTotalsPrefs(int day) => _editWithTotalsPrefs(day, false);
 
-  void updatePreferences({bool? isAddCategoryTop}) {
-    final prefs = getPreferences();
-    box.put(
-        kAddCategoryPosition, isAddCategoryTop ?? prefs[kAddCategoryPosition]);
-  }
-
-  Map getPreferences() => {
-        kAddCategoryPosition: box.get(kAddCategoryPosition),
-        kWithTotalsList: box.get(kWithTotalsList)
-      };
+  Map getPreferences() => {kWithTotalsList: box.get(kWithTotalsList)};
 }

@@ -23,7 +23,6 @@ class _$CategoryFormTearOff {
       bool isEditing = false,
       String type = kIncome,
       int codePoint = -1,
-      AddCategoryWidgetPosition position = AddCategoryWidgetPosition.top,
       Map<String, dynamic> errors = const {},
       List<String> undeletableCategories = const []}) {
     return _CategoryForm(
@@ -32,7 +31,6 @@ class _$CategoryFormTearOff {
       isEditing: isEditing,
       type: type,
       codePoint: codePoint,
-      position: position,
       errors: errors,
       undeletableCategories: undeletableCategories,
     );
@@ -49,7 +47,6 @@ mixin _$CategoryForm {
   bool get isEditing => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   int get codePoint => throw _privateConstructorUsedError;
-  AddCategoryWidgetPosition get position => throw _privateConstructorUsedError;
   Map<String, dynamic> get errors => throw _privateConstructorUsedError;
   List<String> get undeletableCategories => throw _privateConstructorUsedError;
 
@@ -69,7 +66,6 @@ abstract class $CategoryFormCopyWith<$Res> {
       bool isEditing,
       String type,
       int codePoint,
-      AddCategoryWidgetPosition position,
       Map<String, dynamic> errors,
       List<String> undeletableCategories});
 }
@@ -89,7 +85,6 @@ class _$CategoryFormCopyWithImpl<$Res> implements $CategoryFormCopyWith<$Res> {
     Object? isEditing = freezed,
     Object? type = freezed,
     Object? codePoint = freezed,
-    Object? position = freezed,
     Object? errors = freezed,
     Object? undeletableCategories = freezed,
   }) {
@@ -114,10 +109,6 @@ class _$CategoryFormCopyWithImpl<$Res> implements $CategoryFormCopyWith<$Res> {
           ? _value.codePoint
           : codePoint // ignore: cast_nullable_to_non_nullable
               as int,
-      position: position == freezed
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as AddCategoryWidgetPosition,
       errors: errors == freezed
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
@@ -143,7 +134,6 @@ abstract class _$CategoryFormCopyWith<$Res>
       bool isEditing,
       String type,
       int codePoint,
-      AddCategoryWidgetPosition position,
       Map<String, dynamic> errors,
       List<String> undeletableCategories});
 }
@@ -165,7 +155,6 @@ class __$CategoryFormCopyWithImpl<$Res> extends _$CategoryFormCopyWithImpl<$Res>
     Object? isEditing = freezed,
     Object? type = freezed,
     Object? codePoint = freezed,
-    Object? position = freezed,
     Object? errors = freezed,
     Object? undeletableCategories = freezed,
   }) {
@@ -190,10 +179,6 @@ class __$CategoryFormCopyWithImpl<$Res> extends _$CategoryFormCopyWithImpl<$Res>
           ? _value.codePoint
           : codePoint // ignore: cast_nullable_to_non_nullable
               as int,
-      position: position == freezed
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as AddCategoryWidgetPosition,
       errors: errors == freezed
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
@@ -215,7 +200,6 @@ class _$_CategoryForm implements _CategoryForm {
       this.isEditing = false,
       this.type = kIncome,
       this.codePoint = -1,
-      this.position = AddCategoryWidgetPosition.top,
       this.errors = const {},
       this.undeletableCategories = const []});
 
@@ -236,9 +220,6 @@ class _$_CategoryForm implements _CategoryForm {
   final int codePoint;
   @JsonKey()
   @override
-  final AddCategoryWidgetPosition position;
-  @JsonKey()
-  @override
   final Map<String, dynamic> errors;
   @JsonKey()
   @override
@@ -246,7 +227,7 @@ class _$_CategoryForm implements _CategoryForm {
 
   @override
   String toString() {
-    return 'CategoryForm(id: $id, title: $title, isEditing: $isEditing, type: $type, codePoint: $codePoint, position: $position, errors: $errors, undeletableCategories: $undeletableCategories)';
+    return 'CategoryForm(id: $id, title: $title, isEditing: $isEditing, type: $type, codePoint: $codePoint, errors: $errors, undeletableCategories: $undeletableCategories)';
   }
 
   @override
@@ -259,7 +240,6 @@ class _$_CategoryForm implements _CategoryForm {
             const DeepCollectionEquality().equals(other.isEditing, isEditing) &&
             const DeepCollectionEquality().equals(other.type, type) &&
             const DeepCollectionEquality().equals(other.codePoint, codePoint) &&
-            const DeepCollectionEquality().equals(other.position, position) &&
             const DeepCollectionEquality().equals(other.errors, errors) &&
             const DeepCollectionEquality()
                 .equals(other.undeletableCategories, undeletableCategories));
@@ -273,7 +253,6 @@ class _$_CategoryForm implements _CategoryForm {
       const DeepCollectionEquality().hash(isEditing),
       const DeepCollectionEquality().hash(type),
       const DeepCollectionEquality().hash(codePoint),
-      const DeepCollectionEquality().hash(position),
       const DeepCollectionEquality().hash(errors),
       const DeepCollectionEquality().hash(undeletableCategories));
 
@@ -290,7 +269,6 @@ abstract class _CategoryForm implements CategoryForm {
       bool isEditing,
       String type,
       int codePoint,
-      AddCategoryWidgetPosition position,
       Map<String, dynamic> errors,
       List<String> undeletableCategories}) = _$_CategoryForm;
 
@@ -304,8 +282,6 @@ abstract class _CategoryForm implements CategoryForm {
   String get type;
   @override
   int get codePoint;
-  @override
-  AddCategoryWidgetPosition get position;
   @override
   Map<String, dynamic> get errors;
   @override

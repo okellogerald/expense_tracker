@@ -38,14 +38,7 @@ class CategoriesPageBloc extends Cubit<CategoriesPageState> {
 
     emit(CategoriesPageState.loading(state.categoryList, state.form));
     final categoryList = categoryService.getAll();
-    final prefs = prefsService.getPreferences();
-    final isAddCategoryTop = prefs[kAddCategoryPosition];
-    final form = state.form.copyWith(
-      undeletableCategories: idsList,
-      position: isAddCategoryTop
-          ? AddCategoryWidgetPosition.top
-          : AddCategoryWidgetPosition.bottom,
-    );
+    final form = state.form.copyWith(undeletableCategories: idsList);
     emit(CategoriesPageState.content(categoryList, form));
   }
 
@@ -102,13 +95,9 @@ class CategoriesPageBloc extends Cubit<CategoriesPageState> {
 
   void updateType(String type) => _updateForm(type: type);
 
-  void updatePosition(AddCategoryWidgetPosition position) =>
-      _updateForm(position: position);
-
   void _updateForm(
       {String? id,
       String? type,
-      AddCategoryWidgetPosition? position,
       String? title,
       int? codePoint,
       List<String>? idsList,
@@ -120,14 +109,9 @@ class CategoriesPageBloc extends Cubit<CategoriesPageState> {
       type: type ?? form.type,
       isEditing: isEditing ?? form.isEditing,
       title: title ?? form.title,
-      position: position ?? form.position,
       codePoint: codePoint ?? form.codePoint,
       undeletableCategories: idsList ?? form.undeletableCategories,
     );
-    if (position != null) {
-      final isAddCategoryWidgetTop = position == AddCategoryWidgetPosition.top;
-      prefsService.updatePreferences(isAddCategoryTop: isAddCategoryWidgetTop);
-    }
     emit(CategoriesPageState.content(state.categoryList, formattedSupplements));
   }
 

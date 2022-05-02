@@ -57,3 +57,11 @@ flutter:
       fonts:
         - asset: assets/fonts/Gopher-Regular.ttf
 
+    - family: circular
+      fonts:
+        - asset: assets/fonts/Circular.otf
+          weight: 400
+        - asset: assets/fonts/Circular-Medium.otf
+          weight: 500
+        - asset: assets/fonts/Circular-Bold.otf
+          weight: 600
