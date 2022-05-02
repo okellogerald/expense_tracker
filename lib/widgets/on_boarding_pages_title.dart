@@ -29,7 +29,7 @@ class OnBoardingPagesTitle extends StatelessWidget {
           AppText(title,
               size: 32.dw,
               family: kFontFam2,
-              isBolded: true,
+              weight: FontWeight.bold,
               alignment: TextAlign.left),
           SizedBox(height: 10.dh),
           subtitle == null

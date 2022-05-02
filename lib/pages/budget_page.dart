@@ -75,26 +75,28 @@ class _BudgetPageState extends State<BudgetPage> {
               decoration: BoxDecoration(
                   color: AppColors.surface,
                   borderRadius: BorderRadius.circular(15.dw)),
-              child: ListView.separated(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: budgetList.length,
-                separatorBuilder: (_, __) => AppDivider(
-                    color: AppColors.divider.withOpacity(.5),
-                    margin:
-                        EdgeInsets.symmetric(horizontal: 5.dw, vertical: 5.dh)),
-                itemBuilder: (_, index) {
-                  final budget = budgetList[index];
-                  return BudgetTile(
-                    budget: budget,
-                    selectedId: id,
-                    editCallback: (budget) =>
-                        BudgetEditPage.navigateTo(context, budget: budget),
-                    deleteCallback: bloc.delete,
-                    updateIdCallback: bloc.updateId,
-                  );
-                },
+              child: Scrollbar(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: budgetList.length,
+                  separatorBuilder: (_, __) => AppDivider(
+                      color: AppColors.divider.withOpacity(.5),
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 5.dw, vertical: 5.dh)),
+                  itemBuilder: (_, index) {
+                    final budget = budgetList[index];
+                    return BudgetTile(
+                      budget: budget,
+                      selectedId: id,
+                      editCallback: (budget) =>
+                          BudgetEditPage.navigateTo(context, budget: budget),
+                      deleteCallback: bloc.delete,
+                      updateIdCallback: bloc.updateId,
+                    );
+                  },
+                ),
               ))
         ]));
   }

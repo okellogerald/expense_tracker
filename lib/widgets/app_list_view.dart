@@ -4,14 +4,14 @@ class AppListView extends StatelessWidget {
   const AppListView(
       {required this.appBarDisapperingWidget,
       required this.appBarRemainingWidget,
-      required this.listWidget,
+      required this.child,
       required this.backgroundColor,
       Key? key})
       : super(key: key);
 
   final Widget Function(double) appBarDisapperingWidget;
   final Widget Function() appBarRemainingWidget;
-  final Widget listWidget;
+  final Widget child;
   final Color backgroundColor;
 
   static final scrollValueNotifier = ValueNotifier<double>(0.0);
@@ -42,7 +42,7 @@ class AppListView extends StatelessWidget {
           return true;
         },
         child:
-            Stack(fit: StackFit.expand, children: [listWidget, _buildTitle()]));
+            Stack(fit: StackFit.expand, children: [child, _buildTitle()]));
   }
 
   _buildTitle() {

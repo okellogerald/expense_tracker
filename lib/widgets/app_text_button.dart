@@ -117,7 +117,7 @@ class _AppTextButtonState extends State<AppTextButton>
   _text() {
     return AppText(widget.text ?? 'Click Me',
         size: widget.fontSize ?? 15.dw,
-        isBolded: widget.isBolded,
+        weight: FontWeight.bold,
         color: widget.textColor ?? AppColors.onPrimary);
   }
 

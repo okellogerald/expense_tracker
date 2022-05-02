@@ -6,7 +6,7 @@ class AppText extends StatefulWidget {
       this.family,
       this.color,
       this.alignment = TextAlign.justify,
-      this.isBolded = false,
+      this.weight = FontWeight.w300,
       this.maxLines,
       this.height,
       this.letterSpacing,
@@ -15,7 +15,7 @@ class AppText extends StatefulWidget {
 
   final double? size;
   final int? maxLines;
-  final bool isBolded;
+  final FontWeight weight;
   final String data;
   final String? family;
   final Color? color;
@@ -35,7 +35,7 @@ class _AppTextState extends State<AppText> {
           textAlign: widget.alignment,
           maxLines: widget.maxLines ?? 10,
           style: TextStyle(
-              fontWeight: widget.isBolded ? FontWeight.w700 : FontWeight.w300,
+              fontWeight: widget.weight,
               fontSize: widget.size ?? 20.dw,
               color: widget.color ?? AppColors.onBackground,
               fontFamily: widget.family,

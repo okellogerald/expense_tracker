@@ -1,5 +1,9 @@
 import '../source.dart';
 
+const kFontFam = "gopher";
+const kFontFam2 = 'mabry';
+const kFontFam3 = 'SpaceMono';
+
 final borderRadius = BorderRadius.all(Radius.circular(20.dw));
 final borderRadius2 = BorderRadius.all(Radius.circular(15.dw));
 final bodyTextStyle =

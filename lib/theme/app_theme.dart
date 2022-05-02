@@ -7,6 +7,7 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
           backgroundColor: AppColors.background, elevation: 0),
       checkboxTheme: CheckboxThemeData(
+        checkColor:  MaterialStateProperty.all(AppColors.onPrimary),
           fillColor: MaterialStateProperty.all(AppColors.primary)),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           elevation: 0,

@@ -1,10 +1,5 @@
-import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
-import '../constants.dart';
 import '../models/user.dart';
-
-final _box = Hive.box(kUser);
 
 //used for storing user values when performing onboarding processes
 final userDetailsProvider = StateProvider<User>((ref) => const User());
@@ -20,11 +15,7 @@ final userValidationErrorsProvider =
     StateProvider.autoDispose<Map<String, String?>>((ref) => {});
 
 //used to decide the homepage, and stores only verified user credentials
-final signedInUserProvider = StateProvider<User?>((ref) {
-  final jsonUser = _box.get(kUser) as String?;
-  if (jsonUser == null) return null;
-  return User.fromJson(json.decode(jsonUser));
-});
+final signedInUserProvider = StateProvider<User?>((ref) => null);
 
 ///stores user details in the user details provider
 void updateUserDetails(WidgetRef ref,

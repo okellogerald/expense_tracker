@@ -54,7 +54,7 @@ class _RecordsPageState extends State<RecordsPage> {
       appBarDisapperingWidget: (value) =>
           _buildDateSettingsTitle(value, supplements),
       appBarRemainingWidget: () => _buildBalances(supplements),
-      listWidget: recordsList.isEmpty
+      child: recordsList.isEmpty
           ? _buildEmptyList()
           : _buildRecords(recordsList, supplements),
     );
@@ -102,15 +102,17 @@ class _RecordsPageState extends State<RecordsPage> {
   }
 
   _buildRecords(List<Record> recordsList, RecordsPageSupplements supplements) {
-    return ListView.builder(
-        padding: EdgeInsets.only(bottom: 90.dh, top: 150.dh),
-        itemBuilder: (context, i) {
-          final index = Utils.getDaysInMonth() - i + 1;
-          final recordList =
-              recordsList.where((e) => e.date.day == index).toList();
-          return _buildDayRecords(recordList, index, supplements);
-        },
-        itemCount: Utils.getDaysInMonth());
+    return Scrollbar(
+      child: ListView.builder(
+          padding: EdgeInsets.only(bottom: 90.dh, top: 150.dh),
+          itemBuilder: (context, i) {
+            final index = Utils.getDaysInMonth() - i + 1;
+            final recordList =
+                recordsList.where((e) => e.date.day == index).toList();
+            return _buildDayRecords(recordList, index, supplements);
+          },
+          itemCount: Utils.getDaysInMonth()),
+    );
   }
 
   Widget _buildDayRecords(
@@ -195,7 +197,8 @@ class _RecordsPageState extends State<RecordsPage> {
           size: 14.dw,
           color: AppColors.positive,
           family: kFontFam2,
-          isBolded: true)
+                     weight: FontWeight.bold,
+)
     ]);
   }
 
@@ -216,7 +219,8 @@ class _RecordsPageState extends State<RecordsPage> {
             SizedBox(height: 5.dh),
             AppText(formattedAmount,
                 size: 13.dw,
-                isBolded: true,
+                         weight: FontWeight.bold,
+
                 family: kFontFam3,
                 color: !isOutflow ? AppColors.positive : AppColors.negative)
           ],

@@ -15,10 +15,6 @@ const kExpense = 'expense';
 const kIncome = 'income';
 const kUser = 'user';
 
-const kFontFam = "circular";
-const kFontFam2 = 'Mabry';
-const kFontFam3 = 'SpaceMono';
-
 const kWithTotalsList = 'with_totals_list';
 
 final kDefaultCategoriesList = <Category>[

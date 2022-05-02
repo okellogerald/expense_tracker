@@ -13,7 +13,7 @@ class AppSnackBar extends SnackBar {
                 size: 14.dw));
 
   @override
-  Color? get backgroundColor => isError ? AppColors.error : AppColors.primary;
+  Color? get backgroundColor => isError ? AppColors.error : Colors.white;
 
   @override
   SnackBarBehavior? get behavior => SnackBarBehavior.floating;

@@ -45,7 +45,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 
   _buildUserAccount() {
-    final user = ref.watch(signedInUserProvider)!;
+    //~ avoiding null-check errors during sign out
+    final user = ref.watch(signedInUserProvider) ?? const User();
 
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 15.dw, vertical: 10.dh),

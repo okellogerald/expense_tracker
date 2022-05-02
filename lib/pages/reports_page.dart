@@ -119,7 +119,7 @@ class _ReportsPageState extends State<ReportsPage> {
         title.toUpperCase(),
         size: 14.dw,
         color: color,
-        isBolded: true,
+        weight: FontWeight.bold,
       ),
     );
   }

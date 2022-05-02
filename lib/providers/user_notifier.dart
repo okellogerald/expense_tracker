@@ -19,6 +19,8 @@ class UserNotifier extends StateNotifier<UserState> {
   final AutoDisposeStateNotifierProviderRef ref;
   UserNotifier(this.ref) : super(UserState.initial());
 
+  final _box = Hive.box(kUser);
+
   Future<void> sendEmailVerificationLink() async {
     final user = ref.read(userDetailsProvider);
     Future<void> callback() async {
@@ -135,23 +137,37 @@ class UserNotifier extends StateNotifier<UserState> {
       final userData = await ref
           .read(userRepositoryProvider)
           .signInUserInDatabase(user.email, password);
-      ref.read(signedInUserProvider.state).state = userData;
-      ref.refresh(userDetailsProvider);
+
       final shouldRemember = ref.read(rememberMeValueProvider);
       if (shouldRemember) {
-        Hive.box(kUser).put(kUser, json.encode(userData));
+        await _box.put(kUser, json.encode(userData));
       }
+      ref.read(signedInUserProvider.state).state = userData;
+      ref.refresh(userDetailsProvider);
       state = const UserState.done();
     } catch (error) {
       _handleError(error);
     }
   }
 
+  void autoLogIn() {
+    state = const UserState.loading();
+    final jsonUser = _box.get(kUser) as String?;
+    if (jsonUser == null) {
+      state = const UserState.failed('No user data found');
+      return;
+    }
+    final decoded = json.decode(jsonUser);
+    ref.read(signedInUserProvider.state).state = User.fromJson(decoded);
+    state = const UserState.done();
+  }
+
   Future<void> signOut() async {
     state = const UserState.loading();
-    final user = ref.read(signedInUserProvider);
-    if (user != null) await Hive.box(kUser).delete(kUser);
-    ref.refresh(passwordProvider);
+    //if no user was saved because user just signed up, and not logged in catch
+    //any exceptions when deleting
+    await _box.delete(kUser).catchError((_) {});
+    _disposeSignedInUserData();
     state = const UserState.done();
   }
 
@@ -163,8 +179,14 @@ class UserNotifier extends StateNotifier<UserState> {
         .read(userRepositoryProvider)
         .deleteUser(user.email, password)
         .catchError((error) => _handleError(error));
-    ref.refresh(passwordProvider);
+    await _box.delete(kUser).catchError((_) {});
+    _disposeSignedInUserData();
     state = const UserState.done();
+  }
+
+  _disposeSignedInUserData() {
+    ref.refresh(passwordProvider);
+    ref.refresh(signedInUserProvider);
   }
 
   _handleError(var error) {

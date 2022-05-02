@@ -39,7 +39,7 @@ class _OptionCircleState extends State<OptionCircle> {
           AppText(
             widget.option,
             size: 15.dw,
-            isBolded: true,
+            weight: FontWeight.bold,
             color:
                 widget.isSelected ? AppColors.accent : AppColors.onBackground2,
           )
