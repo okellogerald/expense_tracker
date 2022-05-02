@@ -1,4 +1,6 @@
+import 'package:budgetting_app/widgets/app_drawer.dart';
 import 'package:budgetting_app/widgets/app_floating_action_button.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 import '../../source.dart' hide Consumer;
 import '../utils/navigation_logic.dart';
@@ -49,32 +51,34 @@ class _RecordsPageState extends State<RecordsPage> {
 
   Widget _buildContent(
       List<Record> recordsList, RecordsPageSupplements supplements) {
-    return AppListView(
-      backgroundColor: AppColors.background,
-      appBarDisapperingWidget: (value) =>
-          _buildDateSettingsTitle(value, supplements),
-      appBarRemainingWidget: () => _buildBalances(supplements),
-      child: recordsList.isEmpty
-          ? _buildEmptyList()
-          : _buildRecords(recordsList, supplements),
+    return Scaffold(
+      drawer: const AppDrawer(),
+      body: AppListView(
+        backgroundColor: AppColors.background,
+        appBarDisapperingWidget: (value) =>
+            _buildDateSettingsTitle(value, supplements),
+        appBarRemainingWidget: () => _buildBalances(supplements),
+        child: recordsList.isEmpty
+            ? _buildEmptyList()
+            : _buildRecords(recordsList, supplements),
+      ),
     );
   }
 
   Widget _buildDateSettingsTitle(double value, RecordsPageSupplements supp) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Center(
-            child: AppText(
-                '${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
-                color: AppColors.onBackground,
-                size: value,
-                family: kFontFam2)),
         AppIconButton(
-            icon: Icons.settings,
+            icon: EvaIcons.menu,
             iconSize: value,
+            margin: EdgeInsets.only(right: 15.dw),
             iconColor: AppColors.primary,
-            onPressed: () => push(const SettingsPage()) /* () {} */),
+            onPressed: /* () => push(const SettingsPage()) */ () {
+              Scaffold.of(context).openDrawer();
+            }),
+        AppText('${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
+            color: AppColors.onBackground, size: value, family: kFontFam2),
       ],
     );
   }
@@ -193,12 +197,13 @@ class _RecordsPageState extends State<RecordsPage> {
   _buildTotals(String title, String amount, bool isIncome) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       AppText(title, size: 14.dw),
-      AppText(amount,
-          size: 14.dw,
-          color: AppColors.positive,
-          family: kFontFam2,
-                     weight: FontWeight.bold,
-)
+      AppText(
+        amount,
+        size: 14.dw,
+        color: AppColors.positive,
+        family: kFontFam2,
+        weight: FontWeight.bold,
+      )
     ]);
   }
 
@@ -219,8 +224,7 @@ class _RecordsPageState extends State<RecordsPage> {
             SizedBox(height: 5.dh),
             AppText(formattedAmount,
                 size: 13.dw,
-                         weight: FontWeight.bold,
-
+                weight: FontWeight.bold,
                 family: kFontFam3,
                 color: !isOutflow ? AppColors.positive : AppColors.negative)
           ],
