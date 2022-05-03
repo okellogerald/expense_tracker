@@ -52,7 +52,6 @@ class _RecordsPageState extends State<RecordsPage> {
   Widget _buildContent(
       List<Record> recordsList, RecordsPageSupplements supplements) {
     return Scaffold(
-      drawer: const AppDrawer(),
       body: AppListView(
         backgroundColor: AppColors.background,
         appBarDisapperingWidget: (value) =>
@@ -67,18 +66,15 @@ class _RecordsPageState extends State<RecordsPage> {
 
   Widget _buildDateSettingsTitle(double value, RecordsPageSupplements supp) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppIconButton(
-            icon: EvaIcons.menu,
-            iconSize: value,
-            margin: EdgeInsets.only(right: 15.dw),
-            iconColor: AppColors.primary,
-            onPressed: /* () => push(const SettingsPage()) */ () {
-              Scaffold.of(context).openDrawer();
-            }),
         AppText('${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
             color: AppColors.onBackground, size: value, family: kFontFam2),
+        AppIconButton(
+            icon: Icons.menu,
+            iconSize: value,
+            iconColor: AppColors.primary,
+            onPressed: mainPageScaffoldKey.currentState!.openEndDrawer),
       ],
     );
   }
@@ -101,7 +97,7 @@ class _RecordsPageState extends State<RecordsPage> {
               height: 80.dh, fit: BoxFit.contain),
           SizedBox(height: 20.dh),
           AppText('Records you add will be viewed from this page.',
-              color: AppColors.onBackground2, size: 15.dw)
+              color: AppColors.onBackground2, size: 14.dw)
         ]));
   }
 
@@ -216,7 +212,7 @@ class _RecordsPageState extends State<RecordsPage> {
         padding: EdgeInsets.symmetric(vertical: 6.dh),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: AppColors.tertiary, borderRadius: borderRadius2),
+            color: AppColors.secondary, borderRadius: borderRadius2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:budgetting_app/errors/exception_handler.dart';
 import 'package:budgetting_app/providers/user_details_provider.dart';
 import 'package:budgetting_app/providers/user_repository_impl.dart';
+import 'package:budgetting_app/source.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';

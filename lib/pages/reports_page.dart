@@ -68,7 +68,7 @@ class _ReportsPageState extends State<ReportsPage> {
           SizedBox(height: 20.dh),
           AppText(
             'There is no much information to create the reports. Only one record is required.',
-            size: 15.dw,
+            size: 14.dw,
             color: AppColors.onBackground2,
             alignment: TextAlign.center,
           )
