@@ -1,7 +1,4 @@
-import 'package:budgetting_app/widgets/app_drawer.dart';
 import 'package:budgetting_app/widgets/app_floating_action_button.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-
 import '../../source.dart' hide Consumer;
 import '../utils/navigation_logic.dart';
 
