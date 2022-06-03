@@ -1,4 +1,5 @@
 import 'package:budgetting_app/pages/first_page.dart';
+import 'package:budgetting_app/pages/phone_auth.dart';
 import 'package:budgetting_app/source.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme/app_theme.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
               navigatorKey: navigatorKey,
               theme: AppTheme.theme,
               debugShowCheckedModeBanner: false,
-              home: const FirstPage())),
+              home: const PhoneAuthPage())),
     );
   }
 }
