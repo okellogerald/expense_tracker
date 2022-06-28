@@ -1,14 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:budgetting_app/errors/exception_handler.dart';
-import 'package:budgetting_app/providers/user_details_provider.dart';
-import 'package:budgetting_app/providers/user_repository_impl.dart';
+import 'user_details_provider.dart';
+import 'user_repository_impl.dart';
 import 'package:budgetting_app/source.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
-import '../errors/user_exception.dart';
-import '../states/user_state.dart';
+import '../../errors/user_exception.dart';
+import '../../states/user_state.dart';
 
 final userNotifierProvider =
     StateNotifierProvider.autoDispose<UserNotifier, UserState>(

@@ -15,6 +15,9 @@ const kExpense = 'expense';
 const kIncome = 'income';
 const kUser = 'user';
 
+/// for storing unbacked-up records-ids
+const kUnBackedUpRecords = 'un-backed-up-records-box';
+
 const kWithTotalsList = 'with_totals_list';
 
 final kDefaultCategoriesList = <Category>[

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:hive/hive.dart';
 import '../source.dart';
 
@@ -50,4 +52,16 @@ class Record extends HiveObject {
       notes: '');
 
   String get getAmount => Utils.convertToMoneyFormat(amount);
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "amount": amount,
+      "date": Utils.formatDateToString(date),
+      "notes": notes,
+      "category": category.toMap()
+    };
+  }
+
+  String toJson() => json.encode(toMap());
 }

@@ -7,6 +7,7 @@ import '../source.dart';
 
 class RecordsService {
   final _recordsBox = Hive.box(kRecords);
+  final _unBackedUpRecordsBox = Hive.box(kUnBackedUpRecords);
   final _totalRecordsBox = Hive.box(kTotalRecords);
   final _recordList = <Record>[];
   var _totalRecords = TotalRecords();
@@ -56,21 +57,22 @@ class RecordsService {
     return _totalRecords;
   }
 
-  void add(Record record) {
+  void add(Record record) async {
     final date = DateTime.now();
     final id = uuid.v4();
     final _record = record.copyWith(id: id, date: date);
-    _recordsBox.put(id, _record);
+    await _recordsBox.put(id, _record);
+    await _unBackedUpRecordsBox.add(id);
     _recordList.add(_record);
     _updateTotalRecords(_record.amount, _record.category.type);
     _addToController();
   }
 
-  void edit(Record record) {
+  void edit(Record record) async {
     final _record = _recordsBox.get(record.id) as Record;
     final updatedRecord = _record.copyWith(
         category: record.category, amount: record.amount, notes: record.notes);
-    _recordsBox.put(updatedRecord.id, updatedRecord);
+    await _recordsBox.put(updatedRecord.id, updatedRecord);
 
     final index = _recordList.indexWhere((e) => e.id == updatedRecord.id);
     _updateTotalRecords(updatedRecord.amount, updatedRecord.category.type,
@@ -92,8 +94,8 @@ class RecordsService {
     _addToController();
   }
 
-  void delete(String id) {
-    _recordsBox.delete(id);
+  void delete(String id) async {
+    await _recordsBox.delete(id);
     final index = _recordList.indexWhere((e) => e.id == id);
     final record = _recordList[index];
     _updateTotalRecords(record.amount, record.category.type, isDeleting: true);

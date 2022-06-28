@@ -35,4 +35,8 @@ class Category extends HiveObject {
       type: type ?? this.type,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {"id": id, "title": title, "codePoint": codePoint, "type": type};
+  }
 }

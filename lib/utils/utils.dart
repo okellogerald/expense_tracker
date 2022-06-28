@@ -1,7 +1,7 @@
 import 'dart:math';
-
 import 'package:budgetting_app/source.dart';
 import 'package:budgetting_app/utils/screen_size_config.dart';
+import 'package:intl/intl.dart';
 
 extension SizeExtension on num {
   // ignore: unused_element
@@ -134,5 +134,10 @@ class Utils {
       otp += random.nextInt(9).toString();
     }
     return otp;
+  }
+
+  static String formatDateToString(DateTime date) {
+    final _format = DateFormat("yyyy.MM.dd.hh:mm:ss");
+    return _format.format(date);
   }
 }

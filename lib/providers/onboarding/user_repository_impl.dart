@@ -6,7 +6,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import '../errors/api_error.dart';
+import '../../errors/api_error.dart';
 
 const timeLimit = Duration(seconds: 15);
 const headers = {'Content-Type': 'application/x-www-form-urlencoded'};

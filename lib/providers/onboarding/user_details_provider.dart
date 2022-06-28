@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/user.dart';
+import '../../models/user.dart';
 
 //used for storing user values when performing onboarding processes
 final userDetailsProvider = StateProvider<User>((ref) => const User());

@@ -1,4 +1,4 @@
-import 'package:budgetting_app/providers/user_notifier.dart';
+import 'package:budgetting_app/providers/onboarding/user_notifier.dart';
 import 'package:budgetting_app/source.dart';
 import 'package:budgetting_app/states/user_state.dart';
 import 'package:budgetting_app/utils/navigation_logic.dart';

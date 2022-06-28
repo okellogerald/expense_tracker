@@ -1,4 +1,4 @@
-import 'package:budgetting_app/providers/user_details_provider.dart';
+import 'package:budgetting_app/providers/onboarding/user_details_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../source.dart';

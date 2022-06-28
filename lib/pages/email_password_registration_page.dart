@@ -2,10 +2,10 @@ import 'package:budgetting_app/utils/navigation_logic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../providers/pages_provider.dart';
-import '../providers/user_action_handler.dart';
-import '../providers/user_details_provider.dart';
-import '../providers/user_notifier.dart';
+import '../providers/onboarding/pages_provider.dart';
+import '../providers/onboarding/user_action_handler.dart';
+import '../providers/onboarding/user_details_provider.dart';
+import '../providers/onboarding/user_notifier.dart';
 import '../source.dart';
 import '../states/user_state.dart';
 import '../widgets/on_boarding_pages_title.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../utils/validation_logic.dart';
+import '../../utils/validation_logic.dart';
 import 'pages_provider.dart';
 import 'user_details_provider.dart';
 import 'user_notifier.dart';

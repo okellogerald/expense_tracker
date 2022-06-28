@@ -1,7 +1,7 @@
 import 'package:budgetting_app/widgets/app_divider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/user_details_provider.dart';
-import '../providers/user_notifier.dart';
+import '../providers/onboarding/user_details_provider.dart';
+import '../providers/onboarding/user_notifier.dart';
 import '../source.dart';
 import '../states/user_state.dart';
 import '../utils/navigation_logic.dart';
