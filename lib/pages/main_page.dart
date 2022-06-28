@@ -1,3 +1,5 @@
+import 'package:budgetting_app/widgets/app_drawer.dart';
+
 import '../source.dart';
 import '../utils/navigation_logic.dart';
 
@@ -8,6 +10,8 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
+final mainPageScaffoldKey = GlobalKey<ScaffoldState>();
+
 class _MainPageState extends State<MainPage> {
   var _currentBottomNavBarIndex = 0;
 
@@ -16,6 +20,8 @@ class _MainPageState extends State<MainPage> {
     return WillPopScope(
       onWillPop: () => showExitAppDialog(context),
       child: Scaffold(
+          key: mainPageScaffoldKey,
+          endDrawer: const AppDrawer(),
           body: _getCurrentPage(),
           bottomNavigationBar: _buildBottomNavigationBar()),
     );

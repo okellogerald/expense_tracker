@@ -1,5 +1,4 @@
 import 'package:budgetting_app/widgets/app_floating_action_button.dart';
-
 import '../../source.dart' hide Consumer;
 import '../utils/navigation_logic.dart';
 
@@ -49,14 +48,16 @@ class _RecordsPageState extends State<RecordsPage> {
 
   Widget _buildContent(
       List<Record> recordsList, RecordsPageSupplements supplements) {
-    return AppListView(
-      backgroundColor: AppColors.background,
-      appBarDisapperingWidget: (value) =>
-          _buildDateSettingsTitle(value, supplements),
-      appBarRemainingWidget: () => _buildBalances(supplements),
-      child: recordsList.isEmpty
-          ? _buildEmptyList()
-          : _buildRecords(recordsList, supplements),
+    return Scaffold(
+      body: AppListView(
+        backgroundColor: AppColors.background,
+        appBarDisapperingWidget: (value) =>
+            _buildDateSettingsTitle(value, supplements),
+        appBarRemainingWidget: () => _buildBalances(supplements),
+        child: recordsList.isEmpty
+            ? _buildEmptyList()
+            : _buildRecords(recordsList, supplements),
+      ),
     );
   }
 
@@ -64,17 +65,13 @@ class _RecordsPageState extends State<RecordsPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Center(
-            child: AppText(
-                '${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
-                color: AppColors.onBackground,
-                size: value,
-                family: kFontFam2)),
+        AppText('${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
+            color: AppColors.onBackground, size: value, family: kFontFam2),
         AppIconButton(
-            icon: Icons.settings,
+            icon: Icons.menu,
             iconSize: value,
             iconColor: AppColors.primary,
-            onPressed: () => push(const SettingsPage()) /* () {} */),
+            onPressed: mainPageScaffoldKey.currentState!.openEndDrawer),
       ],
     );
   }
@@ -97,7 +94,7 @@ class _RecordsPageState extends State<RecordsPage> {
               height: 80.dh, fit: BoxFit.contain),
           SizedBox(height: 20.dh),
           AppText('Records you add will be viewed from this page.',
-              color: AppColors.onBackground2, size: 15.dw)
+              color: AppColors.onBackground2, size: 14.dw)
         ]));
   }
 
@@ -193,12 +190,13 @@ class _RecordsPageState extends State<RecordsPage> {
   _buildTotals(String title, String amount, bool isIncome) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       AppText(title, size: 14.dw),
-      AppText(amount,
-          size: 14.dw,
-          color: AppColors.positive,
-          family: kFontFam2,
-                     weight: FontWeight.bold,
-)
+      AppText(
+        amount,
+        size: 14.dw,
+        color: AppColors.positive,
+        family: kFontFam2,
+        weight: FontWeight.bold,
+      )
     ]);
   }
 
@@ -211,7 +209,7 @@ class _RecordsPageState extends State<RecordsPage> {
         padding: EdgeInsets.symmetric(vertical: 6.dh),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: AppColors.tertiary, borderRadius: borderRadius2),
+            color: AppColors.secondary, borderRadius: borderRadius2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -219,8 +217,7 @@ class _RecordsPageState extends State<RecordsPage> {
             SizedBox(height: 5.dh),
             AppText(formattedAmount,
                 size: 13.dw,
-                         weight: FontWeight.bold,
-
+                weight: FontWeight.bold,
                 family: kFontFam3,
                 color: !isOutflow ? AppColors.positive : AppColors.negative)
           ],

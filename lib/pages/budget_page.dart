@@ -115,7 +115,7 @@ class _BudgetPageState extends State<BudgetPage> {
           SizedBox(height: 20.dh),
           AppText(
             'You have not created any budget yet. All the budgets will be shown on this page.',
-            size: 15.dw,
+            size: 14.dw,
             color: AppColors.onBackground2,
             alignment: TextAlign.center,
           )
