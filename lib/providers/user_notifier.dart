@@ -7,9 +7,7 @@ import 'package:budgetting_app/source.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
-import '../constants.dart';
 import '../errors/user_exception.dart';
-import '../models/user.dart';
 import '../states/user_state.dart';
 
 final userNotifierProvider =
