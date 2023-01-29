@@ -1,5 +1,3 @@
-import 'package:budgetting_app/widgets/app_drawer.dart';
-
 import '../source.dart';
 import '../utils/navigation_logic.dart';
 
@@ -21,7 +19,6 @@ class _MainPageState extends State<MainPage> {
       onWillPop: () => showExitAppDialog(context),
       child: Scaffold(
           key: mainPageScaffoldKey,
-          endDrawer: const AppDrawer(),
           body: _getCurrentPage(),
           bottomNavigationBar: _buildBottomNavigationBar()),
     );
