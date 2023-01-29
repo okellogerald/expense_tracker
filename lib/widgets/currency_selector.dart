@@ -1,21 +1,17 @@
-import 'package:budgetting_app/providers/user_details_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../source.dart';
 import '../utils/navigation_logic.dart';
 import 'app_divider.dart';
 
-class CurrencySelector extends ConsumerStatefulWidget {
+class CurrencySelector extends StatefulWidget {
   const CurrencySelector({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<CurrencySelector> createState() => _CurrencySelectorState();
+  State<CurrencySelector> createState() => _CurrencySelectorState();
 }
 
-class _CurrencySelectorState extends ConsumerState<CurrencySelector> {
+class _CurrencySelectorState extends State<CurrencySelector> {
   @override
   Widget build(BuildContext context) {
-    var user = ref.watch(userDetailsProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,7 +20,7 @@ class _CurrencySelectorState extends ConsumerState<CurrencySelector> {
             padding: EdgeInsets.only(left: 10.dw),
             child: AppText('Currency',
                 size: 16.dw, color: AppColors.onBackground2)),
-        AppTextButton(
+        /*AppTextButton(
             height: 50.dh,
             buttonColor: AppColors.surface,
             onPressed: () => _showOptionsDialog(context),
@@ -37,7 +33,7 @@ class _CurrencySelectorState extends ConsumerState<CurrencySelector> {
                 size: 15.dw,
                 color: user.currency.isEmpty
                     ? AppColors.onBackground2
-                    : AppColors.onBackground)),
+                    : AppColors.onBackground)),*/
       ],
     );
   }
@@ -90,7 +86,7 @@ class _CurrencySelectorState extends ConsumerState<CurrencySelector> {
   _buildOption(int index) {
     final currencyCode = currencies.keys.toList()[index];
     final currencyFullName = currencies.values.toList()[index];
-    final isSelected = currencyCode == ref.watch(userDetailsProvider).currency;
+    final isSelected = currencyCode == "USD";
     return GestureDetector(
       onTap: () {
         if (isSelected) _updateCurrency('');
@@ -110,6 +106,5 @@ class _CurrencySelectorState extends ConsumerState<CurrencySelector> {
 
   _updateCurrency(String value) {
     pop();
-    updateUserDetails(ref, currency: value);
   }
 }

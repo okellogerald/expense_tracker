@@ -1,6 +1,4 @@
-import 'package:budgetting_app/providers/user_details_provider.dart';
 import 'package:budgetting_app/source.dart' hide Consumer;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AmountTextField extends StatefulWidget {
   const AmountTextField(
@@ -86,13 +84,12 @@ class _AmountTextFieldState extends State<AmountTextField> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Consumer(
-              builder: (context, ref, child) {
-                final currency = ref.watch(signedInUserProvider)!.currency;
-                return AppText('$currency $formattedAmount',
-                    color: AppColors.accent, size: 15.dw, family: kFontFam2);
-              },
-            ),
+            AppText(
+              '\$ $formattedAmount',
+              color: AppColors.accent,
+              size: 15.dw,
+              family: kFontFam2,
+            )
           ],
         ),
       );
