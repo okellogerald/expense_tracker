@@ -157,7 +157,10 @@ class UserRepositoryImpl implements UserRepositoryInterface {
   @override
   Future<User?> getUserGoogleAccountDetails() async {
     try {
-      await _googleSignIn.disconnect().catchError((_) {});
+      await _googleSignIn.disconnect().catchError((_) {
+        debugPrint("$_");
+        return null;
+      });
       final account = await _googleSignIn.signIn();
       if (account != null) return User.fromGoogleAccount(account);
       return null;

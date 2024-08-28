@@ -22,7 +22,7 @@ import 'services/records_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
   final directory = await path_provider.getApplicationDocumentsDirectory();
 
   Hive

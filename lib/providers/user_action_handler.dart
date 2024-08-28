@@ -69,7 +69,7 @@ Future<bool> handleStateOnPop(WidgetRef ref, Pages toPage) async {
 
 ///updates the current page to pages provider
 void handleStateOnInit(WidgetRef ref, Pages currentPage) {
-  WidgetsBinding.instance!.addPostFrameCallback((_) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     ref.read(pagesProvider.state).state = currentPage;
   });
 }

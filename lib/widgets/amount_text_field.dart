@@ -45,32 +45,35 @@ class _AmountTextFieldState extends State<AmountTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-            height: 50.dh,
-            child: TextField(
-                controller: controller,
-                onChanged: widget.onChanged,
-                maxLines: 1,
-                minLines: 1,
-                keyboardType: TextInputType.number,
-                style: TextStyle(
-                    color: AppColors.onBackground,
-                    fontSize: 16.dw,
-                    fontFamily: kFontFam2),
-                cursorColor: AppColors.onBackground,
-                decoration: InputDecoration(
-                    hintText: '0',
-                    hintStyle: TextStyle(
-                        color: AppColors.onBackground2,
-                        fontFamily: kFontFam2,
-                        fontSize: 14.dw),
-                    fillColor: AppColors.textField,
-                    filled: true,
-                    isDense: true,
-                    border: border,
-                    focusedBorder: border,
-                    enabledBorder: border,
-                    contentPadding: EdgeInsets.only(
-                        left: 20.dw, top: 14.dh, bottom: 14.dh)))),
+          height: 50.dh,
+          child: TextField(
+            controller: controller,
+            onChanged: widget.onChanged,
+            maxLines: 1,
+            minLines: 1,
+            keyboardType: TextInputType.number,
+            style: TextStyle(
+                color: AppColors.onBackground,
+                fontSize: 16.dw,
+                fontFamily: kFontFam2),
+            cursorColor: AppColors.onBackground,
+            decoration: InputDecoration(
+              hintText: '0',
+              hintStyle: TextStyle(
+                  color: AppColors.onBackground2,
+                  fontFamily: kFontFam2,
+                  fontSize: 14.dw),
+              fillColor: AppColors.textField,
+              filled: true,
+              isDense: true,
+              border: border,
+              focusedBorder: border,
+              enabledBorder: border,
+              contentPadding:
+                  EdgeInsets.only(left: 20.dw, top: 14.dh, bottom: 14.dh),
+            ),
+          ),
+        ),
         _buildFormattedAmount(),
         _buildError(error)
       ],
@@ -89,8 +92,12 @@ class _AmountTextFieldState extends State<AmountTextField> {
             Consumer(
               builder: (context, ref, child) {
                 final currency = ref.watch(signedInUserProvider)!.currency;
-                return AppText('$currency $formattedAmount',
-                    color: AppColors.accent, size: 15.dw, family: kFontFam2);
+                return AppText(
+                  '$currency $formattedAmount',
+                  color: AppColors.accent,
+                  size: 15.dw,
+                  family: kFontFam2,
+                );
               },
             ),
           ],

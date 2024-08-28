@@ -44,7 +44,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
 enum AuthState { initial, loading, failed, success }
 
 class PhoneImpl extends ChangeNotifier {
-  var _authState = AuthState.initial;
+ // final _authState = AuthState.initial;
 
   var id = '';
 

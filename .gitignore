@@ -45,8 +45,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-#api keys and secrets
-lib/secrets.dart
-
 # facebook secrets
 android\app\src\main\res\values\strings.xml

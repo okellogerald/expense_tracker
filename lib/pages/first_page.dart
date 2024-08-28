@@ -14,7 +14,7 @@ class FirstPage extends ConsumerStatefulWidget {
 class _FirstPageState extends ConsumerState<FirstPage> {
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(userNotifierProvider.notifier).autoLogIn();
     });
     super.initState();

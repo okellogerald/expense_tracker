@@ -141,7 +141,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
           decoration: BoxDecoration(
               borderRadius: borderRadius, color: AppColors.surface),
           child: Scrollbar(
-            isAlwaysShown: true,
+            interactive: true,
             controller: scrollController,
             child: GridView.count(
                 crossAxisCount: 6,

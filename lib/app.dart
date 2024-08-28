@@ -1,4 +1,3 @@
-import 'package:budgetting_app/pages/phone_auth.dart';
 import 'package:budgetting_app/source.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme/app_theme.dart';
@@ -12,13 +11,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderScope(
       child: ScreenSizeInit(
-          designSize: const Size(411.4, 866.3),
-          child: MaterialApp(
-              title: 'Flutter Demo',
-              navigatorKey: navigatorKey,
-              theme: AppTheme.theme,
-              debugShowCheckedModeBanner: false,
-              home: const PhoneAuthPage())),
+        designSize: const Size(411.4, 866.3),
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          navigatorKey: navigatorKey,
+          theme: AppTheme.theme,
+          debugShowCheckedModeBanner: false,
+          // home: const PhoneAuthPage(),
+          home: const MainPage(),
+        ),
+      ),
     );
   }
 }

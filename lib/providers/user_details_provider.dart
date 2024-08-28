@@ -14,8 +14,17 @@ final rememberMeValueProvider = StateProvider<bool>((ref) => false);
 final userValidationErrorsProvider =
     StateProvider.autoDispose<Map<String, String?>>((ref) => {});
 
+const user = User(
+  displayName: "Okello Gerald",
+  email: "okello@example.com",
+  currency: "TZS",
+  photoUrl:
+      "https://images.pexels.com/photos/11805196/pexels-photo-11805196.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  signUpOption: "email",
+);
+
 //used to decide the homepage, and stores only verified user credentials
-final signedInUserProvider = StateProvider<User?>((ref) => null);
+final signedInUserProvider = StateProvider<User>((ref) => user);
 
 ///stores user details in the user details provider
 void updateUserDetails(WidgetRef ref,
