@@ -148,11 +148,12 @@ class __$BudgetFormCopyWithImpl<$Res> extends _$BudgetFormCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_BudgetForm implements _BudgetForm {
-  const _$_BudgetForm(
-      {this.duration = 0,
-      this.id = '-1',
-      this.errors = const {},
-      this.values = const {}});
+  const _$_BudgetForm({
+    this.duration = 0,
+    this.id = '-1',
+    this.errors = const {},
+    this.values = const {},
+  });
 
   @JsonKey()
   @override

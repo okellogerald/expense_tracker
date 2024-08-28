@@ -84,7 +84,7 @@ class UserNotifier extends StateNotifier<UserState> {
       if (user == null) {
         state = const UserState.content();
       } else {
-        ref.read(userDetailsProvider.state).state = user;
+        ref.read(userDetailsProvider.notifier).state = user;
         state = const UserState.done();
       }
     } catch (error) {
@@ -100,8 +100,8 @@ class UserNotifier extends StateNotifier<UserState> {
       final body = Map<String, String>.from(user.toJson())
         ..addAll({"password": password});
       await ref.read(userRepositoryProvider).createUserInDatabase(body);
-      ref.read(signedInUserProvider.state).state = user;
-      ref.refresh(userDetailsProvider);
+      ref.read(signedInUserProvider.notifier).state = user;
+      final _ = ref.refresh(userDetailsProvider);
       state = const UserState.done();
     }
 
@@ -141,8 +141,8 @@ class UserNotifier extends StateNotifier<UserState> {
       if (shouldRemember) {
         await _box.put(kUser, json.encode(userData));
       }
-      ref.read(signedInUserProvider.state).state = userData;
-      ref.refresh(userDetailsProvider);
+      ref.read(signedInUserProvider.notifier).state = userData;
+      final _ = ref.refresh(userDetailsProvider);
       state = const UserState.done();
     } catch (error) {
       _handleError(error);
@@ -157,7 +157,7 @@ class UserNotifier extends StateNotifier<UserState> {
       return;
     }
     final decoded = json.decode(jsonUser);
-    ref.read(signedInUserProvider.state).state = User.fromJson(decoded);
+    ref.read(signedInUserProvider.notifier).state = User.fromJson(decoded);
     state = const UserState.done();
   }
 
@@ -184,8 +184,9 @@ class UserNotifier extends StateNotifier<UserState> {
   }
 
   _disposeSignedInUserData() {
-    ref.refresh(passwordProvider);
-    ref.refresh(signedInUserProvider);
+    final _ = ref.refresh(passwordProvider);
+    final p = ref.refresh(signedInUserProvider);
+    debugPrint("$p");
   }
 
   _handleError(var error) {

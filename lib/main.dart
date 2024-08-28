@@ -13,10 +13,10 @@ import 'services/records_service.dart';
 
 //todo: write tests
 //todo: modify app-text-field-widget, to have its own error widget
-//*by using the formstate validate method to call the validator, and when it 
+//*by using the formstate validate method to call the validator, and when it
 //*does, it checks for any errors which will be added to the value notifier
 //*and hence displayed to the user. But the error style will have a text size of
-//* 0 so that it is not shown as well as doesn't take space. That space is 
+//* 0 so that it is not shown as well as doesn't take space. That space is
 //*occupied by a custom error widget.
 
 void main() async {
@@ -42,14 +42,17 @@ void main() async {
 
   PreferencesService.initPrefs();
 
-  final myApp = MultiProvider(providers: [
-    ChangeNotifierProvider<CategoriesService>(
-        create: (_) => CategoriesService()),
-    Provider<PreferencesService>(create: (_) => PreferencesService()),
-    Provider<RecordsService>(create: (_) => RecordsService()),
-    Provider<BudgetsService>(create: (_) => BudgetsService()),
-    Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
-  ], child: const MyApp());
+  final myApp = MultiProvider(
+    providers: [
+      ChangeNotifierProvider<CategoriesService>(
+          create: (_) => CategoriesService()),
+      Provider<PreferencesService>(create: (_) => PreferencesService()),
+      Provider<RecordsService>(create: (_) => RecordsService()),
+      Provider<BudgetsService>(create: (_) => BudgetsService()),
+      Provider<GrossAmountsService>(create: (_) => GrossAmountsService()),
+    ],
+    child: const MyApp(),
+  );
 
   runApp(myApp);
 }
