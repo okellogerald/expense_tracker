@@ -50,7 +50,10 @@ class _BudgetPageState extends State<BudgetPage> {
     if (supp.budgetList.isEmpty) return _buildEmptyState();
 
     return ListView(
-      padding: EdgeInsets.only(top: 50.dh, bottom: 70.dh),
+      padding: EdgeInsets.only(
+        top: 10,
+        bottom: 70.dh,
+      ),
       children: [
         _buildMonthlyBudgets(
             supp.budgetList, 'Monthly Budgets', Utils.getDaysInMonth(), supp.id)
@@ -83,8 +86,8 @@ class _BudgetPageState extends State<BudgetPage> {
                   itemCount: budgetList.length,
                   separatorBuilder: (_, __) => AppDivider(
                       color: AppColors.divider.withOpacity(.5),
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 5.dw, vertical: 5.dh)),
+                      margin: EdgeInsets.symmetric(
+                          horizontal: 5.dw, vertical: 5.dh)),
                   itemBuilder: (_, index) {
                     final budget = budgetList[index];
                     return BudgetTile(

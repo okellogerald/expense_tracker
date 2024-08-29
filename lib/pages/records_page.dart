@@ -26,20 +26,26 @@ class _RecordsPageState extends State<RecordsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _buildBody(),
-        floatingActionButton: AppFloatingActionButton(
-            onPressed: () => push(const RecordsEditPage())));
+      body: _buildBody(),
+      floatingActionButton: AppFloatingActionButton(
+        onPressed: () => push(
+          const RecordsEditPage(),
+        ),
+      ),
+    );
   }
 
   _buildBody() {
     return BlocBuilder<RecordsPageBloc, RecordsPageState>(
-        bloc: bloc,
-        builder: (_, state) {
-          return state.when(
-              loading: _buildLoading,
-              content: _buildContent,
-              success: _buildContent);
-        });
+      bloc: bloc,
+      builder: (_, state) {
+        return state.when(
+          loading: _buildLoading,
+          content: _buildContent,
+          success: _buildContent,
+        );
+      },
+    );
   }
 
   Widget _buildLoading(
@@ -47,7 +53,9 @@ class _RecordsPageState extends State<RecordsPage> {
       const AppLoadingIndicator();
 
   Widget _buildContent(
-      List<Record> recordsList, RecordsPageSupplements supplements) {
+    List<Record> recordsList,
+    RecordsPageSupplements supplements,
+  ) {
     return Scaffold(
       body: AppListView(
         backgroundColor: AppColors.background,
@@ -65,13 +73,17 @@ class _RecordsPageState extends State<RecordsPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppText('${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
-            color: AppColors.onBackground, size: value, family: kFontFam2),
-        AppIconButton(
+        AppText(
+          '${Utils.getCurrentMonth()}, ${Utils.getCurrentYear()}',
+          color: AppColors.onBackground,
+          size: value,
+          family: kFontFam2,
+        ),
+        /*  AppIconButton(
             icon: Icons.menu,
             iconSize: value,
             iconColor: AppColors.primary,
-            onPressed: mainPageScaffoldKey.currentState!.openEndDrawer),
+            onPressed: mainPageScaffoldKey.currentState!.openEndDrawer), */
       ],
     );
   }
@@ -88,27 +100,32 @@ class _RecordsPageState extends State<RecordsPage> {
 
   _buildEmptyList() {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.dw),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      padding: EdgeInsets.symmetric(horizontal: 15.dw),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           Image.asset('assets/images/records.png',
               height: 80.dh, fit: BoxFit.contain),
           SizedBox(height: 20.dh),
           AppText('Records you add will be viewed from this page.',
               color: AppColors.onBackground2, size: 14.dw)
-        ]));
+        ],
+      ),
+    );
   }
 
   _buildRecords(List<Record> recordsList, RecordsPageSupplements supplements) {
     return Scrollbar(
       child: ListView.builder(
-          padding: EdgeInsets.only(bottom: 90.dh, top: 150.dh),
-          itemBuilder: (context, i) {
-            final index = Utils.getDaysInMonth() - i + 1;
-            final recordList =
-                recordsList.where((e) => e.date.day == index).toList();
-            return _buildDayRecords(recordList, index, supplements);
-          },
-          itemCount: Utils.getDaysInMonth()),
+        padding: EdgeInsets.only(bottom: 90.dh, top: 150.dh),
+        itemBuilder: (context, i) {
+          final index = Utils.getDaysInMonth() - i + 1;
+          final recordList =
+              recordsList.where((e) => e.date.day == index).toList();
+          return _buildDayRecords(recordList, index, supplements);
+        },
+        itemCount: Utils.getDaysInMonth(),
+      ),
     );
   }
 
@@ -132,14 +149,16 @@ class _RecordsPageState extends State<RecordsPage> {
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      DayText('$day$ordinal, $weekDay',
-                          day: day,
-                          cancelCallback: bloc.updateDay,
-                          isSelected: isSelected,
-                          hasTotals: hasTotals,
-                          showTotalsCallback: !hasTotals
-                              ? bloc.showWithDayTotals
-                              : bloc.removeFromWithDayTotals),
+                      DayText(
+                        '$day$ordinal, $weekDay',
+                        day: day,
+                        cancelCallback: bloc.updateDay,
+                        isSelected: isSelected,
+                        hasTotals: hasTotals,
+                        showTotalsCallback: !hasTotals
+                            ? bloc.showWithDayTotals
+                            : bloc.removeFromWithDayTotals,
+                      ),
                       !isSelected
                           ? Padding(
                               padding:
@@ -148,7 +167,8 @@ class _RecordsPageState extends State<RecordsPage> {
                                   onPressed: () => bloc.updateDay(day),
                                   icon: Icons.more_horiz,
                                   iconColor: AppColors.onBackground,
-                                  spreadRadius: 25.dw))
+                                  spreadRadius: 25.dw),
+                            )
                           : Container()
                     ]),
                 ClipRRect(
@@ -215,11 +235,13 @@ class _RecordsPageState extends State<RecordsPage> {
           children: [
             AppText(text, size: 14.dw, color: AppColors.onBackground2),
             SizedBox(height: 5.dh),
-            AppText(formattedAmount,
-                size: 13.dw,
-                weight: FontWeight.bold,
-                family: kFontFam3,
-                color: !isOutflow ? AppColors.positive : AppColors.negative)
+            AppText(
+              formattedAmount,
+              size: 13.dw,
+              weight: FontWeight.bold,
+              family: kFontFam3,
+              color: !isOutflow ? AppColors.positive : AppColors.negative,
+            )
           ],
         ),
       ),

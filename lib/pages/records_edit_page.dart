@@ -170,18 +170,23 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
                     color: isSelected ? AppColors.accent : Colors.transparent)),
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(category.codePoint == -1 ? Icons.tag : category.getIcon,
-                  color: isSelected
-                      ? AppColors.onBackground
-                      : AppColors.onBackground2),
-              SizedBox(height: 10.dh),
-              AppText(category.title,
-                  color: isSelected
-                      ? AppColors.onBackground
-                      : AppColors.onBackground2,
-                  size: 14.dw,
-                  maxLines: 2,
-                  alignment: TextAlign.center)
+              Icon(
+                category.codePoint == -1 ? Icons.tag : category.getIcon,
+                color: isSelected
+                    ? AppColors.onBackground
+                    : AppColors.onBackground2,
+                    size: 16,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(5),
+                child: AppText(category.title,
+                    color: isSelected
+                        ? AppColors.onBackground
+                        : AppColors.onBackground2,
+                    size: 14.dw,
+                    maxLines: 2,
+                    alignment: TextAlign.center),
+              )
             ])));
   }
 

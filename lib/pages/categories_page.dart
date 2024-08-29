@@ -38,9 +38,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
       bloc: bloc,
       builder: (_, state) {
         return state.when(
-            loading: _buildLoading,
-            content: _buildContent,
-            success: _buildContent);
+          loading: _buildLoading,
+          content: _buildContent,
+          success: _buildContent,
+        );
       },
     );
   }
@@ -51,31 +52,44 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
   Widget _buildContent(List<Category> categoryList, CategoryForm form) {
     return Scaffold(
-        body: ListView(padding: EdgeInsets.only(top: 50.dh), children: [
-          _buildCategories('Income Categories',
-              categoryList.where((e) => e.type == kIncome).toList(), form),
-          SizedBox(height: 30.dh),
-          _buildCategories('Expenses Categories',
-              categoryList.where((e) => e.type == kExpense).toList(), form),
-        ]),
-        floatingActionButton: AppFloatingActionButton(
-            onPressed: () => push(const CategoryEditPage())));
+      body: ListView(padding: const EdgeInsets.only(top: 10), children: [
+        _buildCategories('Income Categories',
+            categoryList.where((e) => e.type == kIncome).toList(), form),
+        const SizedBox(height: 30),
+        _buildCategories('Expenses Categories',
+            categoryList.where((e) => e.type == kExpense).toList(), form),
+      ]),
+      floatingActionButton: AppFloatingActionButton(
+        onPressed: () => push(
+          const CategoryEditPage(),
+        ),
+      ),
+    );
   }
 
   _buildCategories(
-      String title, List<Category> categoryList, CategoryForm form) {
+    String title,
+    List<Category> categoryList,
+    CategoryForm form,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: EdgeInsets.only(left: 10.dw, bottom: 10.dh),
-            child: AppText(title,
-                size: 20.dw, color: AppColors.onBackground, family: kFontFam2)),
+          padding: const EdgeInsets.only(left: 10, bottom: 10),
+          child: AppText(
+            title,
+            size: 20,
+            color: AppColors.onBackground,
+            family: kFontFam2,
+          ),
+        ),
         Container(
-            padding: EdgeInsets.symmetric(vertical: 10.dh),
+            padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(15.dw)),
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(15),
+            ),
             child: ListView.builder(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,

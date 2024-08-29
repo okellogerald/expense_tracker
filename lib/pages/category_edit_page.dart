@@ -26,16 +26,20 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CategoriesPageBloc, CategoriesPageState>(
-        bloc: bloc,
-        listener: (_, state) {
-          final hasSucceeded =
-              state.maybeWhen(success: (_, __) => true, orElse: () => false);
-          if (hasSucceeded) Navigator.pop(context);
-        },
-        builder: (_, state) {
-          return state.when(
-              loading: _buildLoading, content: _buildBody, success: _buildBody);
-        });
+      bloc: bloc,
+      listener: (_, state) {
+        final hasSucceeded =
+            state.maybeWhen(success: (_, __) => true, orElse: () => false);
+        if (hasSucceeded) Navigator.pop(context);
+      },
+      builder: (_, state) {
+        return state.when(
+          loading: _buildLoading,
+          content: _buildBody,
+          success: _buildBody,
+        );
+      },
+    );
   }
 
   Widget _buildLoading(List<Category> categoryList, CategoryForm form) {
@@ -47,20 +51,22 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
 
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         appBar: AppTopBar(title: '${isEditing ? 'Edit' : 'New'} Category'),
-        body: Padding(
-            padding: EdgeInsets.fromLTRB(10.dw, 0, 10.dw, 0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              _buildSectionTitle('Title', topOffset: 20.dh),
-              _buildTextField(form),
-              _buildSectionTitle(
-                  isEditing ? 'Selected Type ( Unmodifiable )' : 'Type'),
-              _buildOptions(form),
-              _buildSectionTitle('Icon'),
-              _buildCategoryIcons(form)
-            ])),
+        body: ListView(
+          padding: EdgeInsets.fromLTRB(10.dw, 0, 10.dw, 0),
+          children: [
+            _buildSectionTitle('Title', topOffset: 20.dh),
+            _buildTextField(form),
+            _buildSectionTitle(
+              isEditing ? 'Selected Type ( Unmodifiable )' : 'Type',
+            ),
+            _buildOptions(form),
+            _buildSectionTitle('Icon'),
+            _buildCategoryIcons(form),
+            //_buildButton(),
+          ],
+        ),
         bottomNavigationBar: _buildButton(),
       ),
     );
@@ -68,10 +74,15 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
 
   _buildSectionTitle(String text, {double? topOffset}) {
     return Padding(
-        padding: EdgeInsets.only(
-            top: topOffset ?? 40.dh, bottom: 10.dh, left: 15.dw),
-        child: AppText(text,
-            size: 18.dw, color: AppColors.onBackground2, family: kFontFam2));
+      padding:
+          EdgeInsets.only(top: topOffset ?? 40.dh, bottom: 10.dh, left: 15.dw),
+      child: AppText(
+        text,
+        size: 18.dw,
+        color: AppColors.onBackground2,
+        family: kFontFam2,
+      ),
+    );
   }
 
   _buildTextField(CategoryForm form) {
@@ -100,35 +111,39 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
     final isEditing = widget.category != null;
 
     return OptionCircle(
-        onTap: isEditing ? () {} : () => bloc.updateType(type.toLowerCase()),
-        option: text,
-        isSelected: isSelected);
+      onTap: isEditing ? () {} : () => bloc.updateType(type.toLowerCase()),
+      option: text,
+      isSelected: isSelected,
+    );
   }
 
   _buildButton() {
     final isEditing = widget.category != null;
 
     return Container(
-      height: 80.dh,
       padding: EdgeInsets.only(left: 15.dw, right: 15.dw, bottom: 10.dh),
-      child: Column(children: [
-        AppTextButton(
-            onPressed: isEditing ? bloc.editCategory : bloc.addCategory,
-            buttonColor: AppColors.primary,
-            text: isEditing ? 'Edit' : 'Add',
-            isBolded: true,
-            height: 45.dh),
-        if (isEditing) _buildDisclaimer(),
-        SizedBox(height: 10.dh)
-      ]),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AppTextButton(
+              onPressed: isEditing ? bloc.editCategory : bloc.addCategory,
+              buttonColor: AppColors.primary,
+              text: isEditing ? 'Edit' : 'Add',
+              isBolded: true,
+              height: 45.dh),
+          if (isEditing) _buildDisclaimer(),
+          SizedBox(height: 10.dh)
+        ],
+      ),
     );
   }
 
   _buildDisclaimer() {
     return AppText(
-        '** Editing the category changes the respective entries of this category in the records and budgets pages.',
-        size: 15.dw,
-        color: AppColors.accent);
+      '** Editing the category changes the respective entries of this category in the records and budgets pages.',
+      size: 15.dw,
+      color: AppColors.accent,
+    );
   }
 
   _buildCategoryIcons(CategoryForm form) {
