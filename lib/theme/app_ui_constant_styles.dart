@@ -1,7 +1,7 @@
 import '../source.dart';
 
-const kFontFam = "gopher";
-const kFontFam2 = 'mabry';
+const kFontFam = "ApfelGrotezk";
+const kFontFam2 = 'ApfelGrotezk';
 const kFontFam3 = 'SpaceMono';
 
 final borderRadius = BorderRadius.all(Radius.circular(20.dw));

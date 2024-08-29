@@ -42,7 +42,7 @@ class _ReportsPageState extends State<ReportsPage> {
     if (supp.records.isEmpty) return _buildEmptyState();
 
     return ListView(
-      padding: EdgeInsets.only(top: 40.dh),
+      padding: const EdgeInsets.only(top: 10),
       children: [
         _buildSoFarSection('So far', supp, CurrentAnalysis.so_far),
         _buildIncomeSection('Income Analysis', supp, CurrentAnalysis.income),
