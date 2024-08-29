@@ -52,9 +52,9 @@ class BudgetsService {
     for (Budget budget in budgetList) {
       final id = budget.category.id;
       final index = budgetList.indexWhere((e) => e.category.id == id);
-      final _updatedBudget = budget.copyWith(category: category);
-      _budgetList[index] = _updatedBudget;
-      _budgetsBox.put(budget.id, _updatedBudget);
+      final updatedBudget = budget.copyWith(category: category);
+      _budgetList[index] = updatedBudget;
+      _budgetsBox.put(budget.id, updatedBudget);
     }
   }
 

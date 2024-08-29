@@ -1,7 +1,7 @@
 import 'package:budgetting_app/source.dart';
 
 class AppCheckBox extends StatefulWidget {
-  const AppCheckBox({Key? key, required this.onChanged}) : super(key: key);
+  const AppCheckBox({super.key, required this.onChanged});
 
   final ValueChanged<bool?> onChanged;
 

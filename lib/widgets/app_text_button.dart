@@ -22,8 +22,7 @@ class AppTextButton extends StatefulWidget {
       required this.onPressed,
       this.duration = const Duration(milliseconds: 200),
       this.borderRadius,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final Color buttonColor;
   final Color highlightColor;
@@ -45,7 +44,7 @@ class AppTextButton extends StatefulWidget {
   final Alignment? alignment;
 
   @override
-  _AppTextButtonState createState() => _AppTextButtonState();
+  State<AppTextButton> createState() => _AppTextButtonState();
 }
 
 class _AppTextButtonState extends State<AppTextButton>

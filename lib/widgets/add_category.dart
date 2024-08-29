@@ -7,8 +7,7 @@ class AddCategoryWidget extends StatefulWidget {
       {required this.onPressed,
       required this.whereToShowCallback,
       required this.position,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final VoidCallback onPressed;
   final void Function(AddCategoryWidgetPosition) whereToShowCallback;

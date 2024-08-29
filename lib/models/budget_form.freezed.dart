@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'budget_form.dart';
 
@@ -11,28 +12,7 @@ part of 'budget_form.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$BudgetFormTearOff {
-  const _$BudgetFormTearOff();
-
-  _BudgetForm call(
-      {int duration = 0,
-      String id = '-1',
-      Map<String, dynamic> errors = const {},
-      Map<String, String> values = const {}}) {
-    return _BudgetForm(
-      duration: duration,
-      id: id,
-      errors: errors,
-      values: values,
-    );
-  }
-}
-
-/// @nodoc
-const $BudgetForm = _$BudgetFormTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$BudgetForm {
@@ -41,7 +21,9 @@ mixin _$BudgetForm {
   Map<String, dynamic> get errors => throw _privateConstructorUsedError;
   Map<String, String> get values => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BudgetForm
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BudgetFormCopyWith<BudgetForm> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,7 +32,8 @@ mixin _$BudgetForm {
 abstract class $BudgetFormCopyWith<$Res> {
   factory $BudgetFormCopyWith(
           BudgetForm value, $Res Function(BudgetForm) then) =
-      _$BudgetFormCopyWithImpl<$Res>;
+      _$BudgetFormCopyWithImpl<$Res, BudgetForm>;
+  @useResult
   $Res call(
       {int duration,
       String id,
@@ -59,47 +42,54 @@ abstract class $BudgetFormCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BudgetFormCopyWithImpl<$Res> implements $BudgetFormCopyWith<$Res> {
+class _$BudgetFormCopyWithImpl<$Res, $Val extends BudgetForm>
+    implements $BudgetFormCopyWith<$Res> {
   _$BudgetFormCopyWithImpl(this._value, this._then);
 
-  final BudgetForm _value;
   // ignore: unused_field
-  final $Res Function(BudgetForm) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  /// Create a copy of BudgetForm
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? duration = freezed,
-    Object? id = freezed,
-    Object? errors = freezed,
-    Object? values = freezed,
+    Object? duration = null,
+    Object? id = null,
+    Object? errors = null,
+    Object? values = null,
   }) {
     return _then(_value.copyWith(
-      duration: duration == freezed
+      duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int,
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      errors: errors == freezed
+      errors: null == errors
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
-      values: values == freezed
+      values: null == values
           ? _value.values
           : values // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$BudgetFormCopyWith<$Res> implements $BudgetFormCopyWith<$Res> {
-  factory _$BudgetFormCopyWith(
-          _BudgetForm value, $Res Function(_BudgetForm) then) =
-      __$BudgetFormCopyWithImpl<$Res>;
+abstract class _$$BudgetFormImplCopyWith<$Res>
+    implements $BudgetFormCopyWith<$Res> {
+  factory _$$BudgetFormImplCopyWith(
+          _$BudgetFormImpl value, $Res Function(_$BudgetFormImpl) then) =
+      __$$BudgetFormImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {int duration,
       String id,
@@ -108,37 +98,38 @@ abstract class _$BudgetFormCopyWith<$Res> implements $BudgetFormCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$BudgetFormCopyWithImpl<$Res> extends _$BudgetFormCopyWithImpl<$Res>
-    implements _$BudgetFormCopyWith<$Res> {
-  __$BudgetFormCopyWithImpl(
-      _BudgetForm _value, $Res Function(_BudgetForm) _then)
-      : super(_value, (v) => _then(v as _BudgetForm));
+class __$$BudgetFormImplCopyWithImpl<$Res>
+    extends _$BudgetFormCopyWithImpl<$Res, _$BudgetFormImpl>
+    implements _$$BudgetFormImplCopyWith<$Res> {
+  __$$BudgetFormImplCopyWithImpl(
+      _$BudgetFormImpl _value, $Res Function(_$BudgetFormImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _BudgetForm get _value => super._value as _BudgetForm;
-
+  /// Create a copy of BudgetForm
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? duration = freezed,
-    Object? id = freezed,
-    Object? errors = freezed,
-    Object? values = freezed,
+    Object? duration = null,
+    Object? id = null,
+    Object? errors = null,
+    Object? values = null,
   }) {
-    return _then(_BudgetForm(
-      duration: duration == freezed
+    return _then(_$BudgetFormImpl(
+      duration: null == duration
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as int,
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      errors: errors == freezed
-          ? _value.errors
+      errors: null == errors
+          ? _value._errors
           : errors // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
-      values: values == freezed
-          ? _value.values
+      values: null == values
+          ? _value._values
           : values // ignore: cast_nullable_to_non_nullable
               as Map<String, String>,
     ));
@@ -147,26 +138,38 @@ class __$BudgetFormCopyWithImpl<$Res> extends _$BudgetFormCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BudgetForm implements _BudgetForm {
-  const _$_BudgetForm({
-    this.duration = 0,
-    this.id = '-1',
-    this.errors = const {},
-    this.values = const {},
-  });
+class _$BudgetFormImpl implements _BudgetForm {
+  const _$BudgetFormImpl(
+      {this.duration = 0,
+      this.id = '-1',
+      final Map<String, dynamic> errors = const {},
+      final Map<String, String> values = const {}})
+      : _errors = errors,
+        _values = values;
 
-  @JsonKey()
   @override
+  @JsonKey()
   final int duration;
-  @JsonKey()
   @override
+  @JsonKey()
   final String id;
-  @JsonKey()
+  final Map<String, dynamic> _errors;
   @override
-  final Map<String, dynamic> errors;
   @JsonKey()
+  Map<String, dynamic> get errors {
+    if (_errors is EqualUnmodifiableMapView) return _errors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_errors);
+  }
+
+  final Map<String, String> _values;
   @override
-  final Map<String, String> values;
+  @JsonKey()
+  Map<String, String> get values {
+    if (_values is EqualUnmodifiableMapView) return _values;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_values);
+  }
 
   @override
   String toString() {
@@ -174,36 +177,40 @@ class _$_BudgetForm implements _BudgetForm {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _BudgetForm &&
-            const DeepCollectionEquality().equals(other.duration, duration) &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.errors, errors) &&
-            const DeepCollectionEquality().equals(other.values, values));
+            other is _$BudgetFormImpl &&
+            (identical(other.duration, duration) ||
+                other.duration == duration) &&
+            (identical(other.id, id) || other.id == id) &&
+            const DeepCollectionEquality().equals(other._errors, _errors) &&
+            const DeepCollectionEquality().equals(other._values, _values));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(duration),
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(errors),
-      const DeepCollectionEquality().hash(values));
+      duration,
+      id,
+      const DeepCollectionEquality().hash(_errors),
+      const DeepCollectionEquality().hash(_values));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BudgetForm
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  _$BudgetFormCopyWith<_BudgetForm> get copyWith =>
-      __$BudgetFormCopyWithImpl<_BudgetForm>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$BudgetFormImplCopyWith<_$BudgetFormImpl> get copyWith =>
+      __$$BudgetFormImplCopyWithImpl<_$BudgetFormImpl>(this, _$identity);
 }
 
 abstract class _BudgetForm implements BudgetForm {
   const factory _BudgetForm(
-      {int duration,
-      String id,
-      Map<String, dynamic> errors,
-      Map<String, String> values}) = _$_BudgetForm;
+      {final int duration,
+      final String id,
+      final Map<String, dynamic> errors,
+      final Map<String, String> values}) = _$BudgetFormImpl;
 
   @override
   int get duration;
@@ -213,8 +220,11 @@ abstract class _BudgetForm implements BudgetForm {
   Map<String, dynamic> get errors;
   @override
   Map<String, String> get values;
+
+  /// Create a copy of BudgetForm
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$BudgetFormCopyWith<_BudgetForm> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$BudgetFormImplCopyWith<_$BudgetFormImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

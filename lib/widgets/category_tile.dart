@@ -13,8 +13,7 @@ class CategoryTile extends StatefulWidget {
       required this.editCallback,
       required this.showBottomBorder,
       required this.showTopBorder,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final Category category;
   final bool isSelected, isUndeletable;

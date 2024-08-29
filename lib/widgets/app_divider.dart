@@ -1,18 +1,16 @@
 import '../source.dart';
 
 class AppDivider extends StatelessWidget {
-  const AppDivider({Key? key, this.height, this.margin, this.color, this.width})
-      : super(key: key);
+  const AppDivider({super.key, this.height, this.margin, this.color, this.width});
 
   factory AppDivider.withVerticalMargin(value) =>
       AppDivider(margin: EdgeInsets.symmetric(vertical: value));
 
-  AppDivider.onDocumentPage({Key? key})
+  AppDivider.onDocumentPage({super.key})
       : height = null,
         width = null,
         margin = EdgeInsets.zero,
-        color = AppColors.divider.withOpacity(.35),
-        super(key: key);
+        color = AppColors.divider.withOpacity(.35);
 
   final double? height, width;
   final EdgeInsets? margin;

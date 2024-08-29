@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'records_page_state.dart';
 
@@ -11,45 +12,12 @@ part of 'records_page_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$RecordsPageStateTearOff {
-  const _$RecordsPageStateTearOff();
-
-  _Loading loading(
-      List<Record> recordList, RecordsPageSupplements supplements) {
-    return _Loading(
-      recordList,
-      supplements,
-    );
-  }
-
-  _Content content(
-      List<Record> recordList, RecordsPageSupplements supplements) {
-    return _Content(
-      recordList,
-      supplements,
-    );
-  }
-
-  _Success success(
-      List<Record> recordList, RecordsPageSupplements supplements) {
-    return _Success(
-      recordList,
-      supplements,
-    );
-  }
-}
-
-/// @nodoc
-const $RecordsPageState = _$RecordsPageStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$RecordsPageState {
   List<Record> get recordList => throw _privateConstructorUsedError;
   RecordsPageSupplements get supplements => throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -65,13 +33,13 @@ mixin _$RecordsPageState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         success,
   }) =>
@@ -99,9 +67,9 @@ mixin _$RecordsPageState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Content value)? content,
-    TResult Function(_Success value)? success,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Content value)? content,
+    TResult? Function(_Success value)? success,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -113,7 +81,9 @@ mixin _$RecordsPageState {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RecordsPageStateCopyWith<RecordsPageState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -122,52 +92,62 @@ mixin _$RecordsPageState {
 abstract class $RecordsPageStateCopyWith<$Res> {
   factory $RecordsPageStateCopyWith(
           RecordsPageState value, $Res Function(RecordsPageState) then) =
-      _$RecordsPageStateCopyWithImpl<$Res>;
+      _$RecordsPageStateCopyWithImpl<$Res, RecordsPageState>;
+  @useResult
   $Res call({List<Record> recordList, RecordsPageSupplements supplements});
 
   $RecordsPageSupplementsCopyWith<$Res> get supplements;
 }
 
 /// @nodoc
-class _$RecordsPageStateCopyWithImpl<$Res>
+class _$RecordsPageStateCopyWithImpl<$Res, $Val extends RecordsPageState>
     implements $RecordsPageStateCopyWith<$Res> {
   _$RecordsPageStateCopyWithImpl(this._value, this._then);
 
-  final RecordsPageState _value;
   // ignore: unused_field
-  final $Res Function(RecordsPageState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? recordList = freezed,
-    Object? supplements = freezed,
+    Object? recordList = null,
+    Object? supplements = null,
   }) {
     return _then(_value.copyWith(
-      recordList: recordList == freezed
+      recordList: null == recordList
           ? _value.recordList
           : recordList // ignore: cast_nullable_to_non_nullable
               as List<Record>,
-      supplements: supplements == freezed
+      supplements: null == supplements
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
               as RecordsPageSupplements,
-    ));
+    ) as $Val);
   }
 
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
+  @pragma('vm:prefer-inline')
   $RecordsPageSupplementsCopyWith<$Res> get supplements {
     return $RecordsPageSupplementsCopyWith<$Res>(_value.supplements, (value) {
-      return _then(_value.copyWith(supplements: value));
+      return _then(_value.copyWith(supplements: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$LoadingCopyWith<$Res>
+abstract class _$$LoadingImplCopyWith<$Res>
     implements $RecordsPageStateCopyWith<$Res> {
-  factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
-      __$LoadingCopyWithImpl<$Res>;
+  factory _$$LoadingImplCopyWith(
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({List<Record> recordList, RecordsPageSupplements supplements});
 
   @override
@@ -175,25 +155,27 @@ abstract class _$LoadingCopyWith<$Res>
 }
 
 /// @nodoc
-class __$LoadingCopyWithImpl<$Res> extends _$RecordsPageStateCopyWithImpl<$Res>
-    implements _$LoadingCopyWith<$Res> {
-  __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
-      : super(_value, (v) => _then(v as _Loading));
+class __$$LoadingImplCopyWithImpl<$Res>
+    extends _$RecordsPageStateCopyWithImpl<$Res, _$LoadingImpl>
+    implements _$$LoadingImplCopyWith<$Res> {
+  __$$LoadingImplCopyWithImpl(
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Loading get _value => super._value as _Loading;
-
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? recordList = freezed,
-    Object? supplements = freezed,
+    Object? recordList = null,
+    Object? supplements = null,
   }) {
-    return _then(_Loading(
-      recordList == freezed
-          ? _value.recordList
+    return _then(_$LoadingImpl(
+      null == recordList
+          ? _value._recordList
           : recordList // ignore: cast_nullable_to_non_nullable
               as List<Record>,
-      supplements == freezed
+      null == supplements
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
               as RecordsPageSupplements,
@@ -203,11 +185,18 @@ class __$LoadingCopyWithImpl<$Res> extends _$RecordsPageStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Loading implements _Loading {
-  const _$_Loading(this.recordList, this.supplements);
+class _$LoadingImpl implements _Loading {
+  const _$LoadingImpl(final List<Record> recordList, this.supplements)
+      : _recordList = recordList;
 
+  final List<Record> _recordList;
   @override
-  final List<Record> recordList;
+  List<Record> get recordList {
+    if (_recordList is EqualUnmodifiableListView) return _recordList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_recordList);
+  }
+
   @override
   final RecordsPageSupplements supplements;
 
@@ -217,26 +206,27 @@ class _$_Loading implements _Loading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Loading &&
+            other is _$LoadingImpl &&
             const DeepCollectionEquality()
-                .equals(other.recordList, recordList) &&
-            const DeepCollectionEquality()
-                .equals(other.supplements, supplements));
+                .equals(other._recordList, _recordList) &&
+            (identical(other.supplements, supplements) ||
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(recordList),
-      const DeepCollectionEquality().hash(supplements));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_recordList), supplements);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  _$LoadingCopyWith<_Loading> get copyWith =>
-      __$LoadingCopyWithImpl<_Loading>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -257,13 +247,13 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         success,
   }) {
@@ -303,9 +293,9 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Content value)? content,
-    TResult Function(_Success value)? success,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Content value)? content,
+    TResult? Function(_Success value)? success,
   }) {
     return loading?.call(this);
   }
@@ -326,25 +316,30 @@ class _$_Loading implements _Loading {
 }
 
 abstract class _Loading implements RecordsPageState {
-  const factory _Loading(
-      List<Record> recordList, RecordsPageSupplements supplements) = _$_Loading;
+  const factory _Loading(final List<Record> recordList,
+      final RecordsPageSupplements supplements) = _$LoadingImpl;
 
   @override
   List<Record> get recordList;
   @override
   RecordsPageSupplements get supplements;
+
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$LoadingCopyWith<_Loading> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$ContentCopyWith<$Res>
+abstract class _$$ContentImplCopyWith<$Res>
     implements $RecordsPageStateCopyWith<$Res> {
-  factory _$ContentCopyWith(_Content value, $Res Function(_Content) then) =
-      __$ContentCopyWithImpl<$Res>;
+  factory _$$ContentImplCopyWith(
+          _$ContentImpl value, $Res Function(_$ContentImpl) then) =
+      __$$ContentImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({List<Record> recordList, RecordsPageSupplements supplements});
 
   @override
@@ -352,25 +347,27 @@ abstract class _$ContentCopyWith<$Res>
 }
 
 /// @nodoc
-class __$ContentCopyWithImpl<$Res> extends _$RecordsPageStateCopyWithImpl<$Res>
-    implements _$ContentCopyWith<$Res> {
-  __$ContentCopyWithImpl(_Content _value, $Res Function(_Content) _then)
-      : super(_value, (v) => _then(v as _Content));
+class __$$ContentImplCopyWithImpl<$Res>
+    extends _$RecordsPageStateCopyWithImpl<$Res, _$ContentImpl>
+    implements _$$ContentImplCopyWith<$Res> {
+  __$$ContentImplCopyWithImpl(
+      _$ContentImpl _value, $Res Function(_$ContentImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Content get _value => super._value as _Content;
-
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? recordList = freezed,
-    Object? supplements = freezed,
+    Object? recordList = null,
+    Object? supplements = null,
   }) {
-    return _then(_Content(
-      recordList == freezed
-          ? _value.recordList
+    return _then(_$ContentImpl(
+      null == recordList
+          ? _value._recordList
           : recordList // ignore: cast_nullable_to_non_nullable
               as List<Record>,
-      supplements == freezed
+      null == supplements
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
               as RecordsPageSupplements,
@@ -380,11 +377,18 @@ class __$ContentCopyWithImpl<$Res> extends _$RecordsPageStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Content implements _Content {
-  const _$_Content(this.recordList, this.supplements);
+class _$ContentImpl implements _Content {
+  const _$ContentImpl(final List<Record> recordList, this.supplements)
+      : _recordList = recordList;
 
+  final List<Record> _recordList;
   @override
-  final List<Record> recordList;
+  List<Record> get recordList {
+    if (_recordList is EqualUnmodifiableListView) return _recordList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_recordList);
+  }
+
   @override
   final RecordsPageSupplements supplements;
 
@@ -394,26 +398,27 @@ class _$_Content implements _Content {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Content &&
+            other is _$ContentImpl &&
             const DeepCollectionEquality()
-                .equals(other.recordList, recordList) &&
-            const DeepCollectionEquality()
-                .equals(other.supplements, supplements));
+                .equals(other._recordList, _recordList) &&
+            (identical(other.supplements, supplements) ||
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(recordList),
-      const DeepCollectionEquality().hash(supplements));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_recordList), supplements);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  _$ContentCopyWith<_Content> get copyWith =>
-      __$ContentCopyWithImpl<_Content>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$ContentImplCopyWith<_$ContentImpl> get copyWith =>
+      __$$ContentImplCopyWithImpl<_$ContentImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -434,13 +439,13 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         success,
   }) {
@@ -480,9 +485,9 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Content value)? content,
-    TResult Function(_Success value)? success,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Content value)? content,
+    TResult? Function(_Success value)? success,
   }) {
     return content?.call(this);
   }
@@ -503,25 +508,30 @@ class _$_Content implements _Content {
 }
 
 abstract class _Content implements RecordsPageState {
-  const factory _Content(
-      List<Record> recordList, RecordsPageSupplements supplements) = _$_Content;
+  const factory _Content(final List<Record> recordList,
+      final RecordsPageSupplements supplements) = _$ContentImpl;
 
   @override
   List<Record> get recordList;
   @override
   RecordsPageSupplements get supplements;
+
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$ContentCopyWith<_Content> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ContentImplCopyWith<_$ContentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$SuccessCopyWith<$Res>
+abstract class _$$SuccessImplCopyWith<$Res>
     implements $RecordsPageStateCopyWith<$Res> {
-  factory _$SuccessCopyWith(_Success value, $Res Function(_Success) then) =
-      __$SuccessCopyWithImpl<$Res>;
+  factory _$$SuccessImplCopyWith(
+          _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
+      __$$SuccessImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({List<Record> recordList, RecordsPageSupplements supplements});
 
   @override
@@ -529,25 +539,27 @@ abstract class _$SuccessCopyWith<$Res>
 }
 
 /// @nodoc
-class __$SuccessCopyWithImpl<$Res> extends _$RecordsPageStateCopyWithImpl<$Res>
-    implements _$SuccessCopyWith<$Res> {
-  __$SuccessCopyWithImpl(_Success _value, $Res Function(_Success) _then)
-      : super(_value, (v) => _then(v as _Success));
+class __$$SuccessImplCopyWithImpl<$Res>
+    extends _$RecordsPageStateCopyWithImpl<$Res, _$SuccessImpl>
+    implements _$$SuccessImplCopyWith<$Res> {
+  __$$SuccessImplCopyWithImpl(
+      _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Success get _value => super._value as _Success;
-
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? recordList = freezed,
-    Object? supplements = freezed,
+    Object? recordList = null,
+    Object? supplements = null,
   }) {
-    return _then(_Success(
-      recordList == freezed
-          ? _value.recordList
+    return _then(_$SuccessImpl(
+      null == recordList
+          ? _value._recordList
           : recordList // ignore: cast_nullable_to_non_nullable
               as List<Record>,
-      supplements == freezed
+      null == supplements
           ? _value.supplements
           : supplements // ignore: cast_nullable_to_non_nullable
               as RecordsPageSupplements,
@@ -557,11 +569,18 @@ class __$SuccessCopyWithImpl<$Res> extends _$RecordsPageStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Success implements _Success {
-  const _$_Success(this.recordList, this.supplements);
+class _$SuccessImpl implements _Success {
+  const _$SuccessImpl(final List<Record> recordList, this.supplements)
+      : _recordList = recordList;
 
+  final List<Record> _recordList;
   @override
-  final List<Record> recordList;
+  List<Record> get recordList {
+    if (_recordList is EqualUnmodifiableListView) return _recordList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_recordList);
+  }
+
   @override
   final RecordsPageSupplements supplements;
 
@@ -571,26 +590,27 @@ class _$_Success implements _Success {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Success &&
+            other is _$SuccessImpl &&
             const DeepCollectionEquality()
-                .equals(other.recordList, recordList) &&
-            const DeepCollectionEquality()
-                .equals(other.supplements, supplements));
+                .equals(other._recordList, _recordList) &&
+            (identical(other.supplements, supplements) ||
+                other.supplements == supplements));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(recordList),
-      const DeepCollectionEquality().hash(supplements));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_recordList), supplements);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  _$SuccessCopyWith<_Success> get copyWith =>
-      __$SuccessCopyWithImpl<_Success>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -611,13 +631,13 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         loading,
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         content,
-    TResult Function(
+    TResult? Function(
             List<Record> recordList, RecordsPageSupplements supplements)?
         success,
   }) {
@@ -657,9 +677,9 @@ class _$_Success implements _Success {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Content value)? content,
-    TResult Function(_Success value)? success,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Content value)? content,
+    TResult? Function(_Success value)? success,
   }) {
     return success?.call(this);
   }
@@ -680,15 +700,18 @@ class _$_Success implements _Success {
 }
 
 abstract class _Success implements RecordsPageState {
-  const factory _Success(
-      List<Record> recordList, RecordsPageSupplements supplements) = _$_Success;
+  const factory _Success(final List<Record> recordList,
+      final RecordsPageSupplements supplements) = _$SuccessImpl;
 
   @override
   List<Record> get recordList;
   @override
   RecordsPageSupplements get supplements;
+
+  /// Create a copy of RecordsPageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$SuccessCopyWith<_Success> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

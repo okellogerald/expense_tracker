@@ -1,8 +1,11 @@
 import '../source.dart';
 
 class ScreenSizeInit extends StatelessWidget {
-  const ScreenSizeInit({required this.child, required this.designSize, key})
-      : super(key: key);
+  const ScreenSizeInit({
+    required this.child,
+    required this.designSize,
+    super.key,
+  });
 
   final Size designSize;
   final Widget child;

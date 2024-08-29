@@ -5,8 +5,7 @@ import '../theme/app_colors.dart';
 import 'app_icon_button.dart';
 
 class AppFloatingActionButton extends StatelessWidget {
-  const AppFloatingActionButton({required this.onPressed, Key? key})
-      : super(key: key);
+  const AppFloatingActionButton({required this.onPressed, super.key});
 
   final VoidCallback onPressed;
 

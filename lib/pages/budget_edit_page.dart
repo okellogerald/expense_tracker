@@ -4,7 +4,7 @@ import '../source.dart';
 import '../widgets/app_top_bar.dart';
 
 class BudgetEditPage extends StatefulWidget {
-  const BudgetEditPage({this.budget, Key? key}) : super(key: key);
+  const BudgetEditPage({this.budget, super.key});
 
   final Budget? budget;
 
@@ -13,7 +13,7 @@ class BudgetEditPage extends StatefulWidget {
           builder: (context) => BudgetEditPage(budget: budget)));
 
   @override
-  _BudgetEditPageState createState() => _BudgetEditPageState();
+  State<BudgetEditPage> createState() => _BudgetEditPageState();
 }
 
 class _BudgetEditPageState extends State<BudgetEditPage> {

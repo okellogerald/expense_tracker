@@ -2,17 +2,17 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class AppCircularStepIndicator extends StatelessWidget {
-  const AppCircularStepIndicator(
-      {this.unsteppedColor = Colors.grey,
-      this.fillColor = Colors.transparent,
-      this.stepColor = Colors.yellow,
-      this.stepWidth = 2.5,
-      this.currentStep = .3,
-      this.child,
-      required this.width,
-      required this.height,
-      key})
-      : super(key: key);
+  const AppCircularStepIndicator({
+    this.unsteppedColor = Colors.grey,
+    this.fillColor = Colors.transparent,
+    this.stepColor = Colors.yellow,
+    this.stepWidth = 2.5,
+    this.currentStep = .3,
+    this.child,
+    required this.width,
+    required this.height,
+    super.key,
+  });
 
   final Color unsteppedColor, fillColor, stepColor;
   final double stepWidth, currentStep, width, height;
@@ -24,13 +24,13 @@ class AppCircularStepIndicator extends StatelessWidget {
         height: height,
         width: width,
         child: CustomPaint(
-          child: Center(child: child),
           painter: CircularStepIndicatorPainter(
               unsteppedColor: unsteppedColor,
               stepColor: stepColor,
               stepWidth: stepWidth,
               currentStep: currentStep,
               fillColor: fillColor),
+          child: Center(child: child),
         ));
   }
 }

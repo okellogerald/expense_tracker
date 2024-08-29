@@ -1,10 +1,7 @@
-import 'package:budgetting_app/widgets/app_drawer.dart';
-
 import '../source.dart';
-import '../utils/navigation_logic.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   State<MainPage> createState() => _MainPageState();
@@ -17,11 +14,10 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => showExitAppDialog(context),
+    return SafeArea(
       child: Scaffold(
           key: mainPageScaffoldKey,
-          endDrawer: const AppDrawer(),
+          // endDrawer: const AppDrawer(),
           body: _getCurrentPage(),
           bottomNavigationBar: _buildBottomNavigationBar()),
     );
@@ -49,12 +45,22 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _currentBottomNavBarIndex,
         onTap: _updateIndex,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.notes), label: 'Records'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.category), label: 'Categories'),
+            icon: Icon(Icons.notes),
+            label: 'Records',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calculate), label: 'Budgets'),
-          BottomNavigationBarItem(icon: Icon(Icons.insights), label: 'Reports')
+            icon: Icon(Icons.category),
+            label: 'Categories',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calculate),
+            label: 'Budgets',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.insights),
+            label: 'Reports',
+          )
         ],
       ),
     );

@@ -8,7 +8,7 @@ class CategoryEditPage extends StatefulWidget {
   final Category? category;
 
   @override
-  _CategoryEditPageState createState() => _CategoryEditPageState();
+  State<CategoryEditPage> createState() => _CategoryEditPageState();
 }
 
 class _CategoryEditPageState extends State<CategoryEditPage> {
@@ -152,7 +152,7 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.all(10.dw),
                 children: codePointList.map((e) {
-                  final formatted = '0xe' + e.toString();
+                  final formatted = '0xe$e';
                   final codePoint = int.parse(formatted);
                   final isSelected = form.codePoint == codePoint;
 
@@ -161,7 +161,8 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
                     child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white.withOpacity(.0),
-                            borderRadius: BorderRadius.all(Radius.circular(15.dw)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15.dw)),
                             border: Border.all(
                                 width: isSelected ? 1.5 : 0,
                                 color: isSelected
@@ -187,7 +188,11 @@ class _CategoryEditPageState extends State<CategoryEditPage> {
     final recordsService = Provider.of<RecordsService>(context, listen: false);
     final budgetsService = Provider.of<BudgetsService>(context, listen: false);
     bloc = CategoriesPageBloc(
-        categoryService, prefsService, recordsService, budgetsService);
+      categoryService,
+      prefsService,
+      recordsService,
+      budgetsService,
+    );
     bloc.init(category: widget.category);
   }
 }

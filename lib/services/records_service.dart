@@ -59,16 +59,16 @@ class RecordsService {
   void add(Record record) {
     final date = DateTime.now();
     final id = uuid.v4();
-    final _record = record.copyWith(id: id, date: date);
-    _recordsBox.put(id, _record);
-    _recordList.add(_record);
-    _updateTotalRecords(_record.amount, _record.category.type);
+    final record0 = record.copyWith(id: id, date: date);
+    _recordsBox.put(id, record0);
+    _recordList.add(record0);
+    _updateTotalRecords(record0.amount, record0.category.type);
     _addToController();
   }
 
   void edit(Record record) {
-    final _record = _recordsBox.get(record.id) as Record;
-    final updatedRecord = _record.copyWith(
+    final record0 = _recordsBox.get(record.id) as Record;
+    final updatedRecord = record0.copyWith(
         category: record.category, amount: record.amount, notes: record.notes);
     _recordsBox.put(updatedRecord.id, updatedRecord);
 
@@ -85,9 +85,9 @@ class RecordsService {
     for (Record record in recordList) {
       final id = record.category.id;
       final index = _recordList.indexWhere((e) => e.category.id == id);
-      final _updatedRecord = record.copyWith(category: category);
-      _recordList[index] = _updatedRecord;
-      _recordsBox.put(id, _updatedRecord);
+      final updatedRecord = record.copyWith(category: category);
+      _recordList[index] = updatedRecord;
+      _recordsBox.put(id, updatedRecord);
     }
     _addToController();
   }
@@ -144,27 +144,27 @@ class RecordsService {
 
   ///Gets the amounts used for each category recorded, incomes and expenses.
   List<Record> getUniqueRecords() {
-    var _uniqueList = <Record>[];
+    var uniqueList = <Record>[];
     final idList = <String>[];
 
     for (Record record in _recordList) {
       final id = record.category.id;
       if (idList.contains(record.category.id)) {
-        final index = _uniqueList.indexWhere((e) => e.category.id == id);
-        final _record = _uniqueList[index];
-        _uniqueList[index] =
-            _record.copyWith(amount: _record.amount + record.amount);
+        final index = uniqueList.indexWhere((e) => e.category.id == id);
+        final record = uniqueList[index];
+        uniqueList[index] =
+            record.copyWith(amount: record.amount + record.amount);
       } else {
-        _uniqueList.add(record);
+        uniqueList.add(record);
         idList.add(id);
       }
     }
 
-    return _uniqueList;
+    return uniqueList;
   }
 
   Map<int, double> getDailyAmountByCategory(Category category) {
-    var _dailyAmountMap = <int, double>{};
+    var dailyAmountMap = <int, double>{};
     final dateList = <int>[];
 
     final id = category.id;
@@ -174,15 +174,15 @@ class RecordsService {
       final day = record.date.day;
 
       if (dateList.contains(day)) {
-        final amount = _dailyAmountMap[day]!;
-        _dailyAmountMap[day] = amount + record.amount;
+        final amount = dailyAmountMap[day]!;
+        dailyAmountMap[day] = amount + record.amount;
       } else {
-        _dailyAmountMap[day] = record.amount;
+        dailyAmountMap[day] = record.amount;
         dateList.add(day);
       }
     }
 
-    return _dailyAmountMap;
+    return dailyAmountMap;
   }
 
   _addToController() {

@@ -11,8 +11,7 @@ class AppIconButton extends StatefulWidget {
       this.spreadRadius,
       this.iconSize,
       required this.onPressed,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final IconData? icon;
   final Color? iconColor;
@@ -23,7 +22,7 @@ class AppIconButton extends StatefulWidget {
   final VoidCallback onPressed;
 
   @override
-  _AppIconButtonState createState() => _AppIconButtonState();
+  State<AppIconButton> createState() => _AppIconButtonState();
 }
 
 class _AppIconButtonState extends State<AppIconButton>

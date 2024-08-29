@@ -3,7 +3,7 @@ import '../../source.dart' hide Consumer;
 import '../utils/navigation_logic.dart';
 
 class RecordsPage extends StatefulWidget {
-  const RecordsPage({Key? key}) : super(key: key);
+  const RecordsPage({super.key});
 
   @override
   State<RecordsPage> createState() => _RecordsPageState();

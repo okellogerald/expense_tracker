@@ -7,8 +7,7 @@ class DayText extends StatefulWidget {
       required this.hasTotals,
       required this.day,
       required this.isSelected,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final String text;
   final ValueChanged<int> showTotalsCallback, cancelCallback;
@@ -16,7 +15,7 @@ class DayText extends StatefulWidget {
   final int day;
 
   @override
-  _DayTextState createState() => _DayTextState();
+  State<DayText> createState() => _DayTextState();
 }
 
 class _DayTextState extends State<DayText> {

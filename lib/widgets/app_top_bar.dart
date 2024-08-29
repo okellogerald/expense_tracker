@@ -2,7 +2,7 @@
 import '../source.dart';
 
 class AppTopBar extends StatelessWidget implements PreferredSizeWidget {
-  const AppTopBar({Key? key, required this.title}) : super(key: key);
+  const AppTopBar({super.key, required this.title});
 
   final String title;
 

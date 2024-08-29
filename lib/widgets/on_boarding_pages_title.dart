@@ -6,8 +6,7 @@ class OnBoardingPagesTitle extends StatelessWidget {
       required this.subtitle,
       this.icon,
       this.image,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final String title;
   final IconData? icon;

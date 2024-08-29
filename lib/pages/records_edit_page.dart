@@ -6,10 +6,10 @@ import '../source.dart';
 
 class RecordsEditPage extends StatefulWidget {
   final Record? record;
-  const RecordsEditPage({this.record, Key? key}) : super(key: key);
+  const RecordsEditPage({this.record, super.key});
 
   @override
-  _RecordsEditPageState createState() => _RecordsEditPageState();
+  State<RecordsEditPage> createState() => _RecordsEditPageState();
 }
 
 class _RecordsEditPageState extends State<RecordsEditPage> {
@@ -78,7 +78,7 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
 
   _buildSectionTitle(String text,
       {double? topOffset, bool withButton = false, double? leftOffset}) {
-    final _text = AppText(
+    final text0 = AppText(
       text,
       size: 18.dw,
       color: AppColors.onBackground2,
@@ -89,13 +89,13 @@ class _RecordsEditPageState extends State<RecordsEditPage> {
           top: topOffset ?? 60.dh, bottom: 5.dh, left: leftOffset ?? 0),
       child: withButton
           ? Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              _text,
+              text0,
               AppTextButton(
                   text: 'Add Category',
                   textColor: AppColors.primary,
                   onPressed: () => push(const CategoryEditPage()))
             ])
-          : _text,
+          : text0,
     );
   }
 

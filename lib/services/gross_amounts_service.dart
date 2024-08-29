@@ -28,27 +28,27 @@ class GrossAmountsService {
 
   void editTitle(String id, String title) {
     final grossAmount = box.get(id) as GrossAmount;
-    final _grossAmount = grossAmount.copyWith(title: title);
-    grossAmountsMap[id] = _grossAmount;
-    box.put(id, _grossAmount);
+    final grossAmount0 = grossAmount.copyWith(title: title);
+    grossAmountsMap[id] = grossAmount0;
+    box.put(id, grossAmount0);
   }
 
   void editAmount(String id, double amount, double beforeEditAmount) {
     final grossAmount = box.get(id) as GrossAmount?;
     if (grossAmount == null) return;
-    final _grossAmount = grossAmount.copyWith(
+    final grossAmount0 = grossAmount.copyWith(
         amount: grossAmount.amount - beforeEditAmount + amount);
-    grossAmountsMap[id] = _grossAmount;
-    box.put(id, _grossAmount);
+    grossAmountsMap[id] = grossAmount0;
+    box.put(id, grossAmount0);
   }
 
   GrossAmountsMap getAll() {
-    final _grossAmountMap = <String, GrossAmount>{};
+    final grossAmountMap = <String, GrossAmount>{};
     for (GrossAmount grossAmount in box.values) {
-      _grossAmountMap[grossAmount.id] = grossAmount;
+      grossAmountMap[grossAmount.id] = grossAmount;
     }
-    grossAmountsMap = _grossAmountMap;
-    return _grossAmountMap;
+    grossAmountsMap = grossAmountMap;
+    return grossAmountMap;
   }
 
   void delete(String id, double amount) => editAmount(id, amount * -1, 0);

@@ -3,9 +3,8 @@ import '../source.dart';
 class AppSnackBar extends SnackBar {
   final String message;
   final bool isError;
-  AppSnackBar(this.message, this.isError, {Key? key})
+  AppSnackBar(this.message, this.isError, {super.key})
       : super(
-            key: key,
             content: AppText(message,
                 alignment: TextAlign.center,
                 family: kFontFam,

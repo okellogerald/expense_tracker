@@ -13,8 +13,7 @@ class AppTextField extends StatefulWidget {
       this.suffixIcon,
       this.letterSpacing,
       this.textColor,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final Map<String, dynamic> errors;
   final String? text;

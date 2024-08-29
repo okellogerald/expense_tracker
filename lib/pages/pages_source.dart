@@ -1,6 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
-export 'additional_info_page.dart';
 export 'budget_edit_page.dart';
 export 'budget_page.dart';
 export 'categories_page.dart';
@@ -11,5 +8,3 @@ export 'records_edit_page.dart';
 export 'records_page.dart';
 export 'reports_page.dart';
 export 'settings_page.dart';
-export 'signup_page.dart';
-export 'verification_page.dart';

@@ -21,9 +21,9 @@ class BudgetPageBloc extends Cubit<BudgetPageState> {
 
     for (Budget budget in budgetList) {
       final index = budgetList.indexOf(budget);
-      final _updatedBudget =
+      final updatedBudget =
           budget.copyWith(used: grossAmountsMap[budget.category.id]?.amount);
-      budgetList[index] = _updatedBudget;
+      budgetList[index] = updatedBudget;
       recordsService.getDailyAmountByCategory(budget.category);
     }
 

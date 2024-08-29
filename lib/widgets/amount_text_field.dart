@@ -4,12 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AmountTextField extends StatefulWidget {
   const AmountTextField(
-      {Key? key,
+      {super.key,
       this.errors = const {},
       required this.text,
       required this.onChanged,
-      required this.errorName})
-      : super(key: key);
+      required this.errorName});
 
   final Map<String, dynamic> errors;
   final String? text;
@@ -91,7 +90,7 @@ class _AmountTextFieldState extends State<AmountTextField> {
           children: [
             Consumer(
               builder: (context, ref, child) {
-                final currency = ref.watch(signedInUserProvider)!.currency;
+                final currency = ref.watch(signedInUserProvider).currency;
                 return AppText(
                   '$currency $formattedAmount',
                   color: AppColors.accent,

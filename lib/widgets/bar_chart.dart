@@ -6,8 +6,7 @@ class BarChart extends StatelessWidget {
       required this.valueColor,
       required this.lineColor,
       required this.title,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final double value;
   final String title;
@@ -23,7 +22,7 @@ class BarChart extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 15.dh, horizontal: 5.dw),
       child: Column(
         children: [
-          AppText(data.toString() + '%', size: 14.dw, family: kFontFam2),
+          AppText('$data%', size: 14.dw, family: kFontFam2),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

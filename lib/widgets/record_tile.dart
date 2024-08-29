@@ -7,8 +7,7 @@ class RecordTile extends StatefulWidget {
       required this.deleteCallback,
       required this.editCallback,
       required this.isSelected,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final Record record;
   final bool isSelected;
@@ -17,7 +16,7 @@ class RecordTile extends StatefulWidget {
   final void Function(String, double) deleteCallback;
 
   @override
-  _RecordTileState createState() => _RecordTileState();
+  State<RecordTile> createState() => _RecordTileState();
 }
 
 class _RecordTileState extends State<RecordTile> {

@@ -3,7 +3,7 @@ import '../source.dart';
 import '../utils/navigation_logic.dart';
 
 class ExitAppDialog extends AlertDialog {
-  const ExitAppDialog({Key? key}) : super(key: key);
+  const ExitAppDialog({super.key});
 
   @override
   Widget? get title => AppText('Are you sure to close the application ?',

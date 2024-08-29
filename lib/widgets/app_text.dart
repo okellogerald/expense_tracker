@@ -1,17 +1,18 @@
 import '../source.dart';
 
 class AppText extends StatefulWidget {
-  const AppText(this.data,
-      {this.size,
-      this.family,
-      this.color,
-      this.alignment = TextAlign.justify,
-      this.weight = FontWeight.w300,
-      this.maxLines,
-      this.height,
-      this.letterSpacing,
-      key})
-      : super(key: key);
+  const AppText(
+    this.data, {
+    this.size,
+    this.family,
+    this.color,
+    this.alignment = TextAlign.justify,
+    this.weight = FontWeight.w300,
+    this.maxLines,
+    this.height,
+    this.letterSpacing,
+    super.key,
+  });
 
   final double? size;
   final int? maxLines;

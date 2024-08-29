@@ -2,8 +2,7 @@ import 'dart:math';
 import '../source.dart';
 
 class PieChart extends StatelessWidget {
-  const PieChart({required this.income, required this.expenses, Key? key})
-      : super(key: key);
+  const PieChart({required this.income, required this.expenses, super.key});
 
   final double income, expenses;
 
@@ -72,7 +71,7 @@ class PieChart extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                 _buildKeyTitle(title, color),
-                AppText(percent + ' % ',
+                AppText('$percent % ',
                     size: 15.dw, color: AppColors.onBackground)
               ])),
           Expanded(
@@ -106,8 +105,8 @@ class PieChartPainter extends CustomPainter {
 
     final rectPaint = Paint()..color = Colors.transparent;
     final paint = Paint()..color = const Color(0xffFF6675);
-    final _paint = Paint()..color = const Color(0xff6E71D8);
-    final __paint = Paint()..color = AppColors.background;
+    final paint0 = Paint()..color = const Color(0xff6E71D8);
+    final paint00 = Paint()..color = AppColors.background;
 
     final center = Offset(width / 2, height / 2);
     final radius = min(width / 2, height / 2);
@@ -115,9 +114,9 @@ class PieChartPainter extends CustomPainter {
     final rect = Rect.fromCenter(center: center, width: width, height: height);
 
     canvas.drawRect(rect, rectPaint);
-    canvas.drawCircle(center, radius, _paint);
+    canvas.drawCircle(center, radius, paint0);
     canvas.drawArc(arcRect, -pi * 1.5, 2 * pi * incomeRatio, true, paint);
-    canvas.drawCircle(center, radius * .6, __paint);
+    canvas.drawCircle(center, radius * .6, paint00);
   }
 
   @override

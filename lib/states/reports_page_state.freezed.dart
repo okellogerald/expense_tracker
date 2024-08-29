@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'reports_page_state.dart';
 
@@ -11,32 +12,11 @@ part of 'reports_page_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$ReportsPageStateTearOff {
-  const _$ReportsPageStateTearOff();
-
-  _Loading loading(ReportsPageSupplements supp) {
-    return _Loading(
-      supp,
-    );
-  }
-
-  _Content content(ReportsPageSupplements supp) {
-    return _Content(
-      supp,
-    );
-  }
-}
-
-/// @nodoc
-const $ReportsPageState = _$ReportsPageStateTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ReportsPageState {
   ReportsPageSupplements get supp => throw _privateConstructorUsedError;
-
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(ReportsPageSupplements supp) loading,
@@ -45,8 +25,8 @@ mixin _$ReportsPageState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ReportsPageSupplements supp)? loading,
-    TResult Function(ReportsPageSupplements supp)? content,
+    TResult? Function(ReportsPageSupplements supp)? loading,
+    TResult? Function(ReportsPageSupplements supp)? content,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,8 +44,8 @@ mixin _$ReportsPageState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Content value)? content,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Content value)? content,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -76,7 +56,9 @@ mixin _$ReportsPageState {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ReportsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ReportsPageStateCopyWith<ReportsPageState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -85,47 +67,57 @@ mixin _$ReportsPageState {
 abstract class $ReportsPageStateCopyWith<$Res> {
   factory $ReportsPageStateCopyWith(
           ReportsPageState value, $Res Function(ReportsPageState) then) =
-      _$ReportsPageStateCopyWithImpl<$Res>;
+      _$ReportsPageStateCopyWithImpl<$Res, ReportsPageState>;
+  @useResult
   $Res call({ReportsPageSupplements supp});
 
   $ReportsPageSupplementsCopyWith<$Res> get supp;
 }
 
 /// @nodoc
-class _$ReportsPageStateCopyWithImpl<$Res>
+class _$ReportsPageStateCopyWithImpl<$Res, $Val extends ReportsPageState>
     implements $ReportsPageStateCopyWith<$Res> {
   _$ReportsPageStateCopyWithImpl(this._value, this._then);
 
-  final ReportsPageState _value;
   // ignore: unused_field
-  final $Res Function(ReportsPageState) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  /// Create a copy of ReportsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? supp = freezed,
+    Object? supp = null,
   }) {
     return _then(_value.copyWith(
-      supp: supp == freezed
+      supp: null == supp
           ? _value.supp
           : supp // ignore: cast_nullable_to_non_nullable
               as ReportsPageSupplements,
-    ));
+    ) as $Val);
   }
 
+  /// Create a copy of ReportsPageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
+  @pragma('vm:prefer-inline')
   $ReportsPageSupplementsCopyWith<$Res> get supp {
     return $ReportsPageSupplementsCopyWith<$Res>(_value.supp, (value) {
-      return _then(_value.copyWith(supp: value));
+      return _then(_value.copyWith(supp: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$LoadingCopyWith<$Res>
+abstract class _$$LoadingImplCopyWith<$Res>
     implements $ReportsPageStateCopyWith<$Res> {
-  factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
-      __$LoadingCopyWithImpl<$Res>;
+  factory _$$LoadingImplCopyWith(
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({ReportsPageSupplements supp});
 
   @override
@@ -133,20 +125,22 @@ abstract class _$LoadingCopyWith<$Res>
 }
 
 /// @nodoc
-class __$LoadingCopyWithImpl<$Res> extends _$ReportsPageStateCopyWithImpl<$Res>
-    implements _$LoadingCopyWith<$Res> {
-  __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
-      : super(_value, (v) => _then(v as _Loading));
+class __$$LoadingImplCopyWithImpl<$Res>
+    extends _$ReportsPageStateCopyWithImpl<$Res, _$LoadingImpl>
+    implements _$$LoadingImplCopyWith<$Res> {
+  __$$LoadingImplCopyWithImpl(
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Loading get _value => super._value as _Loading;
-
+  /// Create a copy of ReportsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? supp = freezed,
+    Object? supp = null,
   }) {
-    return _then(_Loading(
-      supp == freezed
+    return _then(_$LoadingImpl(
+      null == supp
           ? _value.supp
           : supp // ignore: cast_nullable_to_non_nullable
               as ReportsPageSupplements,
@@ -156,8 +150,8 @@ class __$LoadingCopyWithImpl<$Res> extends _$ReportsPageStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Loading implements _Loading {
-  const _$_Loading(this.supp);
+class _$LoadingImpl implements _Loading {
+  const _$LoadingImpl(this.supp);
 
   @override
   final ReportsPageSupplements supp;
@@ -168,21 +162,23 @@ class _$_Loading implements _Loading {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Loading &&
-            const DeepCollectionEquality().equals(other.supp, supp));
+            other is _$LoadingImpl &&
+            (identical(other.supp, supp) || other.supp == supp));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(supp));
+  int get hashCode => Object.hash(runtimeType, supp);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ReportsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  _$LoadingCopyWith<_Loading> get copyWith =>
-      __$LoadingCopyWithImpl<_Loading>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
+      __$$LoadingImplCopyWithImpl<_$LoadingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -196,8 +192,8 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ReportsPageSupplements supp)? loading,
-    TResult Function(ReportsPageSupplements supp)? content,
+    TResult? Function(ReportsPageSupplements supp)? loading,
+    TResult? Function(ReportsPageSupplements supp)? content,
   }) {
     return loading?.call(supp);
   }
@@ -227,8 +223,8 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Content value)? content,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Content value)? content,
   }) {
     return loading?.call(this);
   }
@@ -248,22 +244,27 @@ class _$_Loading implements _Loading {
 }
 
 abstract class _Loading implements ReportsPageState {
-  const factory _Loading(ReportsPageSupplements supp) = _$_Loading;
+  const factory _Loading(final ReportsPageSupplements supp) = _$LoadingImpl;
 
   @override
   ReportsPageSupplements get supp;
+
+  /// Create a copy of ReportsPageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$LoadingCopyWith<_Loading> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LoadingImplCopyWith<_$LoadingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$ContentCopyWith<$Res>
+abstract class _$$ContentImplCopyWith<$Res>
     implements $ReportsPageStateCopyWith<$Res> {
-  factory _$ContentCopyWith(_Content value, $Res Function(_Content) then) =
-      __$ContentCopyWithImpl<$Res>;
+  factory _$$ContentImplCopyWith(
+          _$ContentImpl value, $Res Function(_$ContentImpl) then) =
+      __$$ContentImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({ReportsPageSupplements supp});
 
   @override
@@ -271,20 +272,22 @@ abstract class _$ContentCopyWith<$Res>
 }
 
 /// @nodoc
-class __$ContentCopyWithImpl<$Res> extends _$ReportsPageStateCopyWithImpl<$Res>
-    implements _$ContentCopyWith<$Res> {
-  __$ContentCopyWithImpl(_Content _value, $Res Function(_Content) _then)
-      : super(_value, (v) => _then(v as _Content));
+class __$$ContentImplCopyWithImpl<$Res>
+    extends _$ReportsPageStateCopyWithImpl<$Res, _$ContentImpl>
+    implements _$$ContentImplCopyWith<$Res> {
+  __$$ContentImplCopyWithImpl(
+      _$ContentImpl _value, $Res Function(_$ContentImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _Content get _value => super._value as _Content;
-
+  /// Create a copy of ReportsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? supp = freezed,
+    Object? supp = null,
   }) {
-    return _then(_Content(
-      supp == freezed
+    return _then(_$ContentImpl(
+      null == supp
           ? _value.supp
           : supp // ignore: cast_nullable_to_non_nullable
               as ReportsPageSupplements,
@@ -294,8 +297,8 @@ class __$ContentCopyWithImpl<$Res> extends _$ReportsPageStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Content implements _Content {
-  const _$_Content(this.supp);
+class _$ContentImpl implements _Content {
+  const _$ContentImpl(this.supp);
 
   @override
   final ReportsPageSupplements supp;
@@ -306,21 +309,23 @@ class _$_Content implements _Content {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Content &&
-            const DeepCollectionEquality().equals(other.supp, supp));
+            other is _$ContentImpl &&
+            (identical(other.supp, supp) || other.supp == supp));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(supp));
+  int get hashCode => Object.hash(runtimeType, supp);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ReportsPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  _$ContentCopyWith<_Content> get copyWith =>
-      __$ContentCopyWithImpl<_Content>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$ContentImplCopyWith<_$ContentImpl> get copyWith =>
+      __$$ContentImplCopyWithImpl<_$ContentImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -334,8 +339,8 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(ReportsPageSupplements supp)? loading,
-    TResult Function(ReportsPageSupplements supp)? content,
+    TResult? Function(ReportsPageSupplements supp)? loading,
+    TResult? Function(ReportsPageSupplements supp)? content,
   }) {
     return content?.call(supp);
   }
@@ -365,8 +370,8 @@ class _$_Content implements _Content {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Content value)? content,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Content value)? content,
   }) {
     return content?.call(this);
   }
@@ -386,12 +391,15 @@ class _$_Content implements _Content {
 }
 
 abstract class _Content implements ReportsPageState {
-  const factory _Content(ReportsPageSupplements supp) = _$_Content;
+  const factory _Content(final ReportsPageSupplements supp) = _$ContentImpl;
 
   @override
   ReportsPageSupplements get supp;
+
+  /// Create a copy of ReportsPageState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$ContentCopyWith<_Content> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ContentImplCopyWith<_$ContentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

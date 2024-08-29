@@ -1,6 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'form.dart';
 
@@ -11,30 +12,7 @@ part of 'form.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
-
-/// @nodoc
-class _$RecordEditPageFormTearOff {
-  const _$RecordEditPageFormTearOff();
-
-  _RecordEditPageForm call(
-      {String amount = '',
-      String notes = '',
-      String id = '',
-      required DateTime date,
-      Map<String, dynamic> errors = const {}}) {
-    return _RecordEditPageForm(
-      amount: amount,
-      notes: notes,
-      id: id,
-      date: date,
-      errors: errors,
-    );
-  }
-}
-
-/// @nodoc
-const $RecordEditPageForm = _$RecordEditPageFormTearOff();
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$RecordEditPageForm {
@@ -44,7 +22,9 @@ mixin _$RecordEditPageForm {
   DateTime get date => throw _privateConstructorUsedError;
   Map<String, dynamic> get errors => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RecordEditPageForm
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RecordEditPageFormCopyWith<RecordEditPageForm> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,7 +33,8 @@ mixin _$RecordEditPageForm {
 abstract class $RecordEditPageFormCopyWith<$Res> {
   factory $RecordEditPageFormCopyWith(
           RecordEditPageForm value, $Res Function(RecordEditPageForm) then) =
-      _$RecordEditPageFormCopyWithImpl<$Res>;
+      _$RecordEditPageFormCopyWithImpl<$Res, RecordEditPageForm>;
+  @useResult
   $Res call(
       {String amount,
       String notes,
@@ -63,54 +44,59 @@ abstract class $RecordEditPageFormCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$RecordEditPageFormCopyWithImpl<$Res>
+class _$RecordEditPageFormCopyWithImpl<$Res, $Val extends RecordEditPageForm>
     implements $RecordEditPageFormCopyWith<$Res> {
   _$RecordEditPageFormCopyWithImpl(this._value, this._then);
 
-  final RecordEditPageForm _value;
   // ignore: unused_field
-  final $Res Function(RecordEditPageForm) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  /// Create a copy of RecordEditPageForm
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? amount = freezed,
-    Object? notes = freezed,
-    Object? id = freezed,
-    Object? date = freezed,
-    Object? errors = freezed,
+    Object? amount = null,
+    Object? notes = null,
+    Object? id = null,
+    Object? date = null,
+    Object? errors = null,
   }) {
     return _then(_value.copyWith(
-      amount: amount == freezed
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      notes: notes == freezed
+      notes: null == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String,
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      date: date == freezed
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      errors: errors == freezed
+      errors: null == errors
           ? _value.errors
           : errors // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
-    ));
+    ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$RecordEditPageFormCopyWith<$Res>
+abstract class _$$RecordEditPageFormImplCopyWith<$Res>
     implements $RecordEditPageFormCopyWith<$Res> {
-  factory _$RecordEditPageFormCopyWith(
-          _RecordEditPageForm value, $Res Function(_RecordEditPageForm) then) =
-      __$RecordEditPageFormCopyWithImpl<$Res>;
+  factory _$$RecordEditPageFormImplCopyWith(_$RecordEditPageFormImpl value,
+          $Res Function(_$RecordEditPageFormImpl) then) =
+      __$$RecordEditPageFormImplCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call(
       {String amount,
       String notes,
@@ -120,43 +106,43 @@ abstract class _$RecordEditPageFormCopyWith<$Res>
 }
 
 /// @nodoc
-class __$RecordEditPageFormCopyWithImpl<$Res>
-    extends _$RecordEditPageFormCopyWithImpl<$Res>
-    implements _$RecordEditPageFormCopyWith<$Res> {
-  __$RecordEditPageFormCopyWithImpl(
-      _RecordEditPageForm _value, $Res Function(_RecordEditPageForm) _then)
-      : super(_value, (v) => _then(v as _RecordEditPageForm));
+class __$$RecordEditPageFormImplCopyWithImpl<$Res>
+    extends _$RecordEditPageFormCopyWithImpl<$Res, _$RecordEditPageFormImpl>
+    implements _$$RecordEditPageFormImplCopyWith<$Res> {
+  __$$RecordEditPageFormImplCopyWithImpl(_$RecordEditPageFormImpl _value,
+      $Res Function(_$RecordEditPageFormImpl) _then)
+      : super(_value, _then);
 
-  @override
-  _RecordEditPageForm get _value => super._value as _RecordEditPageForm;
-
+  /// Create a copy of RecordEditPageForm
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? amount = freezed,
-    Object? notes = freezed,
-    Object? id = freezed,
-    Object? date = freezed,
-    Object? errors = freezed,
+    Object? amount = null,
+    Object? notes = null,
+    Object? id = null,
+    Object? date = null,
+    Object? errors = null,
   }) {
-    return _then(_RecordEditPageForm(
-      amount: amount == freezed
+    return _then(_$RecordEditPageFormImpl(
+      amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      notes: notes == freezed
+      notes: null == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String,
-      id: id == freezed
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      date: date == freezed
+      date: null == date
           ? _value.date
           : date // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      errors: errors == freezed
-          ? _value.errors
+      errors: null == errors
+          ? _value._errors
           : errors // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
     ));
@@ -165,28 +151,34 @@ class __$RecordEditPageFormCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RecordEditPageForm implements _RecordEditPageForm {
-  const _$_RecordEditPageForm(
+class _$RecordEditPageFormImpl implements _RecordEditPageForm {
+  const _$RecordEditPageFormImpl(
       {this.amount = '',
       this.notes = '',
       this.id = '',
       required this.date,
-      this.errors = const {}});
+      final Map<String, dynamic> errors = const {}})
+      : _errors = errors;
 
-  @JsonKey()
   @override
+  @JsonKey()
   final String amount;
-  @JsonKey()
   @override
+  @JsonKey()
   final String notes;
-  @JsonKey()
   @override
+  @JsonKey()
   final String id;
   @override
   final DateTime date;
-  @JsonKey()
+  final Map<String, dynamic> _errors;
   @override
-  final Map<String, dynamic> errors;
+  @JsonKey()
+  Map<String, dynamic> get errors {
+    if (_errors is EqualUnmodifiableMapView) return _errors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_errors);
+  }
 
   @override
   String toString() {
@@ -194,39 +186,38 @@ class _$_RecordEditPageForm implements _RecordEditPageForm {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _RecordEditPageForm &&
-            const DeepCollectionEquality().equals(other.amount, amount) &&
-            const DeepCollectionEquality().equals(other.notes, notes) &&
-            const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.date, date) &&
-            const DeepCollectionEquality().equals(other.errors, errors));
+            other is _$RecordEditPageFormImpl &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.date, date) || other.date == date) &&
+            const DeepCollectionEquality().equals(other._errors, _errors));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(amount),
-      const DeepCollectionEquality().hash(notes),
-      const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(date),
-      const DeepCollectionEquality().hash(errors));
+  int get hashCode => Object.hash(runtimeType, amount, notes, id, date,
+      const DeepCollectionEquality().hash(_errors));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RecordEditPageForm
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  _$RecordEditPageFormCopyWith<_RecordEditPageForm> get copyWith =>
-      __$RecordEditPageFormCopyWithImpl<_RecordEditPageForm>(this, _$identity);
+  @pragma('vm:prefer-inline')
+  _$$RecordEditPageFormImplCopyWith<_$RecordEditPageFormImpl> get copyWith =>
+      __$$RecordEditPageFormImplCopyWithImpl<_$RecordEditPageFormImpl>(
+          this, _$identity);
 }
 
 abstract class _RecordEditPageForm implements RecordEditPageForm {
   const factory _RecordEditPageForm(
-      {String amount,
-      String notes,
-      String id,
-      required DateTime date,
-      Map<String, dynamic> errors}) = _$_RecordEditPageForm;
+      {final String amount,
+      final String notes,
+      final String id,
+      required final DateTime date,
+      final Map<String, dynamic> errors}) = _$RecordEditPageFormImpl;
 
   @override
   String get amount;
@@ -238,8 +229,11 @@ abstract class _RecordEditPageForm implements RecordEditPageForm {
   DateTime get date;
   @override
   Map<String, dynamic> get errors;
+
+  /// Create a copy of RecordEditPageForm
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
-  _$RecordEditPageFormCopyWith<_RecordEditPageForm> get copyWith =>
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RecordEditPageFormImplCopyWith<_$RecordEditPageFormImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

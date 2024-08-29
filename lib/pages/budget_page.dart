@@ -5,10 +5,10 @@ import '../utils/navigation_logic.dart';
 import '../widgets/app_floating_action_button.dart';
 
 class BudgetPage extends StatefulWidget {
-  const BudgetPage({Key? key}) : super(key: key);
+  const BudgetPage({super.key});
 
   @override
-  _BudgetPageState createState() => _BudgetPageState();
+  State<BudgetPage> createState() => _BudgetPageState();
 }
 
 class _BudgetPageState extends State<BudgetPage> {

@@ -5,8 +5,7 @@ class OptionCircle extends StatefulWidget {
       {required this.onTap,
       required this.isSelected,
       required this.option,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final VoidCallback onTap;
   final bool isSelected;

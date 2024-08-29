@@ -7,8 +7,7 @@ class BudgetTile extends StatefulWidget {
       required this.updateIdCallback,
       required this.deleteCallback,
       required this.editCallback,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final Budget budget;
   final String selectedId;
@@ -16,7 +15,7 @@ class BudgetTile extends StatefulWidget {
   final void Function(Budget) editCallback;
 
   @override
-  _BudgetTileState createState() => _BudgetTileState();
+  State<BudgetTile> createState() => _BudgetTileState();
 }
 
 class _BudgetTileState extends State<BudgetTile> {

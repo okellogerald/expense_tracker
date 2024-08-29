@@ -2,7 +2,7 @@ import 'package:budgetting_app/widgets/extra_pages_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class BackUpPage extends StatefulWidget {
-  const BackUpPage({Key? key}) : super(key: key);
+  const BackUpPage({super.key});
 
   @override
   State<BackUpPage> createState() => _BackUpPageState();

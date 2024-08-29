@@ -6,8 +6,7 @@ class AppListView extends StatelessWidget {
       required this.appBarRemainingWidget,
       required this.child,
       required this.backgroundColor,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final Widget Function(double) appBarDisapperingWidget;
   final Widget Function() appBarRemainingWidget;

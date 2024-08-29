@@ -82,12 +82,12 @@ class RecordEditPageBloc extends Cubit<RecordEditPageState> {
   void _updateAttributes({Category? category, String? amount, String? notes}) {
     emit(RecordEditPageState.loading(
         state.categoryList, state.category, state.form));
-    final _category = category ?? state.category;
+    final category0 = category ?? state.category;
     final form = state.form;
     final updatedForm = form.copyWith(
         amount: amount ?? form.amount, notes: notes ?? form.notes, errors: {});
     emit(RecordEditPageState.content(
-        state.categoryList, _category, updatedForm));
+        state.categoryList, category0, updatedForm));
   }
 
   _validate() {

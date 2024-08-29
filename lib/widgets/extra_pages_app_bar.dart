@@ -2,8 +2,7 @@ import 'package:budgetting_app/source.dart';
 import 'package:budgetting_app/widgets/app_divider.dart';
 
 class ExtraPagesAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const ExtraPagesAppBar({required this.title, required this.image, Key? key})
-      : super(key: key);
+  const ExtraPagesAppBar({required this.title, required this.image, super.key});
 
   final String title, image;
 

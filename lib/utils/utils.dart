@@ -85,10 +85,10 @@ class Utils {
 
   static String getOrdinalsFrom(int day) {
     var ordinal = 'th';
-    final _day = day.toString();
-    if (_day.endsWith('1')) ordinal = 'st';
-    if (_day.endsWith('2')) ordinal = 'nd';
-    if (_day.endsWith('3')) ordinal = 'rd';
+    final day0 = day.toString();
+    if (day0.endsWith('1')) ordinal = 'st';
+    if (day0.endsWith('2')) ordinal = 'nd';
+    if (day0.endsWith('3')) ordinal = 'rd';
     return ordinal;
   }
 
@@ -120,7 +120,7 @@ class Utils {
     String money = '';
     for (int i = 0; i < reversedList.length; i++) {
       final v = reversedList[i];
-      money = i == reversedList.length - 1 ? money + v : money + v + ',';
+      money = i == reversedList.length - 1 ? money + v : '$money$v,';
     }
 
     return '${isNegative ? '- ' : ''}$money${decimals.length == 2 ? '${decimals}0' : decimals}';

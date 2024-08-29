@@ -4,8 +4,7 @@ import '../source.dart';
 
 class AppLoadingIndicator extends StatelessWidget {
   const AppLoadingIndicator._(
-      {this.isUsingScaffold = false, required this.loadingMessage, Key? key})
-      : super(key: key);
+      {this.isUsingScaffold = false, required this.loadingMessage, super.key});
 
   final bool isUsingScaffold;
   final String? loadingMessage;

@@ -1,13 +1,13 @@
 import '../source.dart';
 
 class AppMaterialButton extends StatefulWidget {
-  const AppMaterialButton(
-      {required this.child,
-      required this.onPressed,
-      this.borderRadius = 0,
-      this.padding = EdgeInsets.zero,
-      key})
-      : super(key: key);
+  const AppMaterialButton({
+    required this.child,
+    required this.onPressed,
+    this.borderRadius = 0,
+    this.padding = EdgeInsets.zero,
+    super.key,
+  });
 
   final Widget child;
   final VoidCallback onPressed;
@@ -57,12 +57,12 @@ class _AppMaterialButtonState extends State<AppMaterialButton>
         child: widget.child,
         builder: (_, child) {
           return Container(
-            child: child,
             padding: widget.padding,
             decoration: BoxDecoration(
                 color: animation.value,
                 borderRadius:
                     BorderRadius.all(Radius.circular(widget.borderRadius))),
+            child: child,
           );
         });
   }

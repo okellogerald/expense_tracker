@@ -11,8 +11,7 @@ class PasswordTextField extends StatefulWidget {
       this.letterSpacing,
       this.textColor,
       this.isLoginPassword = false,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   final Map<String, dynamic> errors;
   final String? text;
@@ -24,7 +23,7 @@ class PasswordTextField extends StatefulWidget {
   final bool isLoginPassword;
 
   @override
-  _PasswordTextFieldState createState() => _PasswordTextFieldState();
+  State<PasswordTextField> createState() => _PasswordTextFieldState();
 }
 
 class _PasswordTextFieldState extends State<PasswordTextField> {
