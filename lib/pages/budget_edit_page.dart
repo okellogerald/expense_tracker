@@ -1,4 +1,4 @@
-import 'package:budgetting_app/widgets/amount_text_field.dart';
+import 'package:expense_tracker/widgets/amount_text_field.dart';
 
 import '../source.dart';
 import '../widgets/app_top_bar.dart';

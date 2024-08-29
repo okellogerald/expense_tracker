@@ -1,4 +1,4 @@
-import 'package:budgetting_app/models/models_source.dart';
+import 'package:expense_tracker/models/models_source.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'reports_page_state.freezed.dart';

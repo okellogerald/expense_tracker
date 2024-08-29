@@ -1,4 +1,4 @@
-import 'package:budgetting_app/source.dart';
+import '/source.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme/app_theme.dart';
 import 'utils/navigation_logic.dart';

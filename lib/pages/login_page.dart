@@ -1,4 +1,4 @@
-import 'package:budgetting_app/widgets/on_boarding_pages_title.dart';
+import 'package:expense_tracker/widgets/on_boarding_pages_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../source.dart';
 

@@ -1,4 +1,4 @@
-import 'package:budgetting_app/widgets/app_floating_action_button.dart';
+import 'package:expense_tracker/widgets/app_floating_action_button.dart';
 import '../../source.dart' hide Consumer;
 import '../utils/navigation_logic.dart';
 

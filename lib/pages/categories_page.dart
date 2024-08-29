@@ -1,5 +1,5 @@
-import 'package:budgetting_app/utils/navigation_logic.dart';
-import 'package:budgetting_app/widgets/app_floating_action_button.dart';
+import 'package:expense_tracker/utils/navigation_logic.dart';
+import 'package:expense_tracker/widgets/app_floating_action_button.dart';
 
 import '../source.dart';
 

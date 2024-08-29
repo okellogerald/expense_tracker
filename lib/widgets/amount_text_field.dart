@@ -1,5 +1,5 @@
-import 'package:budgetting_app/providers/user_details_provider.dart';
-import 'package:budgetting_app/source.dart' hide Consumer;
+import '/providers/user_details_provider.dart';
+import '/source.dart' hide Consumer;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AmountTextField extends StatefulWidget {

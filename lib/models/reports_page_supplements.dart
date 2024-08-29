@@ -1,5 +1,5 @@
-import 'package:budgetting_app/blocs/blocs_source.dart';
-import 'package:budgetting_app/models/models_source.dart';
+import 'package:expense_tracker/blocs/blocs_source.dart';
+import 'package:expense_tracker/models/models_source.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'reports_page_supplements.freezed.dart';

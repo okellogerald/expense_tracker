@@ -1,4 +1,4 @@
-import 'package:budgetting_app/widgets/app_divider.dart';
+import '/widgets/app_divider.dart';
 
 import '../source.dart';
 

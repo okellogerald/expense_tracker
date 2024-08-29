@@ -1,4 +1,4 @@
-import 'package:budgetting_app/utils/utils.dart';
+import '/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';

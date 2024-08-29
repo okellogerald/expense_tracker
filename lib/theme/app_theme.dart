@@ -1,4 +1,4 @@
-import 'package:budgetting_app/source.dart';
+import 'package:expense_tracker/source.dart';
 
 class AppTheme {
   static ThemeData theme = ThemeData(

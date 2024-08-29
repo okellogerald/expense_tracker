@@ -1,4 +1,4 @@
-import 'package:budgetting_app/widgets/app_divider.dart';
+import 'package:expense_tracker/widgets/app_divider.dart';
 
 import '../source.dart';
 import '../utils/navigation_logic.dart';

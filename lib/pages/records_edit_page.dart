@@ -1,7 +1,7 @@
-import 'package:budgetting_app/blocs/record_edit_page_bloc.dart';
-import 'package:budgetting_app/utils/navigation_logic.dart';
-import 'package:budgetting_app/widgets/amount_text_field.dart';
-import 'package:budgetting_app/widgets/app_top_bar.dart';
+import 'package:expense_tracker/blocs/record_edit_page_bloc.dart';
+import 'package:expense_tracker/utils/navigation_logic.dart';
+import 'package:expense_tracker/widgets/amount_text_field.dart';
+import 'package:expense_tracker/widgets/app_top_bar.dart';
 import '../source.dart';
 
 class RecordsEditPage extends StatefulWidget {

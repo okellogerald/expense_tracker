@@ -1,4 +1,4 @@
-import 'package:budgetting_app/source.dart';
+import '/source.dart';
 
 class AppCheckBox extends StatefulWidget {
   const AppCheckBox({super.key, required this.onChanged});
