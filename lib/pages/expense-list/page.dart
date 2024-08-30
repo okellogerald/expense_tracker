@@ -23,7 +23,7 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
       ),
       body: ListView(
         padding: kHorPadding,
-        children: [],
+        children: const [],
       ),
     );
   }

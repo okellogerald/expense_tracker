@@ -1,3 +1,4 @@
+import 'package:expense_tracker_v2/constants/themes/color_scheme.dart';
 import 'package:expense_tracker_v2/pages/expense-category-select/page.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -37,7 +38,7 @@ class _CategoryIconPickButtonState extends State<CategoryIconPickButton> {
       style: AppButtonStyle.outline(
         width: double.maxFinite,
         borderRadius: kBorderRadius3,
-        foregroundColor: context.colorScheme.onBackground,
+        foregroundColor: getTemboColorScheme().onBackground,
         borderColor: context.colorScheme.surface,
       ),
       child: _child(),
@@ -59,6 +60,7 @@ class _CategoryIconPickButtonState extends State<CategoryIconPickButton> {
             Icon(
               selectedIcon,
               size: 24,
+              color: context.colorScheme.secondary,
             ),
             hSpace(5),
             const Icon(LucideIcons.chevronRight)

@@ -1,8 +1,5 @@
 import 'package:expense_tracker_v2/components/_common_imports.dart';
-import 'package:expense_tracker_v2/components/date_picker.dart';
 import 'package:expense_tracker_v2/components/form/source.dart';
-import 'package:expense_tracker_v2/components/picker/picker_button.dart';
-import 'package:expense_tracker_v2/components/text_button.dart';
 
 import '../../components/category-icon-pick/button.dart';
 import '../common_imports.dart';
@@ -44,10 +41,10 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddPage> {
                     icon = category;
                   },
                 ),
-                TemboTextField.labelled(
+                const TemboTextField.labelled(
                   "Name",
                 ),
-                TemboTextField.labelled(
+                const TemboTextField.labelled(
                   "Amount",
                   formatters: [
                     TZSCurrencyFormatter(0),
@@ -63,7 +60,7 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddPage> {
                     ),
                   ],
                 ),
-                TemboTextField.labelled(
+                const TemboTextField.labelled(
                   "Notes",
                 ),
               ],
