@@ -1,35 +1,38 @@
+import 'package:expense_tracker_v2/features/manager.dart';
+import 'package:expense_tracker_v2/models/realm/expense.category.dart';
+
 import '../common_imports.dart';
 
-class ExpenseCategorySelect extends ConsumerStatefulWidget {
-  final IconData? currentlySelectedIcon;
-  const ExpenseCategorySelect({this.currentlySelectedIcon, super.key});
+class ExpenseCategorySelectPage extends ConsumerStatefulWidget {
+  final ExpenseCategory? current;
+  const ExpenseCategorySelectPage({this.current, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ExpenseCategorySelectState();
+      _ExpenseCategoryPageSelectState();
 
   static const routeName = "/expense-category-select";
 
-  static Future<IconData?> to([IconData? initialIcon]) =>
-      router.push<IconData>(routeName, extra: initialIcon);
+  static Future<ExpenseCategory?> to() =>
+      router.push<ExpenseCategory>(routeName);
+
+  /// if you knew how to come to this page, then you know how to leave it
+  static void pop([ExpenseCategory? c]) => router.pop(c);
 
   static Widget builder(BuildContext c, GoRouterState state) {
-    return ExpenseCategorySelect(
-      currentlySelectedIcon: state.extra as IconData?,
-    );
+    return const ExpenseCategorySelectPage();
   }
 }
 
-class _ExpenseCategorySelectState extends ConsumerState<ExpenseCategorySelect> {
-  int? index;
+class _ExpenseCategoryPageSelectState
+    extends ConsumerState<ExpenseCategorySelectPage> with AfterLayoutMixin {
+  var categories = <ExpenseCategory>[];
+  ExpenseCategory? category;
 
   @override
-  void initState() {
-    super.initState();
-
-    if (widget.currentlySelectedIcon != null) {
-      index = EXPENSE_ICONS.indexOf(widget.currentlySelectedIcon!);
-    }
+  FutureOr<void> afterFirstLayout(BuildContext context) {
+    categories = ref.read(expensesManagerProvider).getExpenseCategories();
+    setState(() {});
   }
 
   @override
@@ -39,50 +42,25 @@ class _ExpenseCategorySelectState extends ConsumerState<ExpenseCategorySelect> {
         title: const AppText("Select Category"),
       ),
       bottomNavigationBar: BottomButton(
-        onPressed: next,
+        onPressed: done,
       ),
-      body: GridView.builder(
-        padding: kHorPadding + bottom(40) + top(20),
-        itemCount: EXPENSE_ICONS.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,
-          mainAxisSpacing: 15,
-          crossAxisSpacing: 15,
+      body: ListView.separated(
+        padding: kHorPadding,
+        itemCount: categories.length,
+        itemBuilder: (_, i) => AppSelectTile(
+          value: categories[i],
+          label: (p0) => p0.name,
+          onSelect: (value) => setState(() {
+            category = value;
+          }),
+          selected: (p0) => p0.id == category?.id,
         ),
-        itemBuilder: (_, i) {
-          final selected = index == i;
-      
-          if (selected) {
-            return IconButton.filled(
-              onPressed: () => select(i),
-              icon: Icon(
-                EXPENSE_ICONS[i],
-                size: 30,
-              ),
-            );
-          }
-      
-          return IconButton.outlined(
-            onPressed: () => select(i),
-            icon: Icon(
-              EXPENSE_ICONS[i],
-              size: 30,
-            ),
-          );
-        },
+        separatorBuilder: (_, __) => vSpace(),
       ),
     );
   }
 
-  void select(int i) {
-    setState(() {
-      index = i;
-    });
-  }
-
-  void next() {
-    if (index != null) {
-      router.pop(EXPENSE_ICONS[index!]);
-    }
+  void done() {
+    ExpenseCategorySelectPage.pop(category);
   }
 }

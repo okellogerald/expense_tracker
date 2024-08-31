@@ -1,8 +1,8 @@
 import 'package:expense_tracker_v2/features/manager.dart';
+import 'package:expense_tracker_v2/pages/category-list/page.dart';
 import 'package:expense_tracker_v2/pages/expense-list/page.dart';
 
 import '/pages/common_imports.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class MainPage extends ConsumerStatefulWidget {
   const MainPage({super.key});
@@ -34,7 +34,7 @@ class _MainPageState extends ConsumerState<MainPage> with AfterLayoutMixin {
         index: bottomNavBarIndex,
         children: const [
           ExpensesPage(),
-          Text("Hello world"),
+          CategoriesPage(),
           Text("Hello world"),
           Text("Hello world"),
           Text("Hello world"),

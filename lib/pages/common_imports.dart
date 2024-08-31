@@ -6,6 +6,7 @@ export 'dart:io';
 
 export 'package:flutter_riverpod/flutter_riverpod.dart';
 export 'package:go_router/go_router.dart';
+export 'package:lucide_icons/lucide_icons.dart';
 
 export '/components/source.dart';
 export '/extensions/source.dart';

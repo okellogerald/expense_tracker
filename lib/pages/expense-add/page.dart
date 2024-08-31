@@ -1,7 +1,8 @@
 import 'package:expense_tracker_v2/components/_common_imports.dart';
-import 'package:expense_tracker_v2/components/form/source.dart';
+import 'package:expense_tracker_v2/features/manager.dart';
+import 'package:expense_tracker_v2/models/expense_add_data.dart';
+import 'package:expense_tracker_v2/models/realm/expense.category.dart';
 
-import '../../components/category-icon-pick/button.dart';
 import '../common_imports.dart';
 
 class ExpenseAddPage extends ConsumerStatefulWidget {
@@ -12,7 +13,10 @@ class ExpenseAddPage extends ConsumerStatefulWidget {
 
   static const routeName = "/expense-add";
 
-  static void to() => router.pushReplacement(routeName);
+  static void to() => router.push(routeName);
+
+  /// if you knew how to come to this page, then you know how to leave it
+  static void pop() => router.pop();
 
   static Widget builder(BuildContext c, GoRouterState state) {
     return const ExpenseAddPage();
@@ -21,6 +25,15 @@ class ExpenseAddPage extends ConsumerStatefulWidget {
 
 class _ExpenseAddPageState extends ConsumerState<ExpenseAddPage> {
   IconData? icon;
+  ExpenseCategory? category;
+
+  final nameController = TextEditingController();
+  final amountController = TextEditingController();
+  final notesController = TextEditingController();
+
+  DateTime date = DateTime.now();
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -29,46 +42,106 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddPage> {
         appBar: AppBar(
           title: const AppText("Add Expense"),
         ),
-        body: ListView(
-          padding: kHorPadding,
-          children: [
-            OverflowBar(
-              overflowSpacing: 15,
-              children: [
-                CategoryIconPickButton(
-                  placeholderText: "Select Expense Category",
-                  onChange: (category) {
-                    icon = category;
-                  },
-                ),
-                const TemboTextField.labelled(
-                  "Name",
-                ),
-                const TemboTextField.labelled(
-                  "Amount",
-                  formatters: [
-                    TZSCurrencyFormatter(0),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const AppLabel("Date Paid"),
-                    TemboDatePicker(
-                      date: DateTime.now(),
-                      onSelected: (_) {},
-                    ),
-                  ],
-                ),
-                const TemboTextField.labelled(
-                  "Notes",
-                ),
-              ],
-            )
-          ],
+        body: Form(
+          key: formKey,
+          child: ListView(
+            padding: kHorPadding,
+            children: [
+              OverflowBar(
+                overflowSpacing: 15,
+                children: [
+                  CategoryIconPickButton(
+                    onChange: (category) {
+                      icon = category;
+                    },
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const AppLabel("Category"),
+                      if (category == null)
+                        AppTextButton.text(
+                          text: category?.name ?? "Click to select category",
+                          style: const AppButtonStyle.outline(
+                            width: double.maxFinite,
+                          ),
+                          onPressed: selectCategory,
+                        )
+                      else
+                        AppTextButton(
+                          onPressed: selectCategory,
+                          style: const AppButtonStyle.outline(
+                            width: double.maxFinite,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppText(category!.name),
+                              if (category?.icon != null)
+                                CircleAvatar(
+                                  child: AppLucideIcon(category!.icon!),
+                                ),
+                            ],
+                          ),
+                        )
+                    ],
+                  ),
+                  TemboTextField.labelled(
+                    "Name",
+                    controller: nameController,
+                  ),
+                  TemboTextField.labelled(
+                    "Amount",
+                    controller: amountController,
+                    formatters: const [
+                      TZSCurrencyFormatter(0),
+                    ],
+                  ),
+                  TemboTextField.labelled(
+                    "Notes",
+                    controller: notesController,
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
         bottomNavigationBar: const BottomButton(),
       ),
     );
+  }
+
+  void selectCategory() async {
+    final categories = ref.read(expensesManagerProvider).getExpenseCategories();
+    final c = await showOptionsDialog(
+      context: context,
+      options: categories,
+      dropdownTitle: "Select Category",
+      nameGetter: (e) => e.name,
+    );
+
+    if (c != null) {
+      setState(() {
+        category = c;
+      });
+    }
+  }
+
+  bool validate() {
+    return formKey.currentState?.validate() ?? false;
+  }
+
+  void save() {
+    final valid = validate();
+    if (!valid) return;
+
+    final data = ExpenseAddData(
+      name: nameController.compactText!,
+      amount: amountController.compactAmount!,
+      notes: notesController.compactText,
+      icon: icon,
+    );
+    ref.read(expensesManagerProvider).addExpense(data);
+    ExpenseAddPage.pop();
   }
 }

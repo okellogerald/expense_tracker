@@ -1,5 +1,4 @@
 import 'package:expense_tracker_v2/pages/expense-add/page.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 import '../common_imports.dart';
 
@@ -15,7 +14,7 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const AppText("Records"),
+        title: const AppText("Expenses"),
       ),
       floatingActionButton: const FloatingActionButton(
         onPressed: ExpenseAddPage.to,

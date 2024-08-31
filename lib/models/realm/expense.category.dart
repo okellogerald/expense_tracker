@@ -9,9 +9,6 @@ class $ExpenseCategory {
   @MapTo("_id")
   late ObjectId id;
 
-  late DateTime createdAt;
-  late DateTime updatedAt;
-
   late String name;
 
   late $ExpenseGroup? group;

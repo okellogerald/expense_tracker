@@ -9,9 +9,6 @@ class $FutureExpense {
   @MapTo("_id")
   late ObjectId id;
 
-  late DateTime createdAt;
-  late DateTime updatedAt;
-
   late $ExpenseCategory? category;
 
   late String name;
