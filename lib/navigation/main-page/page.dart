@@ -1,4 +1,3 @@
-import 'package:expense_tracker_v2/features/manager.dart';
 import 'package:expense_tracker_v2/pages/category-list/page.dart';
 import 'package:expense_tracker_v2/pages/expense-list/page.dart';
 

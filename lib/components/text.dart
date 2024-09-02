@@ -1,5 +1,3 @@
-import 'package:expense_tracker_v2/navigation/main-page/page.dart';
-
 import '/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
