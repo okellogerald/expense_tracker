@@ -1,6 +1,6 @@
 import 'package:expense_tracker_v2/pages/category-list/page.dart';
-import 'package:expense_tracker_v2/pages/expense-list/page.dart';
 
+import '../../pages/home/page.dart';
 import '/pages/common_imports.dart';
 
 class MainPage extends ConsumerStatefulWidget {
@@ -20,8 +20,7 @@ class MainPage extends ConsumerStatefulWidget {
 
 class _MainPageState extends ConsumerState<MainPage> with AfterLayoutMixin {
   @override
-  FutureOr<void> afterFirstLayout(BuildContext context) {
-  }
+  FutureOr<void> afterFirstLayout(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,7 @@ class _MainPageState extends ConsumerState<MainPage> with AfterLayoutMixin {
       body: IndexedStack(
         index: bottomNavBarIndex,
         children: const [
-          ExpensesPage(),
+          HomePage(),
           CategoriesPage(),
           Text("Hello world"),
           Text("Hello world"),

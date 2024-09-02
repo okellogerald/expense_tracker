@@ -12,6 +12,8 @@ import 'package:realm/realm.dart';
 
 import '../models/expense_add_data.dart';
 
+typedef DatedExpenses = MapEntry<DateTime, List<Expense>>;
+
 final expensesManagerProvider = Provider((_) => _Manager());
 
 final class _Manager extends RealmCore {
@@ -27,8 +29,8 @@ final class _Manager extends RealmCore {
     _listenToExpensesChanges();
   }
 
-  final _expensesController = StreamController<List<Expense>>();
-  Stream<List<Expense>> get expensesStream => _expensesController.stream;
+  final _expensesController = StreamController<List<DatedExpenses>>();
+  Stream<List<DatedExpenses>> get expensesStream => _expensesController.stream;
 
   Stream<List<ExpenseCategory>> get categoriesStream =>
       getReactiveList<ExpenseCategory>();
@@ -36,7 +38,7 @@ final class _Manager extends RealmCore {
   void _listenToExpensesChanges() {
     final stream = getStream<Expense>();
     stream.listen((e) {
-      _expensesController.add(getExpenses());
+      _expensesController.add(_groupExpenses(getExpenses()));
     });
   }
 
@@ -94,5 +96,20 @@ final class _Manager extends RealmCore {
 
   ExpenseCategory? _getMISCCategory() {
     return getExpenseCategories().where((e) => e.name == "Misc").singleOrNull;
+  }
+
+  List<DatedExpenses> _groupExpenses(List<Expense> expenses) {
+    final list = <DatedExpenses>[];
+    for (var e in expenses) {
+      final date = DateTime(e.datePaid.year, e.datePaid.month, e.datePaid.day);
+      final index = list.indexWhere((e) => e.key == date);
+      if (index == -1) {
+        list.add(MapEntry(date, [e]));
+      } else {
+        list[index] = MapEntry(date, list[index].value..add(e));
+      }
+    }
+
+    return list;
   }
 }
