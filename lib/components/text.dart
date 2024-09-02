@@ -1,3 +1,5 @@
+import 'package:expense_tracker_v2/navigation/main-page/page.dart';
+
 import '/extensions/context_extension.dart';
 import 'package:flutter/material.dart';
 
@@ -68,7 +70,8 @@ class AppText extends StatelessWidget {
     this.overflow,
     this.maxLines,
     FontWeight? weight,
-  })  : style = context.textTheme.displayMedium,
+    Color? color,
+  })  : style = context.textTheme.displayMedium?.copyWith(color: color),
         _weight = weight;
 
   AppText.bodyLarge(
@@ -79,7 +82,8 @@ class AppText extends StatelessWidget {
     this.overflow,
     this.maxLines,
     FontWeight? weight,
-  })  : style = context.textTheme.bodyLarge,
+    Color? color,
+  })  : style = context.textTheme.bodyLarge?.copyWith(color: color),
         _weight = weight;
 
   AppText.titleLarge(
@@ -90,7 +94,8 @@ class AppText extends StatelessWidget {
     this.overflow,
     this.maxLines,
     FontWeight? weight,
-  })  : style = context.textTheme.titleLarge,
+    Color? color,
+  })  : style = context.textTheme.titleLarge?.copyWith(color: color),
         _weight = weight;
 
   AppText.titleMedium(
@@ -101,7 +106,20 @@ class AppText extends StatelessWidget {
     this.overflow,
     this.maxLines,
     FontWeight? weight,
-  })  : style = context.textTheme.titleMedium,
+    Color? color,
+  })  : style = context.textTheme.titleMedium?.copyWith(color: color),
+        _weight = weight;
+
+  AppText.bodyMedium(
+    BuildContext context,
+    this.data, {
+    super.key,
+    this.textAlign,
+    this.overflow,
+    this.maxLines,
+    FontWeight? weight,
+    Color? color,
+  })  : style = context.textTheme.bodyMedium?.copyWith(color: color),
         _weight = weight;
 
   final String data;

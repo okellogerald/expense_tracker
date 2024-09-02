@@ -5,8 +5,8 @@ import 'text_button.dart';
 
 class BottomButton extends StatelessWidget {
   final String? text;
-  final VoidCallback? onPressed;
-  const BottomButton({this.text, this.onPressed, super.key});
+  final VoidCallback? onPress;
+  const BottomButton({this.text, this.onPress, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class BottomButton extends StatelessWidget {
       child: AppTextButton.text(
         text: text ?? "Continue",
         onPressed: () {
-          onPressed?.call();
+          onPress?.call();
         },
       ),
     );

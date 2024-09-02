@@ -18,7 +18,6 @@ Future<T?> showOptionsDialog<T>({
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
-      backgroundColor: Colors.white,
       child: OptionsDialog(
         options: options,
         dropdownTitle: dropdownTitle,

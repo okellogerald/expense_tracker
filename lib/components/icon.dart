@@ -20,3 +20,18 @@ class AppLucideIcon extends StatelessWidget {
     return Icon(LucideIconData(codepoint));
   }
 }
+
+class AppLucideIconAvatar extends StatelessWidget {
+  final int codepoint;
+  const AppLucideIconAvatar(
+    this.codepoint, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      child: Icon(LucideIconData(codepoint)),
+    );
+  }
+}

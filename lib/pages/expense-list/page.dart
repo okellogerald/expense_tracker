@@ -1,5 +1,7 @@
+import 'package:expense_tracker_v2/features/manager.dart';
 import 'package:expense_tracker_v2/pages/expense-add/page.dart';
 
+import '../../components/expense_tile.dart';
 import '../common_imports.dart';
 
 class ExpensesPage extends ConsumerStatefulWidget {
@@ -20,10 +22,17 @@ class _ExpensesPageState extends ConsumerState<ExpensesPage> {
         onPressed: ExpenseAddPage.to,
         child: Icon(LucideIcons.plus),
       ),
-      body: ListView(
-        padding: kHorPadding,
-        children: const [],
-      ),
+      body: StreamBuilder<List<Expense>>(
+          stream: ref.read(expensesManagerProvider).expensesStream,
+          builder: (context, snapshot) {
+            final data = snapshot.data ?? [];
+            return ListView.separated(
+              padding: kHorPadding,
+              itemCount: data.length,
+              itemBuilder: (_, i) => ExpenseTile(data[i]),
+              separatorBuilder: (_, i) => vSpace(2),
+            );
+          }),
     );
   }
 }

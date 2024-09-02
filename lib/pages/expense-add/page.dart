@@ -2,6 +2,7 @@ import 'package:expense_tracker_v2/components/_common_imports.dart';
 import 'package:expense_tracker_v2/features/manager.dart';
 import 'package:expense_tracker_v2/models/expense_add_data.dart';
 import 'package:expense_tracker_v2/models/realm/expense.category.dart';
+import 'package:expense_tracker_v2/utils/validate_utils.dart';
 
 import '../common_imports.dart';
 
@@ -50,11 +51,11 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddPage> {
               OverflowBar(
                 overflowSpacing: 15,
                 children: [
-                  CategoryIconPickButton(
+/*                   CategoryIconPickButton(
                     onChange: (category) {
                       icon = category;
                     },
-                  ),
+                  ), */
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -89,6 +90,7 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddPage> {
                   TemboTextField.labelled(
                     "Name",
                     controller: nameController,
+                    validator: validateName,
                   ),
                   TemboTextField.labelled(
                     "Amount",
@@ -96,17 +98,21 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddPage> {
                     formatters: const [
                       TZSCurrencyFormatter(0),
                     ],
+                    validator: validateAmount,
                   ),
                   TemboTextField.labelled(
                     "Notes",
                     controller: notesController,
+                    validator: (e) => validateName(e, optional: true),
                   ),
                 ],
               )
             ],
           ),
         ),
-        bottomNavigationBar: const BottomButton(),
+        bottomNavigationBar: BottomButton(
+          onPress: save,
+        ),
       ),
     );
   }
@@ -135,11 +141,15 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddPage> {
     final valid = validate();
     if (!valid) return;
 
+    final amount = getAmountFrom(amountController);
+    if (amount == null || amount < 500) return;
+
     final data = ExpenseAddData(
-      name: nameController.compactText!,
-      amount: amountController.compactAmount!,
-      notes: notesController.compactText,
       icon: icon,
+      amount: amount,
+      name: nameController.compactText!,
+      notes: notesController.compactText,
+      category: category,
     );
     ref.read(expensesManagerProvider).addExpense(data);
     ExpenseAddPage.pop();

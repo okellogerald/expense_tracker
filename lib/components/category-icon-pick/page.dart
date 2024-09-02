@@ -40,7 +40,7 @@ class _ExpenseCategorySelectState
         title: const AppText("Select Category"),
       ),
       bottomNavigationBar: BottomButton(
-        onPressed: next,
+        onPress: next,
       ),
       body: GridView.builder(
         padding: kHorPadding + bottom(40) + top(20),

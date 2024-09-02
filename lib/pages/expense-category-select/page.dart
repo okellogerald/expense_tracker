@@ -42,7 +42,7 @@ class _ExpenseCategoryPageSelectState
         title: const AppText("Select Category"),
       ),
       bottomNavigationBar: BottomButton(
-        onPressed: done,
+        onPress: done,
       ),
       body: ListView.separated(
         padding: kHorPadding,

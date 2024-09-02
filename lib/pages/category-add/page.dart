@@ -62,7 +62,9 @@ class _CategoryAddPageState extends ConsumerState<CategoryAddPage> {
             ],
           ),
         ),
-        bottomNavigationBar:  BottomButton(onPressed: save,),
+        bottomNavigationBar: BottomButton(
+          onPress: save,
+        ),
       ),
     );
   }

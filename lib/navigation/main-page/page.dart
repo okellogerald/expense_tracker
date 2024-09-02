@@ -22,7 +22,6 @@ class MainPage extends ConsumerStatefulWidget {
 class _MainPageState extends ConsumerState<MainPage> with AfterLayoutMixin {
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
-    ref.read(expensesManagerProvider).init();
   }
 
   @override
@@ -46,8 +45,8 @@ class _MainPageState extends ConsumerState<MainPage> with AfterLayoutMixin {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(LucideIcons.library),
-            label: 'Records',
+            icon: Icon(LucideIcons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(LucideIcons.layers),

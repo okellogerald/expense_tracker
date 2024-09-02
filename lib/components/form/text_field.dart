@@ -11,7 +11,7 @@ class TemboTextField extends ConsumerStatefulWidget {
   final TextEditingController? controller;
   final bool obscureText;
 
-  final String? Function(String?)? fieldValidator;
+  final String? Function(String?)? validator;
 
   final ValueChanged<String>? onChanged;
   final void Function(String?)? onSave;
@@ -40,7 +40,7 @@ class TemboTextField extends ConsumerStatefulWidget {
     this.hint,
     super.key,
     this.textAlign,
-    this.fieldValidator,
+    this.validator,
     this.decoration,
   }) : label = null;
 
@@ -53,7 +53,7 @@ class TemboTextField extends ConsumerStatefulWidget {
     this.decoration,
   })  : textInputType = null,
         hint = null,
-        fieldValidator = null,
+        validator = null,
         obscureText = false,
         onChanged = null,
         onSave = null,
@@ -73,7 +73,7 @@ class TemboTextField extends ConsumerStatefulWidget {
     this.onSave,
     this.textInputType,
     this.formatters,
-    this.fieldValidator,
+    this.validator,
     this.hint,
     super.key,
     this.textAlign,
@@ -206,8 +206,8 @@ class _TemboTextFieldState extends ConsumerState<TemboTextField> {
   }
 
   String? validate(String? value) {
-    if (widget.fieldValidator != null) {
-      final fieldValidatorError = widget.fieldValidator!(value);
+    if (widget.validator != null) {
+      final fieldValidatorError = widget.validator!(value);
       if (fieldValidatorError != null) {
         fieldErrorValidatorNotifier.value = fieldValidatorError;
         return fieldValidatorError;
