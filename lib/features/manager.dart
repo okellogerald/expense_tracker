@@ -32,13 +32,29 @@ final class _Manager extends RealmCore {
   final _expensesController = StreamController<List<DatedExpenses>>();
   Stream<List<DatedExpenses>> get expensesStream => _expensesController.stream;
 
+  final _expensesTotalsController = StreamController<num>();
+  Stream<num> get expensesTotalsStream => _expensesTotalsController.stream;
+
   Stream<List<ExpenseCategory>> get categoriesStream =>
       getReactiveList<ExpenseCategory>();
 
   void _listenToExpensesChanges() {
+    _expensesTotalsController.add(0);
+
     final stream = getStream<Expense>();
     stream.listen((e) {
-      _expensesController.add(_groupExpenses(getExpenses()));
+      final groups = _groupExpenses(getExpenses());
+      groups.sort((a, b) => b.key.compareTo(a.key));
+      _expensesController.add(groups);
+
+      final total = groups.fold<num>(
+        0,
+        (acc, entry) =>
+            acc +
+            entry.value.fold<num>(
+                0, (prev, curr) => prev.toDouble() + curr.amount.toDouble()),
+      );
+      _expensesTotalsController.add(total);
     });
   }
 

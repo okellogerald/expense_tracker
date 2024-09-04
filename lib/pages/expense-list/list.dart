@@ -22,7 +22,7 @@ class _ExpensesPageState extends ConsumerState<GroupedExpensesList> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (_, i) => ExpensesGroupCard(data[i]),
-            separatorBuilder: (_, i) => vSpace(2),
+            separatorBuilder: (_, i) => vSpace(40),
           );
         });
   }
