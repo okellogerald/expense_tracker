@@ -116,8 +116,12 @@ class AppText extends StatelessWidget {
     this.overflow,
     this.maxLines,
     FontWeight? weight,
+    String? fontFamily,
     Color? color,
-  })  : style = context.textTheme.bodyMedium?.copyWith(color: color),
+  })  : style = context.textTheme.bodyMedium?.copyWith(
+          color: color,
+          fontFamily: fontFamily,
+        ),
         _weight = weight;
 
   final String data;

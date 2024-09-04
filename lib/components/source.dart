@@ -9,6 +9,7 @@ export "date_picker.dart";
 export 'category-icon-pick/button.dart';
 
 export 'select_tile.dart';
+export 'amount_text.dart';
 
 export 'form/source.dart';
 export 'picker/source.dart';

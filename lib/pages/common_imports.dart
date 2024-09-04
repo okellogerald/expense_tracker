@@ -13,5 +13,6 @@ export '/extensions/source.dart';
 export '/models/source.dart';
 export '/utils/source.dart';
 export '/constants/source.dart';
+export '/styles/source.dart';
 
 export '../navigation/routes.dart';

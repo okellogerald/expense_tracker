@@ -1,8 +1,7 @@
-import 'package:expense_tracker_v2/components/_common_imports.dart';
-import 'package:expense_tracker_v2/features/manager.dart';
-import 'package:expense_tracker_v2/models/expense_add_data.dart';
-import 'package:expense_tracker_v2/models/realm/expense.category.dart';
-import 'package:expense_tracker_v2/utils/validate_utils.dart';
+import '/features/manager.dart';
+import '/models/expense_add_data.dart';
+import '/models/realm/expense.category.dart';
+import '/utils/validate_utils.dart';
 
 import '../common_imports.dart';
 

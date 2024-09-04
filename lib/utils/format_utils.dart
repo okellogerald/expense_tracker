@@ -7,21 +7,21 @@ final compactTZSFormatter =
 
 extension DoubleExt on num {
   String get compactlyFormatted {
-    return NumberFormat.compactCurrency(decimalDigits: 4, symbol: "")
+    return NumberFormat.compactCurrency(decimalDigits: 0, symbol: "")
         .format(this);
   }
 
   String get formatted {
-    return NumberFormat.currency(symbol: "", decimalDigits: 4).format(this);
+    return NumberFormat.currency(symbol: "", decimalDigits: 0).format(this);
   }
 
   String get tzsFormatted {
-    return NumberFormat.currency(symbol: "TZS ", decimalDigits: 2).format(this);
+    return NumberFormat.currency(symbol: "TZS ", decimalDigits: 0).format(this);
   }
 
   String format({
     bool compact = true,
-    int decimalDigits = 4,
+    int decimalDigits = 0,
     String symbol = "TZS",
   }) {
     final formatter = NumberFormat.currency(

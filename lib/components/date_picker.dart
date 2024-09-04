@@ -1,6 +1,3 @@
-import 'package:expense_tracker_v2/utils/source.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-
 import '../constants/themes/color_scheme.dart';
 import '_common_imports.dart';
 

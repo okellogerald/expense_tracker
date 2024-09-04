@@ -17,17 +17,14 @@ class _ExpensesPageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const AppText("Expenses"),
+        title: const AppText("Tracker"),
         centerTitle: false,
         actions: [
-          AppTextButton(
+          IconButton(
             onPressed: () {},
-            child: Row(
-              children: [
-                const Icon(LucideIcons.settings),
-                hSpace(5),
-                const AppText('Settings'),
-              ],
+            icon: Icon(
+              LucideIcons.settings,
+              color: context.colorScheme.primary,
             ),
           ),
         ],
@@ -41,13 +38,13 @@ class _ExpensesPageState extends ConsumerState<HomePage> {
                 children: [
                   buildBalance("Income", 30000),
                   StreamBuilder<num>(
-                      stream: ref
-                          .read(expensesManagerProvider)
-                          .expensesTotalsStream,
-                      builder: (context, snapshot) {
-                        return buildBalance(
-                            "Expenses", snapshot.data?.toDouble() ?? 0);
-                      }),
+                    stream:
+                        ref.read(expensesManagerProvider).expensesTotalsStream,
+                    builder: (context, snapshot) {
+                      return buildBalance(
+                          "Expenses", snapshot.data?.toDouble() ?? 0);
+                    },
+                  ),
                   buildBalance("Balance", 30000),
                 ],
               ),
@@ -69,9 +66,9 @@ class _ExpensesPageState extends ConsumerState<HomePage> {
 
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.symmetric(vertical: 6),
         alignment: Alignment.center,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             // color: context.colorScheme.secondary,
             // borderRadius: ,
             ),
@@ -81,11 +78,9 @@ class _ExpensesPageState extends ConsumerState<HomePage> {
             AppText(
               text,
             ),
-            SizedBox(height: 5),
-            AppText.bodyMedium(
-              context,
-              amount.formatted,
-              weight: FontWeight.bold,
+            const SizedBox(height: 5),
+            AmountText(
+              amount,
               color: !isOutflow ? AppColors.POSITIVE : AppColors.NEGATIVE,
             )
           ],

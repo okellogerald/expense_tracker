@@ -1,7 +1,6 @@
 import 'package:expense_tracker_v2/models/realm/expense.category.dart';
 
-import '../../../models/realm/expense.dart';
-import '../../../components/_common_imports.dart';
+import '../../common_imports.dart';
 
 class ExpenseTile extends StatelessWidget {
   final Expense expense;
@@ -55,7 +54,7 @@ class ExpenseTile extends StatelessWidget {
               ),
             ],
           )),
-          AppText(expense.amount.formatted),
+          AmountText(expense.amount),
         ],
       ),
     );
