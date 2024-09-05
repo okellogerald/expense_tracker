@@ -11,9 +11,17 @@ const INCOME_ICONS = [
 const EXPENSE_ICONS = [
   LucideIcons.activity,
   LucideIcons.armchair,
+  LucideIcons.apple,
+  LucideIcons.album,
+  LucideIcons.award,
+
+  LucideIcons.book,
+  LucideIcons.brush,
+  LucideIcons.building,
+  LucideIcons.building2,
+
   LucideIcons.backpack,
   LucideIcons.banana,
-  LucideIcons.bookMarked,
   LucideIcons.briefcase,
   LucideIcons.camera,
   LucideIcons.carrot,
@@ -33,6 +41,7 @@ const EXPENSE_ICONS = [
   LucideIcons.heartCrack,
   LucideIcons.home,
   LucideIcons.laptop,
+  LucideIcons.printer,
   LucideIcons.sailboat,
   LucideIcons.salad,
   LucideIcons.school,
@@ -49,7 +58,10 @@ const EXPENSE_ICONS = [
   LucideIcons.trees,
   LucideIcons.treePine,
   LucideIcons.tv,
-  LucideIcons.train,
   LucideIcons.tent,
   LucideIcons.warehouse,
+
+  LucideIcons.stamp,
+  LucideIcons.store,
+  LucideIcons.train,
 ];

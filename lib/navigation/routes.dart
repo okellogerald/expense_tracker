@@ -1,7 +1,8 @@
-import 'package:expense_tracker_v2/pages/category-add/page.dart';
-import 'package:expense_tracker_v2/pages/expense-add/page.dart';
-import 'package:expense_tracker_v2/components/category-icon-pick/page.dart';
-import 'package:expense_tracker_v2/pages/expense-category-select/page.dart';
+import '/pages/expense-add/page.dart';
+
+import '/pages/category-add/page.dart';
+import '/components/category-icon-pick/page.dart';
+import '/pages/expense-category-select/page.dart';
 
 import '/navigation/global_keys.dart';
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:expense_tracker_v2/features/realm_core.dart';
 import 'package:expense_tracker_v2/models/expense_category_add_data.dart';
+import 'package:expense_tracker_v2/models/expense_group_add_data.dart';
 import 'package:expense_tracker_v2/models/realm/budget.dart';
 import 'package:expense_tracker_v2/models/realm/expense.category.dart';
 import 'package:expense_tracker_v2/models/realm/expense.dart';
@@ -105,6 +106,16 @@ final class _Manager extends RealmCore {
       notes: data.notes,
       group: data.group,
       icon: data.icon?.codePoint,
+    );
+
+    return add(input);
+  }
+
+  ExpenseGroup addGroup(ExpenseGroupAddData data) {
+    final input = ExpenseGroup(
+      ObjectId(),
+      data.name,
+      notes: data.notes,
     );
 
     return add(input);

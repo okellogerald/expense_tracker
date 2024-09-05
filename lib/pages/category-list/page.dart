@@ -1,8 +1,8 @@
-import 'package:expense_tracker_v2/components/category_tile.dart';
-import 'package:expense_tracker_v2/models/realm/expense.category.dart';
-import 'package:expense_tracker_v2/pages/category-add/page.dart';
+import '/components/category_tile.dart';
+import '/models/realm/expense.category.dart';
 
 import '../../features/manager.dart';
+import '../category-add/page.dart';
 import '../common_imports.dart';
 
 class CategoriesPage extends ConsumerStatefulWidget {

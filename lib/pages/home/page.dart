@@ -1,6 +1,7 @@
 import 'package:expense_tracker_v2/features/manager.dart';
+import 'package:expense_tracker_v2/pages/expense-add/page.dart';
 
-import '/pages/expense-add/page.dart';
+import '../expense-add/tab.expense.dart';
 
 import '../common_imports.dart';
 import '../expense-list/list.dart';

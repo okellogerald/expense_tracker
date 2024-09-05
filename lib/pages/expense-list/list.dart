@@ -19,8 +19,7 @@ class _ExpensesPageState extends ConsumerState<GroupedExpensesList> {
           final data = snapshot.data ?? [];
           return ListView.separated(
             itemCount: data.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+            padding: bottom(80),
             itemBuilder: (_, i) => ExpensesGroupCard(data[i]),
             separatorBuilder: (_, i) => vSpace(40),
           );

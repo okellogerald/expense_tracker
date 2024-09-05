@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '../constants/themes/color_scheme.dart';
 import '_common_imports.dart';
 
@@ -35,10 +37,10 @@ class _TemboDatePickerState extends State<TemboDatePicker> {
   onSelected(DateTime date) => widget.onSelected(date);
 
   void showPicker() {
-    /*  final p = defaultTargetPlatform;
+    final p = defaultTargetPlatform;
     if (p == TargetPlatform.iOS || p == TargetPlatform.macOS) {
       return showIOSPicker(context, onSelected);
-    } */
+    }
     if (widget.enabled) {
       return showAndroidPicker(context, onSelected);
     }
