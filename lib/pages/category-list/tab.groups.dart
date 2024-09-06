@@ -1,6 +1,5 @@
 import 'package:expense_tracker_v2/features/groups/manager.dart';
 
-import '../../features/manager.dart';
 import '../common_imports.dart';
 
 class GroupListTab extends ConsumerStatefulWidget {
