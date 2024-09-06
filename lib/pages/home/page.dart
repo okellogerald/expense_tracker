@@ -1,8 +1,6 @@
 import 'package:expense_tracker_v2/features/manager.dart';
 import 'package:expense_tracker_v2/pages/expense-add/page.dart';
 
-import '../expense-add/tab.expense.dart';
-
 import '../common_imports.dart';
 import '../expense-list/list.dart';
 
@@ -43,7 +41,9 @@ class _ExpensesPageState extends ConsumerState<HomePage> {
                         ref.read(expensesManagerProvider).expensesTotalsStream,
                     builder: (context, snapshot) {
                       return buildBalance(
-                          "Expenses", snapshot.data?.toDouble() ?? 0);
+                        "Expenses",
+                        snapshot.data?.toDouble() ?? 0,
+                      );
                     },
                   ),
                   buildBalance("Balance", 30000),
@@ -68,11 +68,8 @@ class _ExpensesPageState extends ConsumerState<HomePage> {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 6),
+        margin: kHorPadding,
         alignment: Alignment.center,
-        decoration: const BoxDecoration(
-            // color: context.colorScheme.secondary,
-            // borderRadius: ,
-            ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -83,6 +80,7 @@ class _ExpensesPageState extends ConsumerState<HomePage> {
             AmountText(
               amount,
               color: !isOutflow ? AppColors.POSITIVE : AppColors.NEGATIVE,
+              weight: FontWeight.w700,
             )
           ],
         ),

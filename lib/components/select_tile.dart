@@ -15,14 +15,17 @@ class AppSelectTile<T> extends StatelessWidget {
   });
 
   bool get isSelected {
-    if(selected == null) return false;
+    if (selected == null) return false;
     return selected!.call(value);
   }
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      tileColor: context.colorScheme.surfaceBright,
       title: AppText(label(value)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(kBorderRadius3)),
       onTap: () => onSelect?.call(value),
       trailing: isSelected
           ? Checkbox.adaptive(

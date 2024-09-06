@@ -9,15 +9,9 @@ class $FutureExpense {
   @MapTo("_id")
   late ObjectId id;
 
-  late $ExpenseCategory? category;
-
-  late String name;
-
   late double amount;
+  late DateTime payDate;
 
   late String? notes;
-
-  late int? icon;
-
-  late DateTime? expectedPayingDate;
+  late $ExpenseCategory? category;
 }

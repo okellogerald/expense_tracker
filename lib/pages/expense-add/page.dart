@@ -51,14 +51,18 @@ class _State extends ConsumerState<ExpenseAddPage>
           Expanded(
             child: TabBarView(
               controller: controller,
-              children: const [
-                ExpenseAddTab(),
-                FutureExpenseAddTab(),
+              children: [
+                ExpenseAddTab(onDone: onDone),
+                FutureExpenseAddTab(onDone: onDone),
               ],
             ),
           )
         ],
       ),
     );
+  }
+
+  void onDone() {
+    ExpenseAddPage.pop();
   }
 }

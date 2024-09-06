@@ -11,9 +11,6 @@ class $Budget {
   @MapTo("_id")
   late ObjectId id;
 
-  late DateTime createdAt;
-  late DateTime updatedAt;
-
   /// either category or group shouldn't be null
   late $ExpenseCategory? category;
 

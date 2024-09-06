@@ -1,5 +1,5 @@
-import 'package:expense_tracker_v2/components/_common_imports.dart';
-import 'package:expense_tracker_v2/models/source.dart';
+import '/components/_common_imports.dart';
+import '/models/source.dart';
 
 class ExpenseCategoryAddData {
   final String name;

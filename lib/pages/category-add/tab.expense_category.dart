@@ -1,10 +1,12 @@
 import 'package:expense_tracker_v2/features/manager.dart';
 import 'package:expense_tracker_v2/models/expense_category_add_data.dart';
+import 'package:expense_tracker_v2/pages/group-select/page.dart';
 
 import '../common_imports.dart';
 
 class CategoryAddTab extends ConsumerStatefulWidget {
-  const CategoryAddTab({super.key});
+  final VoidCallback onDone;
+  const CategoryAddTab({required this.onDone, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -15,6 +17,8 @@ class _CategoryAddPageState extends ConsumerState<CategoryAddTab> {
   IconData? icon;
   final nameController = TextEditingController();
   final notesController = TextEditingController();
+
+  ExpenseGroup? group;
 
   final formKey = GlobalKey<FormState>();
 
@@ -30,15 +34,22 @@ class _CategoryAddPageState extends ConsumerState<CategoryAddTab> {
               OverflowBar(
                 overflowSpacing: 15,
                 children: [
+                  TemboTextField.labelled(
+                    "Name",
+                    controller: nameController,
+                  ),
                   CategoryIconPickButton(
                     label: "Category Icon",
                     onChange: (category) {
                       icon = category;
                     },
                   ),
-                  TemboTextField.labelled(
-                    "Name",
-                    controller: nameController,
+                  AppSelectButton<ExpenseGroup>(
+                    group,
+                    title: "Group",
+                    label: (g) => g.name,
+                    onPress: selectGroup,
+                    placeholder: "Select Group",
                   ),
                   TemboTextField.labelled(
                     "Notes",
@@ -60,6 +71,15 @@ class _CategoryAddPageState extends ConsumerState<CategoryAddTab> {
     return formKey.currentState?.validate() ?? false;
   }
 
+  void selectGroup() async {
+    final g = await GroupSelectPage.to(group);
+    if (g != null) {
+      setState(() {
+        group = g;
+      });
+    }
+  }
+
   void save() {
     final valid = validate();
     if (!valid) return;
@@ -71,5 +91,6 @@ class _CategoryAddPageState extends ConsumerState<CategoryAddTab> {
     );
 
     ref.read(expensesManagerProvider).addCategory(data);
+    widget.onDone();
   }
 }

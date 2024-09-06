@@ -3,35 +3,40 @@ import 'package:expense_tracker_v2/models/realm/expense.category.dart';
 
 import '../common_imports.dart';
 
-class ExpenseCategorySelectPage extends ConsumerStatefulWidget {
+class CategorySelectPage extends ConsumerStatefulWidget {
   final ExpenseCategory? current;
-  const ExpenseCategorySelectPage({this.current, super.key});
+  const CategorySelectPage({this.current, super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ExpenseCategoryPageSelectState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _State();
 
-  static const routeName = "/expense-category-select";
+  static const routeName = "/category-select";
 
-  static Future<ExpenseCategory?> to() =>
-      router.push<ExpenseCategory>(routeName);
+  static Future<ExpenseCategory?> to([ExpenseCategory? category]) =>
+      router.push<ExpenseCategory>(routeName, extra: category);
 
   /// if you knew how to come to this page, then you know how to leave it
   static void pop([ExpenseCategory? c]) => router.pop(c);
 
   static Widget builder(BuildContext c, GoRouterState state) {
-    return const ExpenseCategorySelectPage();
+    ExpenseCategory? category;
+    try {
+      category = state.extra as ExpenseCategory;
+    } catch (_) {}
+    return CategorySelectPage(
+      current: category,
+    );
   }
 }
 
-class _ExpenseCategoryPageSelectState
-    extends ConsumerState<ExpenseCategorySelectPage> with AfterLayoutMixin {
+class _State extends ConsumerState<CategorySelectPage> with AfterLayoutMixin {
   var categories = <ExpenseCategory>[];
   ExpenseCategory? category;
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
     categories = ref.read(expensesManagerProvider).getExpenseCategories();
+    category = widget.current;
     setState(() {});
   }
 
@@ -45,7 +50,7 @@ class _ExpenseCategoryPageSelectState
         onPress: done,
       ),
       body: ListView.separated(
-        padding: kHorPadding,
+        padding: kHorPadding + top(),
         itemCount: categories.length,
         itemBuilder: (_, i) => AppSelectTile(
           value: categories[i],
@@ -61,6 +66,6 @@ class _ExpenseCategoryPageSelectState
   }
 
   void done() {
-    ExpenseCategorySelectPage.pop(category);
+    CategorySelectPage.pop(category);
   }
 }

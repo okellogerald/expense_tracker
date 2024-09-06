@@ -12,35 +12,28 @@ class ExpenseCategory extends $ExpenseCategory
   ExpenseCategory(
     ObjectId id,
     String name, {
-    ExpenseGroup? group,
     int? icon,
     String? notes,
+    ExpenseGroup? group,
   }) {
-    RealmObjectBase.set(this, 'id', id);
+    RealmObjectBase.set(this, '_id', id);
     RealmObjectBase.set(this, 'name', name);
-    RealmObjectBase.set(this, 'group', group);
     RealmObjectBase.set(this, 'icon', icon);
     RealmObjectBase.set(this, 'notes', notes);
+    RealmObjectBase.set(this, 'group', group);
   }
 
   ExpenseCategory._();
 
   @override
-  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, '_id', value);
 
   @override
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
   set name(String value) => RealmObjectBase.set(this, 'name', value);
-
-  @override
-  ExpenseGroup? get group =>
-      RealmObjectBase.get<ExpenseGroup>(this, 'group') as ExpenseGroup?;
-  @override
-  set group(covariant ExpenseGroup? value) =>
-      RealmObjectBase.set(this, 'group', value);
 
   @override
   int? get icon => RealmObjectBase.get<int>(this, 'icon') as int?;
@@ -51,6 +44,13 @@ class ExpenseCategory extends $ExpenseCategory
   String? get notes => RealmObjectBase.get<String>(this, 'notes') as String?;
   @override
   set notes(String? value) => RealmObjectBase.set(this, 'notes', value);
+
+  @override
+  ExpenseGroup? get group =>
+      RealmObjectBase.get<ExpenseGroup>(this, 'group') as ExpenseGroup?;
+  @override
+  set group(covariant ExpenseGroup? value) =>
+      RealmObjectBase.set(this, 'group', value);
 
   @override
   Stream<RealmObjectChanges<ExpenseCategory>> get changes =>
@@ -67,11 +67,11 @@ class ExpenseCategory extends $ExpenseCategory
 
   EJsonValue toEJson() {
     return <String, dynamic>{
-      'id': id.toEJson(),
+      '_id': id.toEJson(),
       'name': name.toEJson(),
-      'group': group.toEJson(),
       'icon': icon.toEJson(),
       'notes': notes.toEJson(),
+      'group': group.toEJson(),
     };
   }
 
@@ -80,15 +80,15 @@ class ExpenseCategory extends $ExpenseCategory
     if (ejson is! Map<String, dynamic>) return raiseInvalidEJson(ejson);
     return switch (ejson) {
       {
-        'id': EJsonValue id,
+        '_id': EJsonValue id,
         'name': EJsonValue name,
       } =>
         ExpenseCategory(
           fromEJson(id),
           fromEJson(name),
-          group: fromEJson(ejson['group']),
           icon: fromEJson(ejson['icon']),
           notes: fromEJson(ejson['notes']),
+          group: fromEJson(ejson['group']),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -99,12 +99,13 @@ class ExpenseCategory extends $ExpenseCategory
     register(_toEJson, _fromEJson);
     return const SchemaObject(
         ObjectType.realmObject, ExpenseCategory, 'ExpenseCategory', [
-      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid,
+          mapTo: '_id', primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
-      SchemaProperty('group', RealmPropertyType.object,
-          optional: true, linkTarget: 'ExpenseGroup'),
       SchemaProperty('icon', RealmPropertyType.int, optional: true),
       SchemaProperty('notes', RealmPropertyType.string, optional: true),
+      SchemaProperty('group', RealmPropertyType.object,
+          optional: true, linkTarget: 'ExpenseGroup'),
     ]);
   }();
 

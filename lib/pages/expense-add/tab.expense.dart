@@ -1,3 +1,5 @@
+import '/pages/category-select/page.dart';
+
 import '/features/manager.dart';
 import '/models/expense_add_data.dart';
 import '/models/realm/expense.category.dart';
@@ -6,17 +8,16 @@ import '/utils/validate_utils.dart';
 import '../common_imports.dart';
 
 class ExpenseAddTab extends ConsumerStatefulWidget {
-  const ExpenseAddTab({super.key});
+  final VoidCallback onDone;
+  const ExpenseAddTab({required this.onDone, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ExpenseAddPageState();
 }
 
 class _ExpenseAddPageState extends ConsumerState<ExpenseAddTab> {
-  IconData? icon;
   ExpenseCategory? category;
 
-  final nameController = TextEditingController();
   final amountController = TextEditingController();
   final notesController = TextEditingController();
 
@@ -36,41 +37,16 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddTab> {
               OverflowBar(
                 overflowSpacing: 15,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const AppLabel("Category"),
-                      if (category == null)
-                        AppTextButton.text(
-                          text: category?.name ?? "Click to select category",
-                          style: const AppButtonStyle.outline(
-                            width: double.maxFinite,
-                          ),
-                          onPressed: selectCategory,
-                        )
-                      else
-                        AppTextButton(
-                          onPressed: selectCategory,
-                          style: const AppButtonStyle.outline(
-                            width: double.maxFinite,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AppText(category!.name),
-                              if (category?.icon != null)
-                                CircleAvatar(
-                                  child: AppLucideIcon(category!.icon!),
-                                ),
-                            ],
-                          ),
-                        )
-                    ],
+                  AppSelectButton<ExpenseCategory>(
+                    category,
+                    title: "Category",
+                    label: (g) => g.name,
+                    onPress: selectCategory,
+                    placeholder: "Select Category",
                   ),
-                  TemboTextField.labelled(
-                    "Name",
-                    controller: nameController,
-                    validator: validateName,
+                  SelectDateButton(
+                    date,
+                    onSelect: (d) => setState(() => date = d),
                   ),
                   TemboTextField.labelled(
                     "Amount",
@@ -98,13 +74,7 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddTab> {
   }
 
   void selectCategory() async {
-    final categories = ref.read(expensesManagerProvider).getExpenseCategories();
-    final c = await showOptionsDialog(
-      context: context,
-      options: categories,
-      dropdownTitle: "Select Category",
-      nameGetter: (e) => e.name,
-    );
+    final c = await CategorySelectPage.to(category);
 
     if (c != null) {
       setState(() {
@@ -125,12 +95,12 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddTab> {
     if (amount == null || amount < 500) return;
 
     final data = ExpenseAddData(
-      icon: icon,
+      date: date,
       amount: amount,
-      name: nameController.compactText!,
       notes: notesController.compactText,
       category: category,
     );
     ref.read(expensesManagerProvider).addExpense(data);
+    widget.onDone();
   }
 }

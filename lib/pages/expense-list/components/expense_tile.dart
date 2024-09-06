@@ -7,7 +7,6 @@ class ExpenseTile extends StatelessWidget {
   const ExpenseTile(this.expense, {super.key});
 
   int get icon {
-    if (expense.icon != null) return expense.icon!;
     if (category?.icon != null) return category!.icon!;
     return LucideIcons.hash.codePoint;
   }
@@ -36,20 +35,12 @@ class ExpenseTile extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppText(expense.name),
-                  if (category != null)
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const AppText("in "),
-                        AppText.bodyMedium(
-                          context,
-                          category!.name,
-                          color: context.colorScheme.onSurface,
-                          weight: FontWeight.bold,
-                        ),
-                      ],
-                    ),
+                  AppText.bodyMedium(
+                    context,
+                    category!.name,
+                    color: context.colorScheme.onSurface,
+                    weight: FontWeight.bold,
+                  ),
                 ],
               ),
             ],

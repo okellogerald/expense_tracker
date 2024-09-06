@@ -53,14 +53,18 @@ class _CategoryAddPageState extends ConsumerState<CategoryAddPage>
           Expanded(
             child: TabBarView(
               controller: controller,
-              children: const [
-                CategoryAddTab(),
-                GroupAddTab(),
+              children: [
+                CategoryAddTab(onDone: onDone),
+                GroupAddTab(onDone: onDone),
               ],
             ),
           )
         ],
       ),
     );
+  }
+
+  void onDone() {
+    CategoryAddPage.pop();
   }
 }

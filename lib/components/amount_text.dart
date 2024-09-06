@@ -3,7 +3,8 @@ import '_common_imports.dart';
 class AmountText extends StatelessWidget {
   final num amount;
   final Color? color;
-  const AmountText(this.amount, {this.color, super.key});
+  final FontWeight? weight;
+  const AmountText(this.amount, {this.color, this.weight, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class AmountText extends StatelessWidget {
       context,
       amount.formatted,
       fontFamily: "Ojuju",
-      weight: FontWeight.w600,
+      weight: weight ?? FontWeight.w600,
       color: color,
     );
   }

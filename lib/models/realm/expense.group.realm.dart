@@ -12,12 +12,10 @@ class ExpenseGroup extends $ExpenseGroup
   ExpenseGroup(
     ObjectId id,
     String name, {
-    int? icon,
     String? notes,
   }) {
     RealmObjectBase.set(this, 'id', id);
     RealmObjectBase.set(this, 'name', name);
-    RealmObjectBase.set(this, 'icon', icon);
     RealmObjectBase.set(this, 'notes', notes);
   }
 
@@ -32,11 +30,6 @@ class ExpenseGroup extends $ExpenseGroup
   String get name => RealmObjectBase.get<String>(this, 'name') as String;
   @override
   set name(String value) => RealmObjectBase.set(this, 'name', value);
-
-  @override
-  int? get icon => RealmObjectBase.get<int>(this, 'icon') as int?;
-  @override
-  set icon(int? value) => RealmObjectBase.set(this, 'icon', value);
 
   @override
   String? get notes => RealmObjectBase.get<String>(this, 'notes') as String?;
@@ -59,7 +52,6 @@ class ExpenseGroup extends $ExpenseGroup
     return <String, dynamic>{
       'id': id.toEJson(),
       'name': name.toEJson(),
-      'icon': icon.toEJson(),
       'notes': notes.toEJson(),
     };
   }
@@ -75,7 +67,6 @@ class ExpenseGroup extends $ExpenseGroup
         ExpenseGroup(
           fromEJson(id),
           fromEJson(name),
-          icon: fromEJson(ejson['icon']),
           notes: fromEJson(ejson['notes']),
         ),
       _ => raiseInvalidEJson(ejson),
@@ -89,7 +80,6 @@ class ExpenseGroup extends $ExpenseGroup
         ObjectType.realmObject, ExpenseGroup, 'ExpenseGroup', [
       SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
       SchemaProperty('name', RealmPropertyType.string),
-      SchemaProperty('icon', RealmPropertyType.int, optional: true),
       SchemaProperty('notes', RealmPropertyType.string, optional: true),
     ]);
   }();

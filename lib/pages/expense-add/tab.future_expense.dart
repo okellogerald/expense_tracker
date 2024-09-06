@@ -1,3 +1,5 @@
+import 'package:expense_tracker_v2/pages/category-select/page.dart';
+
 import '/features/manager.dart';
 import '/models/expense_add_data.dart';
 import '/models/realm/expense.category.dart';
@@ -6,21 +8,20 @@ import '/utils/validate_utils.dart';
 import '../common_imports.dart';
 
 class FutureExpenseAddTab extends ConsumerStatefulWidget {
-  const FutureExpenseAddTab({super.key});
+  final VoidCallback onDone;
+  const FutureExpenseAddTab({required this.onDone, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _State();
 }
 
 class _State extends ConsumerState<FutureExpenseAddTab> {
-  IconData? icon;
   ExpenseCategory? category;
 
-  final nameController = TextEditingController();
   final amountController = TextEditingController();
   final notesController = TextEditingController();
 
-  DateTime date = DateTime.now();
+  DateTime date = DateTime.now().add(const Duration(days: 1));
 
   final formKey = GlobalKey<FormState>();
 
@@ -36,41 +37,12 @@ class _State extends ConsumerState<FutureExpenseAddTab> {
               OverflowBar(
                 overflowSpacing: 15,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const AppLabel("Category"),
-                      if (category == null)
-                        AppTextButton.text(
-                          text: category?.name ?? "Click to select category",
-                          style: const AppButtonStyle.outline(
-                            width: double.maxFinite,
-                          ),
-                          onPressed: selectCategory,
-                        )
-                      else
-                        AppTextButton(
-                          onPressed: selectCategory,
-                          style: const AppButtonStyle.outline(
-                            width: double.maxFinite,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AppText(category!.name),
-                              if (category?.icon != null)
-                                CircleAvatar(
-                                  child: AppLucideIcon(category!.icon!),
-                                ),
-                            ],
-                          ),
-                        )
-                    ],
-                  ),
-                  TemboTextField.labelled(
-                    "Name",
-                    controller: nameController,
-                    validator: validateName,
+                  AppSelectButton<ExpenseCategory>(
+                    category,
+                    title: "Category",
+                    label: (g) => g.name,
+                    onPress: selectCategory,
+                    placeholder: "Select Category",
                   ),
                   TemboTextField.labelled(
                     "Amount",
@@ -80,15 +52,9 @@ class _State extends ConsumerState<FutureExpenseAddTab> {
                     ],
                     validator: validateAmount,
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const AppLabel("Expected Pay Date"),
-                      TemboDatePicker(
-                        date: date,
-                        onSelected: (_) {},
-                      ),
-                    ],
+                  SelectDateButton(
+                    date,
+                    onSelect: (d) => setState(() => date = d),
                   ),
                   TemboTextField.labelled(
                     "Notes",
@@ -108,13 +74,7 @@ class _State extends ConsumerState<FutureExpenseAddTab> {
   }
 
   void selectCategory() async {
-    final categories = ref.read(expensesManagerProvider).getExpenseCategories();
-    final c = await showOptionsDialog(
-      context: context,
-      options: categories,
-      dropdownTitle: "Select Category",
-      nameGetter: (e) => e.name,
-    );
+    final c = await CategorySelectPage.to();
 
     if (c != null) {
       setState(() {
@@ -135,12 +95,12 @@ class _State extends ConsumerState<FutureExpenseAddTab> {
     if (amount == null || amount < 500) return;
 
     final data = ExpenseAddData(
-      icon: icon,
+      date: date,
       amount: amount,
-      name: nameController.compactText!,
       notes: notesController.compactText,
       category: category,
     );
     ref.read(expensesManagerProvider).addExpense(data);
+    widget.onDone();
   }
 }

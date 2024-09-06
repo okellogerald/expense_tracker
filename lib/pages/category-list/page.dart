@@ -1,39 +1,55 @@
-import '/components/category_tile.dart';
-import '/models/realm/expense.category.dart';
+import '/pages/category-list/tab.categories.dart';
 
-import '../../features/manager.dart';
 import '../category-add/page.dart';
 import '../common_imports.dart';
+import 'tab.groups.dart';
 
 class CategoriesPage extends ConsumerStatefulWidget {
   const CategoriesPage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CategoriesPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _State();
 }
 
-class _CategoriesPageState extends ConsumerState<CategoriesPage> {
+class _State extends ConsumerState<CategoriesPage>
+    with SingleTickerProviderStateMixin {
+  late final TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(vsync: this, length: 2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const AppText("Categories"),
-      ),
-      floatingActionButton: const FloatingActionButton(
-        onPressed: CategoryAddPage.to,
-        child: Icon(LucideIcons.plus),
-      ),
-      body: StreamBuilder<List<ExpenseCategory>>(
-          stream: ref.read(expensesManagerProvider).categoriesStream,
-          builder: (context, snapshot) {
-            final data = snapshot.data ?? [];
-            return ListView.separated(
-              padding: kHorPadding,
-              itemCount: data.length,
-              itemBuilder: (_, i) => CategoryTile(data[i]),
-              separatorBuilder: (_, i) => vSpace(2),
-            );
-          }),
-    );
+        appBar: AppBar(
+          title: const AppText("Categories"),
+        ),
+        floatingActionButton: const FloatingActionButton(
+          onPressed: CategoryAddPage.to,
+          child: Icon(LucideIcons.plus),
+        ),
+        body: Column(
+          children: [
+            TabBar.secondary(
+              controller: tabController,
+              tabs: const [
+                Tab(text: "Categories"),
+                Tab(text: "Groups"),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
+                children: const [
+                  CategoryListTab(),
+                  GroupListTab(),
+                ],
+              ),
+            )
+          ],
+        ));
   }
 }

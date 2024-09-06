@@ -11,28 +11,40 @@ class FutureExpense extends $FutureExpense
     with RealmEntity, RealmObjectBase, RealmObject {
   FutureExpense(
     ObjectId id,
-    String name,
-    double amount, {
-    ExpenseCategory? category,
+    double amount,
+    DateTime payDate, {
     String? notes,
-    int? icon,
-    DateTime? expectedPayingDate,
+    ExpenseCategory? category,
   }) {
-    RealmObjectBase.set(this, 'id', id);
-    RealmObjectBase.set(this, 'category', category);
-    RealmObjectBase.set(this, 'name', name);
+    RealmObjectBase.set(this, '_id', id);
     RealmObjectBase.set(this, 'amount', amount);
+    RealmObjectBase.set(this, 'payDate', payDate);
     RealmObjectBase.set(this, 'notes', notes);
-    RealmObjectBase.set(this, 'icon', icon);
-    RealmObjectBase.set(this, 'expectedPayingDate', expectedPayingDate);
+    RealmObjectBase.set(this, 'category', category);
   }
 
   FutureExpense._();
 
   @override
-  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, '_id', value);
+
+  @override
+  double get amount => RealmObjectBase.get<double>(this, 'amount') as double;
+  @override
+  set amount(double value) => RealmObjectBase.set(this, 'amount', value);
+
+  @override
+  DateTime get payDate =>
+      RealmObjectBase.get<DateTime>(this, 'payDate') as DateTime;
+  @override
+  set payDate(DateTime value) => RealmObjectBase.set(this, 'payDate', value);
+
+  @override
+  String? get notes => RealmObjectBase.get<String>(this, 'notes') as String?;
+  @override
+  set notes(String? value) => RealmObjectBase.set(this, 'notes', value);
 
   @override
   ExpenseCategory? get category =>
@@ -41,33 +53,6 @@ class FutureExpense extends $FutureExpense
   @override
   set category(covariant ExpenseCategory? value) =>
       RealmObjectBase.set(this, 'category', value);
-
-  @override
-  String get name => RealmObjectBase.get<String>(this, 'name') as String;
-  @override
-  set name(String value) => RealmObjectBase.set(this, 'name', value);
-
-  @override
-  double get amount => RealmObjectBase.get<double>(this, 'amount') as double;
-  @override
-  set amount(double value) => RealmObjectBase.set(this, 'amount', value);
-
-  @override
-  String? get notes => RealmObjectBase.get<String>(this, 'notes') as String?;
-  @override
-  set notes(String? value) => RealmObjectBase.set(this, 'notes', value);
-
-  @override
-  int? get icon => RealmObjectBase.get<int>(this, 'icon') as int?;
-  @override
-  set icon(int? value) => RealmObjectBase.set(this, 'icon', value);
-
-  @override
-  DateTime? get expectedPayingDate =>
-      RealmObjectBase.get<DateTime>(this, 'expectedPayingDate') as DateTime?;
-  @override
-  set expectedPayingDate(DateTime? value) =>
-      RealmObjectBase.set(this, 'expectedPayingDate', value);
 
   @override
   Stream<RealmObjectChanges<FutureExpense>> get changes =>
@@ -83,13 +68,11 @@ class FutureExpense extends $FutureExpense
 
   EJsonValue toEJson() {
     return <String, dynamic>{
-      'id': id.toEJson(),
-      'category': category.toEJson(),
-      'name': name.toEJson(),
+      '_id': id.toEJson(),
       'amount': amount.toEJson(),
+      'payDate': payDate.toEJson(),
       'notes': notes.toEJson(),
-      'icon': icon.toEJson(),
-      'expectedPayingDate': expectedPayingDate.toEJson(),
+      'category': category.toEJson(),
     };
   }
 
@@ -98,18 +81,16 @@ class FutureExpense extends $FutureExpense
     if (ejson is! Map<String, dynamic>) return raiseInvalidEJson(ejson);
     return switch (ejson) {
       {
-        'id': EJsonValue id,
-        'name': EJsonValue name,
+        '_id': EJsonValue id,
         'amount': EJsonValue amount,
+        'payDate': EJsonValue payDate,
       } =>
         FutureExpense(
           fromEJson(id),
-          fromEJson(name),
           fromEJson(amount),
-          category: fromEJson(ejson['category']),
+          fromEJson(payDate),
           notes: fromEJson(ejson['notes']),
-          icon: fromEJson(ejson['icon']),
-          expectedPayingDate: fromEJson(ejson['expectedPayingDate']),
+          category: fromEJson(ejson['category']),
         ),
       _ => raiseInvalidEJson(ejson),
     };
@@ -120,15 +101,13 @@ class FutureExpense extends $FutureExpense
     register(_toEJson, _fromEJson);
     return const SchemaObject(
         ObjectType.realmObject, FutureExpense, 'FutureExpense', [
-      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid,
+          mapTo: '_id', primaryKey: true),
+      SchemaProperty('amount', RealmPropertyType.double),
+      SchemaProperty('payDate', RealmPropertyType.timestamp),
+      SchemaProperty('notes', RealmPropertyType.string, optional: true),
       SchemaProperty('category', RealmPropertyType.object,
           optional: true, linkTarget: 'ExpenseCategory'),
-      SchemaProperty('name', RealmPropertyType.string),
-      SchemaProperty('amount', RealmPropertyType.double),
-      SchemaProperty('notes', RealmPropertyType.string, optional: true),
-      SchemaProperty('icon', RealmPropertyType.int, optional: true),
-      SchemaProperty('expectedPayingDate', RealmPropertyType.timestamp,
-          optional: true),
     ]);
   }();
 

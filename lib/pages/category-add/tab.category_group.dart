@@ -4,7 +4,8 @@ import '../../models/expense_group_add_data.dart';
 import '../common_imports.dart';
 
 class GroupAddTab extends ConsumerStatefulWidget {
-  const GroupAddTab({super.key});
+  final VoidCallback onDone;
+  const GroupAddTab({required this.onDone, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _State();
@@ -62,6 +63,7 @@ class _State extends ConsumerState<GroupAddTab> {
       notes: notesController.compactText,
     );
 
-   ref.read(expensesManagerProvider).addGroup(data);
+    ref.read(expensesManagerProvider).addGroup(data);
+    widget.onDone();
   }
 }

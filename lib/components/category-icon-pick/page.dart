@@ -8,10 +8,12 @@ class ExpenseCategoryIconSelectPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _ExpenseCategorySelectState();
 
-  static const routeName = "/expense-category-select";
+  static const routeName = "/category-icon-select";
 
   static Future<IconData?> to([IconData? initialIcon]) =>
       router.push<IconData>(routeName, extra: initialIcon);
+
+  static void pop([IconData? icon]) => router.pop(icon);
 
   static Widget builder(BuildContext c, GoRouterState state) {
     return ExpenseCategoryIconSelectPage(
@@ -22,15 +24,13 @@ class ExpenseCategoryIconSelectPage extends ConsumerStatefulWidget {
 
 class _ExpenseCategorySelectState
     extends ConsumerState<ExpenseCategoryIconSelectPage> {
-  int? index;
+  IconData? icon;
 
   @override
   void initState() {
     super.initState();
 
-    if (widget.currentlySelectedIcon != null) {
-      index = EXPENSE_ICONS.indexOf(widget.currentlySelectedIcon!);
-    }
+    icon = widget.currentlySelectedIcon;
   }
 
   @override
@@ -42,48 +42,67 @@ class _ExpenseCategorySelectState
       bottomNavigationBar: BottomButton(
         onPress: next,
       ),
-      body: GridView.builder(
-        padding: kHorPadding + bottom(40) + top(20),
-        itemCount: EXPENSE_ICONS.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,
-          mainAxisSpacing: 15,
-          crossAxisSpacing: 15,
-        ),
-        itemBuilder: (_, i) {
-          final selected = index == i;
+      body: ListView.separated(
+        padding: top(),
+        separatorBuilder: (context, index) => vSpace(),
+        itemCount: CATEGORIEZED_EXPENSE_ICONS.length,
+        itemBuilder: (context, j) {
+          final item = CATEGORIEZED_EXPENSE_ICONS[j];
+          final icons = item.value;
+          return Column(
+            children: [
+              AppLabel(item.key),
+              GridView.builder(
+                padding: kHorPadding + bottom(40) + top(20),
+                itemCount: icons.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  mainAxisSpacing: 15,
+                  crossAxisSpacing: 15,
+                ),
+                itemBuilder: (_, i) {
+                  final selected = icon == icons[i];
 
-          if (selected) {
-            return IconButton.filled(
-              onPressed: () => select(i),
-              icon: Icon(
-                EXPENSE_ICONS[i],
-                size: 30,
+                  if (selected) {
+                    return IconButton.filled(
+                      style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                              context.colorScheme.secondaryContainer)),
+                      onPressed: () => select(icons[i]),
+                      icon: Icon(
+                        icons[i],
+                        size: 30,
+                      ),
+                    );
+                  }
+
+                  return IconButton.outlined(
+                    onPressed: () => select(icons[i]),
+                    icon: Icon(
+                      icons[i],
+                      size: 30,
+                    ),
+                  );
+                },
               ),
-            );
-          }
-
-          return IconButton.outlined(
-            onPressed: () => select(i),
-            icon: Icon(
-              EXPENSE_ICONS[i],
-              size: 30,
-            ),
+            ],
           );
         },
       ),
     );
   }
 
-  void select(int i) {
+  void select(IconData i) {
     setState(() {
-      index = i;
+      icon = i;
     });
   }
 
   void next() {
-    if (index != null) {
-      router.pop(EXPENSE_ICONS[index!]);
+    if (icon != null) {
+      ExpenseCategoryIconSelectPage.pop(icon);
     }
   }
 }

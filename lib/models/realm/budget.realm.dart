@@ -15,7 +15,7 @@ class Budget extends $Budget with RealmEntity, RealmObjectBase, RealmObject {
     ExpenseGroup? group,
     String? notes,
   }) {
-    RealmObjectBase.set(this, 'id', id);
+    RealmObjectBase.set(this, '_id', id);
     RealmObjectBase.set(this, 'category', category);
     RealmObjectBase.set(this, 'group', group);
     RealmObjectBase.set(this, 'amount', amount);
@@ -25,9 +25,9 @@ class Budget extends $Budget with RealmEntity, RealmObjectBase, RealmObject {
   Budget._();
 
   @override
-  ObjectId get id => RealmObjectBase.get<ObjectId>(this, 'id') as ObjectId;
+  ObjectId get id => RealmObjectBase.get<ObjectId>(this, '_id') as ObjectId;
   @override
-  set id(ObjectId value) => RealmObjectBase.set(this, 'id', value);
+  set id(ObjectId value) => RealmObjectBase.set(this, '_id', value);
 
   @override
   ExpenseCategory? get category =>
@@ -67,7 +67,7 @@ class Budget extends $Budget with RealmEntity, RealmObjectBase, RealmObject {
 
   EJsonValue toEJson() {
     return <String, dynamic>{
-      'id': id.toEJson(),
+      '_id': id.toEJson(),
       'category': category.toEJson(),
       'group': group.toEJson(),
       'amount': amount.toEJson(),
@@ -80,7 +80,7 @@ class Budget extends $Budget with RealmEntity, RealmObjectBase, RealmObject {
     if (ejson is! Map<String, dynamic>) return raiseInvalidEJson(ejson);
     return switch (ejson) {
       {
-        'id': EJsonValue id,
+        '_id': EJsonValue id,
         'amount': EJsonValue amount,
       } =>
         Budget(
@@ -98,7 +98,8 @@ class Budget extends $Budget with RealmEntity, RealmObjectBase, RealmObject {
     RealmObjectBase.registerFactory(Budget._);
     register(_toEJson, _fromEJson);
     return const SchemaObject(ObjectType.realmObject, Budget, 'Budget', [
-      SchemaProperty('id', RealmPropertyType.objectid, primaryKey: true),
+      SchemaProperty('id', RealmPropertyType.objectid,
+          mapTo: '_id', primaryKey: true),
       SchemaProperty('category', RealmPropertyType.object,
           optional: true, linkTarget: 'ExpenseCategory'),
       SchemaProperty('group', RealmPropertyType.object,

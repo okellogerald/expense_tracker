@@ -1,4 +1,2 @@
-1. Categories and Groups in categories (should be renamed to Expenses/Groups?)
+1. Add date in Expenses model for if the user wants to change the date when the expense was incurred
 2. Add support for planned expenses (Tagged with "P" somewhere)
-3. Normal Expense Vs Planned Expense Tabs in Add Expense
-4. Expense Category Vs Categories Group in Add Category

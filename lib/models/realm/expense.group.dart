@@ -8,8 +8,5 @@ class $ExpenseGroup {
   late ObjectId id;
 
   late String name;
-
-  late int? icon;
-
   late String? notes;
 }

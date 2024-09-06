@@ -19,25 +19,33 @@ final expensesManagerProvider = Provider((_) => _Manager());
 
 final class _Manager extends RealmCore {
   _Manager() {
-    final config = Configuration.local([
-      Expense.schema,
-      ExpenseGroup.schema,
-      ExpenseCategory.schema,
-      Budget.schema,
-    ]);
+    final config = Configuration.local(
+      [
+        Expense.schema,
+        ExpenseGroup.schema,
+        ExpenseCategory.schema,
+        Budget.schema,
+      ],
+      // shouldDeleteIfMigrationNeeded: true,
+    );
     super.init(config);
     _createMiscCategory();
     _listenToExpensesChanges();
   }
 
-  final _expensesController = StreamController<List<DatedExpenses>>();
+  final _expensesController = StreamController<List<DatedExpenses>>.broadcast();
   Stream<List<DatedExpenses>> get expensesStream => _expensesController.stream;
 
-  final _expensesTotalsController = StreamController<num>();
+  
+
+  final _expensesTotalsController = StreamController<num>.broadcast();
   Stream<num> get expensesTotalsStream => _expensesTotalsController.stream;
 
   Stream<List<ExpenseCategory>> get categoriesStream =>
       getReactiveList<ExpenseCategory>();
+
+  Stream<List<ExpenseGroup>> get groupsStream =>
+      getReactiveList<ExpenseGroup>();
 
   void _listenToExpensesChanges() {
     _expensesTotalsController.add(0);
@@ -79,6 +87,10 @@ final class _Manager extends RealmCore {
     return getAll<Expense>();
   }
 
+  List<ExpenseGroup> getExpenseGroups() {
+    return getAll<ExpenseGroup>();
+  }
+
   void clearExpenses() => clearAll<Expense>();
 
   getExpenseStream() {}
@@ -88,11 +100,9 @@ final class _Manager extends RealmCore {
 
     final input = Expense(
       ObjectId(),
-      data.name,
       data.amount,
       DateTime.now(),
       notes: data.notes,
-      icon: data.icon?.codePoint,
       category: data.category ?? miscCategory,
     );
 
@@ -128,7 +138,7 @@ final class _Manager extends RealmCore {
   List<DatedExpenses> _groupExpenses(List<Expense> expenses) {
     final list = <DatedExpenses>[];
     for (var e in expenses) {
-      final date = DateTime(e.datePaid.year, e.datePaid.month, e.datePaid.day);
+      final date = DateTime(e.date.year, e.date.month, e.date.day);
       final index = list.indexWhere((e) => e.key == date);
       if (index == -1) {
         list.add(MapEntry(date, [e]));

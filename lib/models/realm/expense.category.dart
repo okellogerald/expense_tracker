@@ -11,9 +11,7 @@ class $ExpenseCategory {
 
   late String name;
 
-  late $ExpenseGroup? group;
-
   late int? icon;
-
   late String? notes;
+  late $ExpenseGroup? group;
 }

@@ -36,21 +36,15 @@ class TemboDatePicker extends StatefulWidget {
 class _TemboDatePickerState extends State<TemboDatePicker> {
   onSelected(DateTime date) => widget.onSelected(date);
 
-  void showPicker() {
-    final p = defaultTargetPlatform;
-    if (p == TargetPlatform.iOS || p == TargetPlatform.macOS) {
-      return showIOSPicker(context, onSelected);
-    }
-    if (widget.enabled) {
-      return showAndroidPicker(context, onSelected);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final cs = getTemboColorScheme();
     return AppTextButton(
-      onPressed: showPicker,
+      onPressed: () => showAppDatePicker(
+        context,
+        onSelected: onSelected,
+        initialDate: widget.date,
+      ),
       style: widget.style ??
           AppButtonStyle.outline(
             borderColor: cs.border,
@@ -75,65 +69,82 @@ class _TemboDatePickerState extends State<TemboDatePicker> {
             ),
     );
   }
+}
 
-  void showAndroidPicker(
-    BuildContext context,
-    ValueChanged<DateTime> onSelected,
-  ) async {
-    final selectedDate = await showDatePicker(
-      context: context,
-      initialDate: widget.date,
-      firstDate: DateTime.now().subtract(const Duration(days: 366)),
-      lastDate: DateTime.now().add(const Duration(days: 366)),
-    );
-
-    if (selectedDate != null) onSelected(selectedDate);
+void showAppDatePicker(
+  BuildContext context, {
+  required ValueChanged<DateTime> onSelected,
+  DateTime? initialDate,
+}) {
+  final p = defaultTargetPlatform;
+  if (p == TargetPlatform.iOS || p == TargetPlatform.macOS) {
+    return showIOSPicker(context, onSelected, initialDate);
   }
+  return showAndroidPicker(context, onSelected, initialDate);
+}
 
-  void showIOSPicker(BuildContext context, ValueChanged<DateTime> onSelected) {
-    showModalBottomSheet(
-      context: context,
-      constraints: const BoxConstraints.expand(height: 400),
-      builder: (context) {
-        return Column(
-          children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const AppText(
-                    "Select Date",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey,
-                      fontWeight: FontWeight.w500,
-                    ),
+void showAndroidPicker(
+  BuildContext context,
+  ValueChanged<DateTime> onSelected,
+  DateTime? initialDate,
+) async {
+  final selectedDate = await showDatePicker(
+    context: context,
+    initialDate: initialDate,
+    firstDate: DateTime.now().subtract(const Duration(days: 366)),
+    lastDate: DateTime.now().add(const Duration(days: 366)),
+  );
+
+  if (selectedDate != null) onSelected(selectedDate);
+}
+
+void showIOSPicker(
+  BuildContext context,
+  ValueChanged<DateTime> onSelected,
+  DateTime? initialDate,
+) {
+  showModalBottomSheet(
+    context: context,
+    constraints: const BoxConstraints.expand(height: 400),
+    builder: (context) {
+      return Column(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20).copyWith(top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const AppText(
+                  "Select Date",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w500,
                   ),
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const AppText(
-                        "Done",
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ))
-                ],
-              ),
+                ),
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const AppText(
+                      "Done",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ))
+              ],
             ),
-            Expanded(
-              child: CupertinoDatePicker(
-                initialDateTime: widget.date,
-                minimumDate: DateTime.now().subtract(const Duration(days: 366)),
-                maximumDate: DateTime.now().add(const Duration(days: 366)),
-                mode: CupertinoDatePickerMode.date,
-                onDateTimeChanged: onSelected,
-              ),
+          ),
+          Expanded(
+            child: CupertinoDatePicker(
+              initialDateTime: initialDate,
+              minimumDate: DateTime.now().subtract(const Duration(days: 366)),
+              maximumDate: DateTime.now().add(const Duration(days: 366)),
+              mode: CupertinoDatePickerMode.date,
+              onDateTimeChanged: onSelected,
             ),
-          ],
-        );
-      },
-    );
-  }
+          ),
+        ],
+      );
+    },
+  );
 }
