@@ -1,4 +1,3 @@
-import '../../features/categories/manager.dart';
 import '/pages/category-select/page.dart';
 
 import '../../features/expenses/manager.dart';
@@ -8,17 +7,17 @@ import '/utils/validate_utils.dart';
 
 import '../common_imports.dart';
 
-class FutureExpenseAddTab extends ConsumerStatefulWidget {
-  final VoidCallback onDone;
-  const FutureExpenseAddTab({required this.onDone, super.key});
+class ExpenseEditPage extends ConsumerStatefulWidget {
+  final Expense expense;
+  const ExpenseEditPage(this.expense, {super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _State();
 }
 
-class _State extends ConsumerState<FutureExpenseAddTab> {
+class _State extends ConsumerState<ExpenseEditPage> {
   late ExpenseCategory category;
-  DateTime date = DateTime.now().add(const Duration(days: 1));
+  DateTime date = DateTime.now();
 
   final amountController = TextEditingController();
   final notesController = TextEditingController();
@@ -28,7 +27,14 @@ class _State extends ConsumerState<FutureExpenseAddTab> {
   @override
   void initState() {
     super.initState();
-    category = ref.read(categoriesManagerProvider).getMISCCategory();
+
+    final expense = widget.expense;
+    category = expense.category!;
+    date = expense.date;
+    amountController.text = expense.amount.toString();
+    notesController.text = expense.notes ?? "";
+
+    setState(() {});
   }
 
   @override
@@ -50,6 +56,10 @@ class _State extends ConsumerState<FutureExpenseAddTab> {
                     onPress: selectCategory,
                     placeholder: "Select Category",
                   ),
+                  SelectDateButton(
+                    date,
+                    onSelect: (d) => setState(() => date = d),
+                  ),
                   TemboTextField.labelled(
                     "Amount",
                     controller: amountController,
@@ -57,10 +67,6 @@ class _State extends ConsumerState<FutureExpenseAddTab> {
                       TZSCurrencyFormatter(0),
                     ],
                     validator: validateAmount,
-                  ),
-                  SelectDateButton(
-                    date,
-                    onSelect: (d) => setState(() => date = d),
                   ),
                   TemboTextField.labelled(
                     "Notes",
@@ -80,7 +86,7 @@ class _State extends ConsumerState<FutureExpenseAddTab> {
   }
 
   void selectCategory() async {
-    final c = await CategorySelectPage.to();
+    final c = await CategorySelectPage.to(category);
 
     if (c != null) {
       setState(() {
@@ -107,6 +113,5 @@ class _State extends ConsumerState<FutureExpenseAddTab> {
       category: category,
     );
     ref.read(expensesManagerProvider).addExpense(data);
-    widget.onDone();
   }
 }

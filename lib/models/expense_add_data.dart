@@ -5,12 +5,12 @@ class ExpenseAddData {
   final DateTime date;
 
   final String? notes;
-  final ExpenseCategory? category;
+  final ExpenseCategory category;
 
   const ExpenseAddData({
     required this.amount,
     required this.date,
+    required this.category,
     this.notes,
-    this.category,
   });
 }

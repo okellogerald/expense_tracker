@@ -1,4 +1,5 @@
-import 'package:expense_tracker_v2/features/manager.dart';
+import '/features/groups/manager.dart';
+import '/pages/group-add/page.dart';
 
 import '../common_imports.dart';
 
@@ -32,16 +33,21 @@ class _State extends ConsumerState<GroupSelectPage> with AfterLayoutMixin {
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
-    groups = ref.read(expensesManagerProvider).getExpenseGroups();
+    groups = getGroups();
     group = widget.current;
     setState(() {});
   }
+
+  List<ExpenseGroup> getGroups() => ref.read(groupsManagerProvider).groups;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const AppText("Select Group"),
+        actions: [
+          IconButton(onPressed: addGroup, icon: const Icon(LucideIcons.plus))
+        ],
       ),
       bottomNavigationBar: BottomButton(
         onPress: done,
@@ -60,6 +66,14 @@ class _State extends ConsumerState<GroupSelectPage> with AfterLayoutMixin {
         separatorBuilder: (_, __) => vSpace(),
       ),
     );
+  }
+
+  void addGroup() async {
+    final g = await GroupAddPage.to();
+    if (g != null) {
+      final all = getGroups();
+      setState(() => groups = all);
+    }
   }
 
   void done() {

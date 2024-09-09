@@ -1,6 +1,6 @@
-import 'package:expense_tracker_v2/features/categories/manager.dart';
+import '/features/categories/manager.dart';
 
-import '../../components/category_tile.dart';
+import '/components/category_tile.dart';
 import '../common_imports.dart';
 
 class CategoryListTab extends ConsumerStatefulWidget {
@@ -13,26 +13,33 @@ class CategoryListTab extends ConsumerStatefulWidget {
 
 class _CategoryListTabState extends ConsumerState<CategoryListTab>
     with AfterLayoutMixin {
+  AmountedCategories categories = [];
+
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
-    ref.read(categoriesManagerProvider).refresh();
+    final list = ref.read(categoriesManagerProvider).amountedCategories;
+    updateCategories(list);
+
+    ref.read(categoriesManagerProvider).onAmountedCategoriesChange.listen((l) {
+      updateCategories(l);
+    });
+  }
+
+  updateCategories(AmountedCategories list) {
+    setState(() => categories = list);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: StreamBuilder<Categories>(
-        stream: ref.read(categoriesManagerProvider).categoriesStream,
-        builder: (context, snapshot) {
-          final data = snapshot.data ?? [];
-          return ListView.separated(
-            padding: kHorPadding + top(),
-            itemCount: data.length,
-            itemBuilder: (_, i) =>
-                AmountedCategoryTile(data[i].key, data[i].value),
-            separatorBuilder: (_, i) => vSpace(2),
-          );
-        },
+      body: ListView.separated(
+        padding: kHorPadding + top(),
+        itemCount: categories.length,
+        itemBuilder: (_, i) => AmountedCategoryTile(
+          categories[i].key,
+          categories[i].value,
+        ),
+        separatorBuilder: (_, i) => vSpace(2),
       ),
     );
   }

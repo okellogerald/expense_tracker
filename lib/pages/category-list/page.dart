@@ -1,3 +1,5 @@
+import 'package:expense_tracker_v2/pages/group-add/page.dart';
+
 import '/pages/category-list/tab.categories.dart';
 
 import '../category-add/page.dart';
@@ -27,9 +29,9 @@ class _State extends ConsumerState<CategoriesPage>
         appBar: AppBar(
           title: const AppText("Categories"),
         ),
-        floatingActionButton: const FloatingActionButton(
-          onPressed: CategoryAddPage.to,
-          child: Icon(LucideIcons.plus),
+        floatingActionButton: FloatingActionButton(
+          onPressed: add,
+          child: const Icon(LucideIcons.plus),
         ),
         body: Column(
           children: [
@@ -51,5 +53,11 @@ class _State extends ConsumerState<CategoriesPage>
             )
           ],
         ));
+  }
+
+  void add() {
+    final index = tabController.index;
+    if (index == 0) CategoryAddPage.to();
+    if (index == 1) GroupAddPage.to();
   }
 }

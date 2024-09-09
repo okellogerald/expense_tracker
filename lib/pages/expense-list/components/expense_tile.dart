@@ -1,4 +1,4 @@
-import 'package:expense_tracker_v2/models/realm/expense.category.dart';
+import '/models/realm/expense.category.dart';
 
 import '../../common_imports.dart';
 

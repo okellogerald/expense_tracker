@@ -1,5 +1,6 @@
-import 'package:expense_tracker_v2/features/manager.dart';
-import 'package:expense_tracker_v2/models/realm/expense.category.dart';
+import '/features/categories/manager.dart';
+import '/models/realm/expense.category.dart';
+import '/pages/category-add/page.dart';
 
 import '../common_imports.dart';
 
@@ -35,9 +36,13 @@ class _State extends ConsumerState<CategorySelectPage> with AfterLayoutMixin {
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
-    categories = ref.read(expensesManagerProvider).getExpenseCategories();
     category = widget.current;
+    categories = fetchAllCategories();
     setState(() {});
+  }
+
+  List<ExpenseCategory> fetchAllCategories() {
+    return ref.read(categoriesManagerProvider).categories;
   }
 
   @override
@@ -45,6 +50,9 @@ class _State extends ConsumerState<CategorySelectPage> with AfterLayoutMixin {
     return Scaffold(
       appBar: AppBar(
         title: const AppText("Select Category"),
+        actions: [
+          IconButton(onPressed: addCategory, icon: const Icon(LucideIcons.plus))
+        ],
       ),
       bottomNavigationBar: BottomButton(
         onPress: done,
@@ -63,6 +71,16 @@ class _State extends ConsumerState<CategorySelectPage> with AfterLayoutMixin {
         separatorBuilder: (_, __) => vSpace(),
       ),
     );
+  }
+
+  void addCategory() async {
+    final c = await CategoryAddPage.to();
+    if (c != null) {
+      setState(() {
+        categories = fetchAllCategories();
+        category = c;
+      });
+    }
   }
 
   void done() {

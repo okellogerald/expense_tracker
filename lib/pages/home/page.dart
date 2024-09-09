@@ -1,5 +1,6 @@
-import 'package:expense_tracker_v2/features/manager.dart';
-import 'package:expense_tracker_v2/pages/expense-add/page.dart';
+import 'package:expense_tracker_v2/pages/reports/page.dart';
+
+import '/pages/expense-add/page.dart';
 
 import '../common_imports.dart';
 import '../expense-list/list.dart';
@@ -8,10 +9,19 @@ class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _ExpensesPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _State();
 }
 
-class _ExpensesPageState extends ConsumerState<HomePage> {
+class _State extends ConsumerState<HomePage>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 2, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +30,13 @@ class _ExpensesPageState extends ConsumerState<HomePage> {
         centerTitle: false,
         actions: [
           IconButton(
+            onPressed: ReportsPage.to,
+            icon: Icon(
+              LucideIcons.barChart,
+              color: context.colorScheme.primary,
+            ),
+          ),
+          IconButton(
             onPressed: () {},
             icon: Icon(
               LucideIcons.settings,
@@ -27,29 +44,17 @@ class _ExpensesPageState extends ConsumerState<HomePage> {
             ),
           ),
         ],
-        bottom: PreferredSize(
-            preferredSize: const Size(double.maxFinite, 90),
-            child: Container(
-              color: context.colorScheme.surface,
-              width: double.maxFinite,
-              height: 80,
-              child: Row(
-                children: [
-                  buildBalance("Income", 30000),
-                  StreamBuilder<num>(
-                    stream:
-                        ref.read(expensesManagerProvider).expensesTotalsStream,
-                    builder: (context, snapshot) {
-                      return buildBalance(
-                        "Expenses",
-                        snapshot.data?.toDouble() ?? 0,
-                      );
-                    },
-                  ),
-                  buildBalance("Balance", 30000),
-                ],
-              ),
-            )),
+        bottom: TabBar(
+          controller: tabController,
+          tabs: const [
+            Tab(
+              text: "Paid",
+            ),
+            Tab(
+              text: "Planned",
+            ),
+          ],
+        ),
       ),
       floatingActionButton: const FloatingActionButton(
         onPressed: ExpenseAddPage.to,
@@ -58,32 +63,6 @@ class _ExpensesPageState extends ConsumerState<HomePage> {
       body: Padding(
         padding: top(),
         child: const GroupedExpensesList(),
-      ),
-    );
-  }
-
-  Widget buildBalance(String text, double amount) {
-    final isOutflow = text == 'Expenses' || amount.isNegative;
-
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        margin: kHorPadding,
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppText(
-              text,
-            ),
-            const SizedBox(height: 5),
-            AmountText(
-              amount,
-              color: !isOutflow ? AppColors.POSITIVE : AppColors.NEGATIVE,
-              weight: FontWeight.w700,
-            )
-          ],
-        ),
       ),
     );
   }

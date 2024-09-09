@@ -1,6 +1,8 @@
+import '/features/categories/manager.dart';
+
 import '/pages/category-select/page.dart';
 
-import '/features/manager.dart';
+import '../../features/expenses/manager.dart';
 import '/models/expense_add_data.dart';
 import '/models/realm/expense.category.dart';
 import '/utils/validate_utils.dart';
@@ -16,7 +18,7 @@ class ExpenseAddTab extends ConsumerStatefulWidget {
 }
 
 class _ExpenseAddPageState extends ConsumerState<ExpenseAddTab> {
-  ExpenseCategory? category;
+  late ExpenseCategory category;
 
   final amountController = TextEditingController();
   final notesController = TextEditingController();
@@ -24,6 +26,12 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddTab> {
   DateTime date = DateTime.now();
 
   final formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    category = ref.read(categoriesManagerProvider).getMISCCategory();
+  }
 
   @override
   Widget build(BuildContext context) {

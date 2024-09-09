@@ -22,14 +22,26 @@ class AppSelectTile<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      tileColor: context.colorScheme.surfaceBright,
-      title: AppText(label(value)),
+      tileColor: isSelected
+          ? context.colorScheme.secondaryContainer
+          : context.colorScheme.surfaceBright,
+      title: AppText.bodyMedium(
+        context,
+        label(value),
+        color: isSelected
+            ? context.colorScheme.onSecondaryContainer
+            : context.colorScheme.onSurface,
+        weight: isSelected ? FontWeight.bold : null,
+      ),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(kBorderRadius3)),
+        borderRadius: BorderRadius.circular(kBorderRadius3),
+      ),
       onTap: () => onSelect?.call(value),
       trailing: isSelected
           ? Checkbox.adaptive(
               value: isSelected,
+              activeColor: context.colorScheme.secondaryContainer,
+              checkColor: context.colorScheme.onSecondaryContainer,
               onChanged: (_) {},
             )
           : null,

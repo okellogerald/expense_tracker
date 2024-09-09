@@ -1,10 +1,10 @@
-import '../../../features/manager.dart';
+import '../../../features/expenses/manager.dart';
 
 import 'expense_tile.dart';
 import '../../common_imports.dart';
 
 class ExpensesGroupCard extends ConsumerStatefulWidget {
-  final DatedExpenses data;
+  final DatedExpense data;
   const ExpensesGroupCard(this.data, {super.key});
 
   @override

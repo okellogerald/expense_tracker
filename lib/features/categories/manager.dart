@@ -1,10 +1,13 @@
-import 'package:expense_tracker_v2/features/realm_core.dart';
-import 'package:expense_tracker_v2/pages/common_imports.dart';
+import '/features/realm_core.dart';
+import '/pages/common_imports.dart';
 import 'package:realm/realm.dart';
 
+import '../../models/expense_category_add_data.dart';
 import '../../models/realm/expense.category.dart';
 
-typedef Categories = List<MapEntry<ExpenseCategory, double>>;
+typedef AmountedCategory = MapEntry<ExpenseCategory, double>;
+typedef AmountedCategories = List<AmountedCategory>;
+typedef Categories = List<ExpenseCategory>;
 
 final categoriesManagerProvider = Provider((_) => _CategoriesManager());
 
@@ -19,21 +22,28 @@ final class _CategoriesManager extends RealmCore {
       // shouldDeleteIfMigrationNeeded: true,
     );
     super.init(config);
+
+    _createMiscCategory();
     _load();
   }
 
-  final _controller = StreamController<Categories>.broadcast();
-  Stream<Categories> get categoriesStream => _controller.stream;
+  var _categories = <ExpenseCategory>[];
+  Stream<List<ExpenseCategory>> get onCategoriesChange =>
+      getReactiveList<ExpenseCategory>();
 
-  void refresh() {
-    _load();
-  }
+  var _amountedCategories = <AmountedCategory>[];
+  final _controller = StreamController<AmountedCategories>.broadcast();
+  Stream<AmountedCategories> get onAmountedCategoriesChange =>
+      _controller.stream;
+
+  AmountedCategories get amountedCategories => _amountedCategories;
+  Categories get categories => _categories;
 
   void _load() {
     final categories = super.getAll<ExpenseCategory>();
     final expenses = super.getAll<Expense>();
 
-    final Categories entries = [];
+    final AmountedCategories entries = [];
 
     for (var c in categories) {
       final list = expenses.where((e) => e.category == c);
@@ -43,5 +53,61 @@ final class _CategoriesManager extends RealmCore {
     }
 
     _controller.add(entries);
+    _categories = categories;
+    _amountedCategories = entries;
+  }
+
+  ExpenseCategory addCategory(ExpenseCategoryAddData data) {
+    final input = ExpenseCategory(
+      ObjectId(),
+      data.name,
+      notes: data.notes,
+      group: data.group,
+      icon: data.icon?.codePoint,
+    );
+
+    final category = add(input);
+    _load();
+
+    return category;
+  }
+
+  ExpenseCategory editCategory(
+      ObjectId categoryId, ExpenseCategoryAddData data) {
+    final input = ExpenseCategory(
+      categoryId,
+      data.name,
+      notes: data.notes,
+      group: data.group,
+      icon: data.icon?.codePoint,
+    );
+
+    final category = edit(input);
+    _load();
+
+    return category;
+  }
+
+  bool _checkMISCCategory() {
+    return getAll<ExpenseCategory>()
+            .where((e) => e.name == "Misc")
+            .singleOrNull !=
+        null;
+  }
+
+  ExpenseCategory getMISCCategory() {
+    return _categories.where((e) => e.name == "Misc").single;
+  }
+
+  void _createMiscCategory() {
+    final exists = _checkMISCCategory();
+    if (exists) return;
+
+    const data = ExpenseCategoryAddData(
+      name: "Misc",
+      icon: LucideIcons.hash,
+      notes: "Expense Category for all uncategorized expenses",
+    );
+    addCategory(data);
   }
 }

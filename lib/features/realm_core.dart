@@ -33,6 +33,15 @@ base class RealmCore {
     return c;
   }
 
+  T edit<T extends RealmObject>(T input) {
+    late T c;
+    _realm.write(() {
+      c = _realm.add<T>(input, update: true);
+    });
+
+    return c;
+  }
+
   void clearAll<T extends RealmObject>() {
     _realm.write(() {
       _realm.deleteAll<T>();

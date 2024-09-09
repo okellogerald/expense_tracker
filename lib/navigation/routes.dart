@@ -1,11 +1,11 @@
-import 'package:expense_tracker_v2/pages/group-select/page.dart';
-
+import '/pages/group-add/page.dart';
+import '/pages/group-select/page.dart';
+import '/pages/reports/page.dart';
 import '/pages/expense-add/page.dart';
-
 import '/pages/category-add/page.dart';
-import '/components/category-icon-pick/page.dart';
-import '../pages/category-select/page.dart';
+import '/pages/category-select/page.dart';
 
+import '/components/category-icon-pick/page.dart';
 import '/navigation/global_keys.dart';
 
 import 'main-page/page.dart';
@@ -17,6 +17,10 @@ final router = GoRouter(
     GoRoute(
       path: MainPage.routeName,
       builder: MainPage.builder,
+    ),
+    GoRoute(
+      path: ReportsPage.routeName,
+      builder: ReportsPage.builder,
     ),
     GoRoute(
       path: ExpenseAddPage.routeName,
@@ -33,6 +37,14 @@ final router = GoRouter(
     GoRoute(
       path: CategorySelectPage.routeName,
       builder: CategorySelectPage.builder,
+    ),
+    GoRoute(
+      path: CategoryAddPage.routeName,
+      builder: CategoryAddPage.builder,
+    ),
+    GoRoute(
+      path: GroupAddPage.routeName,
+      builder: GroupAddPage.builder,
     ),
     GoRoute(
       path: GroupSelectPage.routeName,

@@ -21,6 +21,8 @@ const kMaxConstraints = BoxConstraints.expand();
 Widget hSpace([double? size]) => SizedBox(width: size ?? 20);
 Widget vSpace([double? size]) => SizedBox(height: size ?? 20);
 
+const kVSpace = 20.0;
+
 EdgeInsets get zero => EdgeInsets.zero;
 EdgeInsets all([double? size]) => EdgeInsets.all(size ?? 20);
 EdgeInsets top([double? size]) => EdgeInsets.only(top: size ?? 20);
