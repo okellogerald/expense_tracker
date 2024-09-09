@@ -1,6 +1,5 @@
-import 'package:expense_tracker_v2/features/realm_core.dart';
-import 'package:expense_tracker_v2/models/realm/expense.category.dart';
-import 'package:expense_tracker_v2/pages/common_imports.dart';
+import '/features/realm_core.dart';
+import '/pages/common_imports.dart';
 import 'package:realm/realm.dart';
 
 import '../../models/expense_group_add_data.dart';
@@ -9,17 +8,13 @@ typedef AmountedGroup = MapEntry<ExpenseGroup, double>;
 typedef AmountedGroups = List<AmountedGroup>;
 typedef Groups = List<ExpenseGroup>;
 
-final groupsManagerProvider = Provider((_) => _GroupsManager());
+final groupsManagerProvider = Provider((_) => GroupsManager());
 
-final class _GroupsManager extends RealmCore {
-  _GroupsManager() {
+final class GroupsManager extends RealmCore {
+  GroupsManager() {
     final config = Configuration.local(
-      [
-        Expense.schema,
-        ExpenseGroup.schema,
-        ExpenseCategory.schema,
-      ],
-      // shouldDeleteIfMigrationNeeded: true,
+      SCHEMAS,
+      shouldDeleteIfMigrationNeeded: true,
     );
     super.init(config);
     _load();

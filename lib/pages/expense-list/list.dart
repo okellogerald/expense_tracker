@@ -12,7 +12,7 @@ class GroupedExpensesList extends ConsumerStatefulWidget {
 
 class _ExpensesPageState extends ConsumerState<GroupedExpensesList>
     with AfterLayoutMixin {
-  late DatedExpenses expenses;
+  DatedExpenses expenses = [];
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {

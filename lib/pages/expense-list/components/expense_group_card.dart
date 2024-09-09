@@ -16,6 +16,7 @@ class _ExpensesGroupCardState extends ConsumerState<ExpensesGroupCard> {
   @override
   Widget build(BuildContext context) {
     final expenses = widget.data.value;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

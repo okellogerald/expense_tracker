@@ -13,12 +13,14 @@ class FutureExpense extends $FutureExpense
     ObjectId id,
     double amount,
     DateTime payDate, {
+    String? title,
     String? notes,
     ExpenseCategory? category,
   }) {
     RealmObjectBase.set(this, '_id', id);
     RealmObjectBase.set(this, 'amount', amount);
     RealmObjectBase.set(this, 'payDate', payDate);
+    RealmObjectBase.set(this, 'title', title);
     RealmObjectBase.set(this, 'notes', notes);
     RealmObjectBase.set(this, 'category', category);
   }
@@ -40,6 +42,11 @@ class FutureExpense extends $FutureExpense
       RealmObjectBase.get<DateTime>(this, 'payDate') as DateTime;
   @override
   set payDate(DateTime value) => RealmObjectBase.set(this, 'payDate', value);
+
+  @override
+  String? get title => RealmObjectBase.get<String>(this, 'title') as String?;
+  @override
+  set title(String? value) => RealmObjectBase.set(this, 'title', value);
 
   @override
   String? get notes => RealmObjectBase.get<String>(this, 'notes') as String?;
@@ -71,6 +78,7 @@ class FutureExpense extends $FutureExpense
       '_id': id.toEJson(),
       'amount': amount.toEJson(),
       'payDate': payDate.toEJson(),
+      'title': title.toEJson(),
       'notes': notes.toEJson(),
       'category': category.toEJson(),
     };
@@ -89,6 +97,7 @@ class FutureExpense extends $FutureExpense
           fromEJson(id),
           fromEJson(amount),
           fromEJson(payDate),
+          title: fromEJson(ejson['title']),
           notes: fromEJson(ejson['notes']),
           category: fromEJson(ejson['category']),
         ),
@@ -105,6 +114,7 @@ class FutureExpense extends $FutureExpense
           mapTo: '_id', primaryKey: true),
       SchemaProperty('amount', RealmPropertyType.double),
       SchemaProperty('payDate', RealmPropertyType.timestamp),
+      SchemaProperty('title', RealmPropertyType.string, optional: true),
       SchemaProperty('notes', RealmPropertyType.string, optional: true),
       SchemaProperty('category', RealmPropertyType.object,
           optional: true, linkTarget: 'ExpenseCategory'),

@@ -52,6 +52,12 @@ class DarkTemboColors {
   static const background = Colors.black45;
   static const onBackground = Colors.white;
 
+  static const text = Colors.white;
+  static const text2 = Colors.white70;
+  static const text3 = Colors.white54;
+  static const text4 = Colors.white30;
+  static const text5 = Colors.white10;
+
   static const surfaceContainer = Color(0xff3D3D3D);
   static const onSurfaceContainer = Colors.white;
 
@@ -193,4 +199,10 @@ extension TemboColorSchemeExt on ColorScheme {
 
   Color get border => DefaultTemboColors.border;
   Color get hint => DefaultTemboColors.hint;
+
+  Color get text => DarkTemboColors.text;
+  Color get text2 => DarkTemboColors.text2;
+  Color get text3 => DarkTemboColors.text3;
+  Color get text4 => DarkTemboColors.text4;
+  Color get text5 => DarkTemboColors.text5;
 }

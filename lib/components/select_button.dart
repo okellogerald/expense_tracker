@@ -8,6 +8,8 @@ class AppSelectButton<T> extends StatelessWidget {
   final VoidCallback onPress;
   final String title;
 
+  final bool active;
+
   const AppSelectButton(
     this.value, {
     this.label,
@@ -15,6 +17,7 @@ class AppSelectButton<T> extends StatelessWidget {
     required this.title,
     this.placeholder = "Click here to select",
     required this.onPress,
+    this.active = true,
     super.key,
   }) /* : assert(label != null && child != null) */;
 
@@ -29,8 +32,12 @@ class AppSelectButton<T> extends StatelessWidget {
             AppTextButton(
               onPressed: onPress,
               style: AppButtonStyle.filled(
-                backgroundColor: context.colorScheme.secondaryContainer,
-                foregroundColor: context.colorScheme.onSecondaryContainer,
+                backgroundColor: active
+                    ? context.colorScheme.secondaryContainer
+                    : context.colorScheme.surface,
+                foregroundColor: active
+                    ? context.colorScheme.onSecondaryContainer
+                    : context.colorScheme.onSurface,
               ),
               child: value == null
                   ? AppText(placeholder)
@@ -39,7 +46,7 @@ class AppSelectButton<T> extends StatelessWidget {
                       : child!(value as T),
             ),
             const Spacer(),
-            if (value != null)
+            if (value != null && active)
               IconButton(
                 onPressed: onPress,
                 icon: const Icon(LucideIcons.arrowRight),

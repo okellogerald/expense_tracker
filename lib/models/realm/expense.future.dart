@@ -12,6 +12,7 @@ class $FutureExpense {
   late double amount;
   late DateTime payDate;
 
+  late String? title;
   late String? notes;
   late $ExpenseCategory? category;
 }

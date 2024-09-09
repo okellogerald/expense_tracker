@@ -9,17 +9,13 @@ typedef AmountedCategory = MapEntry<ExpenseCategory, double>;
 typedef AmountedCategories = List<AmountedCategory>;
 typedef Categories = List<ExpenseCategory>;
 
-final categoriesManagerProvider = Provider((_) => _CategoriesManager());
+final categoriesManagerProvider = Provider((_) => CategoriesManager());
 
-final class _CategoriesManager extends RealmCore {
-  _CategoriesManager() {
+final class CategoriesManager extends RealmCore {
+  CategoriesManager() {
     final config = Configuration.local(
-      [
-        Expense.schema,
-        ExpenseCategory.schema,
-        ExpenseGroup.schema,
-      ],
-      // shouldDeleteIfMigrationNeeded: true,
+      SCHEMAS,
+      shouldDeleteIfMigrationNeeded: true,
     );
     super.init(config);
 
@@ -55,6 +51,10 @@ final class _CategoriesManager extends RealmCore {
     _controller.add(entries);
     _categories = categories;
     _amountedCategories = entries;
+  }
+
+  void refresh() {
+    _load();
   }
 
   ExpenseCategory addCategory(ExpenseCategoryAddData data) {

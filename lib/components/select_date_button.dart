@@ -7,6 +7,7 @@ class SelectDateButton extends StatelessWidget {
   final String placeholder;
   final String title;
   final String format;
+  final bool active;
 
   final ValueChanged<DateTime> onSelect;
 
@@ -17,6 +18,7 @@ class SelectDateButton extends StatelessWidget {
     this.placeholder = "Click to select a date",
     this.format = 'dd/MM/yyyy',
     required this.onSelect,
+    this.active = true,
   });
 
   @override
@@ -26,10 +28,12 @@ class SelectDateButton extends StatelessWidget {
       label: (e) => e.format(format),
       title: title,
       onPress: () => selectDate(context),
+      active: active,
     );
   }
 
   void selectDate(BuildContext context) {
+    if(!active) return;
     showAppDatePicker(context, onSelected: onSelect);
   }
 }

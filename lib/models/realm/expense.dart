@@ -13,6 +13,7 @@ class $Expense {
   late double amount;
   late DateTime date;
 
+  late String? title;
   late String? notes;
   late $ExpenseCategory? category;
 }

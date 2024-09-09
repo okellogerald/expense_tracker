@@ -22,6 +22,7 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddTab> {
 
   final amountController = TextEditingController();
   final notesController = TextEditingController();
+  final titleController = TextEditingController();
 
   DateTime date = DateTime.now();
 
@@ -45,6 +46,11 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddTab> {
               OverflowBar(
                 overflowSpacing: 15,
                 children: [
+                  TemboTextField.labelled(
+                    "Title",
+                    controller: titleController,
+                    validator: (e) => validateName(e, optional: true),
+                  ),
                   AppSelectButton<ExpenseCategory>(
                     category,
                     title: "Category",
@@ -106,6 +112,7 @@ class _ExpenseAddPageState extends ConsumerState<ExpenseAddTab> {
       date: date,
       amount: amount,
       notes: notesController.compactText,
+      title: titleController.compactText,
       category: category,
     );
     ref.read(expensesManagerProvider).addExpense(data);

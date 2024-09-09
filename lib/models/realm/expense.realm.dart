@@ -12,12 +12,14 @@ class Expense extends $Expense with RealmEntity, RealmObjectBase, RealmObject {
     ObjectId id,
     double amount,
     DateTime date, {
+    String? title,
     String? notes,
     ExpenseCategory? category,
   }) {
     RealmObjectBase.set(this, '_id', id);
     RealmObjectBase.set(this, 'amount', amount);
     RealmObjectBase.set(this, 'date', date);
+    RealmObjectBase.set(this, 'title', title);
     RealmObjectBase.set(this, 'notes', notes);
     RealmObjectBase.set(this, 'category', category);
   }
@@ -38,6 +40,11 @@ class Expense extends $Expense with RealmEntity, RealmObjectBase, RealmObject {
   DateTime get date => RealmObjectBase.get<DateTime>(this, 'date') as DateTime;
   @override
   set date(DateTime value) => RealmObjectBase.set(this, 'date', value);
+
+  @override
+  String? get title => RealmObjectBase.get<String>(this, 'title') as String?;
+  @override
+  set title(String? value) => RealmObjectBase.set(this, 'title', value);
 
   @override
   String? get notes => RealmObjectBase.get<String>(this, 'notes') as String?;
@@ -68,6 +75,7 @@ class Expense extends $Expense with RealmEntity, RealmObjectBase, RealmObject {
       '_id': id.toEJson(),
       'amount': amount.toEJson(),
       'date': date.toEJson(),
+      'title': title.toEJson(),
       'notes': notes.toEJson(),
       'category': category.toEJson(),
     };
@@ -86,6 +94,7 @@ class Expense extends $Expense with RealmEntity, RealmObjectBase, RealmObject {
           fromEJson(id),
           fromEJson(amount),
           fromEJson(date),
+          title: fromEJson(ejson['title']),
           notes: fromEJson(ejson['notes']),
           category: fromEJson(ejson['category']),
         ),
@@ -101,6 +110,7 @@ class Expense extends $Expense with RealmEntity, RealmObjectBase, RealmObject {
           mapTo: '_id', primaryKey: true),
       SchemaProperty('amount', RealmPropertyType.double),
       SchemaProperty('date', RealmPropertyType.timestamp),
+      SchemaProperty('title', RealmPropertyType.string, optional: true),
       SchemaProperty('notes', RealmPropertyType.string, optional: true),
       SchemaProperty('category', RealmPropertyType.object,
           optional: true, linkTarget: 'ExpenseCategory'),

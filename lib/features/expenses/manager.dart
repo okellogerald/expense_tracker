@@ -1,10 +1,7 @@
 import 'dart:async';
 
 import '/features/realm_core.dart';
-import '/models/realm/budget.dart';
-import '/models/realm/expense.category.dart';
 import '/models/realm/expense.dart';
-import '/models/realm/expense.group.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:realm/realm.dart';
 
@@ -14,18 +11,13 @@ typedef Expenses = List<Expense>;
 typedef DatedExpense = MapEntry<DateTime, Expenses>;
 typedef DatedExpenses = List<DatedExpense>;
 
-final expensesManagerProvider = Provider((_) => _Manager());
+final expensesManagerProvider = Provider((_) => ExpensesManager());
 
-final class _Manager extends RealmCore {
-  _Manager() {
+final class ExpensesManager extends RealmCore {
+  ExpensesManager() {
     final config = Configuration.local(
-      [
-        Expense.schema,
-        ExpenseGroup.schema,
-        ExpenseCategory.schema,
-        Budget.schema,
-      ],
-      // shouldDeleteIfMigrationNeeded: true,
+      SCHEMAS,
+      shouldDeleteIfMigrationNeeded: true,
     );
     super.init(config);
 
@@ -72,6 +64,10 @@ final class _Manager extends RealmCore {
     _expensesTotal = total;
   }
 
+  void refresh() {
+    _load();
+  }
+
   Expense addExpense(ExpenseAddData data) {
     final input = Expense(
       ObjectId(),
@@ -79,6 +75,7 @@ final class _Manager extends RealmCore {
       DateTime.now(),
       notes: data.notes,
       category: data.category,
+      title: data.title,
     );
 
     final expense = add(input);
@@ -88,13 +85,14 @@ final class _Manager extends RealmCore {
     return expense;
   }
 
-  Expense editExpense(ObjectId expenseId, ExpenseAddData data) {
+  Expense editExpense(Expense current, ExpenseEditData data) {
     final input = Expense(
-      expenseId,
+      current.id,
       data.amount,
-      DateTime.now(),
+      current.date,
       notes: data.notes,
       category: data.category,
+      title: data.title,
     );
 
     final expense = edit(input);
@@ -102,6 +100,11 @@ final class _Manager extends RealmCore {
     _load();
 
     return expense;
+  }
+
+  void deleteExpense(Expense input) {
+    delete(input);
+    _load();
   }
 
   List<DatedExpense> _groupExpenses(List<Expense> expenses) {

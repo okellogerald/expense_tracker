@@ -1,4 +1,13 @@
+import 'package:expense_tracker_v2/models/realm/expense.category.dart';
+import 'package:expense_tracker_v2/pages/common_imports.dart';
 import 'package:realm/realm.dart';
+
+final SCHEMAS = [
+  Expense.schema,
+  FutureExpense.schema,
+  ExpenseCategory.schema,
+  ExpenseGroup.schema,
+];
 
 base class RealmCore {
   late Realm _realm;
@@ -40,6 +49,12 @@ base class RealmCore {
     });
 
     return c;
+  }
+
+  void delete<T extends RealmObject>(T input) {
+    _realm.write(() {
+      _realm.delete<T>(input);
+    });
   }
 
   void clearAll<T extends RealmObject>() {

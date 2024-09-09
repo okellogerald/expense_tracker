@@ -1,8 +1,11 @@
+import '/navigation/main-page/page.dart';
+
 import '/pages/category-select/page.dart';
 
-import '../../features/expenses/manager.dart';
 import '/models/expense_add_data.dart';
 import '/models/realm/expense.category.dart';
+
+import '/features/expenses/manager.dart';
 import '/utils/validate_utils.dart';
 
 import '../common_imports.dart';
@@ -13,6 +16,26 @@ class ExpenseEditPage extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _State();
+
+  static const routeName = "/expense-edit";
+
+  static Future<Expense?> to(Expense e) =>
+      router.push<Expense>(routeName, extra: e);
+
+  static void pop([Expense? c]) => router.pop(c);
+
+  static String redirect(BuildContext c, GoRouterState state) {
+    try {
+      final _ = state.extra as Expense;
+      return routeName;
+    } catch (_) {
+      return MainPage.routeName;
+    }
+  }
+
+  static Widget builder(BuildContext c, GoRouterState state) {
+    return ExpenseEditPage(state.extra as Expense);
+  }
 }
 
 class _State extends ConsumerState<ExpenseEditPage> {
@@ -21,6 +44,7 @@ class _State extends ConsumerState<ExpenseEditPage> {
 
   final amountController = TextEditingController();
   final notesController = TextEditingController();
+  final titleController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -31,8 +55,9 @@ class _State extends ConsumerState<ExpenseEditPage> {
     final expense = widget.expense;
     category = expense.category!;
     date = expense.date;
-    amountController.text = expense.amount.toString();
+    amountController.text = expense.amount.toInt().toString();
     notesController.text = expense.notes ?? "";
+    titleController.text = expense.title ?? "";
 
     setState(() {});
   }
@@ -41,6 +66,7 @@ class _State extends ConsumerState<ExpenseEditPage> {
   Widget build(BuildContext context) {
     return FocusWrapper(
       child: Scaffold(
+        appBar: AppBar(title: const AppText("Edit Expense")),
         body: Form(
           key: formKey,
           child: ListView(
@@ -49,6 +75,11 @@ class _State extends ConsumerState<ExpenseEditPage> {
               OverflowBar(
                 overflowSpacing: 15,
                 children: [
+                  TemboTextField.labelled(
+                    "Title",
+                    controller: titleController,
+                    validator: (e) => validateName(e, optional: true),
+                  ),
                   AppSelectButton<ExpenseCategory>(
                     category,
                     title: "Category",
@@ -58,6 +89,7 @@ class _State extends ConsumerState<ExpenseEditPage> {
                   ),
                   SelectDateButton(
                     date,
+                    active: false,
                     onSelect: (d) => setState(() => date = d),
                   ),
                   TemboTextField.labelled(
@@ -106,12 +138,15 @@ class _State extends ConsumerState<ExpenseEditPage> {
     final amount = getAmountFrom(amountController);
     if (amount == null || amount < 500) return;
 
-    final data = ExpenseAddData(
-      date: date,
+    final data = ExpenseEditData(
       amount: amount,
       notes: notesController.compactText,
+      title: titleController.compactText,
       category: category,
     );
-    ref.read(expensesManagerProvider).addExpense(data);
+
+    final current = widget.expense;
+    final e = ref.read(expensesManagerProvider).editExpense(current, data);
+    ExpenseEditPage.pop(e);
   }
 }

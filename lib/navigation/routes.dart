@@ -1,3 +1,4 @@
+import '/pages/expense-edit/page.dart';
 import '/pages/group-add/page.dart';
 import '/pages/group-select/page.dart';
 import '/pages/reports/page.dart';
@@ -49,6 +50,11 @@ final router = GoRouter(
     GoRoute(
       path: GroupSelectPage.routeName,
       builder: GroupSelectPage.builder,
+    ),
+    GoRoute(
+      path: ExpenseEditPage.routeName,
+      builder: ExpenseEditPage.builder,
+      redirect: ExpenseEditPage.redirect,
     ),
   ],
 );
